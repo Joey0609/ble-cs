@@ -8,6 +8,26 @@ from PyQt6 import QtCore, QtGui, QtWidgets as W
 HARDWARE_GUIDE = "https://github.com/Sens-Wear/ble-cs/blob/main/docs/GETTING_STARTED.md"
 HOST_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/README.md"
 PLANNER_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_planner/README.md"
+SCREENSHOTS = {
+    "main-window": ("The main window", "main-window.png"),
+    "configuration": ("Configuration overview", "configuration.png"),
+    "results": ("Results overview", "results.png"),
+    "config-cs-setup": ("Configuration — CS setup", "config-cs-setup.png"),
+    "config-connection": ("Configuration — Connection", "config-connection.png"),
+    "config-cs-modes": ("Configuration — CS modes", "config-cs-modes.png"),
+    "config-schedule": ("Configuration — Schedule", "config-schedule.png"),
+    "config-channels": ("Configuration — Channels", "config-channels.png"),
+    "planner-connection": ("Planner illustration — Connection", "planner-connection.png"),
+    "planner-procedures": ("Planner illustration — Procedures", "planner-procedures.png"),
+    "planner-events": ("Planner illustration — Events and subevents", "planner-events-subevents.png"),
+    "planner-step": ("Planner illustration — Individual step", "planner-individual-step.png"),
+    "planner-channels": ("Planner illustration — Channels", "planner-channels.png"),
+    "results-controller": ("Results — Controller", "results-controller.png"),
+    "results-mode0": ("Results — Mode 0 / FFO", "results-mode-0-ffo.png"),
+    "results-pbr": ("Results — PBR per channel", "results-pbr-per-channel.png"),
+    "results-rtt": ("Results — RTT", "results-rtt.png"),
+    "results-estimates": ("Results — Estimates", "results-estimates.png"),
+}
 
 # (key, title, body). Links to "help:<key>" open another topic in the dialog.
 HELP_PAGES = (
@@ -211,8 +231,8 @@ HELP_PAGES = (
         "window",
         "The main window",
         """
-        <p><img src="main-window.png" width="1000" alt="CS Host main window"></p>
-        <p><i>CS Host in simulator mode. No hardware is connected.</i>
+        <p class="screenshot"><img src="main-window.png" alt="CS Host main window"></p>
+        <p><i>CS Host connected to the simulator after a run. No hardware is connected.</i>
         <a href="screenshot:main-window">View full-size screenshot</a></p>
         <ol>
           <li><b>General controls:</b> operation mode, Console log and Host log. See
@@ -224,6 +244,8 @@ HELP_PAGES = (
           <li><b>Serial port:</b> choose the client board's USB port. The Peer tab is disabled in this build.</li>
           <li><b>Recording:</b> choose a folder and record each run, or save session history afterwards.</li>
           <li><b>Main tabs:</b> Configuration, Results and Session.</li>
+          <li><b>Status bar:</b> client information on the left; session, sync and link state and counters on
+          the right.</li>
         </ol>
         <p>The window is arranged from top to bottom:</p>
         <table>
@@ -294,16 +316,19 @@ HELP_PAGES = (
         "configuration",
         "Configuring a measurement",
         f"""
-        <p><img src="configuration.png" width="1000" alt="CS Host configuration screen"></p>
-        <p><i>Configuration view in simulator mode; no hardware is connected.</i>
+        <p class="screenshot"><img src="configuration.png" alt="CS Host configuration screen"></p>
+        <p><i>Configuration view with the simulator connected; no hardware is connected.</i>
         <a href="screenshot:configuration">View full-size screenshot</a></p>
         <ol>
-          <li><b>Setting tabs:</b> CS setup, Connection, CS modes, Schedule and Channels.</li>
-          <li><b>Settings form:</b> edit the selected configuration values here.</li>
+          <li><b>Planner actions:</b> open, save, export C configuration, export view, fit views and reset.</li>
+          <li><b>Settings tabs:</b> CS setup, Connection, CS modes, Schedule and Channels.</li>
+          <li><b>Settings form:</b> edit the values of the selected tab here.</li>
+          <li><b>Help pane:</b> explanations for the current tab or the selected setting.</li>
+          <li><b>Position line:</b> the procedure, event, subevent and step shown in the illustrations.</li>
           <li><b>Illustration tabs:</b> switch among connection, procedures, events, steps and channels.</li>
-          <li><b>Planner timeline:</b> move through the illustrated plan.</li>
-          <li><b>Setting help:</b> explanations for the current tab or selected field.</li>
-          <li><b>Status footer:</b> plan validity and summary such as steps, subevents and elapsed time.</li>
+          <li><b>Illustration:</b> what the settings produce, with an explanation above it.</li>
+          <li><b>Status footer:</b> plan validity and summary such as steps, subevents and elapsed time. Click
+          the <b>▼</b> at its right end to expand detailed validation results, errors and suggested corrections.</li>
         </ol>
         <p>The <b>Configuration</b> tab is a planner: the left side holds the settings, the right side draws what
         those settings produce, and the pane below explains the selected setting. Nothing reaches the client
@@ -328,14 +353,137 @@ HELP_PAGES = (
         </table>
         <p>Settings that the selected modes do not use stay at their defaults and are read-only. Values in the
         groups titled <i>Example config values selected by the controller</i> are chosen by the controllers at
-        run time; they only shape the illustration and are never sent.</p>
+        run time; they only shape the illustration and are never sent. The screenshots below use
+        <i>Mode 2 + sub-mode 1</i>; forms longer than the pane scroll.</p>
+
+        <h3>CS setup</h3>
+        <p class="screenshot"><img src="config-cs-setup.png" alt="CS setup settings tab"></p>
+        <p><a href="screenshot:config-cs-setup">View full-size screenshot</a></p>
+        <ol>
+          <li><b>CS role:</b> fixed to Initiator for the integrated client.</li>
+          <li><b>Bluetooth name and GAP role:</b> the client's advertised name and its Bluetooth role.</li>
+          <li><b>Radio:</b> CS_SYNC antenna, maximum TX power, reference PHY and TX power delta.</li>
+          <li><b>Preferred peer antenna:</b> the reflector antennas to use for tones.</li>
+          <li><b>SNR control:</b> initiator and reflector SNR output. Peripheral prefixes and creation context
+          follow further down the form.</li>
+        </ol>
+
+        <h3>Connection</h3>
+        <p class="screenshot"><img src="config-connection.png" alt="Connection settings tab"></p>
+        <p><a href="screenshot:config-connection">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Requested interval:</b> the minimum and maximum connection interval.</li>
+          <li><b>Latency and timeout:</b> peripheral latency and supervision timeout.</li>
+          <li><b>Example values selected by the controller:</b> selected interval, ACL activity, ATT MTU and CS
+          offset from the anchor.</li>
+        </ol>
+
+        <h3>CS modes</h3>
+        <p class="screenshot"><img src="config-cs-modes.png" alt="CS modes settings tab"></p>
+        <p><a href="screenshot:config-cs-modes">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Mode combination:</b> the main mode and optional sub-mode.</li>
+          <li><b>Step counts:</b> Mode-0 prefix, main-mode repetition and the minimum and maximum main-mode
+          run.</li>
+          <li><b>CS_SYNC PHY and RTT sequence.</b></li>
+          <li><b>Antenna configuration and inline PCT transfer (IPT).</b></li>
+          <li><b>Reflector data:</b> how the reflector returns its results. Preferred T_PM and the example
+          timing values follow further down the form.</li>
+        </ol>
+
+        <h3>Schedule</h3>
+        <p class="screenshot"><img src="config-schedule.png" alt="Schedule settings tab"></p>
+        <p><a href="screenshot:config-schedule">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Subevent budget:</b> the subevent length, with the calculated minimum for one fresh step.</li>
+          <li><b>Procedure:</b> procedure budget, procedure spacing and procedure count.</li>
+          <li><b>Example values selected by the controller:</b> fresh-step workload, subevents per event,
+          subevent spacing, CS event spacing and preview instances.</li>
+        </ol>
+
+        <h3>Channels</h3>
+        <p class="screenshot"><img src="config-channels.png" alt="Channels settings tab"></p>
+        <p><a href="screenshot:config-channels">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Presets:</b> All, Even, Odd and None.</li>
+          <li><b>Channel switches:</b> click a channel to enable or disable it; greyed channels are reserved.</li>
+          <li><b>Channel map:</b> the map as hexadecimal text and the number of enabled channels.</li>
+          <li><b>Map repetition.</b></li>
+          <li><b>Channel selection:</b> the channel selection algorithm (CSA #3b or #3c).</li>
+        </ol>
 
         <h2>Illustrations</h2>
-        <p>The numbered tabs on the right draw the plan at five levels: <b>1 Connection</b>, <b>2 Procedures</b>,
-        <b>3 Events &amp; subevents</b>, <b>4 Individual step</b> and <b>5 Channels</b>. The line above them shows
-        where you are (procedure, event, subevent, step). The status line below the settings summarises the
-        plan: whether it is complete or needs attention, fresh steps placed, subevents, CS events and elapsed
-        time. When a peer is connected, the Connection illustration uses the negotiated connection interval.</p>
+        <p>The tabs on the right draw the plan at five levels: <b>1 Connection</b>, <b>2 Procedures</b>,
+        <b>3 Events &amp; subevents</b>, <b>4 Individual step</b> and <b>5 Channels</b>. The status footer below
+        summarises the plan: whether it is complete or needs attention, fresh steps placed, subevents, CS events
+        and elapsed time. When a peer is connected, the Connection illustration uses the negotiated connection
+        interval. Click a block or marker to inspect it; hover over it for its timing.</p>
+        <p>In every illustration screenshot, <b>1</b> is the position line (procedure, event, subevent and step),
+        <b>2</b> is the explanation of the current view, and the last callout is the status footer's <b>▼</b>,
+        which expands detailed validation results, errors and correction guidance.</p>
+
+        <h3>1 Connection</h3>
+        <p class="screenshot"><img src="planner-connection.png" alt="Connection illustration"></p>
+        <p><a href="screenshot:planner-connection">View full-size screenshot</a></p>
+        <ol>
+          <li>Position line.</li>
+          <li>Explanation: interval, latency, procedure repetition and RAS transfer.</li>
+          <li><b>RAS (reflector):</b> the reflector's real-time data on the ACL events after the procedure.</li>
+          <li><b>Selected CS:</b> CS events placed after the ACL anchors.</li>
+          <li><b>ACL anchors:</b> connection events of the central and an example peripheral.</li>
+          <li><b>Supervision timeout:</b> how long the link survives without a valid reception.</li>
+          <li>Status footer <b>▼</b>.</li>
+        </ol>
+
+        <h3>2 Procedures</h3>
+        <p class="screenshot"><img src="planner-procedures.png" alt="Procedures illustration"></p>
+        <p><a href="screenshot:planner-procedures">View full-size screenshot</a></p>
+        <ol>
+          <li>Position line.</li>
+          <li>Explanation: CS event spacing, procedure spacing and budget.</li>
+          <li><b>RAS (reflector):</b> reflector data after each procedure.</li>
+          <li><b>ACL anchors.</b></li>
+          <li><b>CS events:</b> the events of each procedure; click one to inspect it.</li>
+          <li><b>Procedure instances:</b> the repeated procedures; click one to inspect it.</li>
+          <li>Status footer <b>▼</b>.</li>
+        </ol>
+
+        <h3>3 Events &amp; subevents</h3>
+        <p class="screenshot"><img src="planner-events-subevents.png" alt="Events and subevents illustration"></p>
+        <p><a href="screenshot:planner-events">View full-size screenshot</a></p>
+        <ol>
+          <li>Position line.</li>
+          <li>Explanation: start, end and duration of the event.</li>
+          <li><b>Steps by mode:</b> Mode-0 steps first in each subevent, then the main-mode and sub-mode
+          steps.</li>
+          <li><b>Occupied:</b> the time the steps use in each subevent.</li>
+          <li><b>Reserved subevent:</b> the subevent budget.</li>
+          <li>Status footer <b>▼</b>.</li>
+        </ol>
+
+        <h3>4 Individual step</h3>
+        <p class="screenshot"><img src="planner-individual-step.png" alt="Individual step illustration"></p>
+        <p><a href="screenshot:planner-step">View full-size screenshot</a></p>
+        <ol>
+          <li>Position line.</li>
+          <li>Explanation: mode, timing, antenna paths and example channel of the step.</li>
+          <li><b>Initiator TX:</b> what the initiator transmits.</li>
+          <li><b>Reflector TX:</b> what the reflector transmits.</li>
+          <li><b>Timing:</b> gaps such as T_IP1 between the transmissions.</li>
+          <li>Status footer <b>▼</b>.</li>
+        </ol>
+
+        <h3>5 Channels</h3>
+        <p class="screenshot"><img src="planner-channels.png" alt="Channels illustration"></p>
+        <p><a href="screenshot:planner-channels">View full-size screenshot</a></p>
+        <ol>
+          <li>Position line.</li>
+          <li>Explanation: an example hop sequence and how it is built.</li>
+          <li><b>Hop sequence:</b> the channel of each step in the procedure, by mode.</li>
+          <li><b>CS channels:</b> enabled and disabled channels across the band; click one to toggle it.</li>
+          <li><b>Wi-Fi reference:</b> Wi-Fi channels 1, 6 and 11 for comparison.</li>
+          <li>Status footer <b>▼</b>.</li>
+        </ol>
 
         <h2>Help pane</h2>
         <p><b>About this tab</b> explains the settings tab you are on. <b>Setting details</b> gives the full
@@ -362,7 +510,7 @@ HELP_PAGES = (
         "results",
         "Reading results",
         """
-        <p><img src="results.png" width="1000" alt="CS Host results screen"></p>
+        <p class="screenshot"><img src="results.png" alt="CS Host results screen"></p>
         <p><i>Synthetic sample data for illustration; this is not a live RF measurement.</i>
         <a href="screenshot:results">View full-size screenshot</a></p>
         <ol>
@@ -396,6 +544,61 @@ HELP_PAGES = (
           mean and median, raw PBR, and PBR corrected by the Mode-0 offset or by the reported frequency
           compensation.</td></tr>
         </table>
+        <p>The screenshots below come from a simulator run with <i>Mode 2 + sub-mode 1</i>, so every tab is
+        shown. Their values are synthetic and do not represent radio accuracy.</p>
+
+        <h3>Controller</h3>
+        <p class="screenshot"><img src="results-controller.png" alt="Controller results tab"></p>
+        <p><a href="screenshot:results-controller">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Capabilities:</b> local and remote controller capabilities.</li>
+          <li><b>Remote FAE table:</b> the reflector's frequency actuation error per channel.</li>
+          <li><b>Connection parameters:</b> requested and negotiated.</li>
+          <li><b>Configuration complete:</b> the CS configuration the controllers agreed.</li>
+          <li><b>Procedure enable complete:</b> the procedure parameters the controllers agreed.</li>
+          <li><b>Compatibility:</b> requested settings a controller does not support.</li>
+          <li><b>Summary:</b> sources and the number of compatibility issues.</li>
+        </ol>
+
+        <h3>Mode 0 / FFO</h3>
+        <p class="screenshot"><img src="results-mode-0-ffo.png" alt="Mode 0 and FFO results tab"></p>
+        <p><a href="screenshot:results-mode0">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Mode-0 measured offset:</b> the mean offset of the Mode-0 steps in each report.</li>
+          <li><b>Frequency compensation:</b> the compensation the controller reported.</li>
+          <li><b>Summary:</b> the latest report and the time window shown.</li>
+        </ol>
+
+        <h3>PBR per channel</h3>
+        <p class="screenshot"><img src="results-pbr-per-channel.png" alt="PBR per channel results tab"></p>
+        <p><a href="screenshot:results-pbr">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Analysis selectors:</b> procedure, antenna path, sign and high-quality tones only.</li>
+          <li><b>Amplitude:</b> initiator and reflector PCT magnitude per channel.</li>
+          <li><b>Wrapped phase:</b> reflector and product phase per channel, raw and corrected.</li>
+          <li><b>Unwrapped product phase:</b> raw and corrected phase with their fitted lines.</li>
+          <li><b>Summary:</b> step pairs, offsets and the slope distance of each correction.</li>
+        </ol>
+
+        <h3>RTT</h3>
+        <p class="screenshot"><img src="results-rtt.png" alt="RTT results tab"></p>
+        <p><a href="screenshot:results-rtt">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Analysis selectors:</b> procedure, AA successful only and Max errors.</li>
+          <li><b>Distance by CS channel:</b> accepted and rejected steps with the mean and median.</li>
+          <li><b>Distance distribution:</b> a histogram of the accepted steps.</li>
+          <li><b>Summary:</b> accepted step pairs, mean, median and spread.</li>
+        </ol>
+
+        <h3>Estimates</h3>
+        <p class="screenshot"><img src="results-estimates.png" alt="Estimates results tab"></p>
+        <p><a href="screenshot:results-estimates">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Analysis selectors:</b> the PBR and RTT options that the estimates use.</li>
+          <li><b>Plot lines:</b> show or hide each estimate.</li>
+          <li><b>Distance estimates:</b> one point per procedure over time.</li>
+          <li><b>Summary:</b> the latest procedure's estimates and the time window shown.</li>
+        </ol>
 
         <h2>Analysis controls</h2>
         <ul>
@@ -529,8 +732,9 @@ STYLE = """
     h1 {{ font-size: 22px; margin-bottom: 8px; }}
     h2 {{ font-size: 16px; margin-top: 18px; margin-bottom: 4px; }}
     p, li {{ line-height: 135%; }}
+    p.screenshot {{ line-height: 100%; }}
     p.lead {{ font-size: 15px; }}
-    img {{ max-width: 100%; height: auto; border: 1px solid #cbd8e6; }}
+    img {{ border: 1px solid #cbd8e6; }}
     code, pre {{ font-family: '{mono}', 'Menlo', 'Consolas', 'DejaVu Sans Mono', 'Courier New', monospace; }}
     pre {{ background-color: #eef3f9; }}
     table {{ border-collapse: collapse; margin-top: 6px; margin-bottom: 6px; }}
@@ -538,6 +742,45 @@ STYLE = """
     th, td {{ border: 1px solid #cbd8e6; padding: 5px; vertical-align: top; }}
     a {{ color: #146fba; }}
 """
+
+
+class HelpBrowser(W.QTextBrowser):
+    """Text browser that scales page images to the viewport width whenever it is resized.
+
+    The width is set in code so it does not depend on how the installed Qt handles CSS max-width.
+    """
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.fit_images()
+
+    def fit_images(self):
+        document = self.document()
+        available = self.viewport().width() - 2 * document.documentMargin() - 4
+        images = []
+        block = document.begin()
+        while block.isValid():
+            fragments = block.begin()
+            while not fragments.atEnd():
+                fragment = fragments.fragment()
+                if fragment.charFormat().isImageFormat():
+                    images.append(fragment)
+                fragments += 1
+            block = block.next()
+        for fragment in images:
+            image = fragment.charFormat().toImageFormat()
+            source = document.resource(QtGui.QTextDocument.ResourceType.ImageResource, QtCore.QUrl(image.name()))
+            if not isinstance(source, (QtGui.QPixmap, QtGui.QImage)) or source.isNull():
+                continue
+            width = max(1, min(available, source.width()))
+            if abs(image.width() - width) < 1:
+                continue
+            image.setWidth(width)
+            image.setHeight(width * source.height() / source.width())
+            cursor = QtGui.QTextCursor(document)
+            cursor.setPosition(fragment.position())
+            cursor.setPosition(fragment.position() + fragment.length(), QtGui.QTextCursor.MoveMode.KeepAnchor)
+            cursor.setCharFormat(image)
 
 
 class HelpDialog(W.QDialog):
@@ -553,7 +796,7 @@ class HelpDialog(W.QDialog):
 
         self.topics = W.QListWidget()
         self.topics.setStyleSheet("QListWidget { font-size: 14px; } QListWidget::item { padding: 6px; }")
-        self.browser = W.QTextBrowser()
+        self.browser = HelpBrowser()
         self.browser.setOpenLinks(False)
         self.browser.setSearchPaths([str(Path(__file__).resolve().parent.parent / "assets" / "help")])
         self.browser.anchorClicked.connect(self.follow_link)
@@ -583,6 +826,7 @@ class HelpDialog(W.QDialog):
         item = self.topics.item(row)
         if item is not None:
             self.browser.setHtml(self.pages[item.data(QtCore.Qt.ItemDataRole.UserRole)])
+            self.browser.fit_images()
 
     def show_topic(self, key):
         """Select topic key; an unknown key selects the first topic."""
@@ -598,12 +842,7 @@ class HelpDialog(W.QDialog):
             QtGui.QDesktopServices.openUrl(url)
 
     def open_screenshot(self, key):
-        screenshots = {
-            "main-window": ("The main window", "main-window.png"),
-            "configuration": ("Configuration", "configuration.png"),
-            "results": ("Results", "results.png"),
-        }
-        entry = screenshots.get(key)
+        entry = SCREENSHOTS.get(key)
         if entry is None:
             return
         title, filename = entry

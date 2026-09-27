@@ -2,10 +2,12 @@ import os
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 import re
 import unittest
+from pathlib import Path
 
 from PyQt6 import QtCore, QtWidgets as W
 
-from cs_app.views.help_dialog import HELP_PAGES, HelpDialog
+from cs_app.views import help_dialog
+from cs_app.views.help_dialog import HELP_PAGES, SCREENSHOTS, HelpDialog
 from cs_app.views.run_bar import ACTIONS, RunBar
 
 
@@ -34,6 +36,45 @@ class HelpDialogTests(unittest.TestCase):
         try:
             dialog.follow_link(QtCore.QUrl("help:results"))
             self.assertEqual(dialog.topics.currentItem().text(), "Reading results")
+        finally:
+            dialog.deleteLater()
+
+    def test_screenshots_and_their_links_resolve(self):
+        assets = Path(help_dialog.__file__).resolve().parent.parent / "assets" / "help"
+        for key, _, body in HELP_PAGES:
+            for image in re.findall(r'<img src="([^"]+)"', body):
+                with self.subTest(page=key, image=image):
+                    self.assertTrue((assets / image).is_file())
+            for target in re.findall(r'href="screenshot:([^"]+)"', body):
+                with self.subTest(page=key, screenshot=target):
+                    self.assertIn(target, SCREENSHOTS)
+        for key, (_, filename) in SCREENSHOTS.items():
+            with self.subTest(screenshot=key):
+                self.assertTrue((assets / filename).is_file())
+
+    def test_images_follow_the_pane_width(self):
+        dialog = HelpDialog(topic="configuration")
+        try:
+            dialog.show()
+            widths = []
+            for size in (900, 1400):
+                dialog.resize(size, 800)
+                self.app.processEvents()
+                images = []
+                block = dialog.browser.document().begin()
+                while block.isValid():
+                    fragments = block.begin()
+                    while not fragments.atEnd():
+                        form = fragments.fragment().charFormat()
+                        if form.isImageFormat():
+                            images.append(form.toImageFormat().width())
+                        fragments += 1
+                    block = block.next()
+                self.assertTrue(images)
+                self.assertLessEqual(max(images), dialog.browser.viewport().width())
+                self.assertEqual(dialog.browser.horizontalScrollBar().maximum(), 0)
+                widths.append(max(images))
+            self.assertGreater(widths[1], widths[0])
         finally:
             dialog.deleteLater()
 
