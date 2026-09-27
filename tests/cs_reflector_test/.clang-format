@@ -1,0 +1,85 @@
+# K&R-derived style for the BLE_CS C sources, with attached function braces.
+---
+Language: Cpp
+BasedOnStyle: LLVM
+
+# --- K&R braces: attached everywhere except function definitions ---
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: Never
+  AfterStruct: false
+  AfterUnion: false
+  AfterEnum: false
+  AfterCaseLabel: false
+  AfterExternBlock: false
+  BeforeElse: false
+  BeforeWhile: false
+  BeforeCatch: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+
+# --- Indentation ---
+IndentWidth: 4
+TabWidth: 4
+UseTab: AlignWithSpaces
+ContinuationIndentWidth: 8
+IndentCaseLabels: false
+IndentGotoLabels: false
+IndentPPDirectives: None
+AccessModifierOffset: -4
+
+# --- Line breaking ---
+ColumnLimit: 80
+AlignAfterOpenBracket: Align
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterReturnType: None
+BinPackArguments: false
+BinPackParameters: AlwaysOnePerLine
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
+BreakStringLiterals: false
+PenaltyBreakAssignment: 10
+PenaltyReturnTypeOnItsOwnLine: 1000
+
+# --- Spacing ---
+PointerAlignment: Right
+DerivePointerAlignment: false
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Cpp11BracedListStyle: false
+
+# --- Alignment ---
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: false
+AlignEscapedNewlines: Left
+AlignOperands: Align
+AlignTrailingComments: true
+
+# --- Misc ---
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+ReflowComments: true
+SortIncludes: CaseSensitive
+IncludeBlocks: Preserve
+InsertNewlineAtEOF: true
+ForEachMacros:
+  - SYS_SLIST_FOR_EACH_NODE
+  - SYS_SLIST_FOR_EACH_NODE_SAFE
+  - SYS_SLIST_FOR_EACH_CONTAINER
+  - SYS_DLIST_FOR_EACH_NODE
+  - SYS_DLIST_FOR_EACH_CONTAINER

@@ -1,0 +1,1 @@
+"""Embeddable host application views."""

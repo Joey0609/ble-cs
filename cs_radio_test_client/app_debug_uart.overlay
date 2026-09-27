@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: MIT */
+/* Protocol frames use the DK debug UART (uart20) at 921600 baud. */
+/ {
+	chosen {
+		app,host-link-uart = &uart20;
+	};
+};
+
+&uart20 {
+	status = "okay";
+	current-speed = <921600>;
+};

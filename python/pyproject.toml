@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cs-app"
+version = "0.1.0"
+description = "Host application for BLE Channel Sounding clients: configuration, results, FAE and run recording"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "PyQt6>=6.6,<7",
+    "pyqtgraph>=0.13.7,<0.15",
+    "pyserial>=3.5",
+    "h5py>=3.10",
+    "numpy>=1.25",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+mat73 = ["hdf5storage"]
+
+[project.scripts]
+cs-app = "cs_app.app:main"
+cs-planner = "cs_planner.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["cs_app*", "cs_planner*"]

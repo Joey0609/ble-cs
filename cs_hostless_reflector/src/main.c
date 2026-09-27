@@ -1,0 +1,183 @@
+/* SPDX-License-Identifier: MIT */
+/* CS reflector without a host: planner configuration -> advertise -> reflector
+ * role, restarted by cs_roles after a lost link. Output is log messages only.
+ */
+#include <errno.h>
+#include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/kernel.h>
+#include <zephyr/sys/atomic.h>
+
+#include <app_log/app_log.h>
+#include <cs_generated_config/cs_generated_config.h>
+#include <cs_roles/cs_role.h>
+
+APP_LOG_MODULE(cs_hostless_reflector);
+
+static struct cs_reflector_config config;
+
+static atomic_t procedures;
+static atomic_t subevents;
+static atomic_t steps;
+static atomic_t aborted_subevents;
+static atomic_t partial_subevents;
+
+/* Application fallback procedure parameters, matching the hostless initiator:
+ * one 16 ms subevent in a one-event (17.5 ms) procedure every 3 ACL events,
+ * the two events in between carrying the RAS real-time notifications. */
+static const struct cs_config_procedure app_procedure = {
+	.max_procedure_len = 28,
+	.min_procedure_interval = 3,
+	.max_procedure_interval = 3,
+	.max_procedure_count = 0,
+	.min_subevent_len = 16000,
+	.max_subevent_len = 16000,
+	.tone_antenna_config_selection = CS_CONFIG_TONE_ANTENNA_A1_B1,
+	.phy = CS_CONFIG_PROCEDURE_PHY_1M,
+	.tx_power_delta = CS_CONFIG_TX_POWER_DELTA_NONE,
+	.preferred_peer_antenna = CS_CONFIG_PEER_ANTENNA_1,
+	.snr_control_initiator = CS_CONFIG_SNR_CONTROL_NOT_USED,
+	.snr_control_reflector = CS_CONFIG_SNR_CONTROL_NOT_USED,
+};
+
+static const char *const state_names[] = {
+	[CS_ROLE_STATE_SCANNING] = "scanning",
+	[CS_ROLE_STATE_ADVERTISING] = "advertising",
+	[CS_ROLE_STATE_LINK_CONNECTING] = "connecting",
+	[CS_ROLE_STATE_LINK_CONNECTED] = "connected",
+	[CS_ROLE_STATE_LINK_ENCRYPTED] = "encrypted",
+	[CS_ROLE_STATE_RAS_READY] = "waiting for the initiator",
+	[CS_ROLE_STATE_RUNNING] = "running",
+	[CS_ROLE_STATE_STOPPED] = "stopped",
+	[CS_ROLE_STATE_LINK_LOST] = "link lost",
+	[CS_ROLE_STATE_LINK_DISCONNECTED] = "disconnected",
+	[CS_ROLE_STATE_ERROR] = "error",
+};
+
+static void on_state(enum cs_role_state state, enum cs_role_failure_stage failure,
+                     enum cs_role_stop_reason stop_reason, uint8_t hci_status, int error) {
+	const char *name = state < ARRAY_SIZE(state_names) ? state_names[state] : "?";
+
+	if (state == CS_ROLE_STATE_ERROR || state == CS_ROLE_STATE_LINK_LOST || error) {
+		APP_LOG_WRN("State %s: failure %u, stop reason %u, HCI status 0x%02x, error %d", name,
+		            failure, stop_reason, hci_status, error);
+	} else {
+		APP_LOG_INF("State %s", name);
+	}
+	if (state == CS_ROLE_STATE_LINK_ENCRYPTED) {
+		/* Called from the event thread: the request does not wait. */
+		(void)cs_role_start_reflector(&config);
+	}
+}
+
+static void on_configuration(const struct cs_config_complete *record) {
+	APP_LOG_INF("CS configuration %u from the initiator: status 0x%02x, mode 0x%02x, RTT type %u",
+	            record->config_id, record->status, record->mode, record->rtt_type);
+}
+
+static void on_procedure(const struct cs_procedure_enable_complete *record) {
+	APP_LOG_INF("Procedures %s: status 0x%02x, interval %u, count %u", record->state ? "on" : "off",
+	            record->status, record->procedure_interval, record->procedure_count);
+}
+
+/* Bluetooth context: count only; returning nonzero skips decoding the steps. */
+static int on_subevent_begin(const struct cs_subevent *header, uint16_t num_tones) {
+	ARG_UNUSED(num_tones);
+	atomic_inc(&subevents);
+	atomic_add(&steps, header->num_steps);
+	if (header->subevent_done_status == BT_CONN_LE_CS_SUBEVENT_ABORTED) {
+		atomic_inc(&aborted_subevents);
+	}
+	if (header->procedure_done_status != BT_CONN_LE_CS_PROCEDURE_INCOMPLETE) {
+		atomic_inc(&procedures);
+	}
+	return -ECANCELED;
+}
+
+static void on_subevent_end(bool complete) {
+	if (!complete) {
+		atomic_inc(&partial_subevents);
+	}
+}
+
+static const struct cs_role_callbacks callbacks = {
+	.state = on_state,
+	.configuration = on_configuration,
+	.procedure = on_procedure,
+	.subevent_begin = on_subevent_begin,
+	.subevent_end = on_subevent_end,
+};
+
+static void log_counters(struct k_work *work);
+static K_WORK_DELAYABLE_DEFINE(counters_work, log_counters);
+
+static void log_counters(struct k_work *work) {
+	ARG_UNUSED(work);
+	APP_LOG_INF("Procedures %ld, subevents %ld (aborted %ld, partial %ld), steps %ld",
+	            (long)atomic_get(&procedures), (long)atomic_get(&subevents),
+	            (long)atomic_get(&aborted_subevents), (long)atomic_get(&partial_subevents),
+	            (long)atomic_get(&steps));
+	(void)k_work_schedule(&counters_work, K_SECONDS(CONFIG_CS_HOSTLESS_STATS_INTERVAL_S));
+}
+
+/* Planner log levels, before Bluetooth starts; the app_log defaults without an export. */
+static void apply_log_config(void) {
+	struct app_log_config log_config;
+	int err = cs_generated_config_log(&log_config);
+
+	if (!err) {
+		err = app_log_configure(&log_config);
+	}
+	if (err && err != -ENOENT) {
+		APP_LOG_WRN("Planner log levels rejected (%d): defaults kept", err);
+	}
+}
+
+int main(void) {
+	const char *name;
+	int err;
+
+	apply_log_config();
+	err = cs_generated_config_reflector(&config);
+	if (err == -ENOENT) {
+		APP_LOG_WRN("No planner configuration linked: applying hostless application defaults");
+		err = cs_reflector_config_set_procedure(&config, &app_procedure);
+	}
+	if (err) {
+		APP_LOG_ERR("Planner configuration rejected (%d): halted, no radio activity", err);
+		return 0;
+	} else {
+		APP_LOG_INF("Planner configuration, CRC-32 0x%08x",
+		            (unsigned int)cs_generated_config_crc32_reflector);
+	}
+
+	err = bt_enable(NULL);
+	if (err) {
+		APP_LOG_ERR("Bluetooth init failed: %d", err);
+		return 0;
+	}
+	name = cs_generated_config_device_name();
+	if (name) {
+		err = bt_set_name(name);
+		if (err) {
+			APP_LOG_WRN("Device name not applied: %d", err);
+		}
+	}
+	err = cs_role_init(&callbacks);
+	if (!err) {
+		const struct cs_role_link_params link = {
+			.central = false,
+			.connection = config.connection,
+			.advertise_ras_uuid = true,
+			.auto_restart = true,
+		};
+
+		err = cs_role_link_start(&link);
+	}
+	if (err) {
+		APP_LOG_ERR("CS role start failed: %d", err);
+		return 0;
+	}
+	APP_LOG_INF("Advertising as \"%s\", config ID %u", bt_get_name(), config.config_id);
+	(void)k_work_schedule(&counters_work, K_SECONDS(CONFIG_CS_HOSTLESS_STATS_INTERVAL_S));
+	return 0;
+}

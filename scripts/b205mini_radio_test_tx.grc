@@ -1,0 +1,164 @@
+options:
+  parameters:
+    author: GNU Radio
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    comment: 'Nordic radio_test compatible 1M packet stream, pattern 11001100'
+    description: 'Transmit repeated radio-test packets at 2403 MHz with the B205mini.'
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: b205mini_radio_test_tx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    title: B205mini Radio Test Packet TX
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: '4 samples per 1 Msymbol/s BLE 1M waveform.'
+    value: 4e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 16]
+    rotation: 0
+    state: enabled
+- name: center_freq
+  id: variable
+  parameters:
+    comment: '2400 MHz + radio-test channel 3.'
+    value: 2.403e9
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 88]
+    rotation: 0
+    state: enabled
+- name: packet_bits
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: '8-bit preamble, five-byte 0xCC address, length 254, 254 bytes of 0xCC; repeats continuously.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: ([0, 1, 0, 1, 0, 1, 0, 1] + [0, 0, 1, 1, 0, 0, 1, 1] * 5 + [1, 1, 1, 1, 1, 1, 1, 0] + [1, 1, 0, 0, 1, 1, 0, 0] * 254)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 216]
+    rotation: 0
+    state: enabled
+- name: digital_gfsk_mod_0
+  id: digital_gfsk_mod
+  parameters:
+    affinity: ''
+    alias: ''
+    bt: '0.5'
+    comment: 'BLE 1M GFSK, h=0.5, 4 samples/symbol.'
+    do_unpack: 'False'
+    log: 'False'
+    samples_per_symbol: '4'
+    sensitivity: '0.39269908169872414'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 216]
+    rotation: 0
+    state: enabled
+- name: uhd_usrp_sink_0
+  id: uhd_usrp_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    ant0: '"TX/RX"'
+    bw0: samp_rate
+    center_freq0: center_freq
+    clock_rate: '0.0'
+    clock_source0: ''
+    comment: 'B205mini transmit output.'
+    dev_addr: '""'
+    dev_args: '""'
+    gain0: '0'
+    nchan: '1'
+    num_mboards: '1'
+    otw: ''
+    samp_rate: samp_rate
+    sd_spec0: ''
+    stream_args: '""'
+    stream_chans: '[]'
+    sync: sync
+    time_source0: ''
+    type: fc32
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 216]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    average: '0.1'
+    axislabels: 'True'
+    bw: samp_rate
+    comment: 'Baseband transmit spectrum; RF center is 2403 MHz.'
+    ctrlpanel: 'True'
+    fc: center_freq
+    fftsize: '2048'
+    freqhalf: 'True'
+    grid: 'True'
+    label: Power
+    legend: 'False'
+    nconnections: '1'
+    name: '"TX spectrum"'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '0'
+    ymin: '-120'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 376]
+    rotation: 0
+    state: enabled
+
+connections:
+- [packet_bits, '0', digital_gfsk_mod_0, '0']
+- [digital_gfsk_mod_0, '0', uhd_usrp_sink_0, '0']
+- [digital_gfsk_mod_0, '0', qtgui_freq_sink_x_0, '0']
+
+metadata:
+  file_format: 1

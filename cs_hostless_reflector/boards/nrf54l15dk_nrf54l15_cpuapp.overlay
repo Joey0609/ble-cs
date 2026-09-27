@@ -1,0 +1,5 @@
+/* SPDX-License-Identifier: MIT */
+/* nRF54L15 DK: console and log on the debug UART (J-Link VCOM). */
+&uart20 {
+	current-speed = <921600>;
+};

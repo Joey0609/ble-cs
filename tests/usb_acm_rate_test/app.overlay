@@ -1,0 +1,15 @@
+/* SPDX-License-Identifier: MIT */
+&uart20 {
+	current-speed = <921600>;
+};
+
+&zephyr_udc0 {
+	status = "okay";
+
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "USB ACM Rate Test";
+		tx-fifo-size = <4096>;
+		rx-fifo-size = <128>;
+	};
+};

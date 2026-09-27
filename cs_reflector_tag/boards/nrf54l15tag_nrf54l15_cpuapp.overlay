@@ -1,0 +1,20 @@
+/* SPDX-License-Identifier: MIT */
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	cs_antenna_switch: cs-antenna-config {
+		compatible = "nordic,bt-cs-antenna-switch";
+		status = "okay";
+		/* SKY13348 U6: ANT1 = V1 high/V2 low; ANT2 = V1 low/V2 high. */
+		ant-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>,
+		            <&gpio1 10 GPIO_ACTIVE_HIGH>;
+		multiplexing-mode = <0>;
+	};
+};
+
+/* Give the controller exclusive ownership instead of fixing ANT1 at boot. */
+/delete-node/ &sky13348;
+&gpio1 {
+	/delete-node/ antenna_switch_v1;
+	/delete-node/ antenna_switch_v2;
+};

@@ -1,0 +1,323 @@
+# SPDX-License-Identifier: MIT
+#
+# Options of the shared application libraries. Applications that use them
+# source this file from their Kconfig; the test apps do not, so every option
+# here stays off for them.
+
+menuconfig APP_LOG
+	bool "Application log with runtime-selected consumers"
+	select PRINTK
+	help
+	  APP_LOG_ERR/WRN/INF/DBG (common/libs/app_log). Messages reach the
+	  console (printk) and, through host_link, LOG_MESSAGE frames; the
+	  level of each consumer is part of the applied configuration, not of
+	  the build. These options only size the library. Zephyr and NCS
+	  subsystems keep logging through CONFIG_LOG.
+
+if APP_LOG
+
+config APP_LOG_MESSAGE_MAX
+	int "Longest message in bytes, level and module prefix included"
+	range 32 1024
+	default 256
+	help
+	  Longer messages are truncated. Also the longest LOG_MESSAGE text.
+
+config APP_LOG_QUEUE_DEPTH
+	int "Messages waiting for the log thread"
+	range 2 128
+	default 16
+	help
+	  Each entry takes APP_LOG_MESSAGE_MAX bytes and a small header. A
+	  message that finds the queue full is dropped and counted; the count
+	  is logged as one warning once room returns.
+
+config APP_LOG_THREAD_STACK_SIZE
+	int "Log thread stack size"
+	default 768
+	help
+	  The thread that writes queued messages to the consumers: printk,
+	  and LOG_MESSAGE frames through host_link.
+
+	  Sized from CONFIG_THREAD_ANALYZER on hardware (2026-09-24, plan
+	  section 15.4): 368 bytes peak on both the hostless initiator and the
+	  Tag reflector, with the protocol sink at debug level and one message
+	  per subevent header.
+
+config APP_LOG_THREAD_PRIORITY
+	int "Log thread priority"
+	default 12
+	help
+	  Keep it below the Bluetooth, role and host link threads. The
+	  protocol consumer waits up to APP_HOST_LINK_REPORT_TIMEOUT_MS for
+	  transmit room.
+
+endif # APP_LOG
+
+menuconfig APP_CS_ROLES
+	bool "CS role library"
+	depends on BT_CHANNEL_SOUNDING
+	select APP_LOG
+	help
+	  Connection, CS and RAS sequencing shared by cs_client, the hostless
+	  applications and cs_reflector_tag (common/libs/cs_roles):
+	  scan/advertise, connect, encrypt, then run a CS initiator or
+	  reflector. Enable at least one of APP_CS_ROLES_INITIATOR and
+	  APP_CS_ROLES_REFLECTOR. The generated configuration interface is a
+	  separate library (APP_CS_GENERATED_CONFIG).
+	  Requires BT_SMP, BT_CENTRAL and/or BT_PERIPHERAL for the GAP roles the
+	  application uses, and BT_EXT_ADV with BT_PERIPHERAL (checked in
+	  libs.cmake).
+
+if APP_CS_ROLES
+
+config APP_CS_ROLES_INITIATOR
+	bool "CS initiator role (Ranging Requestor)"
+	select BT_RAS
+	select BT_RAS_RREQ
+	help
+	  RAS discovery and real-time subscription, FAE table, CS configuration,
+	  CS security and procedures. Streams the reflector's steps from RAS.
+
+config APP_CS_ROLES_REFLECTOR
+	bool "CS reflector role (Ranging Responder)"
+	select BT_RAS
+	select BT_RAS_RRSP
+	help
+	  RAS responder instance, default settings, then the procedures the
+	  initiator configures and enables.
+
+config APP_CS_ROLES_THREAD_STACK_SIZE
+	int "Role thread stack size"
+	default 1536
+	help
+	  The thread that owns all role and link state and issues the
+	  Bluetooth, CS and RAS commands.
+
+	  Sized from CONFIG_THREAD_ANALYZER on hardware (2026-09-24, plan
+	  section 15.4): 880 bytes peak as initiator and 768 as reflector, on
+	  the deepest configuration the controller accepts (mode 3, two antenna
+	  paths, RAS real-time). The margin here is deliberately wider than the
+	  others: the measurement covers one peer and one pair of applications,
+	  and a CS error path on another peer is exactly what a high-water mark
+	  cannot see.
+
+config APP_CS_ROLES_THREAD_PRIORITY
+	int "Role thread priority"
+	default 7
+
+config APP_CS_ROLES_MSG_QUEUE_DEPTH
+	int "Requests and Bluetooth completions waiting for the role thread"
+	range 8 64
+	default 16
+
+config APP_CS_ROLES_EVENT_STACK_SIZE
+	int "Event thread stack size"
+	default 1024
+	help
+	  The thread that delivers state, capabilities, configuration,
+	  procedure, FAE and RAS-lost callbacks. Size it for the application's
+	  callbacks.
+
+	  Sized from CONFIG_THREAD_ANALYZER on hardware (2026-09-24, plan
+	  section 15.4): 568 bytes peak in both roles. An application whose
+	  callbacks do more than report and log needs more than this default.
+
+config APP_CS_ROLES_EVENT_PRIORITY
+	int "Event thread priority"
+	default 8
+
+config APP_CS_ROLES_EVENT_QUEUE_DEPTH
+	int "Control events waiting for the event thread"
+	range 8 128
+	default 24
+	help
+	  State events from the role thread wait for room; events from
+	  Bluetooth callbacks never wait. RAS-lost events leave
+	  APP_CS_ROLES_EVENT_RESERVE entries free, and when none are left they
+	  are merged into one event for the latest procedure.
+
+config APP_CS_ROLES_EVENT_RESERVE
+	int "Event queue entries RAS-lost events leave free"
+	range 2 APP_CS_ROLES_EVENT_QUEUE_DEPTH
+	default 8
+
+config APP_CS_ROLES_RAS_MAX_SUBEVENTS
+	int "Subevents of one procedure streamed from RAS data"
+	depends on APP_CS_ROLES_INITIATOR
+	range 1 255
+	default 32
+	help
+	  Subevents beyond this count are not streamed and the procedure is
+	  reported through ras_data_lost (-ENOMEM).
+
+config APP_CS_ROLES_SETUP_TIMEOUT_MS
+	int "Wait for each setup step, in milliseconds"
+	default 10000
+	help
+	  Encryption, RAS discovery, capabilities, FAE, configuration, CS
+	  security and procedure enable each report ERROR with -ETIMEDOUT when
+	  their completion does not arrive in time. A reflector waiting for
+	  the initiator has no deadline.
+
+config APP_CS_ROLES_STOP_TIMEOUT_MS
+	int "Wait for the procedure disable event, in milliseconds"
+	default 2000
+
+config APP_CS_ROLES_STOP_RAS_TIMEOUT_MS
+	int "Initiator: wait for the last procedure's RAS data after stopping, in milliseconds"
+	depends on APP_CS_ROLES_INITIATOR
+	default 2000
+
+config APP_CS_ROLES_LINK_RESTART_DELAY_MS
+	int "Delay before restarting a lost or failed link, in milliseconds"
+	default 1000
+	help
+	  Used only with cs_role_link_params.auto_restart.
+
+endif # APP_CS_ROLES
+
+config APP_CS_GENERATED_CONFIG
+	bool "CS generated configuration interface"
+	depends on BT_CHANNEL_SOUNDING
+	help
+	  cs_generated_config.h and its weak default cs_generated_config.c
+	  (common/libs/cs_generated_config): without a planner export linked
+	  into the application, the role functions load the cs_utils default
+	  configuration and return -ENOENT. Independent of APP_CS_ROLES.
+
+menuconfig APP_HOST_LINK
+	bool "Host link: CS protocol client over a UART"
+	select APP_LOG
+	select CRC
+	select RING_BUFFER
+	select SERIAL
+	select UART_INTERRUPT_DRIVEN
+	help
+	  Receives host commands, keeps the staged and applied configuration,
+	  and sends responses and reports (common/libs/host_link). It is the
+	  protocol consumer of APP_LOG while a host session is open. The UART is
+	  the devicetree chosen node app,host-link-uart: a zephyr,cdc-acm-uart
+	  instance (enable the USB device stack and CDC ACM class in the
+	  application configuration) or a hardware UART.
+
+if APP_HOST_LINK
+
+config APP_HOST_LINK_DTR
+	bool "Track the host port with DTR"
+	default y if USBD_CDC_ACM_CLASS
+	select UART_LINE_CTRL
+	help
+	  A USB CDC ACM port reports DTR, so a closed host port ends the host
+	  session and interrupts a running operation. A hardware UART has no
+	  DTR: leave this off, and the session then ends only with
+	  CLOSE_SESSION; a host that disappears without it leaves the session
+	  open, and the next CONNECT attaches to it.
+
+config APP_HOST_LINK_NUM_ANTENNAS
+	int "Number of antennas supported by the board"
+	range 1 4
+	default BT_CTLR_SDC_CS_NUM_ANTENNAS if BT_CHANNEL_SOUNDING
+	default 1
+	help
+	  Board antenna count reported in CONNECT_RESPONSE. Defaults to the
+	  controller CS antenna configuration in Bluetooth builds. Set this in
+	  the board configuration for radio-only builds with multiple antennas.
+
+config APP_HOST_LINK_MAX_FRAME_SIZE
+	int "Largest host command frame in bytes"
+	range 277 4096
+	default 512
+	help
+	  Size of the receive frame buffer, reported to the host as
+	  max_frame_size. SET_PERIPHERAL_PATTERNS (277 bytes) is the largest
+	  command.
+
+config APP_HOST_LINK_RX_BUF_SIZE
+	int "Receive ring buffer size in bytes"
+	default 1024
+
+config APP_HOST_LINK_TX_BUF_SIZE
+	int "Transmit ring buffer size in bytes"
+	default 16384
+	help
+	  Frames waiting for the UART FIFO. A frame is queued whole or not at
+	  all, so this is also the largest frame that can be sent.
+
+config APP_HOST_LINK_THREAD_STACK_SIZE
+	int "Host link thread stack size"
+	default 2048
+	help
+	  Left at its original size in the 2026-09-24 stack measurement (plan
+	  section 15.4): host_link_report_only_init() starts no thread, so the
+	  hostless applications never create it and it has never been measured.
+	  It needs a cs_client run.
+
+config APP_HOST_LINK_THREAD_PRIORITY
+	int "Host link thread priority"
+	default 10
+	help
+	  Keep it below the Bluetooth threads so command handling and USB
+	  transfer never delay CS processing.
+
+config APP_HOST_LINK_RESPONSE_TIMEOUT_MS
+	int "Wait for transmit room for a response, in milliseconds"
+	range 1 5000
+	default 1000
+	help
+	  Hard, build-time bound on how long the host link thread waits to queue
+	  a response. The transport has no unbounded waits.
+
+config APP_HOST_LINK_REPORT_TIMEOUT_MS
+	int "Wait for transmit room for a report, in milliseconds"
+	range 0 APP_HOST_LINK_RESPONSE_TIMEOUT_MS
+	default 100
+	help
+	  Hard, build-time bound on how long a reporting thread waits. A report
+	  that does not fit in time is dropped and counted. 0 never waits.
+
+config APP_HOST_LINK_DTR_POLL_MS
+	int "Host link thread polling interval in milliseconds"
+	default 100
+	help
+	  How often the host link thread wakes when no bytes arrive: how quickly
+	  a closed host port ends the session (APP_HOST_LINK_DTR) and dropped
+	  reports are announced.
+
+endif # APP_HOST_LINK
+
+# Upstream stacks that cs_roles pushes harder than their defaults expect.
+#
+# Measured with CONFIG_THREAD_ANALYZER on both ends of a live link (2026-09-24,
+# plan section 15.4), on the deepest configuration the controller accepts:
+# mode 3, two antenna paths, RAS real-time, 16 ms subevent, 114 steps per
+# procedure. At the upstream defaults all three sat between 75 and 88 percent,
+# higher than anything the applications own, and each peaked in a different
+# place - so measuring one role or one phase would have missed two of them.
+#
+# These are Zephyr and MPSL symbols rather than ours, kept here rather than
+# repeated in every prj.conf because the pressure comes from using cs_roles,
+# not from any one application. APP_CS_ROLES gates them so a build without the
+# roles library is untouched, and configdefault leaves an application free to
+# set its own value.
+
+configdefault BT_LONG_WQ_STACK_SIZE
+	default 2560 if APP_CS_ROLES
+	help
+	  Peaked at 1864 of 2100 (88 percent) on the initiator during link
+	  setup - connect, encrypt, RAS discovery - not during ranging. The
+	  reflector's peak on the same link was 1192. A reconnect loop is what
+	  sizes this one.
+
+configdefault MPSL_WORK_STACK_SIZE
+	default 1280 if APP_CS_ROLES
+	help
+	  Peaked at 768 of 1024 (75 percent) on the reflector and 496 on the
+	  initiator. The asymmetry is the reason both ends were measured.
+
+configdefault BT_TX_PROCESSOR_STACK_SIZE
+	default 1024 if APP_CS_ROLES
+	help
+	  Peaked at 744 of 900 (82 percent) on the initiator, rising from 404
+	  the moment RAS notifications began to flow. The reflector that sends
+	  them stayed at 404.

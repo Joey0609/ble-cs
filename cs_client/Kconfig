@@ -1,0 +1,29 @@
+#
+# SPDX-License-Identifier: MIT
+#
+
+mainmenu "CS protocol client"
+
+rsource "../common/libs/Kconfig"
+
+# Consumed unconditionally by the NCS radio_test.c in the radio test build,
+# which does not build the sample's shell front-end that normally declares it.
+config RADIO_TEST_RX_TIMEOUT
+	int "RX packet reception timeout"
+	depends on !BT
+	default 10
+	help
+	  Time in seconds the driver waits for the first packet in RX mode when a
+	  finite packet count is requested. The radio is disabled if it elapses.
+
+config CS_CLIENT_RADIO_TEST_STATS_INTERVAL_MS
+	int "RADIO_TEST_STATS report interval in milliseconds"
+	depends on !BT
+	range 50 10000
+	default 250
+	help
+	  Period of the receive statistics reports while an RX or RX sweep
+	  test runs. A baseline follows the START response and a final report
+	  precedes the STOPPED state.
+
+source "Kconfig.zephyr"

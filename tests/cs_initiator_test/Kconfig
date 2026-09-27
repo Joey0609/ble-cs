@@ -1,0 +1,45 @@
+#
+# SPDX-License-Identifier: MIT
+#
+
+mainmenu "Connected CS initiator test"
+
+menu "CS initiator test"
+
+config CS_INITIATOR_TEST_RECORD_QUEUE_SIZE
+	int "Report record queue size in bytes"
+	default 32768
+	help
+	  Ring buffer holding packed records between the Bluetooth callbacks
+	  and the report printer. A record that does not fit is dropped and
+	  counted; callbacks never wait for space.
+
+config CS_INITIATOR_TEST_SUBEVENT_MAX_STEPS
+	int "Largest subevent to capture, in steps"
+	range 1 160
+	default 160
+	help
+	  Sizes the subevent parse buffer with CS_SUBEVENT_BUF_SIZE(). A larger
+	  report keeps the steps that fit and is counted as truncated.
+
+config CS_INITIATOR_TEST_CDC_TX_BUF_SIZE
+	int "USB CDC transmit buffer size in bytes"
+	default 8192
+	help
+	  Text waiting to be moved into the CDC ACM FIFO. The report printer
+	  blocks while it is full.
+
+config CS_INITIATOR_TEST_PRINTER_PRIORITY
+	int "Report printer thread priority"
+	default 10
+	help
+	  Keep it below the Bluetooth threads so text formatting and USB
+	  transfer never delay CS processing.
+
+config CS_INITIATOR_TEST_STATS_INTERVAL_MS
+	int "Debug UART statistics interval in milliseconds"
+	default 5000
+
+endmenu
+
+source "Kconfig.zephyr"

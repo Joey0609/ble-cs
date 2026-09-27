@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: MIT
+
+mainmenu "Radio TX Packet Test"
+
+# Consumed unconditionally by the NCS radio_test.c driver.
+config RADIO_TEST_RX_TIMEOUT
+	int "RX packet reception timeout"
+	default 10
+	help
+	  Time in seconds the driver waits for the first packet in RX mode when a
+	  finite packet count is requested. The radio is disabled if it elapses.
+
+source "Kconfig.zephyr"

@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: MIT
+
+mainmenu "CS reflector tag"
+
+rsource "../common/libs/Kconfig"
+
+config CS_REFLECTOR_TAG_STATS_INTERVAL_S
+	int "Counter log interval in seconds"
+	range 1 3600
+	default 5
+
+source "Kconfig.zephyr"

@@ -1,0 +1,49 @@
+# clangd configuration for nRF Connect SDK (Zephyr, arm-zephyr-eabi-gcc)
+#
+# Build first so the compile database exists:
+#   west build -b <board> --sysbuild
+# The application's database is generated at
+# build/cs_reflector_tag/cs_reflector_tag/ when using sysbuild.
+
+CompileFlags:
+    CompilationDatabase: build/cs_reflector_tag/
+  Add:
+    - --target=arm-none-eabi
+    - -mcpu=cortex-m33
+    - -mthumb
+    - -Wno-unknown-warning-option
+    - -Wno-unused-command-line-argument
+    - -Wno-gnu-variable-sized-type-not-at-end
+  Remove:
+    # GCC-only flags that clang does not understand
+    - -fno-reorder-functions
+    - -fno-defer-pop
+    - -fno-printf-return-value
+    - -fno-freestanding
+    - -fmacro-prefix-map=*
+    - -fdiagnostics-color=*
+    - -mfp16-format=*
+    - -mtp=*
+    - -mabi=*
+    - -specs=*
+    - --param=*
+    - -Werror=*
+    - -gdwarf-*
+
+Diagnostics:
+  # Zephyr headers trigger these under clang; they are noise for GCC builds
+  Suppress:
+    - unknown_attribute_ignored
+  UnusedIncludes: None
+  MissingIncludes: None
+
+Index:
+  Background: Build
+
+InlayHints:
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
+
+Hover:
+  ShowAKA: true

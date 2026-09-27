@@ -1,0 +1,20 @@
+/* SPDX-License-Identifier: MIT */
+/* Radio test build (-DFILE_SUFFIX=radio_test, used instead of app.overlay):
+ * protocol frames on uart30, the DK's second virtual COM port, so the build
+ * needs no USB device controller. Logs stay on uart20.
+ */
+/ {
+	chosen {
+		app,host-link-uart = &uart30;
+	};
+};
+
+&uart20 {
+	current-speed = <921600>;
+};
+
+&uart30 {
+	status = "okay";
+	current-speed = <921600>;
+	hw-flow-control;
+};
