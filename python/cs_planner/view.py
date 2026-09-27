@@ -760,6 +760,14 @@ class PlannerWidget(W.QWidget):
                 control = W.QComboBox()
                 for value, label in choices[name]:
                     control.addItem(label, value)
+                if name == "gap_role":
+                    peripheral_index = control.findData(1)
+                    control.model().item(peripheral_index).setEnabled(False)
+                    control.setItemData(
+                        peripheral_index,
+                        "Peripheral is retained for saved configurations but cannot be selected here.",
+                        QtCore.Qt.ItemDataRole.ToolTipRole,
+                    )
                 control.currentIndexChanged.connect(self.host_edited)
             elif name == "preferred_peer_antenna":
                 control = PeerAntennaEditor()

@@ -36,6 +36,13 @@ class GeneralView(W.QWidget):
         self.gap_role = W.QComboBox()
         self.gap_role.addItem("Central", CENTRAL)
         self.gap_role.addItem("Peripheral", 1)
+        peripheral_index = self.gap_role.findData(1)
+        self.gap_role.model().item(peripheral_index).setEnabled(False)
+        self.gap_role.setItemData(
+            peripheral_index,
+            "Peripheral is retained for saved configurations but cannot be selected here.",
+            QtCore.Qt.ItemDataRole.ToolTipRole,
+        )
         self.gap_role.setToolTip(GENERAL_CONTROL_HELP["gap_role"])
         self.gap_role.currentIndexChanged.connect(self.gap_role_edited)
         self.patterns = W.QPlainTextEdit()
