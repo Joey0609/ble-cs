@@ -17,8 +17,12 @@ is USB CDC ACM on the DK, such as the nRF54LM20 DK. A debug serial connection
 may also work for slower configurations, but has not been tested.
 
 Hostless operation stores the configuration in firmware flash at build time.
-The PC software can still receive reports for visualization and session
-recording, but it does not configure or control the hostless firmware.
+The PC software can still receive reports and logs for visualization and
+session recording, but it does not configure or control the hostless firmware.
+The initiator connects to a reflector whose advertised name starts with one of
+its name patterns. The default hostless initiator only matches the Tag's
+`CSTag` prefix, so pairing it with `cs_hostless_reflector` needs a planner
+export whose name patterns match `CS Hostless Reflector`.
 
 ## Shared firmware libraries
 
@@ -38,8 +42,10 @@ The `ble-channel-sounding` PC software supports the experiment workflow:
 - Generate and visualize configurations, and save or load them for reuse.
 - Check configuration time budgets and explain parameters with reference to
   Bluetooth Core Specification version 6.3.
-- Scan for reflectors and help establish a complete ranging link between an
-  initiator and reflector.
+- Scan for reflectors whose advertised name matches the configured peripheral
+  prefixes, and help establish a complete ranging link with the client as CS
+  initiator and GAP central. The CS role is fixed to Initiator and the
+  Peripheral GAP role cannot be selected in the desktop app.
 - Receive negotiated connection parameters, the completed CS configuration,
   and enabled procedure parameters from the controller.
 - Show controller status and capabilities.
@@ -59,8 +65,8 @@ and starting the desktop app.
 
 | Project | Purpose | Documentation |
 | --- | --- | --- |
-| `cs_client` | USB-hosted Bluetooth CS client. The desktop host configures it and starts initiator or reflector operation. | [cs_client/README.md](cs_client/README.md) |
-| `cs_hostless_initiator` | Standalone Bluetooth CS initiator. Scans for and connects to a reflector; streams reports over USB CDC without accepting host commands. | [cs_hostless_initiator/README.md](cs_hostless_initiator/README.md) |
+| `cs_client` | USB-hosted Bluetooth CS client. The desktop host configures and starts it; the desktop app runs it as CS initiator and GAP central, although the firmware also supports the reflector role. | [cs_client/README.md](cs_client/README.md) |
+| `cs_hostless_initiator` | Standalone Bluetooth CS initiator. Scans for and connects to a reflector matching its name patterns; streams reports and logs over USB CDC without accepting host commands. | [cs_hostless_initiator/README.md](cs_hostless_initiator/README.md) |
 | `cs_hostless_reflector` | Standalone Bluetooth CS reflector for the nRF54LM20 DK, nRF54L15 DK, and nRF54L15 Tag. | [cs_hostless_reflector/README.md](cs_hostless_reflector/README.md) |
 | `cs_reflector_tag` | Connected nRF54L15 Tag reflector using its two switched antennas. | [cs_reflector_tag/README.md](cs_reflector_tag/README.md) |
 | `cs_radio_test_client` | Standalone radio-test host-link firmware. **Work in progress; disabled for deployment.** | [cs_radio_test_client/README.md](cs_radio_test_client/README.md) |
@@ -68,13 +74,14 @@ and starting the desktop app.
 | `python/ble_channel_sounding` | Desktop configuration, live CS results, logs and session recording application (`ble-channel-sounding`). | [Getting Started](python/ble_channel_sounding/GETTING_STARTED.md), [reference](python/ble_channel_sounding/README.md) |
 | `python/ble_channel_sounding_planner` | Standalone CS planner frontend (`ble-channel-sounding-planner`) and C configuration export support. | [python/ble_channel_sounding_planner/README.md](python/ble_channel_sounding_planner/README.md) |
 | `common/libs` | Shared protocol, configuration, host link, CS roles, logging and radio-test support libraries. | [Protocol](common/libs/cs_protocol/README.md), [CS configuration](common/libs/cs_utils/README.md), [host link](common/libs/host_link/README.md), [logging](common/libs/app_log/README.md), [radio-test helpers](common/libs/radio_test_utils/README.md) |
-| `tests` | Firmware test applications and native C tests for shared libraries. | [Initiator](tests/cs_initiator_test/README.md), [reflector](tests/cs_reflector_test/README.md), [radio test](tests/radio_test/src/README.md), [USB ACM rate test](tests/usb_acm_rate_test/README.md) |
+| `tests` | Firmware test applications, and native C tests for shared libraries run with each directory's `run.sh` (`app_log`, `cs_generated_config`, `cs_roles`, `cs_utils`, `host_link`; `cs_utils` needs `ZEPHYR_BASE`). | [Initiator](tests/cs_initiator_test/README.md), [reflector](tests/cs_reflector_test/README.md), [radio test](tests/radio_test/src/README.md), [USB ACM rate test](tests/usb_acm_rate_test/README.md), [native test commands](AGENTS.md#native-c-tests) |
+| `scripts` | Lab scripts: GNU Radio flowgraphs for a B205mini radio-test transmitter and 2403 MHz spectrum capture, and a MATLAB helper that organizes exported captures by CS procedure. | [GNU Radio](scripts/gnu-radio/README.md) |
 
 ## Development kits
 
 | Kit | Projects and role | Host connection / output |
 | --- | --- | --- |
-| nRF54LM20 DK (`nrf54lm20dk/nrf54lm20b/cpuapp`) | Primary board for `cs_client`, `cs_hostless_initiator`, and `cs_hostless_reflector`. Use one as the hosted client or hostless initiator and a second as a reflector when needed. | `cs_client` uses native USB CDC ACM for the host protocol. Debug logs use the DK debug UART. The hostless initiator sends reports over USB CDC ACM. |
+| nRF54LM20 DK (`nrf54lm20dk/nrf54lm20b/cpuapp`) | Primary board for `cs_client`, `cs_hostless_initiator`, and `cs_hostless_reflector`. Use one as the hosted client or hostless initiator and a second as a reflector when needed. | `cs_client` uses native USB CDC ACM for the host protocol. Debug logs use the DK debug UART. The hostless initiator sends reports and logs over USB CDC ACM; its logs also go to the debug UART. |
 | nRF54L15 DK (`nrf54l15dk/nrf54l15/cpuapp`) | Supported hostless reflector board; one CS antenna. | Debug UART at 921600 baud. |
 | nRF54L15 Tag (`nrf54l15tag/nrf54l15/cpuapp`) | Two-antenna reflector target for `cs_reflector_tag`; the hostless reflector also has a Tag build. | RTT over an external SWD probe for logs; no native USB or debug UART bridge. |
 
