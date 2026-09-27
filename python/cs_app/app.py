@@ -40,7 +40,7 @@ from .report_log import ERROR, INFO, WARNING
 from .session_history import HostMessage, normalize_host_level
 from .recorder import update_description
 
-APP_ICON = Path(__file__).resolve().parent / "logo" / "senswear-logo.png"
+APP_ICON = Path(__file__).resolve().parent / "assets" / "logo" / "senswear-logo.png"
 
 
 def link_state_name(state):
