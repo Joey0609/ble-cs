@@ -94,7 +94,7 @@ ATT MTU are cached and resent when the host opens USB.
 ## Log output
 
 The log (`common/libs/app_log`) goes to the debug UART and, as `LOG_MESSAGE` frames, to
-USB CDC, where `cs-app` in hostless mode shows it with the reports. The planner export
+USB CDC, where `ble-channel-sounding` in hostless mode shows it with the reports. The planner export
 sets both levels (`cs_generated_config_log()`), applied at boot before Bluetooth starts;
 without an export they are info on the UART and warning on USB.
 

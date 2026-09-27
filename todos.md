@@ -44,7 +44,7 @@ The `host_link` work below is the rest of it. Verifying that on a real link does
 - [ ] Exercise runtime logging at debug level on both consumers during a four-path Mode 3 run;
   record the drop count and confirm no procedure aborts or RAS data loss (§2.7 step 7).
 - [x] Verify Tag console over RTT does not block with no viewer attached. The hostless
-  initiator's log now reaches `cs-app` at the configured level (2026-09-23, `protocol_level`
+  initiator's log now reaches `ble-channel-sounding` at the configured level (2026-09-23, `protocol_level`
   raised to INF in the planner export).
 - [ ] Two open RAS loss faults (§3.3). The unexplained Tag reboot recorded here is closed
   (§15.5): it was a reflash into a build without the board conf, and the Tag has not reset on
@@ -77,14 +77,14 @@ The `host_link` work below is the rest of it. Verifying that on a real link does
 
 One flash unblocks all of these; none of them can run on the hostless pair.
 
-- [ ] Drive T_PM through `SET_T_PM` at 20 and 40 µs over the host link from `cs-app`, and from
+- [ ] Drive T_PM through `SET_T_PM` at 20 and 40 µs over the host link from `ble-channel-sounding`, and from
   a planner hostless export; then 10 µs again after a 40 µs run **without reflashing** (§10
   item 4). The no-reflash half only works over the host link — a hostless export bakes T_PM
   into the image — and it is what shows CS Params Set is issued before every Create Config.
 - [x] Confirm the Controller tab reports ATT MTU 498 on a hosted link, and that a
   `cs_client`-to-`cs_client` link stays healthy when both ends request the exchange (§10 item 8).
 - [ ] Verify the §10 item 9 teardown on hardware once the firmware change above is written.
-- [ ] Run the full `cs-app` workflow against `cs_client`: connect, sync, apply,
+- [ ] Run the full `ble-channel-sounding` workflow against `cs_client`: connect, sync, apply,
   start/stop, recording and MAT conversion (§9 item 6, first bullet).
 - [ ] Exercise the hosted role pairs: `cs_client` initiator ↔ `cs_hostless_reflector`, and
   `cs_client` reflector ↔ `cs_hostless_initiator`.

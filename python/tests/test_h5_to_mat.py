@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 import h5py
 from scipy.io import loadmat
-from cs_app.h5_to_mat import convert
+from ble_channel_sounding.h5_to_mat import convert
 
 
 class MatTests(unittest.TestCase):
@@ -28,7 +28,7 @@ class MatTests(unittest.TestCase):
             self.assertEqual(data['description'][0, 0], 'e')
             with self.assertRaises(ValueError):
                 convert(source)
-            with patch('cs_app.h5_to_mat.MAT5_LIMIT', 1):
+            with patch('ble_channel_sounding.h5_to_mat.MAT5_LIMIT', 1):
                 with self.assertRaisesRegex(ValueError, '2 GB'):
                     convert(source, Path(directory) / 'too-large.mat')
             self.assertIn('raw', loadmat(convert(source, Path(directory) / 'raw.mat', include_raw=True)))

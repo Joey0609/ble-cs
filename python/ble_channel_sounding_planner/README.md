@@ -1,34 +1,34 @@
-# `cs_planner` — standalone CS timing and channel planner
+# `ble_channel_sounding_planner` — standalone CS timing and channel planner
 
 Desktop application (PyQt6 + PyQtGraph) that predicts a BLE Channel Sounding procedure
 offline: step structures, subevent packing, events, procedure limits and an example
-CSA #3a/#3b/#3c hop sequence. It is the planner of the `cs-app` Configuration tab
+CSA #3a/#3b/#3c hop sequence. It is the planner of the `ble-channel-sounding` Configuration tab
 ("CS Timing Explorer") as a window of its own, without a device connection.
 
-`cs_planner` is independent of `cs_app`: neither package imports the other
+`ble_channel_sounding_planner` is independent of `ble_channel_sounding`: neither package imports the other
 (`tests/test_cs_planner.py` enforces this). It reads and writes the same planner
 JSON schema (version 1), including `host_settings`, so files such as `../cs-plan.json`
 work in both. The reflector-data, preferred-T_PM and client-log settings are
 intentionally not exposed here; `peer_data`, `t_pm` or `log` keys in a file from
-`cs-app` are ignored and removed when the file is saved. Those settings remain
+`ble-channel-sounding` are ignored and removed when the file is saved. Those settings remain
 firmware-owned for standalone exports, so an export made here runs with the
-controller's own T_PM even when the plan asked `cs-app` for 20 or 40 µs.
+controller's own T_PM even when the plan asked `ble-channel-sounding` for 20 or 40 µs.
 
 ## Running
 
 From the `python` directory:
 
 ```sh
-python -m cs_planner                      # default scenario
-python -m cs_planner ../cs-plan.json      # open a planner file
-python -m cs_planner cs_generated_config.c  # open the plan embedded in a cs-app C export
+python -m ble_channel_sounding_planner                      # default scenario
+python -m ble_channel_sounding_planner ../cs-plan.json      # open a planner file
+python -m ble_channel_sounding_planner cs_generated_config.c  # open the plan embedded in a ble-channel-sounding C export
 ```
 
-After `pip install -e .` the same window starts with `cs-planner [file]`.
+After `pip install -e .` the same window starts with `ble-channel-sounding-planner [file]`.
 
 ## Window
 
-Same layout and behaviour as the `cs-app` planner:
+Same layout and behaviour as the `ble-channel-sounding` planner:
 
 - **Toolbar**: role (Initiator/Reflector config, saved as `configuration.role`), Open…
   (`.json` or exported `.c`), Save… (planner JSON with `host_settings`),
@@ -42,19 +42,19 @@ Same layout and behaviour as the `cs-app` planner:
   modes do not use (sub-mode main runs, RTT sequence and SNR control, PBR timing,
   antenna and IPT settings, the T_SW that IPT does not use, #3c fields with #3b, subevent
   spacing with one subevent, creation context for a reflector) are read-only and held at
-  their defaults; see the `cs_app` planner README.
+  their defaults; see the `ble_channel_sounding` planner README.
 - **Tooltips** on every setting wrap at half the window width.
 - **Help pane** below the settings: *About this tab* explains the current tab and links to its
   settings; *Setting details* shows the selected or hovered setting's tooltip, what it defines,
   where Core v6.3 defines it and the effect of a change. The texts are in `control_help.py`
-  (see the `cs_app` planner README).
+  (see the `ble_channel_sounding` planner README).
 - **Views**: 1 Connection, 2 Procedures, 3 Events & subevents, 4 Individual step,
   5 Channels. Click a block to drill down; the Procedure/Event/Subevent/Step selectors
   follow. Diagnostics with correction hints appear below the views.
 
-Differences from `cs-app`: no FAE view and no import of controller or host
+Differences from `ble-channel-sounding`: no FAE view and no import of controller or host
 configuration packets (both need a device link). The Bluetooth name, set in the
-cs-app General view, is on the Host tab here. Reflector data and runtime log
+ble-channel-sounding General view, is on the Host tab here. Reflector data and runtime log
 levels are omitted so firmware defaults or board-specific overrides remain in
 control.
 
@@ -67,7 +67,7 @@ prefixes, Bluetooth name, the configuration CRC the client reports, and the plan
 JSON embedded in a comment so the file can be reopened. A central (GAP role) needs 1–8
 prefixes. It does not emit `cs_generated_config_log()` or a peer-data setter: both
 remain available to firmware defaults or overrides. `export_c.py` encodes the host
-configuration packets itself (`struct`/`zlib`) instead of importing `cs_app.protocol`,
+configuration packets itself (`struct`/`zlib`) instead of importing `ble_channel_sounding.protocol`,
 and `tests/test_cs_planner_export.py` checks the standalone CRC and override omission.
 
 ## Layout
@@ -85,7 +85,7 @@ and `tests/test_cs_planner_export.py` checks the standalone CRC and override omi
 
 ```python
 from dataclasses import replace
-from cs_planner import Scenario, build_schedule
+from ble_channel_sounding_planner import Scenario, build_schedule
 
 s = Scenario(target_steps=20)
 print(build_schedule(s).duration)                  # 32636 µs (default A1:B1 antenna)
@@ -105,7 +105,7 @@ local controller's capability bitmask, the peer controller's capability bitmask/
 mandatory or conditional support, and, for IPT, the reflector's T_IP2_IPT capability.
 T_SW and T_SW_IPT remain 2 µs as planner assumptions because their values are
 device-specific. The formulas and limitations are the same as those described in
-`cs_app/planner/README.md` ("Timing model and scope"). In short: channel sequences
+`ble_channel_sounding/planner/README.md` ("Timing model and scope"). In short: channel sequences
 are a seeded example, not the DRBG-determined sequence; mode cadence is a fixed
 illustration within the configured range; ACL activity and event offset are
 assumptions. The two copies are maintained separately.

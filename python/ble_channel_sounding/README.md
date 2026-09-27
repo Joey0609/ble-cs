@@ -2,15 +2,15 @@
 
 For the user-focused install and first-run walkthrough, see [Getting Started](GETTING_STARTED.md). The **Help** action at the right end of the session toolbar (or **Help → Help topics…**) opens the in-app help: an overview of the application's purpose and capabilities, followed by task-based topics (`views/help_dialog.py`). This document is the detailed reference.
 
-Install from the repository root; run `cs-app` for the integrated host or `cs-planner` for the standalone planner:
+Install from the repository root; run `ble-channel-sounding` for the integrated host or `ble-channel-sounding-planner` for the standalone planner:
 
 ```sh
 .venv/bin/python -m pip install -e ./python
-cs-app
+ble-channel-sounding
 # Preselect the simulator port:
-cs-app --simulate
+ble-channel-sounding --simulate
 # Simulator that replays measurement packets from an existing capture:
-cs-app --simulate run.h5
+ble-channel-sounding --simulate run.h5
 ```
 
 The port list always ends with **Simulator — in-memory client**, so no flag is
@@ -269,7 +269,7 @@ history is discarded on application exit unless it is saved.
   stay rectangular for NumPy and MATLAB.
 
 The session toolbar's **Open capture…** loads a recording (or a JSON-lines/raw-frame
-capture) into Results and the Session tab, and `cs-app --simulate run.h5` replays one
+capture) into Results and the Session tab, and `ble-channel-sounding --simulate run.h5` replays one
 through the simulator.
 
 The Recording group converts recordings to MATLAB files next to the source:

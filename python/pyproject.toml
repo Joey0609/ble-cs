@@ -3,10 +3,10 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cs-app"
+name = "ble-channel-sounding"
 version = "0.1.0"
 description = "Host application for BLE Channel Sounding clients: configuration, results, FAE and run recording"
-readme = "cs_app/GETTING_STARTED.md"
+readme = "ble_channel_sounding/GETTING_STARTED.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = [
@@ -22,15 +22,15 @@ dependencies = [
 mat73 = ["hdf5storage"]
 
 [project.scripts]
-cs-app = "cs_app.app:main"
-cs-planner = "cs_planner.__main__:main"
+ble-channel-sounding = "ble_channel_sounding.app:main"
+ble-channel-sounding-planner = "ble_channel_sounding_planner.__main__:main"
 
 [project.urls]
 Source = "https://github.com/Sens-Wear/ble-cs"
-Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/GETTING_STARTED.md"
+Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/GETTING_STARTED.md"
 
 [tool.setuptools.packages.find]
-include = ["cs_app*", "cs_planner*"]
+include = ["ble_channel_sounding*", "ble_channel_sounding_planner*"]
 
 [tool.setuptools.package-data]
-cs_app = ["GETTING_STARTED.md", "GETTING_STARTED.html", "assets/logo/senswear-logo.png", "assets/help/*.png"]
+ble_channel_sounding = ["GETTING_STARTED.md", "GETTING_STARTED.html", "assets/logo/senswear-logo.png", "assets/help/*.png"]

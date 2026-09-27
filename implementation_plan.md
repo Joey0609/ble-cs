@@ -11,7 +11,7 @@ is in the code, and the design they described now lives in the READMEs:
 | cs_utils configuration records, setters, IPT | `common/libs/cs_utils/README.md` |
 | Client builds, STOP and interruption rules | `cs_client/README.md` |
 | Hostless applications, peer selection, default procedure timing | `cs_hostless_initiator/README.md`, `cs_hostless_reflector/README.md`, `cs_reflector_tag/README.md` |
-| Python application, views, sync rules, HDF5/MAT format | `python/README.md`, `python/cs_app/README.md`, `python/cs_app/planner/README.md` |
+| Python application, views, sync rules, HDF5/MAT format | `python/README.md`, `python/ble_channel_sounding/README.md`, `python/ble_channel_sounding/planner/README.md` |
 | Measurement theory, including IPT | `docs/*.tex` |
 
 `update_plan.md` remains in git history. `cs_roles_update_plan.md` was never committed.
@@ -23,7 +23,7 @@ Progress: `[x]` done, `[ ]` open.
 - Protocol version `0x000B` is used by both C and Python (`CONNECTION_PARAMETERS`, §1.3;
   `0x0009` added `SET_T_PM`; `0x0008` added `SET_LOG_CONFIG`, §2.4), with
   `CS_PROCEDURES_COMPLETE` for runs that end on their own (`0x0006`) and reflector data
-  (`§1.3`). The Python logging and peer-data protocol work is complete, so `cs-app` can
+  (`§1.3`). The Python logging and peer-data protocol work is complete, so `ble-channel-sounding` can
   connect to the current `cs_client` firmware. Hostless mode remains supported.
 - Firmware: `host_link`, `cs_roles` (role thread, link layer, streamed subevents, STOP/RAS/
   completion rules), both `cs_client` builds, `cs_hostless_initiator` (reports on a report-only
@@ -31,7 +31,7 @@ Progress: `[x]` done, `[ ]` open.
   (`cs_reflector_tag` was fixed on 2026-09-18: library paths from before the move to the repository
   root, and a missing `<zephyr/logging/log_ctrl.h>` include. It runs on `cs_roles` since
   2026-09-20, §3.1, so every application shares the same link and role state machine.)
-- Python: `cs_app` is complete against the simulator, including the hostless CS mode that
+- Python: `ble_channel_sounding` is complete against the simulator, including the hostless CS mode that
   receives reports from a hostless initiator. Planner timing defaults, peer data, runtime
   logging, Radio Test views, session-history/save/description support, host/peer diagnostics,
   simulator command parity and the mode-3 performance check are implemented with tests and
@@ -171,7 +171,7 @@ encryption → remote capabilities → FAE → config create → config complete
   no IPT.
 - `cs_client` reflector role, `cs_hostless_reflector`, `cs_reflector_tag`: no change.
 
-### 1.6 Python (`python/cs_app`)
+### 1.6 Python (`python/ble_channel_sounding`)
 
 - **Planner** (`planner/bridge.py`, `planner/model.py`, `views/cs_view.py`):
   - `host_settings.peer_data` (0 RAS real-time, 1 none) in `HOST_DEFAULTS`, saved in plan files.
@@ -249,7 +249,7 @@ encryption → remote capabilities → FAE → config create → config complete
 Update `common/libs/cs_utils/README.md` (IPT section), `common/libs/cs_protocol/README.md`
 (messages, CRC order, rules, version), `common/libs/host_link/README.md`, `cs_client/README.md`,
 `cs_hostless_initiator/README.md` (reflector data, procedure interval, `PEER_IPT` halt),
-`python/cs_app/planner/README.md` (JSON key, control, validation) and `python/README.md`.
+`python/ble_channel_sounding/planner/README.md` (JSON key, control, validation) and `python/README.md`.
 
 ### 1.9 Steps
 
@@ -351,7 +351,7 @@ Update `common/libs/cs_utils/README.md` (IPT section), `common/libs/cs_protocol/
        it. 12000 us restores 74. Mode 3 at 74 steps needs about 14.8 ms, so that run needs a
        larger reservation again.
    - [ ] Same positions, three runs: IPT + `NONE`, IPT + RAS, no IPT + RAS. Compare distances and
-     spread in `cs-app`.
+     spread in `ble-channel-sounding`.
    - [ ] A reflector without IPT support ends in `PEER_IPT_UNSUPPORTED` with no reconnect loop.
    - [ ] Mode 3 with `NONE`: PBR works; RTT is shown as unavailable.
    - [ ] The Tag's unsubscribed RAS responder does not affect procedures.
@@ -364,8 +364,8 @@ The routing since §2 is in `common/libs/app_log/README.md`.
 
 | Producer | API | Consumer |
 | --- | --- | --- |
-| Libraries and applications (`host_link.c`, `cs_role_*.c`, `cs_client/src/*`, both hostless apps, `cs_reflector_tag`) | Zephyr `LOG_INF/WRN/ERR` (deferred mode) | Zephyr log backend, fixed at build time: the debug UART (`cs_client`: uart20, 921600 baud; hostless apps on the DK: board console UART) or RTT (`cs_reflector_tag`, `cs_hostless_reflector` on the Tag). Read in a terminal or RTT viewer; `cs-app` never sees it |
-| Client state changes, refused/failed commands, parse errors, overruns (`host_link.c`, `host_link_reports.c`, `cs_session.c`, `client_state.c`) | `HOST_LINK_LOG_INF/WRN/ERR` (`host_link_reports.h`): Zephyr `LOG_*` **and** `host_link_report_logf()` | Debug UART as above, plus a `LOG_MESSAGE` frame with a `<inf>`/`<wrn>`/`<err>` prefix. In `cs-app`: *Session log* view (`report_log.py`, category "client log", level from the prefix), Results *Log* tab, HDF5 `/log` and MAT. Dropped without a host session |
+| Libraries and applications (`host_link.c`, `cs_role_*.c`, `cs_client/src/*`, both hostless apps, `cs_reflector_tag`) | Zephyr `LOG_INF/WRN/ERR` (deferred mode) | Zephyr log backend, fixed at build time: the debug UART (`cs_client`: uart20, 921600 baud; hostless apps on the DK: board console UART) or RTT (`cs_reflector_tag`, `cs_hostless_reflector` on the Tag). Read in a terminal or RTT viewer; `ble-channel-sounding` never sees it |
+| Client state changes, refused/failed commands, parse errors, overruns (`host_link.c`, `host_link_reports.c`, `cs_session.c`, `client_state.c`) | `HOST_LINK_LOG_INF/WRN/ERR` (`host_link_reports.h`): Zephyr `LOG_*` **and** `host_link_report_logf()` | Debug UART as above, plus a `LOG_MESSAGE` frame with a `<inf>`/`<wrn>`/`<err>` prefix. In `ble-channel-sounding`: *Session log* view (`report_log.py`, category "client log", level from the prefix), Results *Log* tab, HDF5 `/log` and MAT. Dropped without a host session |
 | Queue-full drop notices (`host_link.c`, `cs_role_core.c`, `cs_role_events.c`, `cs_client/src/peer_discovery.c`) | `printk` | Console only, bypassing the log subsystem |
 | Record dumps (`cs_capabilities_print()`, `cs_*_config_print()`, `cs_fae_table_print()`, `cs_step_print()`, `cs_subevent_header_print()`) | Caller buffer | Whatever the caller logs it to (`cs_reflector_tag`: `LOG_INF("%s")`; test apps) |
 | `cs_hostless_initiator` | Zephyr `LOG_*` only | Debug UART only. Its USB CDC port carries reports but no `LOG_MESSAGE` |
@@ -438,12 +438,12 @@ Decisions:
 - **Hostless**: `cs_generated_config_log(struct app_log_config *)` in `cs_generated_config.h`. The
   weak default fills the defaults and returns `-ENOENT`. The hostless apps and `cs_reflector_tag`
   call it before starting Bluetooth. `cs_hostless_initiator` registers the protocol consumer on
-  its report-only USB CDC port, so its log can reach `cs-app` in hostless mode. The reflector
+  its report-only USB CDC port, so its log can reach `ble-channel-sounding` in hostless mode. The reflector
   images have no protocol link and ignore `protocol_level`.
 - **Radio test build**: same `SET_LOG_CONFIG` handling. There is no hostless radio test, so it needs
   no export.
 
-### 2.5 Python (`python/cs_app`)
+### 2.5 Python (`python/ble_channel_sounding`)
 
 - **General toolbar**: *Console* and *Host* level selectors (Off, Error,
   Warning, Info, Debug), used in every operation mode. Saved in plan files
@@ -471,7 +471,7 @@ Decisions:
   `test_recorder.py` (`/config` log configuration).
 - Builds: every application with and without an export; no compiler warnings.
 - Documentation: new `common/libs/app_log/README.md` (the §2.1 table updated to the new routing);
-  `cs_protocol`, `host_link`, `cs_client`, hostless and Tag READMEs; `python/cs_app/README.md`.
+  `cs_protocol`, `host_link`, `cs_client`, hostless and Tag READMEs; `python/ble_channel_sounding/README.md`.
 
 ### 2.7 Steps
 
@@ -509,21 +509,21 @@ Decided while implementing the firmware (2026-09-18):
 6. Documentation (§2.6).
    - [x] Firmware: new `common/libs/app_log/README.md`; `cs_protocol`, `host_link`, `cs_client`,
      both hostless and Tag READMEs.
-   - [x] `python/cs_app/README.md`.
+   - [x] `python/ble_channel_sounding/README.md`.
 7. [ ] Hardware:
    - [ ] Debug level on both consumers during a running initiator (mode 3, 4 paths): no
      procedure aborts, no RAS data lost; record the drop count.
    - [ ] Console over RTT on the Tag with no viewer attached does not block.
-   - [x] Hostless initiator log appears in `cs-app` hostless mode at the exported level
+   - [x] Hostless initiator log appears in `ble-channel-sounding` hostless mode at the exported level
      (2026-09-23). It did not before: `cs_generated_config_log()` in
      `configs/cs_generated_config_initiator.c` set `protocol_level` to `APP_LOG_LEVEL_WRN`, while
      `log_counters()` in `cs_hostless_initiator/src/main.c` logs the periodic counters at INF, so
-     the host saw no `LOG_MESSAGE` at all and `cs-app` wrote no `/log` table
+     the host saw no `LOG_MESSAGE` at all and `ble-channel-sounding` wrote no `/log` table
      (`session_hostless_cs_23_Sep_2026_13_15_26.h5`). With `protocol_level` INF the counters,
      state changes and the configuration line arrive and `/log` fills
      (`session_hostless_cs_23_Sep_2026_13_33_17.h5`, 24 rows). The per-subevent line at
      `main.c` stays DBG and is still dropped, which is what keeps the link usable. The file is
-     the planner's C export, so the level reverts on the next export unless the `cs-app` host
+     the planner's C export, so the level reverts on the next export unless the `ble-channel-sounding` host
      log level is Info.
 
 ## 3. Open items carried over from the previous plans
@@ -648,7 +648,7 @@ Tag (§3.1, 2026-09-20), which restarts the link itself:
     first failure, and what the trigger was.
   - This is the same mechanism as the minimum-RAS-procedure-interval item below; treat them
     together, and try `RD_BUFFERS_PER_CONN` above 1 as part of it.
-  - A second, separate loss mode (2026-09-23, from the initiator side in `cs-app`): sporadic
+  - A second, separate loss mode (2026-09-23, from the initiator side in `ble-channel-sounding`): sporadic
     `RAS_DATA_LOST` at a low steady rate, with recovery every time. Two recordings at
     `RD_BUFFERS_PER_CONN=4` and no Tag allocation failure at all:
     `session_hostless_cs_23_Sep_2026_13_15_26.h5` lost about 19 of 1708 procedures (1.1%,
@@ -730,13 +730,13 @@ Radio test build:
 - [ ] uart30 as the DK's second virtual COM port, with hardware flow control at 921600 baud.
 
 Host application:
-- [ ] `cs-app` end to end against `cs_client` (connect, sync, apply, start/stop, recording, MAT
+- [ ] `ble-channel-sounding` end to end against `cs_client` (connect, sync, apply, start/stop, recording, MAT
   conversion) and in hostless mode against `cs_hostless_initiator`.
 
 ## 4. Planner help views
 
 Today each planner setting explains itself only through a one-line tooltip (`CS_CONTROL_HELP`,
-`SCHEDULE_CONTROL_HELP` in `python/cs_app/views/cs_view.py` and `python/cs_planner/view.py`).
+`SCHEDULE_CONTROL_HELP` in `python/ble_channel_sounding/views/cs_view.py` and `python/ble_channel_sounding_planner/view.py`).
 
 - [x] **Help view per settings tab.** Next to the settings forms (Connection, CS modes, Schedule,
   Channels, Host), add a help view that gives the general definitions for that tab: what the
@@ -751,9 +751,9 @@ Today each planner setting explains itself only through a one-line tooltip (`CS_
     steps per subevent, timeouts, validation notes) and which other controls it enables or holds.
   Selecting a control, or hovering it, shows its entry. Keep the text in one place so the tooltip
   stays the short form of the detailed entry.
-- [x] Apply to both `cs_app` and the standalone `cs_planner`; GUI tests that every control has a
-  tooltip and a detailed entry; describe the views in `python/cs_app/planner/README.md` and
-  `python/cs_planner/README.md`.
+- [x] Apply to both `ble_channel_sounding` and the standalone `ble_channel_sounding_planner`; GUI tests that every control has a
+  tooltip and a detailed entry; describe the views in `python/ble_channel_sounding/planner/README.md` and
+  `python/ble_channel_sounding_planner/README.md`.
 
 ## 5. Planner: separate client settings from example values
 
@@ -783,7 +783,7 @@ seed" in Channels). A user cannot tell from the layout what reaches the client.
 
 ### 5.2 Example panels
 
-Confirmed not used by `planner/bridge.py`, `planner/export_c.py` or `cs_planner/export_c.py`
+Confirmed not used by `planner/bridge.py`, `planner/export_c.py` or `ble_channel_sounding_planner/export_c.py`
 (`EXAMPLE_FIELDS` in `model.py`).
 
 | Tab | Controls in the panel |
@@ -810,7 +810,7 @@ control **and** resets it to the default, on every tab and example panel:
 | IPT requested | T_SW | Done (`inactive_fields`) |
 | CSA #3b | #3c shape, #3c jump | Done (`inactive_fields`) |
 | Subevents / event = 1 | Subevent spacing (0, as validation requires) | Done (`inactive_fields`) |
-| Reflector operation mode | Creation context | Done (`unused_host_fields`, `cs_app` only) |
+| Reflector operation mode | Creation context | Done (`unused_host_fields`, `ble_channel_sounding` only) |
 | Peripheral GAP role | Peripheral prefixes | Disabled, text kept in CS setup (kept on purpose: the value is preserved, and it is ignored for a peripheral) |
 
 - The reflector as configuration creator (decided 2026-09-18) moved to future work (§11,
@@ -827,16 +827,16 @@ control **and** resets it to the default, on every tab and example panel:
 
 ### 5.5 Steps
 
-1. [x] Confirm the mandatory values (§5.4) and change the `Scenario()` defaults in `cs_app` and
-   `cs_planner`.
+1. [x] Confirm the mandatory values (§5.4) and change the `Scenario()` defaults in `ble_channel_sounding` and
+   `ble_channel_sounding_planner`.
 2. [x] Example panels on each tab (§5.2); update tooltips and tab notes.
 3. [x] `set_locked` / `set_readonly` keep the example panels editable.
 4. [x] Relevance rules with reset to defaults (§5.3), in `model.py` and the view.
-5. [x] Apply 2–4 to the standalone `cs_planner` too.
+5. [x] Apply 2–4 to the standalone `ble_channel_sounding_planner` too.
 6. [x] Tests: GUI tests that look up controls by tab (`test_planner_gui.py`, `test_cs_planner_gui.py`
    tab count), a test that every example key is absent from the bridge packet and C export,
    relevance/reset tests per rule, locked/read-only editability, loading an old plan file.
-7. [x] Documentation: `python/cs_app/planner/README.md`, `python/cs_planner/README.md`.
+7. [x] Documentation: `python/ble_channel_sounding/planner/README.md`, `python/ble_channel_sounding_planner/README.md`.
 
 ## 6. Configuration-view workspace chrome
 
@@ -884,7 +884,7 @@ CRC behavior, validation and Results behavior remain unchanged.
 ## 7. Results history view
 
 Commit `4be2741` replaced the Steps, Subevents, Reports and Log tabs of the Results view with one
-*History* tab (`python/cs_app/views/results_view.py`, `draw_history`).
+*History* tab (`python/ble_channel_sounding/views/results_view.py`, `draw_history`).
 
 - [x] Timeline of every packet in the store, sent and received: host commands are added through
   `packet_sent` in `app.py`, and HDF5 captures replay `raw/frames` in both directions
@@ -899,7 +899,7 @@ Commit `4be2741` replaced the Steps, Subevents, Reports and Log tabs of the Resu
   detail is shown for the selected History row.
 - [x] Tests: `ResultStore` direction and timestamp, `recorder.load(with_direction=True)`, History
   filtering (search, type, procedure range) and step children in GUI tests.
-- [x] Documentation: the Results tab list is documented in `python/cs_app/README.md`.
+- [x] Documentation: the Results tab list is documented in `python/ble_channel_sounding/README.md`.
 
 ### 7.1 Session history (decided 2026-09-18)
 
@@ -979,7 +979,7 @@ Results and History. Today `session_started` is emitted, and Results cleared, be
   open that file instead.
 - **Format.** The same HDF5 recording format as `RunRecorder` (`format_version` 1), built by
   replaying the history frames: `raw/frames` in both directions plus the decoded tables, so
-  *Open capture…*, `cs-app --simulate` and MAT conversion work unchanged. New root attributes:
+  *Open capture…*, `ble-channel-sounding --simulate` and MAT conversion work unchanged. New root attributes:
   `source = "session"` (recordings get `"run"`), `history_truncated` and the host time of the
   first kept frame when segments were dropped (§7.1).
 - **Configuration.** `/config` holds the session's configuration, as in a recording. The planner
@@ -1012,7 +1012,7 @@ Results and History. Today `session_started` is emitted, and Results cleared, be
   `description_updated` (UTC ISO time). `RunRecorder` has closed the file when the dialog
   appears, so the description is written by reopening it in append mode (`h5py.File(path, "a")`).
   A write failure is shown and the text stays in the dialog for another try.
-- **Replay.** Opening a recording (*Open capture…*, `cs-app --simulate`) shows the description
+- **Replay.** Opening a recording (*Open capture…*, `ble-channel-sounding --simulate`) shows the description
   above the Results tabs, elided to one line with the full text in a tooltip, and in the History
   tab header.
 - **MAT.** `h5_to_mat.convert()` writes a top-level `description` variable as a `char` row
@@ -1051,7 +1051,7 @@ Results and History. Today `session_started` is emitted, and Results cleared, be
    tests for write/reread and MAT conversion.
    - [x] Add the non-modal end-of-run dialog and the description field in *Save session…*;
      add skip/close-while-open coverage.
-9. [x] Documentation: `python/cs_app/README.md` covers the Results tabs, session history, disk
+9. [x] Documentation: `python/ble_channel_sounding/README.md` covers the Results tabs, session history, disk
    use, Save session, current run-description behavior, and HDF5/MAT metadata (`source`,
    `history_truncated`, `description`, `description_updated`, MAT `description`).
 10. [x] Host messages in the session history and in recordings (§7.6, steps there).
@@ -1077,7 +1077,7 @@ app closes or the log passes 200 lines. The history holds only link frames
   - Every `show_message`. `show_message` gains a `level` argument (default `info`); the callers
     that report failures (session history disabled, save failed, START refused, configuration not
     valid, transport errors) pass `warning` or `error`.
-  - `cs_app` Python `logging` records at WARNING and above, through a `logging.Handler` installed
+  - `ble_channel_sounding` Python `logging` records at WARNING and above, through a `logging.Handler` installed
     by the app. Source is the logger name. The handler must be thread-safe and must not log
     through `logging` itself (history write failures are reported through `history_error` only).
   - Source is `host` for app messages, the logger name for `logging` records.
@@ -1093,7 +1093,7 @@ app closes or the log passes 200 lines. The history holds only link frames
   (`text` and `source` as `char` rows), empty when absent.
 - **View.** History gets a *Host* type filter. Host rows show time, `host` in the direction
   column, level and text; warnings and errors are coloured as in the Session log and are never
-  hidden by the type filter. Opened captures and `cs-app --simulate` show them the same way.
+  hidden by the type filter. Opened captures and `ble-channel-sounding --simulate` show them the same way.
 
 Steps:
 
@@ -1107,7 +1107,7 @@ Steps:
 4. [x] MAT `host_log` struct array; test in `test_recorder.py`. `char` rows and a 1×0 variable
    when absent since 2026-09-19.
 5. [x] History *Host* filter and row rendering, over live history and captures; GUI test.
-6. [x] Documentation: `python/cs_app/README.md` session history and the HDF5 and MAT format
+6. [x] Documentation: `python/ble_channel_sounding/README.md` session history and the HDF5 and MAT format
    sections (`/host_log`, MAT `host_log`).
 
 ### 7.7 Peer console input (decided 2026-09-19)
@@ -1116,7 +1116,7 @@ Goal: the console of the other device (a reflector Tag, `cs_hostless_reflector`,
 that is not on the host link) is kept in the same session history, so a failing peer is visible
 next to the initiator's frames. Example: on 2026-09-19 the Tag logged `TEST FAIL remote CS
 capabilities` with HCI `0x2f` and disconnected (reason `0x16`) on every link, and none of it
-reached `cs-app`.
+reached `ble-channel-sounding`.
 
 - **Input.** An optional *Peer console* serial port and baud rate in the top configuration panel, saved with
   the host settings, not part of the client configuration or its CRC. It is opened with the
@@ -1140,7 +1140,7 @@ Steps:
    `app_log`/Zephyr timestamp prefix and warnings instead of errors since 2026-09-19.
 3. [x] Feed into the history, recordings and Session log as source `peer`; History *Peer* filter;
    tests for ordering with frames and for the saved `/host_log`.
-4. [x] Documentation: `python/cs_app/README.md` (Peer console, `source = "peer"`).
+4. [x] Documentation: `python/ble_channel_sounding/README.md` (Peer console, `source = "peer"`).
 
 ### 7.8 History in the Session tab (decided 2026-09-19)
 
@@ -1151,7 +1151,7 @@ over the session history file or an opened capture, §7.2). History moves into t
 replaces `SessionLogView`.
 
 - **Session means whatever is open.** The Session tab shows the live session while one runs or
-  after it ends (§7.1 lifetime), and an opened capture (*Open capture…*, `cs-app --simulate`) when
+  after it ends (§7.1 lifetime), and an opened capture (*Open capture…*, `ble-channel-sounding --simulate`) when
   one is loaded, through the same model (§7.2 "Same view over captures"). The tab says which one is
   shown (live session, or the capture's file name).
 - **All the data.** The timeline holds every record of the session in order: frames sent (tx),
@@ -1236,7 +1236,7 @@ Steps:
 4. [x] Session tab over an opened capture, with the source shown.
 5. [x] Tests: GUI tests for the moved view (live, after STOP, capture), detail pane per record
    kind; the `SessionLogView` tests became Session-view tests (`test_report_log.py`).
-6. [x] Documentation: `python/cs_app/README.md` (Session tab, Results tab list).
+6. [x] Documentation: `python/ble_channel_sounding/README.md` (Session tab, Results tab list).
 - Also fixed on the way: live session rows all showed "0.000 s" because `SessionHistory` had no
   `origin`; it is now the first record after the context (context rows show "—"). Host messages
   from before the first session are shown from the in-memory store.
@@ -1531,7 +1531,7 @@ Open, to settle before implementation:
 - Where it runs: a new operation mode of `cs_client` (host link, GUI-driven on both boards)
   or a hostless test pair. GUI control of T_PM points to `cs_client`.
 - How the reflector's step data reaches the host: its own `cs_client` session (each board
-  reports its own subevents; `cs-app` pairs them) or a GATT transfer to the initiator as in
+  reports its own subevents; `ble-channel-sounding` pairs them) or a GATT transfer to the initiator as in
   the sample.
 - Pairing without a connection: both sides need the same `drbg_nonce`, channels and start;
   how the two runs are aligned and how their subevents are matched (procedure counter,
@@ -1569,13 +1569,13 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      unavailable RTT.
    - [x] Record `/config` `peer_data`, `/reports/peer_data`, and MAT output.
    - [x] Add protocol, planner, simulator, results, recorder, session, controller, and export coverage.
-   - [x] Documentation: `python/cs_app/planner/README.md`, `python/README.md` (§1.8).
-   - Standalone `cs_planner` is intentionally excluded: it does not expose or serialize
+   - [x] Documentation: `python/ble_channel_sounding/planner/README.md`, `python/README.md` (§1.8).
+   - Standalone `ble_channel_sounding_planner` is intentionally excluded: it does not expose or serialize
      `peer_data`; its hostless export leaves reflector-data selection to the firmware default
      or a firmware override.
    - [x] Fixes from the firmware comparison (2026-09-18):
-     - [x] The connected `cs-app` export and CRC include the optional peer-data payload;
-       standalone `cs_planner` intentionally omits it so firmware can apply its own override.
+     - [x] The connected `ble-channel-sounding` export and CRC include the optional peer-data payload;
+       standalone `ble_channel_sounding_planner` intentionally omits it so firmware can apply its own override.
      - [x] Results take reflector data from the applied configuration
        (`ClientSession.applied_peer_data`, on every sync change) as well as from `CS_PEER_DATA`.
      - [x] Connecting to a running client: the session sends `GET_CONFIG` after a `RUNNING`
@@ -1594,9 +1594,9 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      - [x] Tests: shared vector `0x8252106B` (`ClientConfig` and connected export), standalone
        default-CRC/override omission, `GET_CONFIG` round trip with reflector data, `CS_PEER_DATA` timing, `PEER_IPT_UNSUPPORTED`,
        simulator `SET_PEER_DATA` rules, attaching to a running client, controller run failures.
-   - [x] The `cs-app` initiator export (alone or in a *both* export) writes
+   - [x] The `ble-channel-sounding` initiator export (alone or in a *both* export) writes
      `cs_initiator_config_set_peer_data(config, CS_CONFIG_PEER_DATA_NONE)`; the standalone
-     `cs_planner` export does not (decision below).
+     `ble_channel_sounding_planner` export does not (decision below).
    - [x] *CS modes → Reflector data* sits directly below *Inline PCT transfer (IPT)* (it was in
      the *Host* form, labelled "Peer data").
    - [x] Stale tests after the Results/Controller layout commits (fail at HEAD too), updated:
@@ -1628,8 +1628,8 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
    - [x] Hostless mode: the hostless initiator's `LOG_MESSAGE` frames reach the Session log,
      Results and HDF5 `/log`.
    - [x] Add protocol, session/simulator, GUI, recorder, and export tests.
-   - [x] Documentation: `python/cs_app/README.md` (§2.6).
-   - Standalone `cs_planner` is intentionally excluded: it does not expose or serialize log
+   - [x] Documentation: `python/ble_channel_sounding/README.md` (§2.6).
+   - Standalone `ble_channel_sounding_planner` is intentionally excluded: it does not expose or serialize log
      levels and its export omits `cs_generated_config_log()`, leaving the firmware default or
      a firmware override in control.
 
@@ -1659,7 +1659,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
    - [x] Tests cover `ResultStore` direction and timestamp, `recorder.load(with_direction=True)`,
      History filtering and step children, save/cancel, description reread/editing, prompts/dialogs,
      host/peer records, simulator parity, and MAT conversion.
-   - [x] Documentation: `python/cs_app/README.md` covers Results tabs, session history, Save
+   - [x] Documentation: `python/ble_channel_sounding/README.md` covers Results tabs, session history, Save
      session, current run-description behavior, and the HDF5/MAT format sections.
    - [x] Host messages in the history (§7.6): `append_host` record, `show_message` levels,
      `add_text` and `logging` handler feeding the current history, `/host_log` in recordings and
@@ -1708,7 +1708,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
        analysis views for the selected procedure and its immediate neighbours while leaving
        Controller link-wide.
      - [x] GUI tests (live, after STOP, capture, detail pane per record kind) and
-       `python/cs_app/README.md`.
+       `python/ble_channel_sounding/README.md`.
    - Session view cost and selection (§7.9, decided 2026-09-22):
      - [x] Browsing: a row's children are known from its kind without decoding the record, and the
        disk-backed model reads a window of rows per query instead of one `LIMIT 1 OFFSET ?` query
@@ -1739,7 +1739,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
        start/stop GUI test left its run-description dialog visible, which made that dialog the
        application's active window and broke the planner hover tests that ran later; it is closed
        with the window now.
-     - [x] Documentation: the Session tab paragraphs in `python/cs_app/README.md`.
+     - [x] Documentation: the Session tab paragraphs in `python/ble_channel_sounding/README.md`.
 
 5. [x] **T_PM setting (§8.4 step 2; replaces the timing override, 2026-09-19)**
 
@@ -1750,7 +1750,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
    value into the example field once, so the prediction follows the request without pinning it.
    The control is *CS modes → Preferred T_PM*, below *Reflector data*, read-only at 10 µs for a
    reflector configuration or without Mode 2 or 3 (`PBR_HOST_FIELDS`, `unused_host_fields`).
-   The standalone `cs_planner` ignores `t_pm` as it ignores `peer_data` and `log`
+   The standalone `ble_channel_sounding_planner` ignores `t_pm` as it ignores `peer_data` and `log`
    (`STANDALONE_IGNORED_SETTINGS`): its exports stay firmware-owned, which both READMEs say.
    - [x] Protocol (2026-09-19): `TpmPacket`, version `0x0009`, `ClientConfig(t_pm=…)` send
      order and `from_packets`, `GET_CONFIG` packet list, shared vectors `0x2DBB98CB` and
@@ -1768,11 +1768,11 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      T_PM in its `CS_CONFIGURATION`; without one the simulated controller keeps its own choice.
    - [x] Recording (2026-09-20): `/config/t_pm` beside `/config/peer_data`, with the `SET_T_PM`
      payload already in `/config/payloads`; tests (8 new) and `python/README.md`,
-     `cs_app/README.md`, both planner READMEs.
+     `ble_channel_sounding/README.md`, both planner READMEs.
 
-6. **End-to-end verification with `cs-app` (§3.3 "Host application")**
-   - [ ] Verify `cs-app` against `cs_client`: connect, sync, apply, start/stop, recording, and MAT conversion.
-   - [x] Verify `cs-app` in hostless mode against `cs_hostless_initiator` (2026-09-23). Two
+6. **End-to-end verification with `ble-channel-sounding` (§3.3 "Host application")**
+   - [ ] Verify `ble-channel-sounding` against `cs_client`: connect, sync, apply, start/stop, recording, and MAT conversion.
+   - [x] Verify `ble-channel-sounding` in hostless mode against `cs_hostless_initiator` (2026-09-23). Two
      recordings: attaching to an initiator already running (`procedure_counter` starts at 813,
      so the cached resend on DTR rise backfills capabilities, configuration, peer data and
      connection parameters), and attaching before the link comes up. Reports, results, `/log`
@@ -1780,11 +1780,11 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      `protocol_version` 11. The ATT MTU row reads 498 on this hostless pair as well, since both
      images set `CONFIG_BT_L2CAP_TX_MTU=498`; §10 item 8 still needs the hosted link.
    - The hardware checks for IPT/peer data and runtime logging are
-     firmware steps (§1.9 step 9, §2.7 step 7; §10 item 6); `cs-app` is only the viewer there.
-     The T_PM experiments (§8.4 step 3) record through `cs-app`.
+     firmware steps (§1.9 step 9, §2.7 step 7; §10 item 6); `ble-channel-sounding` is only the viewer there.
+     The T_PM experiments (§8.4 step 3) record through `ble-channel-sounding`.
 
 7. **Simulator command-rule parity (found with §10 item 3, 2026-09-18)**
-   The firmware rules are pinned by `tests/host_link/test_commands.c`; `cs_app/simulator.py`
+   The firmware rules are pinned by `tests/host_link/test_commands.c`; `ble_channel_sounding/simulator.py`
    differs from them in these cases:
    - [x] A frame of an unknown type raises `AttributeError` in `Simulator.handle()` (a `Frame` has
      no `PACKET_TYPE`); the firmware answers `UNSUPPORTED`, with or without a session.
@@ -1803,7 +1803,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      discovery commands follow `peer_discovery.c` (only `PEER_CONNECT` during a scan); tested.
    - Matching already: status, reason, client state and packet type values, version `0x0008`,
      `GET_CONFIG` order, `BUSY` before `LINK_ACTIVE`, `START` rules, `SET_DEVICE_NAME` after the
-     configuration. `cs-app` shows a `STOP_TIMEOUT` response reason in the Session tab.
+     configuration. `ble-channel-sounding` shows a `STOP_TIMEOUT` response reason in the Session tab.
 
 8. **Radio Test Configuration views (§6.1, decided 2026-09-19)**
    - [x] Keep the existing Configuration view switch and move operation mode plus both log
@@ -1820,7 +1820,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      help links, preview updates, inactive-field retention, and Radio Test mode transitions.
    - [x] Add explicit GUI coverage for Radio Test locking/read-only states and radio preset
      save/open round trips.
-   - [x] Update `python/cs_app/README.md` after the UI refactor; the repository has no separate
+   - [x] Update `python/ble_channel_sounding/README.md` after the UI refactor; the repository has no separate
      manual-QA document, so the current QA notes live with the README/test coverage.
 
 9. **ACL connection parameters in the GUI (§12, decided 2026-09-20)**
@@ -1839,7 +1839,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
    - [x] Tests: the new rows and their statuses, the peripheral case, the millisecond conversion
      with and without the report, the reports store, the bridge narrowing the range, and the
      simulator report reaching both views through `MainWindow`.
-   - [x] Documentation: the Controller tab box in `python/cs_app/README.md`.
+   - [x] Documentation: the Controller tab box in `python/ble_channel_sounding/README.md`.
 
 10. **Session-actions toolbar: teardown and naming (§7.8, decided 2026-09-20, revised 2026-09-22)**
    - [x] *Connect* becomes *Disconnect* while a session is open and stays enabled for the second press
@@ -1888,7 +1888,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      presses. `test_app_gui.py`'s group-contents and `Close session` assertions moved to the new actions,
      and `test_peer_discovery.py` reconnects where it used to keep scanning after a link disconnect.
    - [x] Documentation: the toolbar paragraph and the Stop / *Disconnect link* / *Close session* note in
-     `python/cs_app/README.md`. The Apply bullet no longer claims a STOP either: `Session.apply()` refuses
+     `python/ble_channel_sounding/README.md`. The Apply bullet no longer claims a STOP either: `Session.apply()` refuses
      while running and queues LINK_DISCONNECT alone.
    - **Depends on §10 item 9.** A teardown that starts while procedures are running sends LINK_DISCONNECT
      to a client that still answers BUSY, and the rejection clears the queue, so the CLOSE_SESSION behind
@@ -1917,8 +1917,8 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      notifications at the default), the PHY air times, the absent transfer with `peer_data` 1, the
      notes, and the GUI lanes, captions and reported-MTU redraw.
    - [x] Documentation: the view paragraphs and a *RAS real-time transfer* section in
-     `python/cs_app/planner/README.md`, and the MTU paragraph in `python/cs_app/README.md`.
-   - Standalone `cs_planner` is excluded by the §9 decision below: it has no `peer_data` (§13.3).
+     `python/ble_channel_sounding/planner/README.md`, and the MTU paragraph in `python/ble_channel_sounding/README.md`.
+   - Standalone `ble_channel_sounding_planner` is excluded by the §9 decision below: it has no `peer_data` (§13.3).
 
 12. **Negotiated ATT MTU in the connection report (§12.4, decided 2026-09-22)**
    - [x] `ConnectionParametersPacket`: the `mtu` field, the 20-byte frame and protocol version
@@ -1935,7 +1935,7 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      simulated link reports what a hosted one now negotiates; `set_mtu()` still shows a change.
    - [x] Tests: the frame size and round trip, the new row and its status, the recorder field,
      and the simulator report.
-   - [x] Documentation: the Controller tab box in `python/cs_app/README.md` and the
+   - [x] Documentation: the Controller tab box in `python/ble_channel_sounding/README.md` and the
      `/reports/connection_parameters` field list in `session_record.md` (§8.4).
 
 13. **Main-mode step bounds only with a sub-mode (§14, decided 2026-09-23)**
@@ -1945,18 +1945,18 @@ protocol steps (§1.9 step 2, §2.7 step 2, §8.4 step 2).
      modes 1, 2 and 3 and disabled in the CS view, but they are still serialized and exported,
      so a greyed-out control still reaches the controller in LE CS Create Config (§14).
    - [ ] Settle which value is neutral (`1, 1` or the model defaults `2, 10`) and apply it in
-     `cs_app` and standalone `cs_planner` alike.
+     `ble_channel_sounding` and standalone `ble_channel_sounding_planner` alike.
    - [ ] Move the shared configuration CRC vectors in `tests/test_protocol.py` and
      `tests/host_link/test_config_store.c` together, since the exported creation record changes.
    - [ ] Tests: an export from a mode-2 scenario whose main-mode bounds were edited under a
      sub-mode mode carries the neutral values, and the CS view still round-trips the scenario.
 
-Decision (2026-09-19): the standalone `cs_planner` does not support reflector-data or runtime
-log settings. These are host/session settings and belong only in `cs_app`. The standalone
+Decision (2026-09-19): the standalone `ble_channel_sounding_planner` does not support reflector-data or runtime
+log settings. These are host/session settings and belong only in `ble_channel_sounding`. The standalone
 planner accepts older shared JSON files but drops legacy `peer_data` and `log` keys when loading
 or saving. Its C export omits the optional peer-data payload and `cs_generated_config_log()`;
 the firmware weak defaults or board-specific overrides therefore remain authoritative. The
-standalone CRC and embedded JSON also exclude both settings. `cs-app` continues to expose,
+standalone CRC and embedded JSON also exclude both settings. `ble-channel-sounding` continues to expose,
 serialize and export them.
 
 14. [ ] **Controller capability limits in the planner (§15.1, §15.2)**
@@ -1966,7 +1966,7 @@ serialize and export them.
       in the CS view, a capability-aware control that disables what the connected controller
       does not report, and leaving it alone because the planner is meant to describe any
       controller, not only this one.
-    - [ ] Whichever is chosen, `cs-app` should surface the local capabilities it already
+    - [ ] Whichever is chosen, `ble-channel-sounding` should surface the local capabilities it already
       receives (`modes_supported`, `rtt_capability`, `rtt_sounding_n`, `subfeatures_supported`)
       somewhere a person can read before exporting. They are in the capabilities report today
       and reading them would have replaced three flash cycles with one (§15.2).
@@ -2053,7 +2053,7 @@ steps.
    - [x] Streamed vs. record-built subevent frames for all step types and 1–4 antenna paths
      (needs the Zephyr Bluetooth headers on the host).
    - Python check (2026-09-18): the protocol enums and version match the C header, and the 282
-     frames of `test_stream.c` parse in `cs_app.protocol` and re-encode byte for byte. The
+     frames of `test_stream.c` parse in `ble_channel_sounding.protocol` and re-encode byte for byte. The
      simulator differs from the command rules in places: §9 item 7.
    - Large reports (§3.2): moved to future work (§11, 2026-09-18).
 
@@ -2082,7 +2082,7 @@ steps.
        (protocol `0x0009`, the same evening), so the mechanism and all three values are
        confirmed on hardware.
      - Left: the same three values driven through `SET_T_PM` instead — over the host link from
-       `cs-app`, and from a planner hostless export — and 10 µs again after a run at 40
+       `ble-channel-sounding`, and from a planner hostless export — and 10 µs again after a run at 40
        without reflashing, which is what shows CS Params Set before every Create Config
        (`cs_role_controller.c`) rather than a build-time default.
    - Replaced on 2026-09-19: the reflector creating the configuration (former §8, now §11). Its
@@ -2096,7 +2096,7 @@ steps.
 6. **Hardware verification**
    - [ ] §3.3 in full: role pairs and timing, minimum RAS procedure interval, STOP and STOP
      timeout, finite count, stack high-water marks, discovery and failures, antennas, radio test
-     build. The `cs-app` end-to-end checks are in §9 item 6.
+     build. The `ble-channel-sounding` end-to-end checks are in §9 item 6.
    - [ ] Reflector data / IPT: §1.9 step 9.
    - [ ] Runtime logging: §2.7 step 7.
    - [x] T_PM 40 µs through the preferred T_PM (§8.5, 2026-09-19).
@@ -2454,8 +2454,8 @@ floor rather than a schedule.
 
 ### 13.3 Standalone planner
 
-Excluded, by the existing §9 decision (2026-09-19): the standalone `cs_planner` does not expose
-or serialize `peer_data`, because reflector data is a host/session setting. `cs_planner`'s
+Excluded, by the existing §9 decision (2026-09-19): the standalone `ble_channel_sounding_planner` does not expose
+or serialize `peer_data`, because reflector data is a host/session setting. `ble_channel_sounding_planner`'s
 `build_schedule(s)` has no `peer_data` parameter at all, so the marking has no input there and
 the views stay as they are. This is the pre-existing rule, not a new exception.
 
@@ -2498,8 +2498,8 @@ tooltip and the schedule note all say occupancy rather than drain rate.
   is never sent or exported, and editing it explores another MTU. The model labels the value
   itself ("the ATT default, before an MTU exchange"); the view adds where it came from —
   reported by the client, or an example that is not.
-- The standalone `cs_planner` has no MTU, and its `loads()` now drops group fields it does not
-  have, so a cs-app plan file still loads there (the §9 decision's file compatibility).
+- The standalone `ble_channel_sounding_planner` has no MTU, and its `loads()` now drops group fields it does not
+  have, so a ble-channel-sounding plan file still loads there (the §9 decision's file compatibility).
 - PHY: the RAS data rides on the ACL, and nothing reports the ACL PHY. Decision (2026-09-22, asked
   and answered): reuse the host `phy` setting rather than add an ACL PHY field. It is the
   procedure parameters' TX-power-delta reference, so the two meanings are coupled and its default
@@ -2544,7 +2544,7 @@ the GUI greys out should not be able to halve the update rate.
 
 Note for whoever implements it: changing the exported values changes the configuration CRC, so
 the shared vectors in `tests/test_protocol.py` and `tests/host_link/test_config_store.c` move
-together (§9 protocol order). The standalone `cs_planner` carries the same `SUB_MODE_FIELDS`
+together (§9 protocol order). The standalone `ble_channel_sounding_planner` carries the same `SUB_MODE_FIELDS`
 rule and needs the same treatment.
 
 ## 15. Controller capability limits and the stack measurement (2026-09-24)
@@ -2740,7 +2740,7 @@ controller switched to antenna index 2 unchecked; the SDK's `cs_antenna_switch.c
 entries, and the overlay fills only the first two, so entry 2 has a NULL port and `gpio_pin_set_dt()`
 asserted on garbage read through it. With A1:B2 requested, the link negotiated A1:B1, probably
 because one bit is too few for B2 (not confirmed against the controller). Nothing on either side
-checked the mask: `cs_app` offered a plain 0–15 box and sent it as is,
+checked the mask: `ble_channel_sounding` offered a plain 0–15 box and sent it as is,
 `host_link_config_check_antennas()` checks only the local side, and the `cs_utils` procedure
 setters copied it.
 
@@ -2750,7 +2750,7 @@ setters copied it.
    defined, and the mask names antennas 1–4, is non-zero and sets at least as many bits as the
    configuration's peer side (B for an initiator, A for a reflector). A1:B2 needs 3 from the
    initiator. Python: `validation.validate_preferred_peer_antenna()` in `ClientSession.apply()`,
-   the simulator's `SET_CS_*_CONFIG` handling and both C exporters (`cs_app`, `cs_planner`).
+   the simulator's `SET_CS_*_CONFIG` handling and both C exporters (`ble_channel_sounding`, `ble_channel_sounding_planner`).
    Report ingestion (`bridge.config_packet()`) does not check, so plans saved with a bad mask still load.
 2. The peer's antennas, in `cs_roles` at remote capabilities: an initiator whose mask has a bit
    above the reflector's `num_antennas_supported` fails with the new
@@ -2771,7 +2771,7 @@ change as well. Not verified on hardware. To verify: `cs_client` initiator with 
 `CS_CONFIG_FAILED, -ERANGE` and the Tag keeps running; with mask 3 and A1:B2 the Tag logs
 negotiated antenna configuration 4 and two-path subevents.
 
-Done 2026-09-25: Preferred peer antenna is four check boxes (ANT1–ANT4, bits 0–3) in the `cs_app`
-CS view and in `cs_planner`, not a 0–15 number box. The mask shows beside them, with a warning while
+Done 2026-09-25: Preferred peer antenna is four check boxes (ANT1–ANT4, bits 0–3) in the `ble_channel_sounding`
+CS view and in `ble_channel_sounding_planner`, not a 0–15 number box. The mask shows beside them, with a warning while
 fewer boxes are checked than the peer's side of the antenna configuration needs. Bits above 3 in a
 loaded plan are kept and shown in the warning colour, so validation still reports them.

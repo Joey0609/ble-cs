@@ -2,10 +2,10 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from cs_app.protocol.packets import (CsInitiatorSubeventResultPacket, CsReflectorSubeventResultPacket,
+from ble_channel_sounding.protocol.packets import (CsInitiatorSubeventResultPacket, CsReflectorSubeventResultPacket,
                                      LogMessagePacket)
-from cs_app.session_history import HostMessage, SessionHistory
-from cs_app.session import ClientSession
+from ble_channel_sounding.session_history import HostMessage, SessionHistory
+from ble_channel_sounding.session import ClientSession
 
 
 class _Transport:
@@ -155,7 +155,7 @@ class SessionHistoryTests(unittest.TestCase):
         history.close()
 
     def test_save_replays_both_directions_and_cancel_removes_partial_file(self):
-        from cs_app.recorder import load
+        from ble_channel_sounding.recorder import load
 
         history = SessionHistory()
         try:
@@ -173,7 +173,7 @@ class SessionHistoryTests(unittest.TestCase):
             history.close()
 
     def test_host_records_round_trip_and_save_to_hdf5(self):
-        from cs_app.recorder import load
+        from ble_channel_sounding.recorder import load
 
         history = SessionHistory()
         try:

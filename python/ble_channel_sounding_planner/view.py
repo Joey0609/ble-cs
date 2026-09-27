@@ -1,6 +1,6 @@
 """Planner window contents: controls, timing and channel plots (PyQt6 / PyQtGraph).
 
-Mirrors the planner of the cs-app Configuration tab without its device-link parts
+Mirrors the planner of the ble-channel-sounding Configuration tab without its device-link parts
 (controller packets, FAE reports).
 """
 
@@ -1318,7 +1318,7 @@ class PlannerWidget(W.QWidget):
         self.apply_scenario(Scenario(), {})
 
     def open_path(self, path):
-        """Load a planner JSON file or cs-app C export; raises ValueError or OSError."""
+        """Load a planner JSON file or ble-channel-sounding C export; raises ValueError or OSError."""
         scenario, host = load_document(Path(path).read_text(encoding="utf-8"))
         return self.apply_scenario(scenario, host, source=f"Loaded from {Path(path).name}")
 

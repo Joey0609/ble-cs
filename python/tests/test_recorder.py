@@ -3,17 +3,17 @@ import unittest
 from pathlib import Path
 import h5py
 from scipy.io import loadmat
-from cs_app.recorder import RunRecorder, load, read_description, update_description
-from cs_app.session_history import HostMessage
-from cs_app.h5_to_mat import convert
-from cs_app.session import ClientSession
-from cs_app.simulator import Simulator
-from cs_app.protocol.config import ClientConfig
-from cs_app.protocol.packets import PeripheralPatternsPacket, LogMessagePacket, CsFaeTablePacket, PacketType, ProtocolStatus, \
+from ble_channel_sounding.recorder import RunRecorder, load, read_description, update_description
+from ble_channel_sounding.session_history import HostMessage
+from ble_channel_sounding.h5_to_mat import convert
+from ble_channel_sounding.session import ClientSession
+from ble_channel_sounding.simulator import Simulator
+from ble_channel_sounding.protocol.config import ClientConfig
+from ble_channel_sounding.protocol.packets import PeripheralPatternsPacket, LogMessagePacket, CsFaeTablePacket, PacketType, ProtocolStatus, \
     CsProceduresCompletePacket, LogConfigPacket, CsPeerDataPacket, ConnectionParametersPacket
-from cs_app.planner.bridge import config_packet
-from cs_app.planner.model import Scenario
-from cs_app.results import load_capture
+from ble_channel_sounding.planner.bridge import config_packet
+from ble_channel_sounding.planner.model import Scenario
+from ble_channel_sounding.results import load_capture
 
 
 def config():

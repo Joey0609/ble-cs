@@ -3,12 +3,12 @@
 from dataclasses import replace
 import unittest
 
-from cs_app.protocol.frame import Frame
-from cs_app.protocol.packets import (ConnectionParametersPacket, CsInitiatorConfigPacket, CsReflectorConfigPacket,
+from ble_channel_sounding.protocol.frame import Frame
+from ble_channel_sounding.protocol.packets import (ConnectionParametersPacket, CsInitiatorConfigPacket, CsReflectorConfigPacket,
                                  LogMessagePacket, OperationMode, decode_packet)
-from cs_app.planner.bridge import (CONNECTION_SOURCE, HOST_DEFAULTS, HOST_SOURCE, NEGOTIATED_SOURCE,
+from ble_channel_sounding.planner.bridge import (CONNECTION_SOURCE, HOST_DEFAULTS, HOST_SOURCE, NEGOTIATED_SOURCE,
                                apply_channel_list, apply_packet, config_packet, decode_config, source_label)
-from cs_app.planner.model import Scenario, build_schedule, channel_map_bytes, enabled_channels, validate
+from ble_channel_sounding.planner.model import Scenario, build_schedule, channel_map_bytes, enabled_channels, validate
 
 
 class PlannerBridgeTests(unittest.TestCase):
@@ -17,8 +17,8 @@ class PlannerBridgeTests(unittest.TestCase):
         self.host = dict(HOST_DEFAULTS)
 
     def test_example_fields_are_not_sent_or_exported(self):
-        from cs_app.planner.export_c import MARKER, generate
-        from cs_app.planner.model import EXAMPLE_FIELDS, scenario_value
+        from ble_channel_sounding.planner.export_c import MARKER, generate
+        from ble_channel_sounding.planner.model import EXAMPLE_FIELDS, scenario_value
         base = replace(self.s, connection=replace(self.s.connection, interval_max=40),
                        configuration=replace(self.s.configuration, cs_enhancements_1=1))
         changed = {"connection.activity_us": 2000, "connection.mtu": 247, "event_offset_us": 2000,
@@ -150,7 +150,7 @@ class RequestedRangeTests(unittest.TestCase):
             self.assertEqual((emitted.min_procedure_interval, emitted.max_procedure_interval), (1, 9))
 
     def test_preferred_t_pm_is_a_host_setting_of_the_cs_initiator(self):
-        from cs_app.planner.bridge import HOST_DEFAULTS
+        from ble_channel_sounding.planner.bridge import HOST_DEFAULTS
         s = Scenario()
         self.assertEqual(HOST_DEFAULTS["t_pm"], 40)
         # It has no field in the host configuration packet, so the packet is unchanged.

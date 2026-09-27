@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import fields, replace
 import unittest
 
-from cs_app.protocol import PROTOCOL_VERSION, ClientConfig
-from cs_app.protocol.frame import Frame, FrameDecoder, ProtocolError
-from cs_app.protocol.packets import (
+from ble_channel_sounding.protocol import PROTOCOL_VERSION, ClientConfig
+from ble_channel_sounding.protocol.frame import Frame, FrameDecoder, ProtocolError
+from ble_channel_sounding.protocol.packets import (
     ApplyConfigPacket,
     ClientState,
     ClientStatePacket,
@@ -48,7 +48,7 @@ from cs_app.protocol.packets import (
     packet_from_dict,
     packet_to_dict,
 )
-from cs_app.protocol.receiver import PacketReceiver
+from ble_channel_sounding.protocol.receiver import PacketReceiver
 
 
 EXPECTED_SIZES = {
@@ -400,7 +400,7 @@ class ClientConfigTests(unittest.TestCase):
         self.assertEqual(config.crc32(), CONFIG_CRC_VECTOR_PEER_DATA)
         self.assertEqual(len(config.payloads()), 1 + 57 + 265 + 1)
         # The standalone planner's export CRC follows the same rule.
-        from cs_planner.export_c import config_crc32
+        from ble_channel_sounding_planner.export_c import config_crc32
         values = {name: getattr(ipt, name) for name in ipt.__dataclass_fields__}
         self.assertEqual(config_crc32("initiator", values, ["CS-Reflector", "nRF"], "", 1),
                          CONFIG_CRC_VECTOR_PEER_DATA)

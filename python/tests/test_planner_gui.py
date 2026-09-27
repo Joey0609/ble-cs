@@ -21,7 +21,7 @@ class PlannerGuiTests(unittest.TestCase):
         cls.app = QApplication.instance() or QApplication([])
 
     def setUp(self):
-        from cs_app.views.cs_view import PlannerWidget
+        from ble_channel_sounding.views.cs_view import PlannerWidget
         self.window = PlannerWidget()
         self.window.show()
         self.app.processEvents()
@@ -73,7 +73,7 @@ class PlannerGuiTests(unittest.TestCase):
 
     def test_apply_config_from_frames_updates_view_atomically(self):
         from dataclasses import replace
-        from cs_app.protocol.frame import Frame
+        from ble_channel_sounding.protocol.frame import Frame
         w = self.window
         config = replace(w.scenario.configuration, mode=3, t_fcs_time_us=100)
         procedure = replace(w.scenario.procedure, subevent_len=6000)
@@ -99,7 +99,7 @@ class PlannerGuiTests(unittest.TestCase):
 
     def test_typed_hex_channel_map_is_saved_without_focus_change(self):
         from PyQt6.QtTest import QTest
-        from cs_app.planner.model import loads
+        from ble_channel_sounding.planner.model import loads
         w = self.window
         editor = w.controls["configuration.channel_map"]
         editor.hex.setFocus()
@@ -115,13 +115,13 @@ class PlannerGuiTests(unittest.TestCase):
 
     @unittest.skip("Future: the integrated client supports only the CS initiator role")
     def test_collect_config_builds_a_reflector_packet(self):
-        from cs_app.protocol.packets import CsReflectorConfigPacket, OperationMode
+        from ble_channel_sounding.protocol.packets import CsReflectorConfigPacket, OperationMode
         self.assertIsInstance(self.window.collect_config(OperationMode.CS_REFLECTOR), CsReflectorConfigPacket)
 
     def test_collect_config_builds_transmittable_packet(self):
         from dataclasses import replace
         from PyQt6.QtTest import QTest
-        from cs_app.protocol.packets import CsInitiatorConfigPacket
+        from ble_channel_sounding.protocol.packets import CsInitiatorConfigPacket
         w = self.window
         w.controls["configuration.mode"].setCurrentIndex(w.controls["configuration.mode"].findData(3))
         w.apply_channel_list(range(26, 76))  # also folds the pending edit into the scenario
@@ -138,8 +138,8 @@ class PlannerGuiTests(unittest.TestCase):
             w.collect_config()
 
     def test_operation_mode_and_ipt_are_saved_with_the_scenario(self):
-        from cs_app.planner.model import Scenario
-        from cs_app.protocol.packets import CsReflectorConfigPacket, OperationMode
+        from ble_channel_sounding.planner.model import Scenario
+        from ble_channel_sounding.protocol.packets import CsReflectorConfigPacket, OperationMode
         w = self.window
         w.target_mode.setCurrentIndex(w.target_mode.findData(OperationMode.CS_REFLECTOR))
         ipt = w.controls["configuration.cs_enhancements_1"]
@@ -162,7 +162,7 @@ class PlannerGuiTests(unittest.TestCase):
         self.assertFalse(w.controls["t_sw_ipt_us"].isEnabled())
 
     def test_preferred_t_pm_is_an_initiator_pbr_setting_that_the_prediction_follows(self):
-        from cs_app.protocol.packets import OperationMode
+        from ble_channel_sounding.protocol.packets import OperationMode
         w = self.window
         t_pm, example = w.host_controls["t_pm"], w.controls["configuration.t_pm_time_us"]
         mode = w.controls["configuration.mode"]
@@ -190,7 +190,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_cs_modes_labels_controls_and_options_have_tooltips(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtWidgets import QComboBox, QSpinBox
-        from cs_app.views.cs_view import CS_CONTROL_HELP
+        from ble_channel_sounding.views.cs_view import CS_CONTROL_HELP
         w = self.window
         w.settings.setCurrentIndex(1)
         form = w.settings.widget(1).widget().layout()
@@ -236,7 +236,7 @@ class PlannerGuiTests(unittest.TestCase):
                     self.assertIn(text, tip)
 
     def test_schedule_and_host_labels_controls_and_options_have_tooltips(self):
-        from cs_app.views.cs_view import SCHEDULE_CONTROL_HELP, HOST_CONTROL_HELP
+        from ble_channel_sounding.views.cs_view import SCHEDULE_CONTROL_HELP, HOST_CONTROL_HELP
         w = self.window
         self.assert_tab_tooltips("Schedule", SCHEDULE_CONTROL_HELP, w.controls)
         # Reflector data and Preferred T_PM are host settings shown on the CS modes tab, below IPT.
@@ -244,7 +244,7 @@ class PlannerGuiTests(unittest.TestCase):
         self.assert_tab_tooltips("Host", host_help, {**w.host_controls, "peripheral_patterns": w.patterns})
 
     def test_every_setting_has_a_tooltip_and_a_detailed_help_entry(self):
-        from cs_app.views.control_help import CONTROL_DETAILS, detail_html
+        from ble_channel_sounding.views.control_help import CONTROL_DETAILS, detail_html
         w = self.window
         controls = {**w.controls, **w.host_controls, "peripheral_patterns": w.patterns}
         self.assertEqual(set(w.help_rows), set(controls))
@@ -268,7 +268,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_help_pane_shows_tab_overview_and_selected_or_hovered_setting(self):
         from PyQt6 import QtCore, QtGui
         from PyQt6.QtTest import QTest
-        from cs_app.views.control_help import TAB_HELP
+        from ble_channel_sounding.views.control_help import TAB_HELP
         w = self.window
         self.assertTrue({w.settings.tabText(i) for i in range(w.settings.count())} <= set(TAB_HELP))
         for index in range(w.settings.count()):
@@ -302,9 +302,9 @@ class PlannerGuiTests(unittest.TestCase):
         self.assertIn("Currently read-only", text)  # CSA #3b holds the #3c jump
 
     def test_example_values_sit_in_a_panel_on_their_own_tab(self):
-        from cs_app.planner.model import EXAMPLE_FIELDS
-        from cs_app.views.control_help import TIMING_MANDATORY_VALUES
-        from cs_app.views.cs_view import EXAMPLE_CONTROL_HELP
+        from ble_channel_sounding.planner.model import EXAMPLE_FIELDS
+        from ble_channel_sounding.views.control_help import TIMING_MANDATORY_VALUES
+        from ble_channel_sounding.views.cs_view import EXAMPLE_CONTROL_HELP
         w = self.window
         self.assertEqual(set(EXAMPLE_CONTROL_HELP), set(EXAMPLE_FIELDS))
         self.assertEqual([w.settings.tabText(i) for i in range(w.settings.count())],
@@ -336,8 +336,8 @@ class PlannerGuiTests(unittest.TestCase):
                     self.assertIn("(mandatory)", control.itemText(control.findData(int(mandatory.split()[0]))), key)
 
     def test_ipt_channel_selection_subevents_and_role_hold_unused_controls(self):
-        from cs_app.planner.model import Scenario
-        from cs_app.protocol.packets import OperationMode
+        from ble_channel_sounding.planner.model import Scenario
+        from ble_channel_sounding.protocol.packets import OperationMode
         w = self.window
         default = Scenario()
         ipt = w.controls["configuration.cs_enhancements_1"]
@@ -363,7 +363,7 @@ class PlannerGuiTests(unittest.TestCase):
         self.assertTrue(w.host_controls["creation_context"].isEnabled())
 
     def test_preferred_peer_antenna_check_boxes_set_the_mask(self):
-        from cs_app.protocol.packets import OperationMode
+        from ble_channel_sounding.protocol.packets import OperationMode
         w = self.window
         mode, control = w.controls["configuration.mode"], w.host_controls["preferred_peer_antenna"]
         mode.setCurrentIndex(mode.findData(2))  # PBR only
@@ -389,7 +389,7 @@ class PlannerGuiTests(unittest.TestCase):
         self.assertEqual(w.host_settings["preferred_peer_antenna"], 0x17)
 
     def test_mode_without_sub_mode_rtt_or_pbr_holds_those_fields_at_defaults(self):
-        from cs_app.planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
+        from ble_channel_sounding.planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
                                  Scenario, scenario_value)
         w = self.window
         default = Scenario()
@@ -436,7 +436,7 @@ class PlannerGuiTests(unittest.TestCase):
         from PyQt6.QtCore import QEvent, QPoint
         from PyQt6.QtGui import QHelpEvent
         from PyQt6.QtWidgets import QToolTip
-        from cs_app.views.tooltips import fit_tooltip, install
+        from ble_channel_sounding.views.tooltips import fit_tooltip, install
         w = self.window
         w.resize(1200, 700)
         self.app.processEvents()
@@ -462,7 +462,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_tooltips_ignore_qt_created_header_views(self):
         from PyQt6.QtCore import QPoint
         from PyQt6.QtWidgets import QHeaderView, QTableWidget
-        from cs_app.views.tooltips import TooltipWidthFilter
+        from ble_channel_sounding.views.tooltips import TooltipWidthFilter
         table = QTableWidget(1, 1)
         table.show()
         self.app.processEvents()
@@ -492,7 +492,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_mouse_click_on_step_opens_detail(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtTest import QTest
-        from cs_app.views.cs_view import Block
+        from ble_channel_sounding.views.cs_view import Block
         w = self.window
         w.views.setCurrentIndex(2)
         self.app.processEvents()
@@ -556,7 +556,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_clicking_later_event_retains_its_procedure(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtTest import QTest
-        from cs_app.views.cs_view import Block
+        from ble_channel_sounding.views.cs_view import Block
         w = self.window
         w.views.setCurrentIndex(1)
         self.app.processEvents()
@@ -573,7 +573,7 @@ class PlannerGuiTests(unittest.TestCase):
     def test_all_boxes_have_timing_tooltips_and_hover_displays_them(self):
         from PyQt6.QtTest import QTest
         from PyQt6.QtWidgets import QToolTip
-        from cs_app.views.cs_view import Block
+        from ble_channel_sounding.views.cs_view import Block
         w = self.window
         for plot in (w.connection_plot, w.timeout_plot, w.procedure_plot, w.event_plot, w.step_plot):
             boxes = [item for item in plot.items() if isinstance(item, Block)]
@@ -594,8 +594,8 @@ class PlannerGuiTests(unittest.TestCase):
 
     def test_ras_transfer_is_drawn_from_the_reported_or_default_mtu(self):
         from PyQt6.QtTest import QTest
-        from cs_app.views.cs_view import Block
-        from cs_app.protocol.packets import ConnectionParametersPacket
+        from ble_channel_sounding.views.cs_view import Block
+        from ble_channel_sounding.protocol.packets import ConnectionParametersPacket
         w = self.window
 
         def ras_blocks(plot):
@@ -666,8 +666,8 @@ class PlannerGuiTests(unittest.TestCase):
     def test_channel_map_editor_and_view_update_scenario(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtTest import QTest
-        from cs_app.views.cs_view import Block
-        from cs_app.planner.model import channel_map_bytes, enabled_channels
+        from ble_channel_sounding.views.cs_view import Block
+        from ble_channel_sounding.planner.model import channel_map_bytes, enabled_channels
         w = self.window
         editor = w.controls["configuration.channel_map"]
         self.assertEqual(editor.summary.text(), "72 of 72 channels enabled")

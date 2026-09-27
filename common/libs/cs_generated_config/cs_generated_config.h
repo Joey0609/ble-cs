@@ -3,7 +3,7 @@
  * @file cs_generated_config.h
  * @brief Interface implemented by planner-generated CS configuration sources.
  *
- * cs_app exports a configuration as a C source that defines these symbols for
+ * ble_channel_sounding exports a configuration as a C source that defines these symbols for
  * the role(s) it was exported for. cs_generated_config.c provides weak
  * defaults, so an application without an export still links: its role
  * functions load the cs_utils default configuration and return -ENOENT.

@@ -1,9 +1,9 @@
 from dataclasses import replace
 import unittest
-from cs_app.planner.bridge import config_packet
-from cs_app.planner.model import Scenario
-from cs_app.validation import validate_patterns, validate_preferred_peer_antenna, validate_radio_test
-from cs_app.protocol.packets import OperationMode, PeripheralPatternsPacket, RadioTxTestConfigPacket
+from ble_channel_sounding.planner.bridge import config_packet
+from ble_channel_sounding.planner.model import Scenario
+from ble_channel_sounding.validation import validate_patterns, validate_preferred_peer_antenna, validate_radio_test
+from ble_channel_sounding.protocol.packets import OperationMode, PeripheralPatternsPacket, RadioTxTestConfigPacket
 
 RADIO = RadioTxTestConfigPacket(0, 0, 3, 0, 0, 0, 0, 80, 10, 50, 100, 100, 0, 255)
 

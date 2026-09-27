@@ -1,4 +1,4 @@
-"""Standalone cs_planner: timing examples, boundary checks and package independence."""
+"""Standalone ble_channel_sounding_planner: timing examples, boundary checks and package independence."""
 
 import ast
 from dataclasses import replace
@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 import unittest
 
-from cs_planner.channels import HAT, X_PATTERN, cr1, shape_sequence
-from cs_planner.model import (ALLOWED_CHANNELS, Scenario, build_schedule, channel_map_bytes, check_encoding, dumps,
+from ble_channel_sounding_planner.channels import HAT, X_PATTERN, cr1, shape_sequence
+from ble_channel_sounding_planner.model import (ALLOWED_CHANNELS, Scenario, build_schedule, channel_map_bytes, check_encoding, dumps,
                               enabled_channels, loads, step_segments, validate)
 
 PYTHON_DIR = Path(__file__).resolve().parents[1]
@@ -28,10 +28,10 @@ def imported_modules(package: Path):
 
 class PackageIndependenceTests(unittest.TestCase):
     def test_cs_planner_does_not_import_cs_app(self):
-        self.assertFalse({n for n in imported_modules(PYTHON_DIR / "cs_planner") if n.split(".")[0] == "cs_app"})
+        self.assertFalse({n for n in imported_modules(PYTHON_DIR / "ble_channel_sounding_planner") if n.split(".")[0] == "ble_channel_sounding"})
 
     def test_cs_app_does_not_import_cs_planner(self):
-        self.assertFalse({n for n in imported_modules(PYTHON_DIR / "cs_app") if n.split(".")[0] == "cs_planner"})
+        self.assertFalse({n for n in imported_modules(PYTHON_DIR / "ble_channel_sounding") if n.split(".")[0] == "ble_channel_sounding_planner"})
 
     def test_reads_existing_planner_file_with_host_settings(self):
         s = loads(PLAN_FIXTURE.read_text(encoding="utf-8"))
@@ -56,7 +56,7 @@ class PlannerTimingTests(unittest.TestCase):
                          (145, 145, 150, 40))
 
     def test_timing_help_lists_values_and_controller_selection_factors(self):
-        from cs_planner.control_help import (CONTROLLER_SELECTED_WARNING, CONTROL_DETAILS, EXAMPLE_CONTROL_HELP,
+        from ble_channel_sounding_planner.control_help import (CONTROLLER_SELECTED_WARNING, CONTROL_DETAILS, EXAMPLE_CONTROL_HELP,
                                              TAB_HELP, TIMING_MANDATORY_VALUES)
         expected = {
             "configuration.t_ip1_time_us": "10, 20, 30, 40, 50, 60, 80, 145 µs",
@@ -148,7 +148,7 @@ class PlannerTimingTests(unittest.TestCase):
         self.assertEqual(fresh, [1 if i % 5 == 4 else 2 for i in range(50)])
 
     def test_unused_mode_fields_hold_their_defaults(self):
-        from cs_planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
+        from ble_channel_sounding_planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
                                  apply_mode_defaults, scenario_value, unused_fields, unused_host_fields)
         self.assertEqual(unused_fields(1), SUB_MODE_FIELDS + PBR_FIELDS)
         self.assertEqual(unused_fields(2), SUB_MODE_FIELDS + RTT_FIELDS)
@@ -168,7 +168,7 @@ class PlannerTimingTests(unittest.TestCase):
             self.assertEqual(scenario_value(s, key), scenario_value(default, key), key)
         self.assertEqual(s.configuration.rtt_type, 1)  # Mode 1 uses the RTT sequence
         # Controllers report the reserved main-mode step fields as 0 without a sub-mode.
-        from cs_planner.model import inactive_fields
+        from ble_channel_sounding_planner.model import inactive_fields
         self.assertEqual(inactive_fields(replace(default, procedure=replace(default.procedure, subevents_per_event=1)))
                          ["procedure.subevent_interval"], 0)
         self.assertIn("t_sw_us", inactive_fields(replace(default, configuration=replace(default.configuration, cs_enhancements_1=1))))

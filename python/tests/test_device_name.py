@@ -6,13 +6,13 @@ import unittest
 from unittest.mock import patch
 from PyQt6 import QtWidgets as W
 import h5py
-from cs_app.app import MainWindow
-from cs_app.protocol.packets import DeviceNamePacket, OperationMode, decode_packet
-from cs_app.protocol.config import ClientConfig
-from cs_app.protocol.frame import Frame, ProtocolError
-from cs_app.planner.export_c import document, load_document, generate
-from cs_app.views.sync_dialog import SyncDialog
-from cs_app.recorder import RunRecorder
+from ble_channel_sounding.app import MainWindow
+from ble_channel_sounding.protocol.packets import DeviceNamePacket, OperationMode, decode_packet
+from ble_channel_sounding.protocol.config import ClientConfig
+from ble_channel_sounding.protocol.frame import Frame, ProtocolError
+from ble_channel_sounding.planner.export_c import document, load_document, generate
+from ble_channel_sounding.views.sync_dialog import SyncDialog
+from ble_channel_sounding.recorder import RunRecorder
 
 
 FUTURE_RADIO_TEST = "Future: Radio Test is disabled in the desktop app while its firmware is work in progress"

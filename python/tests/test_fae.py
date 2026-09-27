@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from cs_app.fae import (
+from ble_channel_sounding.fae import (
     FAE_CHANNELS,
     FAE_TABLE_ENTRIES,
     FaeTable,
@@ -33,8 +33,8 @@ class FaeTableTests(unittest.TestCase):
         self.assertEqual(table.entries[:3], (-1, -128, 127))
 
     def test_from_protocol_packet_keeps_packet_scale(self) -> None:
-        from cs_app.protocol.frame import Frame
-        from cs_app.protocol.packets import CsFaeTablePacket, decode_packet
+        from ble_channel_sounding.protocol.frame import Frame
+        from ble_channel_sounding.protocol.packets import CsFaeTablePacket, decode_packet
 
         entries = (32, -16) + (0,) * 70
         wire = CsFaeTablePacket(hci_status=0, lsb_denominator=16, entries=entries).to_bytes()
@@ -75,7 +75,7 @@ class FaeTableTests(unittest.TestCase):
 
 class PacketScaleTests(unittest.TestCase):
     def test_zero_fallback_and_packet_scale(self):
-        from cs_app.protocol.packets import CsFaeTablePacket
+        from ble_channel_sounding.protocol.packets import CsFaeTablePacket
         self.assertTrue(FaeTable.zeros().is_zero)
         self.assertEqual(FaeTable((32,) * 72).ppm()[0], 1)
         table = FaeTable.from_packet(CsFaeTablePacket(0, 16, (32,) * 72))

@@ -12,8 +12,8 @@ class PacketReceiver:
     """Incrementally turn serial bytes into C-matching packet objects.
 
     One instance retains partial input between :meth:`feed` calls. Valid known
-    frame types become packet dataclasses from :mod:`cs_app.protocol.packets`;
-    unknown types remain generic :class:`cs_app.protocol.frame.Frame` instances.
+    frame types become packet dataclasses from :mod:`ble_channel_sounding.protocol.packets`;
+    unknown types remain generic :class:`ble_channel_sounding.protocol.frame.Frame` instances.
     Framing recovery counters are available through :attr:`frames`.
 
     A frame that passes framing and CRC checks but whose payload does not

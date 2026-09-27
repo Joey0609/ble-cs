@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "cs-app (Qt GUI)",
+            "name": "ble-channel-sounding (Qt GUI)",
             "type": "debugpy",
             "request": "launch",
-            "module": "cs_app",
+            "module": "ble_channel_sounding",
             "python": "${workspaceFolder}/.venv/bin/python",
             "cwd": "${workspaceFolder}",
             "args": [],

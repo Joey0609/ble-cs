@@ -9,7 +9,7 @@ host link, no protocol frames.
 ## Configuration
 
 The configuration comes from a planner export (`cs_generated_config.h`, see
-`python/cs_app`):
+`python/ble_channel_sounding`):
 
 - `config/cs_generated_config.c`, compiled when it exists; or
 - `-DCS_CONFIG_SOURCE=<path>.c` (with or without sysbuild).

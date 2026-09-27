@@ -10,17 +10,17 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from PyQt6 import QtWidgets as W
 from PyQt6.QtTest import QTest
-from cs_app.app import MainWindow, _RunDescriptionDialog
-from cs_app.recorder import RunRecorder, read_description
-from cs_app.views.sync_dialog import SyncDialog
-from cs_app.views.radio_test_view import (FEM_RAMP_UP_VALUES, TX_POWER_VALUES, UINT32_MAX,
+from ble_channel_sounding.app import MainWindow, _RunDescriptionDialog
+from ble_channel_sounding.recorder import RunRecorder, read_description
+from ble_channel_sounding.views.sync_dialog import SyncDialog
+from ble_channel_sounding.views.radio_test_view import (FEM_RAMP_UP_VALUES, TX_POWER_VALUES, UINT32_MAX,
                                           RadioTestView, _SpectrumPreview, DEFAULT)
-from cs_app.views.cs_view import PlannerWidget
-from cs_app.protocol.packets import (CsFaeTablePacket, LogMessagePacket, OperationMode,
+from ble_channel_sounding.views.cs_view import PlannerWidget
+from ble_channel_sounding.protocol.packets import (CsFaeTablePacket, LogMessagePacket, OperationMode,
                                      RadioTestPattern, RadioTestType)
-from cs_app.controller import INFO, compare_procedure
-from cs_app.session_history import SessionHistory
-from cs_app.views.fae_panel import FaePanel
+from ble_channel_sounding.controller import INFO, compare_procedure
+from ble_channel_sounding.session_history import SessionHistory
+from ble_channel_sounding.views.fae_panel import FaePanel
 
 
 # Behaviour the build no longer offers; these tests return when the capability does.
@@ -38,7 +38,7 @@ class AppGuiTests(unittest.TestCase):
             with self.subTest(count=count):
                 window = MainWindow(simulate=True)
                 try:
-                    from cs_app.simulator import Simulator
+                    from ble_channel_sounding.simulator import Simulator
                     simulator = Simulator(num_antennas_supported=count)
                     with patch.object(window, 'resolve_sync'):
                         window.session.connect(simulator.transport)
@@ -141,8 +141,8 @@ class AppGuiTests(unittest.TestCase):
                 self.assertEqual(len(configs), 1)
                 recording = window.recording_view.last_path
                 self.assertEqual(configs[0].name, f'config_{recording.stem}.json')
-                from cs_app.planner.export_c import load_document
-                from cs_app.planner.bridge import config_packet
+                from ble_channel_sounding.planner.export_c import load_document
+                from ble_channel_sounding.planner.bridge import config_packet
                 scenario, host = load_document(configs[0].read_text())
                 self.assertEqual(config_packet(scenario, host, OperationMode.CS_INITIATOR), window.session.host_config.config)
                 window.simulator.tick()
@@ -245,7 +245,7 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_start_requires_synced_configuration(self):
-        from cs_app.protocol.packets import PacketType, StartPacket
+        from ble_channel_sounding.protocol.packets import PacketType, StartPacket
         window = MainWindow(simulate=True)
         try:
             with tempfile.TemporaryDirectory() as directory:
@@ -320,7 +320,7 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_failed_connect_marks_port_rejected(self):
-        from cs_app.views.port_view import PortView
+        from ble_channel_sounding.views.port_view import PortView
         with patch('serial.tools.list_ports.comports', return_value=[]):
             view = PortView()
         view.port.addItem('/dev/cu.test — Test', '/dev/cu.test')
@@ -341,7 +341,7 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_simulator_port_is_offered_without_flag(self):
-        from cs_app.views.port_view import SIMULATOR
+        from ble_channel_sounding.views.port_view import SIMULATOR
         with patch('serial.tools.list_ports.comports', return_value=[]):
             window = MainWindow()
         try:
@@ -361,7 +361,7 @@ class AppGuiTests(unittest.TestCase):
 
     def test_configuration_view_uses_toolbar_and_mode_specific_setup(self):
         from datetime import datetime
-        from cs_app.views.recording_view import recording_name
+        from ble_channel_sounding.views.recording_view import recording_name
         window = MainWindow(simulate=True)
         try:
             buttons = window.run_bar.buttons
@@ -556,7 +556,7 @@ class AppGuiTests(unittest.TestCase):
         window = MainWindow(simulate=True)
         try:
             window.select_role(OperationMode.HOSTLESS_CS)
-            with patch('cs_app.app.SerialTransport.open', side_effect=OSError('open failed')):
+            with patch('ble_channel_sounding.app.SerialTransport.open', side_effect=OSError('open failed')):
                 window.connect_port('/dev/missing', 921600)
 
             self.assertEqual(window.session.state, 'FAILED')
@@ -604,7 +604,7 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_peer_console_settings_round_trip_as_host_only_data(self):
-        from cs_app.planner.export_c import document, load_document
+        from ble_channel_sounding.planner.export_c import document, load_document
         window = MainWindow(simulate=True)
         try:
             self.assertEqual([window.serial_port_tabs.tabText(i) for i in range(window.serial_port_tabs.count())],
@@ -642,7 +642,7 @@ class AppGuiTests(unittest.TestCase):
             window.session.history = history
             window.peer_console_view.port.setText('/dev/fake-peer')
             window.peer_console_view.baud.setCurrentText('460800')
-            with patch('cs_app.app.SerialTransport', FakeSerialTransport):
+            with patch('ble_channel_sounding.app.SerialTransport', FakeSerialTransport):
                 window.peer_console_run_started('started')
                 transport = FakeSerialTransport.instances[-1]
                 self.assertTrue(transport.opened)
@@ -674,7 +674,7 @@ class AppGuiTests(unittest.TestCase):
         history = SessionHistory()
         try:
             window.session.history = history
-            with patch('cs_app.app.SerialTransport', FailingSerialTransport):
+            with patch('ble_channel_sounding.app.SerialTransport', FailingSerialTransport):
                 window.open_peer_console('/dev/fake-peer', 460800)
             history.flush()
             entry = [entry for entry in history.entries if entry.kind == 'host'][-1]
@@ -724,7 +724,7 @@ class AppGuiTests(unittest.TestCase):
             event = Mock()
             with patch.object(window, 'isVisible', return_value=True), \
                     patch.object(window, '_unsaved_session_prompt', return_value=True), \
-                    patch('cs_app.app.W.QMessageBox', CancelBox):
+                    patch('ble_channel_sounding.app.W.QMessageBox', CancelBox):
                 window.closeEvent(event)
             event.ignore.assert_called_once()
             self.assertEqual(closed, [])
@@ -738,10 +738,10 @@ class AppGuiTests(unittest.TestCase):
         history = SessionHistory()
         try:
             window.session.history = history
-            logging.getLogger('cs_app.test').warning('background diagnostic')
+            logging.getLogger('ble_channel_sounding.test').warning('background diagnostic')
             self.app.processEvents()
             history.flush()
-            self.assertTrue(any(entry.kind == 'host' and entry.source == 'cs_app.test'
+            self.assertTrue(any(entry.kind == 'host' and entry.source == 'ble_channel_sounding.test'
                                 for entry in history.entries))
             window._session_saved = True
         finally:
@@ -1027,7 +1027,7 @@ class AppGuiTests(unittest.TestCase):
         self.assertNotIn('Get configuration from client', texts(SyncDialog(None, client_empty=True)))
 
     def test_widgets_and_radio_preserve_inactive_values(self):
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         for cls in (PlannerWidget, ResultsWidget):
             widget = cls()
             self.assertIsInstance(widget, W.QWidget)
@@ -1142,7 +1142,7 @@ class AppGuiTests(unittest.TestCase):
 
     @unittest.skip(FUTURE_RADIO_TEST)
     def test_radio_preset_round_trip_and_running_lock(self):
-        from cs_app.views.radio_test_view import preset_json
+        from ble_channel_sounding.views.radio_test_view import preset_json
         view = RadioTestView()
         try:
             original = view.collect_config()
@@ -1264,8 +1264,8 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_replay_context_skips_procedure_disable_reports(self):
-        from cs_app.planner.model import Scenario
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.planner.model import Scenario
+        from ble_channel_sounding.views.results_view import ResultsWidget
         enabled = replace(Scenario().procedure, state=1)
         context = ResultsWidget._replay_packet_context([(0, enabled), (1, replace(enabled, state=0))])
         self.assertIs(context["procedure"], enabled)
@@ -1293,7 +1293,7 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_preferred_t_pm_reaches_the_client_and_comes_back(self):
-        from cs_app.protocol.packets import TpmPacket
+        from ble_channel_sounding.protocol.packets import TpmPacket
         window = MainWindow(simulate=True)
         try:
             with patch.object(SyncDialog, 'exec', lambda dialog: dialog.choose('apply')):
@@ -1325,8 +1325,8 @@ class AppGuiTests(unittest.TestCase):
             window.close()
 
     def test_controller_rows_follow_cs_mode(self):
-        from cs_app.views.controller_view import ControllerView
-        from cs_app.planner.model import Scenario
+        from ble_channel_sounding.views.controller_view import ControllerView
+        from ble_channel_sounding.planner.model import Scenario
         view = ControllerView()
         try:
             view.add_packet(Scenario().configuration)

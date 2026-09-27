@@ -1,4 +1,4 @@
-"""Planner window: python -m cs_planner [plan.json | exported.c]."""
+"""Planner window: python -m ble_channel_sounding_planner [plan.json | exported.c]."""
 
 import sys
 

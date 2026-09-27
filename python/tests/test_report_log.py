@@ -1,4 +1,4 @@
-"""Checks for cs_app.report_log wording and the Session view that uses it."""
+"""Checks for ble_channel_sounding.report_log wording and the Session view that uses it."""
 
 import importlib.util
 import os
@@ -6,12 +6,12 @@ import unittest
 from dataclasses import replace
 from unittest.mock import patch
 
-from cs_app.protocol.frame import Frame
-from cs_app.protocol.packets import (ClientState, ClientStatePacket, CommandResponsePacket, CsInitiatorSubeventResultPacket,
+from ble_channel_sounding.protocol.frame import Frame
+from ble_channel_sounding.protocol.packets import (ClientState, ClientStatePacket, CommandResponsePacket, CsInitiatorSubeventResultPacket,
                                      CsReflectorSubeventResultPacket, LogMessagePacket, OperationMode, PacketType,
                                      ConnectionParametersPacket, ProtocolStatus, RasDataLostPacket, RejectReason,
                                      StartPacket)
-from cs_app.report_log import (CLIENT_LOG, COMMANDS, ERROR, INFO, SUBEVENTS, WARNING, describe_received,
+from ble_channel_sounding.report_log import (CLIENT_LOG, COMMANDS, ERROR, INFO, SUBEVENTS, WARNING, describe_received,
                                describe_sent)
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -60,10 +60,10 @@ class ReportLogTests(unittest.TestCase):
         self.assertEqual(describe_received(LogMessagePacket(b"<err> host_link: overrun")).level, ERROR)
         self.assertEqual(describe_received(LogMessagePacket(b"<dbg> cs_roles: step")).level, INFO)
         self.assertEqual(describe_received(RasDataLostPacket(7, -61)).text, "RAS data lost: procedure 7, error -ENODATA")
-        from cs_app.planner.model import Scenario
+        from ble_channel_sounding.planner.model import Scenario
         disabled = replace(Scenario().procedure, config_id=2, state=0, tone_antenna_config_selection=27)
         self.assertEqual(describe_received(disabled).text, "Procedures off: config 2")
-        from cs_app.protocol.packets import CsPeerDataPacket
+        from ble_channel_sounding.protocol.packets import CsPeerDataPacket
         self.assertEqual(describe_received(CsPeerDataPacket(1)).text, "Reflector data: none (initiator only)")
         self.assertEqual(
             describe_received(ConnectionParametersPacket(14, 0, 400, 498)).text,
@@ -82,7 +82,7 @@ class SessionViewTests(unittest.TestCase):
         cls.app = W.QApplication.instance() or W.QApplication([])
 
     def test_filters_hide_info_but_not_warnings(self):
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         window = ResultsWidget()
         view = window.session_view
         window.add_packet(subevent(CsInitiatorSubeventResultPacket))
@@ -99,10 +99,10 @@ class SessionViewTests(unittest.TestCase):
         window.close()
 
     def test_simulated_session_shows_commands_and_responses(self):
-        from cs_app.app import MainWindow
+        from ble_channel_sounding.app import MainWindow
         window = MainWindow(simulate=True)
         try:
-            from cs_app.simulator import Simulator
+            from ble_channel_sounding.simulator import Simulator
             with patch.object(window, "resolve_sync"):
                 window.session.connect(Simulator().transport)
                 self.app.processEvents()

@@ -6,9 +6,9 @@ from pathlib import Path
 
 from PyQt6 import QtCore, QtWidgets as W
 
-from cs_app.views import help_dialog
-from cs_app.views.help_dialog import HELP_PAGES, SCREENSHOTS, HelpDialog
-from cs_app.views.run_bar import ACTIONS, RunBar
+from ble_channel_sounding.views import help_dialog
+from ble_channel_sounding.views.help_dialog import HELP_PAGES, SCREENSHOTS, HelpDialog
+from ble_channel_sounding.views.run_bar import ACTIONS, RunBar
 
 
 class HelpDialogTests(unittest.TestCase):

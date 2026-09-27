@@ -12,9 +12,9 @@ in a capture:
 
 The timeline of the open session and its parsed records are the Session tab
 (``session_view.SessionView``, owned here because it shows the same session).
-cs_app feeds it live packets; the session toolbar's **Open capture…** loads a
+ble_channel_sounding feeds it live packets; the session toolbar's **Open capture…** loads a
 JSON-lines capture, raw frames or an HDF5 recording. The store keeps only the newest entries
-(``cs_app.results.MAX_*``).
+(``ble_channel_sounding.results.MAX_*``).
 """
 
 from __future__ import annotations

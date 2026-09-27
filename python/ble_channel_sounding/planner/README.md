@@ -1,7 +1,7 @@
 # CS configuration and timing (planner)
 
-The **Configuration** tab of `cs-app` in a CS operation mode. The Qt view lives in
-`cs_app/views/cs_view.py`; this package holds its Qt-free logic: `model.py`
+The **Configuration** tab of `ble-channel-sounding` in a CS operation mode. The Qt view lives in
+`ble_channel_sounding/views/cs_view.py`; this package holds its Qt-free logic: `model.py`
 (schedule), `channels.py` (CSA #3a/#3b/#3c example sequences), `bridge.py`
 (packets ↔ scenario) and `export_c.py` (planner JSON and hostless C export).
 
@@ -115,7 +115,7 @@ has its own explicitly labeled origin at the last valid reception.
 
 `Scenario.configuration` is the existing `CsConfigurationPacket` and
 `Scenario.procedure` is the existing `CsProcedureEnableCompletePacket`, imported
-from `cs_app.protocol.packets`. These remain the canonical field layouts and retain
+from `ble_channel_sounding.protocol.packets`. These remain the canonical field layouts and retain
 their wire encoding. Planner-only assumptions live in `Scenario`/`Connection`.
 
 ### Applying configurations to the view
@@ -190,7 +190,7 @@ file is a complete configuration:
 for headless use:
 
 ```python
-from cs_app.planner.model import Scenario, build_schedule
+from ble_channel_sounding.planner.model import Scenario, build_schedule
 
 result = build_schedule(Scenario(target_steps=20))
 assert result.complete

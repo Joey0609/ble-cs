@@ -1,17 +1,17 @@
-# Python host: `cs_app`
+# Python host: `ble_channel_sounding`
 
-The `cs-app` distribution contains the `cs_app` desktop host and the standalone
-`cs_planner` frontend. The host connects to a CS client over serial (or the
+The `ble-channel-sounding` distribution contains the `ble_channel_sounding` desktop host and the standalone
+`ble_channel_sounding_planner` frontend. The host connects to a CS client over serial (or the
 built-in simulator), keeps its configuration in sync, starts and stops runs,
 shows results and FAE, records runs to HDF5 and converts recordings to MATLAB
-files. New users can follow the [Getting Started guide](cs_app/GETTING_STARTED.md);
-detailed host behavior and protocol notes are in [cs_app/README.md](cs_app/README.md).
+files. New users can follow the [Getting Started guide](ble_channel_sounding/GETTING_STARTED.md);
+detailed host behavior and protocol notes are in [ble_channel_sounding/README.md](ble_channel_sounding/README.md).
 
 ```sh
 cd python
 python -m pip install -e .
-cs-app            # desktop host
-cs-planner        # standalone planner
+ble-channel-sounding           # desktop host
+ble-channel-sounding-planner   # standalone planner
 ```
 
 The package includes the HTML and Markdown Getting Started guides. In the app, use the **Help** action at the right end of the session toolbar to open the in-app help (also **Help → Help topics…**): an overview of what the application does, followed by task-based topics. The package metadata uses the Getting Started guide as its PyPI project description.
@@ -19,7 +19,7 @@ The package includes the HTML and Markdown Getting Started guides. In the app, u
 ## Package layout
 
 ```
-cs_app/
+ble_channel_sounding/
   app.py, __main__.py        main window and entry point
   session.py, qt_session.py  protocol state machine and its Qt wrapper
   transport.py, simulator.py serial transport and in-memory client
@@ -40,8 +40,8 @@ logic is unit-tested without a display.
 
 ## Protocol classes
 
-`cs_app.protocol.frame` contains the generic frame codec and incremental stream
-decoder. `cs_app.protocol.packets` contains dataclasses matching every frame in
+`ble_channel_sounding.protocol.frame` contains the generic frame codec and incremental stream
+decoder. `ble_channel_sounding.protocol.packets` contains dataclasses matching every frame in
 `../common/libs/cs_protocol/cs_protocol_packets.h`. The packet classes contain
 only message fields; their `to_frame()` method adds the common header and footer
 through `Frame`.
@@ -132,7 +132,7 @@ every `CONFIG_CS_CLIENT_RADIO_TEST_STATS_INTERVAL_MS` (250 ms), and a final repo
 before the STOP response or `CLIENT_STATE(STOPPED, TEST_COMPLETE)`. Counter decreases
 beyond the half-range rollover rule are treated as resets.
 
-`cs-app --simulate` exercises RX, finite RX completion and continuous RX sweep without
+`ble-channel-sounding --simulate` exercises RX, finite RX completion and continuous RX sweep without
 hardware. Select RX and enter 100 packets/s to explore the simulated drop estimates.
 A capture passed to `--simulate capture.h5` replays its RX reports once in radio RX mode;
 use the session toolbar's **Open capture…** for analysis with the original capture timing.
@@ -191,7 +191,7 @@ by the high-quality filter. The frequency-offset delay uses T_SW_IPT from the
 capabilities instead of T_SW.
 
 When `CONNECT_RESPONSE` reports a running client (possible only on a port without
-DTR; a USB CDC client stops its run when the host goes away), `cs-app` fetches the
+DTR; a USB CDC client stops its run when the host goes away), `ble-channel-sounding` fetches the
 client's configuration with `GET_CONFIG`, loads it into the views and warns which
 settings differ from its own. It does not stop the run.
 
@@ -216,10 +216,10 @@ Exports call `cs_initiator_config_set_t_pm(config, CS_CONFIG_T_PM_40_US)`.
 the Controller view compares it against the request; a value the peer does not
 support is listed under Compatibility before the run. Recordings store the
 request in `/config/t_pm`. Whether a longer T_PM averages better is the
-measurement question this setting exists for; `cs-app` provides no analysis for
+measurement question this setting exists for; `ble-channel-sounding` provides no analysis for
 it.
 
-The standalone `cs_planner` leaves T_PM to the firmware, as it does the
+The standalone `ble_channel_sounding_planner` leaves T_PM to the firmware, as it does the
 reflector data and log levels, so its exports never call the setter.
 
 ## Peer discovery (protocol 0x0007)

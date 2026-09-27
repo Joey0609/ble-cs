@@ -1,6 +1,6 @@
 import unittest
 
-from cs_app.peer_console import PeerConsoleReader
+from ble_channel_sounding.peer_console import PeerConsoleReader
 
 
 class PeerConsoleTests(unittest.TestCase):

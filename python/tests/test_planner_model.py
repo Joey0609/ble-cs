@@ -3,8 +3,8 @@
 from dataclasses import replace
 import unittest
 
-from cs_app.planner.channels import HAT, X_PATTERN, cr1, shape_sequence
-from cs_app.planner.model import (ALLOWED_CHANNELS, ATT_DEFAULT_MTU, Scenario, apply_mode_defaults, build_schedule,
+from ble_channel_sounding.planner.channels import HAT, X_PATTERN, cr1, shape_sequence
+from ble_channel_sounding.planner.model import (ALLOWED_CHANNELS, ATT_DEFAULT_MTU, Scenario, apply_mode_defaults, build_schedule,
                               channel_map_bytes, dumps, enabled_channels, ll_packet_us, loads, ras_transfer,
                               step_segments, validate)
 
@@ -26,7 +26,7 @@ class PlannerTimingTests(unittest.TestCase):
                          (145, 145, 150, 40))
 
     def test_timing_help_lists_values_and_controller_selection_factors(self):
-        from cs_app.views.control_help import (CONTROLLER_SELECTED_WARNING, CONTROL_DETAILS, EXAMPLE_CONTROL_HELP,
+        from ble_channel_sounding.views.control_help import (CONTROLLER_SELECTED_WARNING, CONTROL_DETAILS, EXAMPLE_CONTROL_HELP,
                                                TAB_HELP, TIMING_MANDATORY_VALUES)
         expected = {
             "configuration.t_ip1_time_us": "10, 20, 30, 40, 50, 60, 80, 145 µs",
@@ -63,7 +63,7 @@ class PlannerTimingTests(unittest.TestCase):
         self.assertIn("Possible values are T_IP1/T_IP2 = 10, 20, 30, 40, 50, 60, 80 or 145 µs", CONTROLLER_SELECTED_WARNING)
 
     def test_inactive_fields_follow_mode_ipt_channel_selection_and_subevents(self):
-        from cs_app.planner.model import CSA3C_FIELDS, inactive_fields, unused_fields, unused_host_fields
+        from ble_channel_sounding.planner.model import CSA3C_FIELDS, inactive_fields, unused_fields, unused_host_fields
         default = Scenario()
         c, p = default.configuration, default.procedure
         # Mode 2 without a sub-mode: no sub-mode or RTT fields, no T_SW_IPT without IPT, no #3c fields with #3b.
@@ -139,7 +139,7 @@ class PlannerTimingTests(unittest.TestCase):
         self.assertEqual(fresh, [1 if i % 5 == 4 else 2 for i in range(50)])
 
     def test_unused_mode_fields_hold_their_defaults(self):
-        from cs_app.planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
+        from ble_channel_sounding.planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
                                  apply_mode_defaults, scenario_value, unused_fields, unused_host_fields)
         self.assertEqual(unused_fields(1), SUB_MODE_FIELDS + PBR_FIELDS)
         self.assertEqual(unused_fields(2), SUB_MODE_FIELDS + RTT_FIELDS)

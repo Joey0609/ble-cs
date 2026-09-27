@@ -1,23 +1,23 @@
 import unittest
 import time
 from dataclasses import replace
-from cs_app.protocol import PROTOCOL_VERSION
-from cs_app.session import ClientSession
-from cs_app.simulator import Simulator
-from cs_app.protocol.config import ClientConfig
-from cs_app.protocol.packets import (PeripheralPatternsPacket, PacketType, ProtocolStatus, CommandResponsePacket,
+from ble_channel_sounding.protocol import PROTOCOL_VERSION
+from ble_channel_sounding.session import ClientSession
+from ble_channel_sounding.simulator import Simulator
+from ble_channel_sounding.protocol.config import ClientConfig
+from ble_channel_sounding.protocol.packets import (PeripheralPatternsPacket, PacketType, ProtocolStatus, CommandResponsePacket,
                                 ConnectResponsePacket, ClientState, StartPacket, ClientStatePacket,
                                 RadioTxTestConfigPacket, RejectReason, CsProceduresCompletePacket, CsPeerDataPacket,
                                 CsConfigurationPacket, CsCapabilitiesPacket, CsReflectorSubeventResultPacket,
                                 RasDataLostPacket, PeerDataPacket, OperationModePacket, ApplyConfigPacket,
                                 ConnectionParametersPacket,
                                 CloseSessionPacket, GetConfigPacket)
-from cs_app.protocol.packets import LogConfigPacket, LogMessagePacket
-from cs_app.protocol.frame import Frame
-from cs_app.session_history import SessionHistory
+from ble_channel_sounding.protocol.packets import LogConfigPacket, LogMessagePacket
+from ble_channel_sounding.protocol.frame import Frame
+from ble_channel_sounding.session_history import SessionHistory
 from unittest.mock import Mock
-from cs_app.planner.bridge import config_packet
-from cs_app.planner.model import Scenario
+from ble_channel_sounding.planner.bridge import config_packet
+from ble_channel_sounding.planner.model import Scenario
 
 
 def config():
@@ -193,7 +193,7 @@ class SessionTests(unittest.TestCase):
         self.assertEqual(result(ApplyConfigPacket()), (ProtocolStatus.BAD_STATE, RejectReason.MISSING_PATTERNS, 0))
 
     def test_simulator_set_t_pm_rules(self):
-        from cs_app.protocol.packets import TpmPacket
+        from ble_channel_sounding.protocol.packets import TpmPacket
         sim, out = Simulator(clock=lambda: self.now), []
         sim.send = out.append
         sim.connected = True
@@ -224,7 +224,7 @@ class SessionTests(unittest.TestCase):
         self.assertEqual([p.t_pm_us for p in out if isinstance(p, TpmPacket)], [40])
 
     def test_simulator_reports_the_requested_t_pm_at_configuration_complete(self):
-        from cs_app.protocol.packets import T_PM_DEFAULT_US
+        from ble_channel_sounding.protocol.packets import T_PM_DEFAULT_US
         s = self.session
         s.set_host_config(ClientConfig(0, config_packet(Scenario()),
                                        PeripheralPatternsPacket.from_patterns(["CS"]), t_pm=40))
@@ -266,7 +266,7 @@ class SessionTests(unittest.TestCase):
         self.assertEqual((out[-1].status, out[-1].reason), (ProtocolStatus.REJECTED, RejectReason.NONZERO_PADDING))
 
     def test_simulator_link_active_matches_cs_role_link_active(self):
-        from cs_app.protocol.packets import ClientState, ScanStartPacket, PeerConnectPacket
+        from ble_channel_sounding.protocol.packets import ClientState, ScanStartPacket, PeerConnectPacket
         sim, out = Simulator(), []
         sim.send = out.append
         sim.connected = True

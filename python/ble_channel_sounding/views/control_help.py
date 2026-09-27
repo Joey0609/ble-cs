@@ -641,7 +641,7 @@ TAB_HELP = {
         "CS default settings: the CS_SYNC antenna and the maximum CS transmit power. Procedure parameters: the reference PHY and "
         "TX power delta for the peer's power, the preferred peer antennas and SNR control.",
         "Creation context: whether the initiator writes the configuration to the peer too. The GAP role (central or peripheral) "
-        "is independent of the CS role (initiator or reflector); in cs-app the CS setup tab sets it and the peripheral prefixes.",
+        "is independent of the CS role (initiator or reflector); in ble-channel-sounding the CS setup tab sets it and the peripheral prefixes.",
         "Unused controls are held read-only: SNR control without Mode 1 or 3, Preferred peer antenna without Mode 2 or 3, "
         "Creation context for a reflector configuration.",
     ),

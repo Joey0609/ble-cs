@@ -22,15 +22,15 @@
 <body>
   <main>
     <h1>CS Host: Getting Started</h1>
-    <p class="intro">CS Host (<code>cs-app</code>) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.</p>
+    <p class="intro">CS Host (<code>ble-channel-sounding</code>) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.</p>
     <p>You can explore the interface with its built-in simulator before connecting hardware. Inside the app, <strong>Help → Help topics…</strong> or the Help icon at the right end of the session toolbar opens an overview followed by task-based topics.</p>
 
     <h2>Install and open the app</h2>
     <p>CS Host requires Python 3.10 or newer. When the package is available on PyPI, install and launch it with:</p>
-    <pre><code>python -m pip install cs-app
-cs-app</code></pre>
-    <p>You can also start it with <code>python -m cs_app</code>. If <code>cs-app</code> is not found, use the Python environment where you installed the package, or activate that environment first.</p>
-    <p>Run <code>cs-app --help</code> to see command-line options and examples.</p>
+    <pre><code>python -m pip install ble-channel-sounding
+ble-channel-sounding</code></pre>
+    <p>You can also start it with <code>python -m ble_channel_sounding</code>. If <code>ble-channel-sounding</code> is not found, use the Python environment where you installed the package, or activate that environment first.</p>
+    <p>Run <code>ble-channel-sounding --help</code> to see command-line options and examples.</p>
     <p>For the current source checkout, install the workspace package in editable mode from the repository root:</p>
     <pre><code>.venv/bin/python -m pip install -e ./python</code></pre>
     <p>On Windows, the equivalent command is:</p>
@@ -38,9 +38,9 @@ cs-app</code></pre>
 
     <h2>Try it without boards</h2>
     <p>Start CS Host with the in-memory client preselected:</p>
-    <pre><code>cs-app --simulate</code></pre>
+    <pre><code>ble-channel-sounding --simulate</code></pre>
     <p>Or open the app normally and choose <strong>Simulator — in-memory client</strong> in <strong>Serial port → Client</strong>, then click <strong>Connect client</strong>. To replay an existing HDF5 capture through the simulator, pass its path:</p>
-    <pre><code>cs-app --simulate path/to/session.h5</code></pre>
+    <pre><code>ble-channel-sounding --simulate path/to/session.h5</code></pre>
     <p>The simulator is useful for exploring controls, session flow, plots and recordings. Its generated measurements are synthetic and do not model radio accuracy. A capture is replayed from its recorded reports; it is not a live RF measurement.</p>
 
     <h2>Use Bluetooth hardware</h2>
@@ -73,7 +73,7 @@ cs-app</code></pre>
       <li><strong>You only need to try the UI:</strong> choose the simulator; NCS and hardware are not needed.</li>
     </ul>
 
-    <p class="note">Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the <a href="https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/README.md">CS Host reference</a>.</p>
+    <p class="note">Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the <a href="https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/README.md">CS Host reference</a>.</p>
   </main>
 </body>
 </html>

@@ -4,11 +4,11 @@ import importlib.util
 import os
 import unittest
 
-from cs_app.controller import (DIFFERS, OK, OUTSIDE, RUN_FAILS, ControllerReports, capability_rows, check_compatibility,
+from ble_channel_sounding.controller import (DIFFERS, OK, OUTSIDE, RUN_FAILS, ControllerReports, capability_rows, check_compatibility,
                                compare_configuration, compare_connection, compare_procedure, source_label)
-from cs_app.planner.bridge import apply_packet, config_packet
-from cs_app.planner.model import Scenario
-from cs_app.protocol.packets import (CAPABILITIES_CONN_NONE, CapabilitiesSource, ConnectionParametersPacket,
+from ble_channel_sounding.planner.bridge import apply_packet, config_packet
+from ble_channel_sounding.planner.model import Scenario
+from ble_channel_sounding.protocol.packets import (CAPABILITIES_CONN_NONE, CapabilitiesSource, ConnectionParametersPacket,
                                      CsCapabilitiesPacket, OperationMode, packet_from_dict, packet_to_dict)
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -222,7 +222,7 @@ class ControllerViewTests(unittest.TestCase):
         cls.app = QApplication.instance() or QApplication([])
 
     def test_view_fills_tables_and_issues(self):
-        from cs_app.views.controller_view import ControllerView
+        from ble_channel_sounding.views.controller_view import ControllerView
         requested, configuration, procedure = negotiated()
         view = ControllerView()
         self.assertEqual(view.capabilities.rowCount(), 0)
@@ -242,7 +242,7 @@ class ControllerViewTests(unittest.TestCase):
         self.assertEqual(view.issues.item(0).text(), "Waiting for capabilities reports")
 
     def test_view_shows_connection_parameters_when_reported(self):
-        from cs_app.views.controller_view import ControllerView
+        from ble_channel_sounding.views.controller_view import ControllerView
         requested, _, procedure = negotiated()
         view = ControllerView()
         view.set_requested(requested)

@@ -1,14 +1,14 @@
 # Saved session HDF5 and MATLAB organization
 
-This document describes the recording format produced by cs_app, including files
+This document describes the recording format produced by ble_channel_sounding, including files
 created by **Save session…**, ordinary run recordings, and their MATLAB exports. The
 HDF5 writer is implemented in
-[python/cs_app/recorder.py](python/cs_app/recorder.py), and MATLAB conversion is
-implemented in [python/cs_app/h5_to_mat.py](python/cs_app/h5_to_mat.py).
+[python/ble_channel_sounding/recorder.py](python/ble_channel_sounding/recorder.py), and MATLAB conversion is
+implemented in [python/ble_channel_sounding/h5_to_mat.py](python/ble_channel_sounding/h5_to_mat.py).
 
 The current on-disk format is HDF5 format_version = 1. A saved session and a normal
 run recording use the same HDF5 schema, so both can be opened by **Open capture…**,
-replayed by cs-app --simulate, or converted to MATLAB.
+replayed by ble-channel-sounding --simulate, or converted to MATLAB.
 
 ## 1. What a saved session contains
 
@@ -748,7 +748,7 @@ reports, results, events, log, host_log, context, and raw. It accepts
 include_meta=False to omit meta fields. For example:
 
 ~~~python
-from cs_app.h5_to_mat import convert
+from ble_channel_sounding.h5_to_mat import convert
 
 convert(
     "session_cs_initiator_14_Sep_2026_13_05_22.h5",
@@ -830,5 +830,5 @@ Readers should:
    particular result has a fixed number of steps or tones.
 
 The authoritative field names and wire-level enum definitions remain the protocol
-packet classes in python/cs_app/protocol/packets.py and the corresponding C headers
+packet classes in python/ble_channel_sounding/protocol/packets.py and the corresponding C headers
 under common/libs/cs_protocol/.

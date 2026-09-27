@@ -1,6 +1,6 @@
 # CS Host: Getting Started
 
-CS Host (`cs-app`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
+CS Host (`ble-channel-sounding`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
 
 You can explore the interface with its built-in simulator before connecting hardware. Inside the app, **Help → Help topics…** or the Help icon at the right end of the session toolbar opens an overview followed by task-based topics.
 
@@ -9,13 +9,13 @@ You can explore the interface with its built-in simulator before connecting hard
 CS Host requires Python 3.10 or newer. When the package is available on PyPI, install and launch it with:
 
 ```sh
-python -m pip install cs-app
-cs-app
+python -m pip install ble-channel-sounding
+ble-channel-sounding
 ```
 
-You can also start it with `python -m cs_app`. If `cs-app` is not found, use the Python environment where you installed the package, or activate that environment first.
+You can also start it with `python -m ble_channel_sounding`. If `ble-channel-sounding` is not found, use the Python environment where you installed the package, or activate that environment first.
 
-Run `cs-app --help` to see command-line options and examples.
+Run `ble-channel-sounding --help` to see command-line options and examples.
 
 For the current source checkout, install the workspace package in editable mode from the repository root:
 
@@ -34,13 +34,13 @@ On Windows, the equivalent command is:
 Start CS Host with the in-memory client preselected:
 
 ```sh
-cs-app --simulate
+ble-channel-sounding --simulate
 ```
 
 Or open the app normally and choose **Simulator — in-memory client** in **Serial port → Client**, then click **Connect client**. To replay an existing HDF5 capture through the simulator, pass its path:
 
 ```sh
-cs-app --simulate path/to/session.h5
+ble-channel-sounding --simulate path/to/session.h5
 ```
 
 The simulator is useful for exploring controls, session flow, plots and recordings. Its generated measurements are synthetic and do not model radio accuracy. A capture is replayed from its recorded reports; it is not a live RF measurement.
@@ -79,4 +79,4 @@ The app also keeps a temporary session history while you work. Use **Save sessio
 - **Start session is disabled:** hover over it for the current prerequisite. Usually the configuration needs to be applied or the Bluetooth peer needs to connect.
 - **You only need to try the UI:** choose the simulator; NCS and hardware are not needed.
 
-Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the [CS Host reference](https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/README.md).
+Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the [CS Host reference](https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/README.md).

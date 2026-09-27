@@ -1,5 +1,5 @@
 /* Hand-written 2026-09-24 for the stack high-water-mark measurement; not a
- * cs-app export. Regenerating this file from cs-app overwrites everything here.
+ * ble-channel-sounding export. Regenerating this file from ble-channel-sounding overwrites everything here.
  *
  * Operation mode: CS initiator; IPT: requested
  * Reflector data: RAS real-time
@@ -40,7 +40,7 @@
  * configuration that ran on 2026-09-23, so if 0x11 comes back the remaining
  * suspects are .mode_0_steps (3, try 2) and .mode itself (3, try
  * CS_CONFIG_MODE_2). Change one field per build so the rejection stays
- * attributable, and read the capabilities report in cs-app - modes_supported,
+ * attributable, and read the capabilities report in ble-channel-sounding - modes_supported,
  * rtt_capability and subfeatures_supported name the limit directly instead of
  * leaving it to elimination.
  */
@@ -203,7 +203,7 @@ const char *cs_generated_config_device_name(void) {
 }
 
 /* CS_PLANNER_SCENARIO_JSON
-   Hand-updated alongside the record above so cs-app shows something close to
+   Hand-updated alongside the record above so ble-channel-sounding shows something close to
    what runs, but it was not produced by the planner: check it in the planner
    before trusting it as a scenario.
 {

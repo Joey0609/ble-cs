@@ -333,7 +333,7 @@ class MainWindow(W.QMainWindow):
         self._session_started_at = None
         self._save_offered = False
         self._log_handler = _AppLogHandler(self._host_log_bridge)
-        logging.getLogger("cs_app").addHandler(self._log_handler)
+        logging.getLogger("ble_channel_sounding").addHandler(self._log_handler)
         self.port_view.connect_requested.connect(self.connect_port)
         self.port_view.status_message.connect(self.port_status.setText)
         self.general_view.selected.connect(self.select_role)
@@ -1512,7 +1512,7 @@ class MainWindow(W.QMainWindow):
                 self.session.close()
                 if self.session.transport:
                     self.session.fail("Window closed before CLOSE_SESSION confirmation")
-        logging.getLogger("cs_app").removeHandler(self._log_handler)
+        logging.getLogger("ble_channel_sounding").removeHandler(self._log_handler)
         event.accept()
 
 
@@ -1521,11 +1521,11 @@ def main(argv=None):
         description="Desktop host for Bluetooth Channel Sounding clients.",
         epilog=(
             "Examples:\n"
-            "  cs-app                         Start and choose a serial client or Simulator.\n"
-            "  cs-app --simulate              Start with the in-memory simulator selected.\n"
-            "  cs-app --simulate run.h5       Load an HDF5 capture into the simulator.\n\n"
+            "  ble-channel-sounding                     Start and choose a serial client or Simulator.\n"
+            "  ble-channel-sounding --simulate          Start with the in-memory simulator selected.\n"
+            "  ble-channel-sounding --simulate run.h5   Load an HDF5 capture into the simulator.\n\n"
             "The simulator does not require hardware; its measurements are synthetic. Hardware use requires a compatible client.\n"
-            "Guide: https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/GETTING_STARTED.md"
+            "Guide: https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/GETTING_STARTED.md"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

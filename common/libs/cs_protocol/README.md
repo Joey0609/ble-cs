@@ -236,7 +236,7 @@ There are no per-message encoders, converters, apply callbacks or client state
 objects. `cs_protocol_packets.h` is definitions only; `cs_protocol.c` implements
 the generic wrapper and stream parser.
 
-The matching Python implementation is in [`python/cs_app/protocol`](../../../python/cs_app/protocol).
+The matching Python implementation is in [`python/ble_channel_sounding/protocol`](../../../python/ble_channel_sounding/protocol).
 It provides the generic frame codec, packet dataclasses, `ClientConfig` (configuration
 CRC, send order, `GET_CONFIG` reply parsing), incremental receiver, and JSON-driven
 transmitter.

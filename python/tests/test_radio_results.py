@@ -11,18 +11,18 @@ import h5py
 from scipy.io import loadmat
 from PyQt6 import QtWidgets as W
 
-from cs_app.protocol.packets import (RadioTestStatsPacket as Stats, PacketType, RadioTestType,
+from ble_channel_sounding.protocol.packets import (RadioTestStatsPacket as Stats, PacketType, RadioTestType,
                                     OperationMode, decode_packet, packet_from_dict, packet_to_dict)
-from cs_app.protocol.frame import Frame, ProtocolError
-from cs_app.protocol.receiver import PacketReceiver
-from cs_app.radio_results import RadioResultStore
-from cs_app.protocol.config import ClientConfig
-from cs_app.recorder import RunRecorder, load
-from cs_app.h5_to_mat import convert
-from cs_app.views.radio_test_view import DEFAULT
-from cs_app.views.radio_results_view import RadioResultsWidget
-from cs_app.app import MainWindow
-from cs_app.views.sync_dialog import SyncDialog
+from ble_channel_sounding.protocol.frame import Frame, ProtocolError
+from ble_channel_sounding.protocol.receiver import PacketReceiver
+from ble_channel_sounding.radio_results import RadioResultStore
+from ble_channel_sounding.protocol.config import ClientConfig
+from ble_channel_sounding.recorder import RunRecorder, load
+from ble_channel_sounding.h5_to_mat import convert
+from ble_channel_sounding.views.radio_test_view import DEFAULT
+from ble_channel_sounding.views.radio_results_view import RadioResultsWidget
+from ble_channel_sounding.app import MainWindow
+from ble_channel_sounding.views.sync_dialog import SyncDialog
 
 
 FUTURE_RADIO_TEST = "Future: Radio Test is disabled in the desktop app while its firmware is work in progress"
@@ -134,8 +134,8 @@ class RadioTests(unittest.TestCase):
             window.close()
 
     def test_rx_sweep_continues_with_inactive_packet_count_and_stop_stats(self):
-        from cs_app.simulator import Simulator
-        from cs_app.session import ClientSession
+        from ble_channel_sounding.simulator import Simulator
+        from ble_channel_sounding.session import ClientSession
         session = ClientSession()
         sim = Simulator(clock=lambda: 0)
         session.set_host_config(ClientConfig(OperationMode.RADIO_TX_TEST,

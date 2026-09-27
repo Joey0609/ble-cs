@@ -4,12 +4,12 @@ import unittest
 from dataclasses import replace
 from unittest.mock import MagicMock, patch
 from PyQt6 import QtCore, QtWidgets as W
-from cs_app.protocol.packets import *
-from cs_app.protocol.frame import Frame, ProtocolError
-from cs_app.session import ClientSession, interruption_text
-from cs_app.simulator import Simulator
-from cs_app.app import MainWindow
-from cs_app.views.sync_dialog import SyncDialog
+from ble_channel_sounding.protocol.packets import *
+from ble_channel_sounding.protocol.frame import Frame, ProtocolError
+from ble_channel_sounding.session import ClientSession, interruption_text
+from ble_channel_sounding.simulator import Simulator
+from ble_channel_sounding.app import MainWindow
+from ble_channel_sounding.views.sync_dialog import SyncDialog
 
 
 def peer(address=b'\x01\x02\x03\x04\x05\x06', name='Peer å', flags=3):

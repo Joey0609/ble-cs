@@ -15,7 +15,7 @@ Nordic Connect SDK through `west`/CMake. The host application requires Python
 matching nRF Connect SDK Toolchain v3.4.1. There is no workspace-level NCS west
 manifest or lockfile; use the same NCS release across firmware projects.
 
-The main deployment is `cs_client` connected to `cs-app` over USB CDC ACM,
+The main deployment is `cs_client` connected to `ble-channel-sounding` over USB CDC ACM,
 paired with a Bluetooth CS reflector. The `cs_hostless_*` applications run
 without host commands and use a compiled/default configuration. Radio Test is
 currently disabled in the desktop application; the radio-test firmware paths
@@ -42,9 +42,9 @@ Important areas:
   board overlay.
 - `cs_tag_modulated_tx/`: Tag modulated-transmit utility for RF experiments.
 - `tests/`: firmware applications and native C tests for shared libraries.
-- `python/cs_app/`: Python host application, protocol, simulator, recording,
+- `python/ble_channel_sounding/`: Python host application, protocol, simulator, recording,
   analysis, and Qt views.
-- `python/cs_planner/`: standalone planner frontend and C-export support.
+- `python/ble_channel_sounding_planner/`: standalone planner frontend and C-export support.
 - `python/tests/`: Python unit and optional offscreen GUI tests.
 - `configs/`: generated/configuration-related C sources.
 - `docs/`: Bluetooth Channel Sounding references and project technical notes.
@@ -57,10 +57,10 @@ Important areas:
   root using the board target documented by the relevant app. Keep build output
   under the app directory or another ignored/out-of-tree location.
 - Host app: from the workspace root, install and launch with
-  `.venv/bin/python -m pip install -e ./python` and `cs-app`. Use
-  `cs-app --simulate` to explore without hardware.
+  `.venv/bin/python -m pip install -e ./python` and `ble-channel-sounding`. Use
+  `ble-channel-sounding --simulate` to explore without hardware.
 - Main hosted route: flash `cs_client` to an nRF54LM20 DK, connect its native
-  USB CDC ACM host port to `cs-app`, and pair over Bluetooth with a reflector.
+  USB CDC ACM host port to `ble-channel-sounding`, and pair over Bluetooth with a reflector.
 - Hostless route: use `cs_hostless_initiator` and `cs_hostless_reflector` with
   the configuration compiled into their firmware; the initiator streams reports
   over USB CDC ACM. The Tag uses RTT through an SWD probe for logs.
@@ -89,7 +89,7 @@ firmware. See `LICENSING.md` for the Zephyr and nRF Connect SDK boundary.
   directory.
 - Keep the C and Python protocol implementations synchronized. Changes to
   `common/libs/cs_protocol/cs_protocol_packets.h` normally require matching
-  updates in `python/cs_app/protocol/` and the relevant tests.
+  updates in `python/ble_channel_sounding/protocol/` and the relevant tests.
 - Treat packed record sizes, enum values, field order, CRC ordering, and
   protocol versioning as compatibility-sensitive. Update both native C and
   Python tests when changing them.

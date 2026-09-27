@@ -1,4 +1,4 @@
-"""Checks for cs_app.results: pairing, mode-0 correction, RTT, capture loading and the Qt view."""
+"""Checks for ble_channel_sounding.results: pairing, mode-0 correction, RTT, capture loading and the Qt view."""
 
 import cmath
 from dataclasses import replace
@@ -12,13 +12,13 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import Mock
 
-from cs_app.protocol.packets import (CsCapabilitiesPacket, CsConfigurationPacket, CsInitiatorSubeventResultPacket,
+from ble_channel_sounding.protocol.packets import (CsCapabilitiesPacket, CsConfigurationPacket, CsInitiatorSubeventResultPacket,
                                  CsPeerDataPacket, CsReflectorSubeventResultPacket, CsStep, CsTone,
                                  LogMessagePacket, packet_to_dict)
-from cs_app.results import (CORRECTION_COMPENSATION, CORRECTION_MEASURED, CORRECTION_NONE, CORRECTION_RESIDUAL,
+from ble_channel_sounding.results import (CORRECTION_COMPENSATION, CORRECTION_MEASURED, CORRECTION_NONE, CORRECTION_RESIDUAL,
                               MAX_PACKETS, ResultStore, analyze_pbr, analyze_rtt, centi_ppm, load_capture,
                               tone_pair_delay_us, unwrap)
-from cs_app.simulator import RTT_DISTANCE_M, Simulator
+from ble_channel_sounding.simulator import RTT_DISTANCE_M, Simulator
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 GUI_AVAILABLE = all(importlib.util.find_spec(m) for m in ("PyQt6", "pyqtgraph"))
@@ -343,7 +343,7 @@ class IptTests(unittest.TestCase):
 class ResultsGuiTests(unittest.TestCase):
     def test_tabs_render_every_report(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         window.show()
@@ -366,7 +366,7 @@ class ResultsGuiTests(unittest.TestCase):
     def test_sign_options_carry_their_own_help(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         window.show()
@@ -395,7 +395,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_rtt_tab(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         window.show()
@@ -437,7 +437,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_follow_averages_procedures_received_since_last_redraw(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         for n in range(3):
@@ -462,7 +462,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_estimates_keep_last_30_seconds(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         for n, arrival in enumerate((100.0, 120.0, 140.0)):
@@ -482,7 +482,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_replay_estimates_are_centered_on_selected_procedure(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget(recording_playback=True)
         try:
@@ -503,7 +503,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_sign_change_refreshes_estimates(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         for packet in synthetic_packets(paths=1):
@@ -519,7 +519,7 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_requested_mode_refreshes_estimate_visibility(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.rtt_page)))
@@ -551,7 +551,7 @@ class ResultsGuiTests(unittest.TestCase):
     def test_unchanged_mode_keeps_tab_and_estimates(self):
         # MainWindow.edited passes the mode on every configuration edit.
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         for packet in synthetic_packets(paths=1):
@@ -569,8 +569,8 @@ class ResultsGuiTests(unittest.TestCase):
 
     def test_views_keep_only_the_newest_entries(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.results import MAX_LOGS, MAX_PACKETS
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.results import MAX_LOGS, MAX_PACKETS
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         for n in range(MAX_PACKETS + 5):
@@ -606,8 +606,8 @@ class StoreLimitTests(unittest.TestCase):
 class HistoryModelTests(unittest.TestCase):
     def test_session_view_falls_back_when_history_was_closed(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -623,7 +623,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_history_view_follows_newest_without_selection_and_preserves_selection(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -648,8 +648,8 @@ class HistoryModelTests(unittest.TestCase):
     def _replay_view(self, procedures=4):
         """A stopped replay over a session history: the Session tab's browsing mode."""
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -730,7 +730,7 @@ class HistoryModelTests(unittest.TestCase):
     def test_live_click_shows_the_record_and_keeps_following_the_tail(self):
         """A live row can be clicked; the tail goes on following the newest records (§7.9)."""
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -763,7 +763,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_live_eviction_drops_the_highlight_and_keeps_the_detail(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -793,7 +793,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_session_filters_are_disabled_for_live_streams_but_available_for_playback(self):
         from PyQt6.QtWidgets import QApplication, QAbstractItemView
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -832,8 +832,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_history_model_ignores_parent_requests_for_removed_rows(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
-        from cs_app.views.session_view import HistoryModel, MemoryHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.session_view import HistoryModel, MemoryHistory
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -852,7 +852,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_expanding_history_entry_keeps_child_parent_valid(self):
         from PyQt6.QtWidgets import QApplication, QTreeView
-        from cs_app.views.session_view import HistoryModel, MemoryHistory
+        from ble_channel_sounding.views.session_view import HistoryModel, MemoryHistory
 
         app = QApplication.instance() or QApplication([])
         source = MemoryHistory([(float(index), packet)
@@ -876,7 +876,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_live_history_entries_are_not_expandable(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.session_view import HistoryModel, MemoryHistory
+        from ble_channel_sounding.views.session_view import HistoryModel, MemoryHistory
 
         app = QApplication.instance() or QApplication([])
         source = MemoryHistory([(float(index), packet)
@@ -890,7 +890,7 @@ class HistoryModelTests(unittest.TestCase):
         self.assertFalse(model.index(0, 0, parent).isValid())
 
     def test_live_history_model_requests_only_the_bounded_tail(self):
-        from cs_app.views.session_view import HistoryModel, MemoryHistory
+        from ble_channel_sounding.views.session_view import HistoryModel, MemoryHistory
 
         class TrackingHistory(MemoryHistory):
             def snapshot(self, *, flush=True, limit=None):
@@ -906,8 +906,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_history_model_uses_full_session_after_stop_and_live_tail_while_running(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -952,9 +952,9 @@ class HistoryModelTests(unittest.TestCase):
         than a test failure.
         """
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
-        from cs_app.views.session_view import DISK_CACHE_ROWS, DISK_WINDOW_ROWS
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.session_view import DISK_CACHE_ROWS, DISK_WINDOW_ROWS
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -989,9 +989,9 @@ class HistoryModelTests(unittest.TestCase):
         payload cost one index query and one decode per record on every redraw.
         """
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
-        from cs_app.views.session_view import DISK_WINDOW_ROWS
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.session_view import DISK_WINDOW_ROWS
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -1042,8 +1042,8 @@ class HistoryModelTests(unittest.TestCase):
         those signals blocked, so it asks for the repaint itself.
         """
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -1072,8 +1072,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_session_view_says_where_a_truncated_history_starts(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         one = LogMessagePacket(b"0")
         history = SessionHistory(max_bytes=2 * (len(one.to_bytes()) + 32), segment_bytes=len(one.to_bytes()) + 32)
@@ -1094,8 +1094,8 @@ class HistoryModelTests(unittest.TestCase):
             history.close()
 
     def test_history_host_and_peer_filters_keep_failures_visible(self):
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
         from PyQt6.QtWidgets import QApplication
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -1123,8 +1123,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_selecting_an_evicted_procedure_loads_the_detail_pane_from_history(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -1166,8 +1166,8 @@ class HistoryModelTests(unittest.TestCase):
         whole-session scan a live run must not do (implementation_plan.md §7.9).
         """
         from PyQt6.QtWidgets import QApplication
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         history = SessionHistory()
@@ -1210,7 +1210,7 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_replay_history_selection_updates_all_analysis_views(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget(recording_playback=True)
@@ -1242,10 +1242,10 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_replay_selection_restores_evicted_procedure_and_neighbor(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.results import ResultStore
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.controller_view import ControllerView
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.results import ResultStore
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.controller_view import ControllerView
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         first = numbered(synthetic_packets(paths=1), 0)
@@ -1287,9 +1287,9 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_replay_dropdown_lists_history_procedures_the_store_dropped(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.results import ResultStore
-        from cs_app.session_history import SessionHistory
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.results import ResultStore
+        from ble_channel_sounding.session_history import SessionHistory
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         procedures = [numbered(synthetic_packets(paths=1), n) for n in range(5)]
@@ -1329,7 +1329,7 @@ class HistoryModelTests(unittest.TestCase):
     def test_replay_dropdown_lists_all_procedures_but_live_shows_only_current(self):
         from PyQt6.QtCore import QPoint, Qt
         from PyQt6.QtWidgets import QApplication, QComboBox
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         packets = (numbered(synthetic_packets(paths=1), 0), numbered(rtt_packets(paths=1), 1))
@@ -1385,8 +1385,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_hdf5_capture_uses_the_same_history_model(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.recorder import RunRecorder
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.recorder import RunRecorder
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
@@ -1412,13 +1412,13 @@ class HistoryModelTests(unittest.TestCase):
         """A record carries its own controller reports and the configuration its host asked for."""
         from dataclasses import fields
         from PyQt6.QtWidgets import QApplication
-        from cs_app.planner.bridge import config_packet
-        from cs_app.planner.model import Scenario
-        from cs_app.protocol.packets import (CapabilitiesSource, ClientState, ClientStatePacket, OperationMode,
+        from ble_channel_sounding.planner.bridge import config_packet
+        from ble_channel_sounding.planner.model import Scenario
+        from ble_channel_sounding.protocol.packets import (CapabilitiesSource, ClientState, ClientStatePacket, OperationMode,
                                              PeerDataPacket, TpmPacket)
-        from cs_app.recorder import RunRecorder
-        from cs_app.views.controller_view import ControllerView
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.recorder import RunRecorder
+        from ble_channel_sounding.views.controller_view import ControllerView
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         controller = ControllerView()
@@ -1457,8 +1457,8 @@ class HistoryModelTests(unittest.TestCase):
 
     def test_opening_session_config_json_follows_hdf5_companion(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_app.recorder import RunRecorder
-        from cs_app.views.results_view import ResultsWidget
+        from ble_channel_sounding.recorder import RunRecorder
+        from ble_channel_sounding.views.results_view import ResultsWidget
 
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()

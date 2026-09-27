@@ -30,13 +30,13 @@ From the workspace root:
 
 ```sh
 .venv/bin/python -m pip install -e ./python
-cs-app
+ble-channel-sounding
 ```
 
 Use the in-memory simulator to explore the interface without boards:
 
 ```sh
-cs-app --simulate
+ble-channel-sounding --simulate
 ```
 
 In the desktop app, choose the board's client serial port under **Serial port →
@@ -45,7 +45,7 @@ CDC ACM. The debug UART is a separate console and carries firmware logs.
 
 ## Hosted CS operation
 
-The hosted setup has a computer running `cs-app`, a USB-connected nRF54LM20 DK
+The hosted setup has a computer running `ble-channel-sounding`, a USB-connected nRF54LM20 DK
 running `cs_client`, and a reflector board. The reflector may run
 `cs_hostless_reflector` or the connected `cs_reflector_tag` image.
 
@@ -72,7 +72,7 @@ non-sysbuild command and RTT setup.
 
 After the boards boot:
 
-1. Connect `cs-app` to the USB CDC ACM client port and click **Connect client**.
+1. Connect `ble-channel-sounding` to the USB CDC ACM client port and click **Connect client**.
 2. Select **CS** mode. The client's CS role is fixed to **Initiator**. In CS
    setup, keep the GAP role **Central** and add a **Peripheral prefixes** line
    that matches the start of the reflector's advertised name, for example
@@ -114,7 +114,7 @@ the first device advertising the Ranging Service UUID. To pair it with
 reflector (see [Build with a planner configuration](#build-with-a-planner-configuration)).
 
 Reports and firmware logs are streamed on its USB CDC ACM port; the logs also
-go to the DK debug UART. Open `cs-app`, select **CS Hostless**, choose the
+go to the DK debug UART. Open `ble-channel-sounding`, select **CS Hostless**, choose the
 initiator's USB CDC port as the Client port, and click **Connect client** to
 receive reports and logs. Hostless mode is receive-only: configuration and
 start/stop commands are controlled by the image's compiled configuration and

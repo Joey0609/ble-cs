@@ -12,7 +12,7 @@ Three client -> host reports describe what the controllers actually agreed on:
 ``compare_procedure`` and ``compare_connection`` line the negotiated values up
 with the requested host configuration; ``check_compatibility`` lists settings a
 controller does not support. Standard library only;
-``cs_app.views.controller_view`` displays it.
+``ble_channel_sounding.views.controller_view`` displays it.
 """
 
 from __future__ import annotations

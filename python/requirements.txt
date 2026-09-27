@@ -1,4 +1,4 @@
-# cs_app dependencies (keep constraints aligned with pyproject.toml).
+# ble_channel_sounding dependencies (keep constraints aligned with pyproject.toml).
 PyQt6>=6.6,<7
 pyqtgraph>=0.13.7,<0.15
 pyserial>=3.5

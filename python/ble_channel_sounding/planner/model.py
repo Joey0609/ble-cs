@@ -395,7 +395,7 @@ def validate(s: Scenario) -> list[str]:
     check(c.id == p.config_id and 0 <= c.id <= 3, "Configuration IDs must match and be 0–3.",
           "Use matching configuration.id and procedure.config_id values between 0 and 3 in the imported data.")
     check(p.state == 1, "Procedure is disabled; no active schedule to preview.",
-          "In cs-app, connect to a peer, apply the CS configuration, then press Start. Check Results → Controller → Procedure Enable Complete for an Enabled result.")
+          "In ble-channel-sounding, connect to a peer, apply the CS configuration, then press Start. Check Results → Controller → Procedure Enable Complete for an Enabled result.")
     check(1250 <= p.subevent_len <= 4000000, "Subevent length must be 1250–4000000 µs.",
           "Set Subevent budget between 1250 and 4000000 µs in Schedule.")
     check(1 <= p.subevents_per_event <= 32 and 1 <= p.event_interval <= 65535,

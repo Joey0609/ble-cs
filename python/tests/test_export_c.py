@@ -1,10 +1,10 @@
 from dataclasses import replace
 import unittest
-from cs_app.planner.export_c import document, generate, load_document
-from cs_app.planner.bridge import config_packet
-from cs_app.planner.model import Scenario
-from cs_app.protocol.config import ClientConfig
-from cs_app.protocol.packets import PeripheralPatternsPacket
+from ble_channel_sounding.planner.export_c import document, generate, load_document
+from ble_channel_sounding.planner.bridge import config_packet
+from ble_channel_sounding.planner.model import Scenario
+from ble_channel_sounding.protocol.config import ClientConfig
+from ble_channel_sounding.protocol.packets import PeripheralPatternsPacket
 
 
 class ExportTests(unittest.TestCase):
@@ -76,7 +76,7 @@ class ExportTests(unittest.TestCase):
 
     def test_document_lists_every_host_setting(self):
         import json
-        from cs_app.planner.bridge import HOST_DEFAULTS
+        from ble_channel_sounding.planner.bridge import HOST_DEFAULTS
         settings = json.loads(document(Scenario()))["host_settings"]
         self.assertEqual(set(settings), {*HOST_DEFAULTS, "peripheral_patterns"})
 

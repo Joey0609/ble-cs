@@ -51,10 +51,10 @@ The configuration comes from one of two sources:
 
 - **Planner export** (`config/cs_generated_config.c` when it exists, or
   `-DCS_CONFIG_SOURCE=<path>.c`, see below): a reflector
-  source exported by `cs-app`, implementing
+  source exported by `ble-channel-sounding`, implementing
   `common/libs/cs_generated_config/cs_generated_config.h`. Its record, and its
   device name when it has one, replace everything below. Boot logs
-  `Planner configuration, CRC-32 0x...`, which matches the CRC `cs-app` shows
+  `Planner configuration, CRC-32 0x...`, which matches the CRC `ble-channel-sounding` shows
   for the same configuration. Name patterns in the export are ignored: the Tag
   is always a GAP peripheral.
 - **`TEST_*` values** in [src/test_cfg.c](src/test_cfg.c), when no export is

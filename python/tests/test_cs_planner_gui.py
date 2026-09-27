@@ -1,4 +1,4 @@
-"""Standalone cs_planner window, offscreen: QT_QPA_PLATFORM=offscreen python -m unittest tests.test_cs_planner_gui"""
+"""Standalone ble_channel_sounding_planner window, offscreen: QT_QPA_PLATFORM=offscreen python -m unittest tests.test_cs_planner_gui"""
 
 from dataclasses import replace
 import importlib.util
@@ -23,7 +23,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         cls.app = QApplication.instance() or QApplication([])
 
     def setUp(self):
-        from cs_planner.view import PlannerWidget
+        from ble_channel_sounding_planner.view import PlannerWidget
         self.window = PlannerWidget()
         self.window.show()
         self.app.processEvents()
@@ -79,12 +79,12 @@ class StandalonePlannerGuiTests(unittest.TestCase):
                     self.assertIn(text, tip)
 
     def test_schedule_and_host_labels_controls_and_options_have_tooltips(self):
-        from cs_planner.view import SCHEDULE_CONTROL_HELP, HOST_CONTROL_HELP
+        from ble_channel_sounding_planner.view import SCHEDULE_CONTROL_HELP, HOST_CONTROL_HELP
         w = self.window
         self.assert_tab_tooltips("Schedule", SCHEDULE_CONTROL_HELP, w.controls)
         self.assert_tab_tooltips("Host", HOST_CONTROL_HELP, {**w.host_controls, "peripheral_patterns": w.patterns, "device_name": w.device_name})
-        from cs_planner.view import EXAMPLE_CONTROL_HELP
-        from cs_planner.control_help import TIMING_MANDATORY_VALUES
+        from ble_channel_sounding_planner.view import EXAMPLE_CONTROL_HELP
+        from ble_channel_sounding_planner.control_help import TIMING_MANDATORY_VALUES
         self.assertEqual(len(w.example_panels), 4)
         for panel in w.example_panels:
             self.assertIn("At runtime, T_IP1, T_IP2, T_FCS and T_PM are selected during the Channel Sounding Configuration procedure", panel.toolTip())
@@ -97,7 +97,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
                 self.assertIn("(mandatory)", w.controls[key].itemText(w.controls[key].findData(int(mandatory.split()[0]))), key)
 
     def test_every_setting_has_a_tooltip_and_a_detailed_help_entry(self):
-        from cs_planner.control_help import CONTROL_DETAILS, detail_html
+        from ble_channel_sounding_planner.control_help import CONTROL_DETAILS, detail_html
         w = self.window
         controls = {**w.controls, **w.host_controls, "peripheral_patterns": w.patterns, "device_name": w.device_name}
         self.assertEqual(set(w.help_rows), set(controls))
@@ -121,7 +121,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
     def test_help_pane_shows_tab_overview_and_selected_or_hovered_setting(self):
         from PyQt6 import QtCore, QtGui
         from PyQt6.QtTest import QTest
-        from cs_planner.control_help import TAB_HELP
+        from ble_channel_sounding_planner.control_help import TAB_HELP
         w = self.window
         self.assertEqual(set(TAB_HELP), {w.settings.tabText(i) for i in range(w.settings.count())})
         for index in range(w.settings.count()):
@@ -155,16 +155,16 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         self.assertIn("Currently read-only", text)  # CSA #3b holds the #3c jump
 
     def test_help_entries_match_cs_app_except_the_bluetooth_name(self):
-        import cs_app.views.control_help as app_help
-        import cs_planner.control_help as planner_help
-        # The reference PHY also reads as the assumed ACL PHY in cs-app, where it sizes the RAS
+        import ble_channel_sounding.views.control_help as app_help
+        import ble_channel_sounding_planner.control_help as planner_help
+        # The reference PHY also reads as the assumed ACL PHY in ble-channel-sounding, where it sizes the RAS
         # real-time transfer the standalone planner has no reflector-data setting to draw (§13.5).
         app_only = ("peer_data", "t_pm", "phy", "connection.mtu")
         self.assertEqual({k: v for k, v in planner_help.CONTROL_DETAILS.items()
                           if k not in ("device_name", "phy")},
                          {k: v for k, v in app_help.CONTROL_DETAILS.items() if k not in app_only})
         for name in ("CONNECTION_CONTROL_HELP", "CS_CONTROL_HELP", "CHANNEL_CONTROL_HELP", "SCHEDULE_CONTROL_HELP", "EXAMPLE_CONTROL_HELP"):
-            # The example T_PM differs: only cs-app has the Preferred T_PM client setting to point at.
+            # The example T_PM differs: only ble-channel-sounding has the Preferred T_PM client setting to point at.
             skip = ("configuration.t_pm_time_us",) if name == "EXAMPLE_CONTROL_HELP" else ()
             self.assertEqual({k: v for k, v in getattr(planner_help, name).items() if k not in skip},
                              {k: v for k, v in getattr(app_help, name).items() if k not in skip + app_only}, name)
@@ -198,7 +198,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         self.assertEqual(w.host_settings["preferred_peer_antenna"], 0x17)
 
     def test_mode_without_sub_mode_rtt_or_pbr_holds_those_fields_at_defaults(self):
-        from cs_planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
+        from ble_channel_sounding_planner.model import (PBR_FIELDS, PBR_HOST_FIELDS, RTT_FIELDS, RTT_HOST_FIELDS, SUB_MODE_FIELDS,
                                  Scenario, scenario_value)
         w = self.window
         default = Scenario()
@@ -245,7 +245,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         from PyQt6.QtCore import QEvent, QPoint
         from PyQt6.QtGui import QHelpEvent
         from PyQt6.QtWidgets import QToolTip
-        from cs_planner.tooltips import fit_tooltip, install
+        from ble_channel_sounding_planner.tooltips import fit_tooltip, install
         w = self.window
         w.resize(1200, 700)
         self.app.processEvents()
@@ -271,7 +271,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
     def test_tooltips_ignore_qt_created_header_views(self):
         from PyQt6.QtCore import QPoint
         from PyQt6.QtWidgets import QHeaderView, QTableWidget
-        from cs_planner.tooltips import TooltipWidthFilter
+        from ble_channel_sounding_planner.tooltips import TooltipWidthFilter
         table = QTableWidget(1, 1)
         table.show()
         self.app.processEvents()
@@ -298,7 +298,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         self.assertEqual(w.scenario, w.read_controls())
 
     def test_open_and_save_keep_host_settings_and_role(self):
-        from cs_planner.model import loads
+        from ble_channel_sounding_planner.model import loads
         w = self.window
         w.open_path(PLAN_FIXTURE)
         self.assertIn("cs-plan.json", w.source.text())
@@ -319,8 +319,8 @@ class StandalonePlannerGuiTests(unittest.TestCase):
         self.assertEqual(json.loads(text)["host_settings"]["peripheral_patterns"], ["SW_CS_Reflector"])
 
     def test_opens_plan_embedded_in_c_export(self):
-        from cs_planner.export_c import MARKER as EXPORT_MARKER, document
-        from cs_planner.model import Scenario
+        from ble_channel_sounding_planner.export_c import MARKER as EXPORT_MARKER, document
+        from ble_channel_sounding_planner.model import Scenario
         w = self.window
         s = Scenario()
         s = replace(s, configuration=replace(s.configuration, mode=3))
@@ -340,7 +340,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
 
     def test_export_c_writes_both_roles_with_host_tab_settings(self):
         from PyQt6.QtWidgets import QFileDialog, QInputDialog
-        from cs_planner.export_c import load_document
+        from ble_channel_sounding_planner.export_c import load_document
         w = self.window
         w.patterns.setPlainText("CS")
         w.device_name.setText("Tag")
@@ -375,8 +375,8 @@ class StandalonePlannerGuiTests(unittest.TestCase):
     def test_channel_map_editor_and_spectrum_click(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtTest import QTest
-        from cs_planner.channels import enabled_channels
-        from cs_planner.view import Block
+        from ble_channel_sounding_planner.channels import enabled_channels
+        from ble_channel_sounding_planner.view import Block
         w = self.window
         editor = w.controls["configuration.channel_map"]
         self.assertEqual(editor.summary.text(), "72 of 72 channels enabled")
@@ -396,7 +396,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
 
     def test_main_opens_window_with_file(self):
         from PyQt6.QtWidgets import QApplication
-        from cs_planner.__main__ import main
+        from ble_channel_sounding_planner.__main__ import main
         sources = []
 
         def run():  # stands in for the event loop while the window exists

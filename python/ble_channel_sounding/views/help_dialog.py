@@ -6,8 +6,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets as W
 
 
 HARDWARE_GUIDE = "https://github.com/Sens-Wear/ble-cs/blob/main/docs/GETTING_STARTED.md"
-HOST_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/README.md"
-PLANNER_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_planner/README.md"
+HOST_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/README.md"
+PLANNER_REFERENCE = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding_planner/README.md"
 SCREENSHOTS = {
     "main-window": ("The main window", "main-window.png"),
     "configuration": ("Configuration overview", "configuration.png"),
@@ -35,7 +35,7 @@ HELP_PAGES = (
         "about",
         "About CS Host",
         f"""
-        <p class="lead">CS Host (<code>cs-app</code>) is the desktop application for measuring distance between
+        <p class="lead">CS Host (<code>ble-channel-sounding</code>) is the desktop application for measuring distance between
         two Bluetooth devices with <b>Bluetooth Channel Sounding (CS)</b>. It controls a CS client board over
         USB, plans and applies the CS configuration, runs measurements, and shows results as they arrive. Enable
         recording for each run or save the session history to keep data for later analysis.</p>
@@ -112,7 +112,7 @@ HELP_PAGES = (
           <li>Ready to measure: <a href="help:hardware">Measuring with hardware</a>.</li>
           <li>Something does not work: <a href="help:troubleshooting">Troubleshooting</a>.</li>
         </ul>
-        <p>Hover over any control for its tooltip. The command <code>cs-planner</code> opens the configuration
+        <p>Hover over any control for its tooltip. The command <code>ble-channel-sounding-planner</code> opens the configuration
         planner on its own, without a client connection.</p>
         """,
     ),
@@ -121,7 +121,7 @@ HELP_PAGES = (
         "First steps with the simulator",
         """
         <p>The simulator is an in-memory client that answers every command like a real board. It needs no
-        hardware, so it is the quickest way to learn the workflow. Start the app with <code>cs-app --simulate</code>
+        hardware, so it is the quickest way to learn the workflow. Start the app with <code>ble-channel-sounding --simulate</code>
         to select it automatically, or select it by hand as described below.</p>
         <ol>
           <li><b>Select the simulator.</b> In the <b>Serial port</b> group, on the <b>Client</b> tab, choose
@@ -144,7 +144,7 @@ HELP_PAGES = (
         <p>To try the recording features, enable <b>Record each run</b> in the Recording group before starting,
         or use <b>Save session…</b> after stopping. See <a href="help:recording">Recording and export</a>.</p>
         <p>To replay a recording through the simulator, start the app with
-        <code>cs-app --simulate path/to/recording.h5</code>. The simulator then sends the recorded reports
+        <code>ble-channel-sounding --simulate path/to/recording.h5</code>. The simulator then sends the recorded reports
         instead of synthetic ones. To look at a recording without replaying it, use <b>Open capture…</b>.</p>
         """,
     ),

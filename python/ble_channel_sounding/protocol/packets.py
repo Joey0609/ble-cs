@@ -204,7 +204,7 @@ class FixedPacket:
 
     Subclasses declare their message fields as dataclass attributes, in C
     declaration order. ``STRUCT`` describes only those fields; the generic
-    :class:`~cs_app.protocol.frame.Frame` supplies the common header and footer.
+    :class:`~ble_channel_sounding.protocol.frame.Frame` supplies the common header and footer.
     Values returned by Python's ``struct`` module are native Python integers
     and bytes, while every multi-byte wire field is encoded little endian.
     """

@@ -43,7 +43,7 @@ file.
 ## Step timing figures
 
 `images/mode-{0..3}-timing.svg` are generated from the planner's step model
-(`cs_planner.model.step_segments`, default scenario), drawn to scale in the
+(`ble_channel_sounding_planner.model.step_segments`, default scenario), drawn to scale in the
 style of the app's Individual step view. Regenerate them from the repository
 root after changing the model or the script:
 

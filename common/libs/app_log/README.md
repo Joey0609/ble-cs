@@ -13,7 +13,7 @@ applied configuration: they change at runtime, without rebuilding.
 
 | Producer | Consumers |
 | --- | --- |
-| `host_link`, `cs_roles`, `cs_client`, both hostless apps, `cs_reflector_tag` (`APP_LOG_*`) | Console at or below `console_level`; `LOG_MESSAGE` at or below `protocol_level` while a protocol consumer is registered. In `cs-app`: *Session log* view (category "client log"), Results *Log* tab, HDF5 `/log` and MAT |
+| `host_link`, `cs_roles`, `cs_client`, both hostless apps, `cs_reflector_tag` (`APP_LOG_*`) | Console at or below `console_level`; `LOG_MESSAGE` at or below `protocol_level` while a protocol consumer is registered. In `ble-channel-sounding`: *Session log* view (category "client log"), Results *Log* tab, HDF5 `/log` and MAT |
 | Queue-full notices (`host_link` reports, `cs_roles` role and event queues, `cs_client` scan reports, `app_log` itself) | Warnings through the same consumers (they were console-only `printk` before) |
 | Record dumps (`cs_*_print()`) | Caller buffer; the caller logs it. `cs_reflector_tag` logs its configuration one line per message |
 | Zephyr/NCS subsystems (Bluetooth host, SDC, USB) | Zephyr log backend, set at build time (`CONFIG_LOG`) |

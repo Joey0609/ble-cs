@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-/* Stands in for a cs_app planner export: strong definitions of every symbol. */
+/* Stands in for a ble_channel_sounding planner export: strong definitions of every symbol. */
 #include <errno.h>
 
 #include <cs_generated_config/cs_generated_config.h>

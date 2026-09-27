@@ -5,7 +5,7 @@
 > it is disabled in the desktop application's mode selector and is not for
 > deployment. See the Bluetooth build status below for its separate scope.
 
-The firmware the `cs-app` host talks to: a CS protocol client
+The firmware the `ble-channel-sounding` host talks to: a CS protocol client
 (`common/libs/host_link`) on USB CDC ACM in the Bluetooth build and on uart30 in
 the radio test build. The host connects, applies a configuration, and starts
 and stops the client (`common/libs/cs_protocol/README.md`). Its log
@@ -31,7 +31,7 @@ radio test build has no Bluetooth Kconfig assignments to warn about and needs no
 device controller.
 
 The radio test build's host port has no DTR, so a closed port does not end the host
-session: `cs-app` ends it with `CLOSE_SESSION`, and if the host disappears without
+session: `ble-channel-sounding` ends it with `CLOSE_SESSION`, and if the host disappears without
 it, the test keeps running and the next `CONNECT` attaches to it.
 
 | File | Content |

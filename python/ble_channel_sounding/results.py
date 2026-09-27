@@ -24,7 +24,7 @@ initiator's round trip includes the reflector's turnaround, so
 (the Zephyr distance_estimation sample does the same). RTT steps are paired by
 ordinal position like PBR steps.
 
-Uses the standard library only; plotting lives in ``cs_app.views.results_view``.
+Uses the standard library only; plotting lives in ``ble_channel_sounding.views.results_view``.
 """
 
 from __future__ import annotations

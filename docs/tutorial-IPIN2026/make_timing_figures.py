@@ -1,6 +1,6 @@
 """Generate the CS step timing figures (images/mode-N-timing.svg) for the deck.
 
-The segments come from the planner's own model (cs_planner.model.step_segments)
+The segments come from the planner's own model (ble_channel_sounding_planner.model.step_segments)
 with its default scenario, and are drawn to scale in the style of the planner's
 "Individual step" view, so the slides match what the app shows.
 
@@ -17,8 +17,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
-from cs_planner.model import ANTENNA_PATHS, Scenario, step_segments  # noqa: E402
-from cs_planner.view import COLORS  # noqa: E402
+from ble_channel_sounding_planner.model import ANTENNA_PATHS, Scenario, step_segments  # noqa: E402
+from ble_channel_sounding_planner.view import COLORS  # noqa: E402
 
 GAP_COLOR = "#a6b6ca"  # same colours as ScenarioWindow.draw_step
 EXTENSION_COLOR = "#c4a269"
