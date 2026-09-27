@@ -21,18 +21,19 @@ static atomic_t steps;
 static atomic_t aborted_subevents;
 static atomic_t partial_subevents;
 
-/* Application fallback procedure parameters, matching the hostless initiator:
- * one 16 ms subevent in a one-event (17.5 ms) procedure every 3 ACL events,
- * the two events in between carrying the RAS real-time notifications. */
+/* Application fallback procedure parameters: the TEST_* values of
+ * cs_reflector_tag/src/test_cfg.c with one local antenna (A1:B1 instead of
+ * A1:B2). Procedure length in 0.625 ms units, intervals in ACL events,
+ * subevent length in microseconds. */
 static const struct cs_config_procedure app_procedure = {
-	.max_procedure_len = 28,
-	.min_procedure_interval = 3,
-	.max_procedure_interval = 3,
+	.max_procedure_len = 10, /* 6.25 ms */
+	.min_procedure_interval = 1,
+	.max_procedure_interval = 10,
 	.max_procedure_count = 0,
-	.min_subevent_len = 16000,
-	.max_subevent_len = 16000,
+	.min_subevent_len = 6000,
+	.max_subevent_len = 60000,
 	.tone_antenna_config_selection = CS_CONFIG_TONE_ANTENNA_A1_B1,
-	.phy = CS_CONFIG_PROCEDURE_PHY_1M,
+	.phy = CS_CONFIG_PROCEDURE_PHY_2M,
 	.tx_power_delta = CS_CONFIG_TX_POWER_DELTA_NONE,
 	.preferred_peer_antenna = CS_CONFIG_PEER_ANTENNA_1,
 	.snr_control_initiator = CS_CONFIG_SNR_CONTROL_NOT_USED,

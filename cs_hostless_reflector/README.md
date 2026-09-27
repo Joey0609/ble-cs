@@ -16,8 +16,10 @@ The configuration comes from a planner export (`cs_generated_config.h`, see
 
 Without an export the weak default in `common/libs/cs_generated_config` is
 linked: the application logs a warning and runs the `cs_utils` default
-reflector configuration with the procedure parameters of the hostless
-initiator (one 16 ms subevent in a 17.5 ms procedure every 3 ACL events). A generated configuration that a setter rejects is
+reflector configuration with the Tag's procedure parameters (`TEST_*` in
+`cs_reflector_tag/src/test_cfg.c`) for one local antenna: A1:B1, 2M PHY,
+6-60 ms subevents, procedures of at most 6.25 ms every 1-10 ACL events. A
+generated configuration that a setter rejects is
 logged and the application halts with no radio activity. A generated device
 name is applied before advertising.
 
