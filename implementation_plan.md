@@ -690,7 +690,9 @@ Tag (§3.1, 2026-09-20), which restarts the link itself:
   `AUTO_ALLOC_INSTANCE=n`, as `cs_client` does, so `cs_roles` allocates at START and frees in
   `cs_role_reflector_release()` on the role thread. Built, not verified on hardware. To verify:
   repeated disconnect/reconnect cycles, with `State link lost` and `State advertising` after
-  each. `cs_hostless_reflector` and `tests/cs_reflector_test` still use the automatic instance.
+  each. `cs_hostless_reflector` follows the Tag since 2026-09-27 (`AUTO_ALLOC_INSTANCE=n`,
+  `RD_BUFFERS_PER_CONN=4`, and the Tag's `TEST_*` procedure parameters with A1:B1 as its
+  fallback); `tests/cs_reflector_test` still uses the automatic instance.
 
 Roles and timing:
 - [ ] `cs_client` initiator ↔ `cs_hostless_reflector`, then `cs_client` reflector ↔
