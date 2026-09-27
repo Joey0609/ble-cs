@@ -1,5 +1,7 @@
 """User help for the CS Host desktop application: a topic list beside the selected page."""
 
+from pathlib import Path
+
 from PyQt6 import QtCore, QtGui, QtWidgets as W
 
 
@@ -15,8 +17,8 @@ HELP_PAGES = (
         f"""
         <p class="lead">CS Host (<code>cs-app</code>) is the desktop application for measuring distance between
         two Bluetooth devices with <b>Bluetooth Channel Sounding (CS)</b>. It controls a CS client board over
-        USB, plans and applies the CS configuration, runs measurements, shows the results as they arrive, and
-        keeps every session for later analysis.</p>
+        USB, plans and applies the CS configuration, runs measurements, and shows results as they arrive. Enable
+        recording for each run or save the session history to keep data for later analysis.</p>
 
         <h2>What Channel Sounding measures</h2>
         <p>Channel Sounding is part of the Bluetooth Core Specification. Two connected devices take part in
@@ -75,8 +77,10 @@ HELP_PAGES = (
         <ul>
           <li>CS Host does not build or flash firmware. Use the <a href="{HARDWARE_GUIDE}">hardware Getting
           Started guide</a> for that.</li>
-          <li>The client operates as CS initiator and GAP central only. <i>Reflector</i> and <i>Peripheral</i>
-          are listed in CS setup so saved configurations keep their values, but cannot be selected.</li>
+          <li>The integrated client's CS role is fixed to <i>Initiator</i>; a loaded configuration with another
+          CS role is normalized to Initiator. <i>Peripheral</i> is disabled in the GAP role selector, but a
+          Peripheral value loaded from a saved configuration is preserved and can still advertise for a central
+          peer. New configurations use selectable GAP Central.</li>
           <li>Radio Test mode is disabled while its firmware is work in progress.</li>
           <li>Simulator measurements are synthetic. They show how the app behaves, not radio accuracy.</li>
         </ul>
@@ -107,14 +111,15 @@ HELP_PAGES = (
           version and the session state.</li>
           <li><b>Synchronise.</b> CS Host now compares its configuration with the client's. When they differ, the
           <b>Synchronise configuration</b> dialog opens: choose <b>Apply host configuration to client</b> to send
-          the settings shown in the Configuration tab, or <b>Get configuration from client</b> to load the
-          client's settings into the app.</li>
+          the settings shown in the Configuration tab, or <b>Get configuration from client</b> to load supported
+          settings into the app. The integrated client fixes the CS role to Initiator.</li>
           <li><b>Find the reflector.</b> Click <b>Scan</b>. Matching peers appear in the list next to the session
           toolbar. Select one and click <b>Connect peer</b>.</li>
           <li><b>Start.</b> Click <b>Start session</b>. Results arrive in the <b>Results</b> tab; every record
           appears in the <b>Session</b> tab.</li>
-          <li><b>Stop.</b> Click <b>Stop session</b>. The peer stays connected, so you can change nothing and start
-          again, or change the configuration, click <b>Apply config</b> and start again.</li>
+          <li><b>Stop.</b> Click <b>Stop session</b>. The peer stays connected, so you can start another run with
+          the same configuration. To change settings, edit them, click <b>Apply config</b>, reconnect the peer,
+          then start again.</li>
         </ol>
         <p>To try the recording features, enable <b>Record each run</b> in the Recording group before starting,
         or use <b>Save session…</b> after stopping. See <a href="help:recording">Recording and export</a>.</p>
@@ -206,17 +211,32 @@ HELP_PAGES = (
         "window",
         "The main window",
         """
+        <p><img src="main-window.png" width="1000" alt="CS Host main window"></p>
+        <p><i>CS Host in simulator mode. No hardware is connected.</i>
+        <a href="screenshot:main-window">View full-size screenshot</a></p>
+        <ol>
+          <li><b>General controls:</b> operation mode, Console log and Host log. See
+          <a href="help:logs">Logs and the peer console</a> for what the log levels control.</li>
+          <li><b>Session toolbar:</b> connect, configure, scan, connect to a peer, run, record and open help.
+          The peer selector and <b>Show all</b> are between <b>Scan</b> and <b>Connect peer</b>.</li>
+          <li><b>Summary bar:</b> port, baud rate, operation mode, GAP role, recording and connection state;
+          click it to show or hide the settings panel.</li>
+          <li><b>Serial port:</b> choose the client board's USB port. The Peer tab is disabled in this build.</li>
+          <li><b>Recording:</b> choose a folder and record each run, or save session history afterwards.</li>
+          <li><b>Main tabs:</b> Configuration, Results and Session.</li>
+        </ol>
         <p>The window is arranged from top to bottom:</p>
         <table>
           <tr><th>Area</th><th>Contents</th></tr>
           <tr><td>Summary bar</td><td>One line with the port, baud rate, operation mode, GAP role, recording
           state and connection state. Click it (or ▲/▼) to show or hide the settings panel below it.</td></tr>
-          <tr><td>Settings panel</td><td><b>Serial port</b> (Client and Peer tabs) and <b>Recording</b> side by
-          side.</td></tr>
-          <tr><td>General controls</td><td><b>Operation mode</b> (CS or CS Hostless) and the client log levels
-          <b>Console log</b> and <b>Host log</b> (see <a href="help:logs">Logs and the peer console</a>).</td></tr>
+          <tr><td>Settings panel</td><td><b>Serial port</b> (the Client tab; Peer is disabled in this build) and
+          <b>Recording</b> side by side.</td></tr>
+          <tr><td>General controls</td><td><b>Operation mode</b> (CS or CS Hostless; Radio Test is disabled) and
+          the client log levels <b>Console log</b> and <b>Host log</b> (see
+          <a href="help:logs">Logs and the peer console</a>).</td></tr>
           <tr><td>Session toolbar</td><td>Connection, configuration, peer, run and record actions, and
-          <b>Help</b>. The peer list and <b>Show all</b> follow it. See
+          the Help icon. The peer selector and <b>Show all</b> sit between <b>Scan</b> and <b>Connect peer</b>. See
           <a href="help:toolbar">Session toolbar</a>.</td></tr>
           <tr><td>Main tabs</td><td><b>Configuration</b> (the planner), <b>Results</b> (analysis) and
           <b>Session</b> (the record timeline).</td></tr>
@@ -233,39 +253,40 @@ HELP_PAGES = (
         "toolbar",
         "Session toolbar",
         """
-        <p>Hover over an icon for its name. A disabled action's tooltip often says what it is waiting for.</p>
+        <p>Action availability changes with operation mode, connection, configuration sync, peer link and run
+        state. Check the status bar and the live tooltip on disabled actions for the current prerequisite. In
+        <b>CS Hostless</b> mode, the app only receives reports; see <a href="help:hostless">Hostless mode</a>.</p>
         <table>
-          <tr><th>Action</th><th>What it does</th><th>Available</th></tr>
+          <tr><th>Action</th><th>What it does</th></tr>
           <tr><td><b>Connect client</b></td><td>Opens the selected port and starts a client session. While the
           handshake is pending it reads <i>Cancel connection</i>; once connected it becomes <b>Disconnect
-          client</b>, which ends the session and peer link but keeps the port open.</td><td>Always, except
-          while a command is pending</td></tr>
+          client</b>, which ends the session and peer link but keeps the port open.</td></tr>
           <tr><td><b>Apply config</b></td><td>Validates the Configuration tab and sends it to the client. A
-          connected peer is disconnected first, after confirmation.</td><td>Client connected, no run</td></tr>
+          connected peer is disconnected first, after confirmation.</td></tr>
           <tr><td><b>Synchronise</b></td><td>Compares host and client configuration and lets you get the
-          client's or apply the host's.</td><td>Client connected, no run</td></tr>
+          client's or apply the host's.</td></tr>
           <tr><td><b>Scan</b></td><td>Searches for advertising peers and fills the peer list. A new scan clears
-          the list.</td><td>Configuration in sync, no peer link</td></tr>
+          the list.</td></tr>
           <tr><td><b>Connect peer</b></td><td>Connects the peer selected in the list, scanning first if nothing is
-          listed. Becomes <b>Disconnect peer</b> while linked.</td><td>Configuration in sync</td></tr>
-          <tr><td><b>Start session</b></td><td>Starts CS procedures and a new session.</td><td>In sync and peer
-          connected</td></tr>
+          listed. Becomes <b>Disconnect peer</b> while linked.</td></tr>
+          <tr><td><b>Start session</b></td><td>Starts CS procedures and a new session.</td></tr>
           <tr><td><b>Stop session</b></td><td>Ends the run and its recording; keeps the link. Also stops an
-          active scan or connection attempt.</td><td>During a run, scan or connection attempt</td></tr>
+          active scan or connection attempt.</td></tr>
           <tr><td><b>Record from now</b></td><td>Records the rest of a run that is not being recorded. The file
-          is marked partial.</td><td>During an unrecorded run</td></tr>
+          is marked partial.</td></tr>
           <tr><td><b>Describe session</b></td><td>Edits the notes kept with the session and written to its
-          recording.</td><td>A session, capture or notes exist</td></tr>
+          recording.</td></tr>
           <tr><td><b>Open capture…</b></td><td>Loads a recording or capture file into Results and Session for
-          review.</td><td>No run</td></tr>
+          review.</td></tr>
           <tr><td><b>Clear</b></td><td>Removes the shown results, the open capture and the session timeline.
-          </td><td>No run</td></tr>
-          <tr><td><b>Help</b></td><td>Opens these topics.</td><td>Always</td></tr>
+          </td></tr>
+          <tr><td><b>Help icon</b></td><td>Opens these topics.</td></tr>
         </table>
-        <p>Next to the toolbar, the peer list shows each scanned peer's name, address and signal strength
-        (RSSI). By default it lists only names that start with a configured prefix. <b>Show all</b> lists
-        every peer, including unnamed ones. If a loaded configuration uses GAP role Peripheral, an
-        <b>Advertise</b> button replaces the peer list: the client then advertises and waits for a central to
+        <p>The peer selector and <b>Show all</b> sit between <b>Scan</b> and <b>Connect peer</b>. The selector
+        shows each scanned peer's name, address and signal strength (RSSI). By default it lists only names that
+        start with a configured prefix. <b>Show all</b> lists every peer, including unnamed ones. If a loaded
+        configuration uses GAP role Peripheral, the peer discovery controls are replaced by an
+        <b>Advertise</b> button in the configuration panel; the client advertises and waits for a central to
         connect.</p>
         """,
     ),
@@ -273,6 +294,17 @@ HELP_PAGES = (
         "configuration",
         "Configuring a measurement",
         f"""
+        <p><img src="configuration.png" width="1000" alt="CS Host configuration screen"></p>
+        <p><i>Configuration view in simulator mode; no hardware is connected.</i>
+        <a href="screenshot:configuration">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Setting tabs:</b> CS setup, Connection, CS modes, Schedule and Channels.</li>
+          <li><b>Settings form:</b> edit the selected configuration values here.</li>
+          <li><b>Illustration tabs:</b> switch among connection, procedures, events, steps and channels.</li>
+          <li><b>Planner timeline:</b> move through the illustrated plan.</li>
+          <li><b>Setting help:</b> explanations for the current tab or selected field.</li>
+          <li><b>Status footer:</b> plan validity and summary such as steps, subevents and elapsed time.</li>
+        </ol>
         <p>The <b>Configuration</b> tab is a planner: the left side holds the settings, the right side draws what
         those settings produce, and the pane below explains the selected setting. Nothing reaches the client
         until you click <b>Apply config</b>.</p>
@@ -280,9 +312,10 @@ HELP_PAGES = (
         <h2>Settings tabs</h2>
         <table>
           <tr><th>Tab</th><th>Settings</th></tr>
-          <tr><td><b>CS setup</b></td><td>Bluetooth name of the client, GAP role, CS role, Peripheral prefixes
-          (the scan filter), CS_SYNC antenna, maximum TX power, reference PHY, TX power delta, preferred peer
-          antennas, SNR control and creation context.</td></tr>
+          <tr><td><b>CS setup</b></td><td>Bluetooth name of the client, CS role (fixed to Initiator), GAP role
+          (Central is selectable; a loaded Peripheral value is preserved), Peripheral prefixes (the scan filter),
+          CS_SYNC antenna, maximum TX power, reference PHY, TX power delta, preferred peer antennas, SNR control
+          and creation context.</td></tr>
           <tr><td><b>Connection</b></td><td>The Bluetooth connection that CS runs on: requested connection
           interval range, peripheral latency and supervision timeout.</td></tr>
           <tr><td><b>CS modes</b></td><td>Main mode and sub-mode, Mode-0 steps, main-mode runs, CS_SYNC PHY, RTT
@@ -314,7 +347,8 @@ HELP_PAGES = (
           <li><b>Open…</b> loads a planner JSON file or an exported C file. <b>Save…</b> writes the plan as
           JSON.</li>
           <li><b>Export C configuration…</b> writes <code>cs_generated_config.c</code> for the initiator, the
-          reflector or both (one file per role) for the hostless firmware.</li>
+          reflector or both (one file per role) for the hostless firmware. This export supports both CS roles
+          even though the integrated client configuration is fixed to Initiator.</li>
           <li><b>Export view…</b> saves the current illustration as PNG. <b>Fit views</b> redraws the
           illustrations to fit. <b>Reset</b> restores the default plan.</li>
         </ul>
@@ -328,6 +362,17 @@ HELP_PAGES = (
         "results",
         "Reading results",
         """
+        <p><img src="results.png" width="1000" alt="CS Host results screen"></p>
+        <p><i>Synthetic sample data for illustration; this is not a live RF measurement.</i>
+        <a href="screenshot:results">View full-size screenshot</a></p>
+        <ol>
+          <li><b>Results:</b> select the main results view.</li>
+          <li><b>Result tabs:</b> choose available analyses, which depend on the session's CS modes.</li>
+          <li><b>Analysis selectors:</b> choose procedure and antenna path, and set analysis options.</li>
+          <li><b>Plot lines:</b> show or hide the distance estimates to compare.</li>
+          <li><b>Graph:</b> inspect estimates across procedures.</li>
+          <li><b>Summary:</b> review the selected session's data summary.</li>
+        </ol>
         <p>The <b>Results</b> tab analyses the current run, the last stopped run or an opened capture. The line
         at its top summarises the data, and the tabs shown depend on the CS modes of the session. Most tabs have
         <b>Plots</b> and <b>Table</b> sub-tabs showing the same data.</p>
@@ -343,8 +388,8 @@ HELP_PAGES = (
           compensation reported by the controller, over the last 30 seconds (or around the selected procedure in
           a capture).</td></tr>
           <tr><td><b>PBR per channel</b></td><td>Phase of each channel for one antenna path, wrapped and
-          unwrapped, with the fitted lines. A straight unwrapped line means a clean measurement; its slope gives
-          the distance.</td></tr>
+          unwrapped, with the fitted lines. A consistent unwrapped trend supports ranging; the estimate also
+          depends on the selected sign and frequency-offset correction, so compare it with a known distance.</td></tr>
           <tr><td><b>RTT</b></td><td>Round-trip-time distances of Mode-1 or Mode-3 steps, with accepted and
           rejected steps and their spread.</td></tr>
           <tr><td><b>Estimates</b></td><td>Distance per procedure over time. Use <b>Plot lines</b> to compare RTT
@@ -439,17 +484,10 @@ HELP_PAGES = (
         the applied configuration, so click <b>Apply config</b> after changing them.</p>
 
         <h2>Peer console</h2>
-        <p>The <b>Peer</b> tab of the Serial port group reads a second serial port, usually the reflector's debug
-        UART, or the debug UART of the hostless initiator. Its lines appear in the Session tab under <b>Peer</b>,
-        with the level taken from the line's <code>&lt;err&gt;</code>, <code>&lt;wrn&gt;</code> or
-        <code>&lt;inf&gt;</code> tag, and are recorded with the session.</p>
-        <ol>
-          <li>Type the port name, for example <code>/dev/cu.usbmodem0010</code> or <code>COM7</code>.</li>
-          <li>Choose the baud rate of that firmware's console.</li>
-          <li>Click <b>Open peer console</b>. It is also opened automatically for a run when a port is set.</li>
-        </ol>
-        <p>The peer console is read-only and never part of the client configuration. The nRF54L15 Tag logs over
-        RTT instead of a UART, so it needs an SWD probe and an RTT viewer.</p>
+        <p>The Peer tab for the second serial port is disabled in this build, so the peer console cannot be
+        configured or opened from the app. Existing recordings can still contain peer-console lines; they appear
+        in the Session tab under <b>Peer</b>. The nRF54L15 Tag logs over RTT instead of a UART and needs an SWD
+        probe and an RTT viewer.</p>
         """,
     ),
     (
@@ -466,8 +504,8 @@ HELP_PAGES = (
           <tr><td>Scan finds no reflector</td><td>Check that the reflector is powered and advertising, and that
           its name starts with one of the Peripheral prefixes in CS setup (prefixes are case-sensitive). Enable
           <b>Show all</b> to see every peer found.</td></tr>
-          <tr><td>Scan or Connect peer is disabled</td><td>Apply or synchronise the configuration first. Disconnect
-          an existing peer before scanning again.</td></tr>
+          <tr><td>Scan or Connect peer is disabled</td><td>Use hosted CS mode with GAP Central, connect the client,
+          synchronise the configuration, and disconnect any existing peer before scanning again.</td></tr>
           <tr><td>Start session is disabled</td><td>Hover over it: it names the missing step (configuration not in
           sync, no peer scanned, or peer not connected).</td></tr>
           <tr><td>Apply config is rejected</td><td>The message names the rejected setting. Check the Controller
@@ -492,6 +530,7 @@ STYLE = """
     h2 {{ font-size: 16px; margin-top: 18px; margin-bottom: 4px; }}
     p, li {{ line-height: 135%; }}
     p.lead {{ font-size: 15px; }}
+    img {{ max-width: 100%; height: auto; border: 1px solid #cbd8e6; }}
     code, pre {{ font-family: '{mono}', 'Menlo', 'Consolas', 'DejaVu Sans Mono', 'Courier New', monospace; }}
     pre {{ background-color: #eef3f9; }}
     table {{ border-collapse: collapse; margin-top: 6px; margin-bottom: 6px; }}
@@ -507,7 +546,7 @@ class HelpDialog(W.QDialog):
     def __init__(self, parent=None, topic="about"):
         super().__init__(parent)
         self.setWindowTitle("CS Host Help")
-        self.resize(1120, 780)
+        self.resize(1360, 920)
         layout = W.QVBoxLayout(self)
         splitter = W.QSplitter(self)
         layout.addWidget(splitter, 1)
@@ -516,6 +555,7 @@ class HelpDialog(W.QDialog):
         self.topics.setStyleSheet("QListWidget { font-size: 14px; } QListWidget::item { padding: 6px; }")
         self.browser = W.QTextBrowser()
         self.browser.setOpenLinks(False)
+        self.browser.setSearchPaths([str(Path(__file__).resolve().parent.parent / "assets" / "help")])
         self.browser.anchorClicked.connect(self.follow_link)
         self.browser.setStyleSheet("QTextBrowser { padding: 12px; font-size: 14px; "
                                    "background: #ffffff; color: #21334b; }")
@@ -552,5 +592,75 @@ class HelpDialog(W.QDialog):
     def follow_link(self, url):
         if url.scheme() == "help":
             self.show_topic(url.path())
+        elif url.scheme() == "screenshot":
+            self.open_screenshot(url.path())
         else:
             QtGui.QDesktopServices.openUrl(url)
+
+    def open_screenshot(self, key):
+        screenshots = {
+            "main-window": ("The main window", "main-window.png"),
+            "configuration": ("Configuration", "configuration.png"),
+            "results": ("Results", "results.png"),
+        }
+        entry = screenshots.get(key)
+        if entry is None:
+            return
+        title, filename = entry
+        dialog = ScreenshotDialog(self, title, Path(__file__).resolve().parent.parent / "assets" / "help" / filename)
+        dialog.exec()
+
+
+class ScreenshotDialog(W.QDialog):
+    """Show a help screenshot with fit and pixel-scale viewing options."""
+
+    def __init__(self, parent, title, image_path):
+        super().__init__(parent)
+        self.setWindowTitle(f"CS Host Help — {title}")
+        self.resize(1450, 950)
+        self.setMinimumSize(800, 600)
+        self.source = QtGui.QPixmap(str(image_path))
+
+        layout = W.QVBoxLayout(self)
+        controls = W.QHBoxLayout()
+        controls.addWidget(W.QLabel(f"{self.source.width()} × {self.source.height()} px, captured at 2× scale"))
+        controls.addStretch(1)
+        fit_button = W.QPushButton("Fit to window")
+        half_button = W.QPushButton("50% (app scale)")
+        full_button = W.QPushButton("100% (pixel scale)")
+        close_button = W.QPushButton("Close")
+        controls.addWidget(fit_button)
+        controls.addWidget(half_button)
+        controls.addWidget(full_button)
+        controls.addWidget(close_button)
+        layout.addLayout(controls)
+
+        self.scroll = W.QScrollArea()
+        self.scroll.setWidgetResizable(False)
+        self.image = W.QLabel()
+        self.image.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.scroll.setWidget(self.image)
+        layout.addWidget(self.scroll, 1)
+
+        fit_button.clicked.connect(self.fit_to_window)
+        half_button.clicked.connect(lambda: self.show_scale(0.5))
+        full_button.clicked.connect(lambda: self.show_scale(1.0))
+        close_button.clicked.connect(self.accept)
+        QtCore.QTimer.singleShot(0, lambda: self.show_scale(0.5))
+
+    def fit_to_window(self):
+        viewport = self.scroll.viewport().size()
+        if self.source.isNull() or viewport.isEmpty():
+            return
+        factor = min(viewport.width() / self.source.width(), viewport.height() / self.source.height())
+        self.show_scale(factor)
+
+    def show_scale(self, factor):
+        if self.source.isNull():
+            self.image.setText("Screenshot could not be loaded.")
+            return
+        size = QtCore.QSize(round(self.source.width() * factor), round(self.source.height() * factor))
+        scaled = self.source.scaled(size, QtCore.Qt.AspectRatioMode.IgnoreAspectRatio,
+                                    QtCore.Qt.TransformationMode.SmoothTransformation)
+        self.image.setPixmap(scaled)
+        self.image.resize(scaled.size())

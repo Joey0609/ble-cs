@@ -1,8 +1,8 @@
 # CS Host: Getting Started
 
-CS Host (`cs-app`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and records every session to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
+CS Host (`cs-app`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
 
-You can explore the interface with its built-in simulator before connecting hardware. Inside the app, **Help → Help topics…** (or the **Help** action at the right end of the session toolbar) opens with an overview of what the application does, followed by task-based topics.
+You can explore the interface with its built-in simulator before connecting hardware. Inside the app, **Help → Help topics…** or the Help icon at the right end of the session toolbar opens an overview followed by task-based topics.
 
 ## Install and open the app
 

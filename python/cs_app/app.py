@@ -145,7 +145,7 @@ class MainWindow(W.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(str(APP_ICON)))
         self.resize(1500, 1000)
         help_menu = self.menuBar().addMenu("&Help")
-        help_menu.addAction("Help topics…", self.show_help)
+        help_menu.addAction("Help topics…", lambda: self.show_help())
         help_menu.addAction("About CS Host", self.show_about)
         self.loading = False
         self.mode = OperationMode.CS_INITIATOR
@@ -386,7 +386,7 @@ class MainWindow(W.QMainWindow):
         self.run_bar.buttons["Describe session"].clicked.connect(lambda: self.results.edit_description())
         self.run_bar.buttons["Open capture…"].clicked.connect(self.open_capture)
         self.run_bar.buttons["Clear"].clicked.connect(self.clear_results)
-        self.run_bar.buttons["Help"].clicked.connect(self.show_help)
+        self.run_bar.buttons["Help"].clicked.connect(lambda: self.show_help(topic="toolbar"))
         for label, method in (("Synchronise", self.resolve_sync), ("Start session", self.start),
                               ("Stop session", self.session.stop),
                               ("Record from now", self.session.record_from_now)):
@@ -1439,10 +1439,24 @@ class MainWindow(W.QMainWindow):
             self.port_status.setText(f"Connecting… {max(0, self.session.pending[1] - self.session.clock()):.1f} s")
         self.update_controls()
 
-    def show_help(self):
-        """Open the help window from the menu or session toolbar; it stays open beside the app."""
+    def current_help_topic(self):
+        """Choose help that matches the main page and operation mode currently in view."""
+        current = self.tabs.currentWidget()
+        if current is self.results_stack:
+            return "results"
+        if current is self.session_view:
+            return "session"
+        if current is self.config_stack:
+            return "hostless" if self.mode == OperationMode.HOSTLESS_CS else "configuration"
+        return "about"
+
+    def show_help(self, topic=None):
+        """Open or retarget the non-modal help window beside the app."""
+        topic = topic or self.current_help_topic()
         if self._help_dialog is None:
-            self._help_dialog = HelpDialog(self)
+            self._help_dialog = HelpDialog(self, topic=topic)
+        else:
+            self._help_dialog.show_topic(topic)
         self._help_dialog.show()
         self._help_dialog.raise_()
         self._help_dialog.activateWindow()
