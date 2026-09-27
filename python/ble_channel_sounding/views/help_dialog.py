@@ -1,4 +1,4 @@
-"""User help for the CS Host desktop application: a topic list beside the selected page."""
+"""User help for the BLE Channel Sounding Host desktop application: a topic list beside the selected page."""
 
 from pathlib import Path
 
@@ -33,9 +33,9 @@ SCREENSHOTS = {
 HELP_PAGES = (
     (
         "about",
-        "About CS Host",
+        "About BLE Channel Sounding Host",
         f"""
-        <p class="lead">CS Host (<code>ble-channel-sounding</code>) is the desktop application for measuring distance between
+        <p class="lead">BLE Channel Sounding Host (<code>ble-channel-sounding</code>) is the desktop application for measuring distance between
         two Bluetooth devices with <b>Bluetooth Channel Sounding (CS)</b>. It controls a CS client board over
         USB, plans and applies the CS configuration, runs measurements, and shows results as they arrive. Enable
         recording for each run or save the session history to keep data for later analysis.</p>
@@ -52,9 +52,9 @@ HELP_PAGES = (
           <li>Mode 3 combines both. Mode 0 steps at the start of every subevent calibrate frequency and timing.</li>
         </ul>
 
-        <h2>What you can do with CS Host</h2>
+        <h2>What you can do with BLE Channel Sounding Host</h2>
         <table>
-          <tr><th>Task</th><th>How CS Host helps</th></tr>
+          <tr><th>Task</th><th>How BLE Channel Sounding Host helps</th></tr>
           <tr><td>Plan a measurement</td><td>Edit modes, channels, timing, antennas and connection settings, and
           see an illustration of the resulting connection, procedures, subevents, steps and channel
           sequence before anything is sent. See <a href="help:configuration">Configuring a measurement</a>.</td></tr>
@@ -79,9 +79,13 @@ HELP_PAGES = (
         </table>
 
         <h2>How the pieces fit together</h2>
-        <p>In the usual <b>hosted</b> setup, CS Host talks to one board and that board measures against a second
+        <p>In the usual <b>hosted</b> setup, BLE Channel Sounding Host talks to one board and that board measures against a second
         one:</p>
-        <pre>CS Host  ──USB (CDC ACM)──  nRF54LM20 DK running cs_client
+        <pre>                              BLE Channel Sounding Host
+                                        │
+                                  USB (CDC ACM)
+                                        │
+                              nRF54LM20 DK running cs_client
                               CS initiator · Bluetooth central
                                         │
                                   Bluetooth CS
@@ -95,7 +99,7 @@ HELP_PAGES = (
 
         <h2>Limits of this build</h2>
         <ul>
-          <li>CS Host does not build or flash firmware. Use the <a href="{HARDWARE_GUIDE}">hardware Getting
+          <li>BLE Channel Sounding Host does not build or flash firmware. Use the <a href="{HARDWARE_GUIDE}">hardware Getting
           Started guide</a> for that.</li>
           <li>The integrated client's CS role is fixed to <i>Initiator</i>; a loaded configuration with another
           CS role is normalized to Initiator. <i>Peripheral</i> is disabled in the GAP role selector, but a
@@ -129,7 +133,7 @@ HELP_PAGES = (
           bar at the top of the window to expand it.</li>
           <li><b>Connect.</b> Click <b>Connect client</b> on the session toolbar. The status bar shows the firmware
           version and the session state.</li>
-          <li><b>Synchronise.</b> CS Host now compares its configuration with the client's. When they differ, the
+          <li><b>Synchronise.</b> BLE Channel Sounding Host now compares its configuration with the client's. When they differ, the
           <b>Synchronise configuration</b> dialog opens: choose <b>Apply host configuration to client</b> to send
           the settings shown in the Configuration tab, or <b>Get configuration from client</b> to load supported
           settings into the app. The integrated client fixes the CS role to Initiator.</li>
@@ -155,7 +159,7 @@ HELP_PAGES = (
         <h2>What you need</h2>
         <ul>
           <li>An <b>nRF54LM20 DK</b> running the workspace's <code>cs_client</code> firmware. This is the client
-          that CS Host controls.</li>
+          that BLE Channel Sounding Host controls.</li>
           <li>A <b>reflector</b>: an nRF54L15 or nRF54LM20 DK running <code>cs_hostless_reflector</code>
           (advertised name <code>CS Hostless Reflector</code> by default), or an nRF54L15 Tag running
           <code>cs_reflector_tag</code> (name starting with <code>CSTag</code>).</li>
@@ -178,7 +182,7 @@ HELP_PAGES = (
           <li>Keep <b>Operation mode</b> at <b>CS</b>. In <b>Configuration → CS setup</b>, check the
           <b>Peripheral prefixes</b>: the scan lists only peers whose advertised name starts with one of these
           lines (case-sensitive). Add <code>CS Hostless Reflector</code> or <code>CSTag</code> as needed.</li>
-          <li>Adjust the measurement in the other Configuration tabs, then click <b>Apply config</b>. CS Host
+          <li>Adjust the measurement in the other Configuration tabs, then click <b>Apply config</b>. BLE Channel Sounding Host
           validates the settings before it sends them.</li>
           <li>Click <b>Scan</b>, select the reflector in the peer list and click <b>Connect peer</b>. The status bar
           shows the link state.</li>
@@ -191,13 +195,13 @@ HELP_PAGES = (
         <ul>
           <li><b>Stop session</b> ends the measurement but keeps the Bluetooth link and the client session, so you
           can start again straight away.</li>
-          <li><b>Apply config</b> while a peer is connected disconnects the peer first; CS Host asks before it
+          <li><b>Apply config</b> while a peer is connected disconnects the peer first; BLE Channel Sounding Host asks before it
           does. Connect the peer again after applying.</li>
           <li><b>Disconnect peer</b> drops the Bluetooth link and opens a fresh client session, ready to scan for
           another device.</li>
           <li><b>Disconnect client</b> ends the client session and the peer link, but keeps the serial port.</li>
         </ul>
-        <p>If CS Host connects to a client that is already running a measurement, it loads the client's
+        <p>If BLE Channel Sounding Host connects to a client that is already running a measurement, it loads the client's
         configuration and warns you. Use <b>Stop session</b> to end that run, or <b>Record from now</b> to keep
         its remaining data.</p>
         """,
@@ -208,13 +212,13 @@ HELP_PAGES = (
         """
         <p>Hostless firmware (<code>cs_hostless_initiator</code>) runs Channel Sounding from a configuration
         compiled into the image. It needs no commands: it scans for its reflector, connects and measures by
-        itself, and streams its reports over USB. CS Host can receive and decode that stream.</p>
+        itself, and streams its reports over USB. BLE Channel Sounding Host can receive and decode that stream.</p>
         <ol>
           <li>Set <b>Operation mode</b> to <b>CS Hostless</b>.</li>
           <li>In <b>Serial port → Client</b>, choose the hostless initiator's USB CDC ACM port.</li>
           <li>Click <b>Connect client</b>. Reports appear in Results and Session as they arrive.</li>
         </ol>
-        <p>In this mode CS Host only listens:</p>
+        <p>In this mode BLE Channel Sounding Host only listens:</p>
         <ul>
           <li>Apply config, Synchronise, Scan, Connect peer, Start session and Stop session are disabled.</li>
           <li>The Configuration tab is read-only and shows the configuration the firmware reports.</li>
@@ -231,8 +235,8 @@ HELP_PAGES = (
         "window",
         "The main window",
         """
-        <p class="screenshot"><img src="main-window.png" alt="CS Host main window"></p>
-        <p><i>CS Host connected to the simulator after a run. No hardware is connected.</i>
+        <p class="screenshot"><img src="main-window.png" alt="BLE Channel Sounding Host main window"></p>
+        <p><i>BLE Channel Sounding Host connected to the simulator after a run. No hardware is connected.</i>
         <a href="screenshot:main-window">View full-size screenshot</a></p>
         <ol>
           <li><b>General controls:</b> operation mode, Console log and Host log. See
@@ -316,7 +320,7 @@ HELP_PAGES = (
         "configuration",
         "Configuring a measurement",
         f"""
-        <p class="screenshot"><img src="configuration.png" alt="CS Host configuration screen"></p>
+        <p class="screenshot"><img src="configuration.png" alt="BLE Channel Sounding Host configuration screen"></p>
         <p><i>Configuration view with the simulator connected; no hardware is connected.</i>
         <a href="screenshot:configuration">View full-size screenshot</a></p>
         <ol>
@@ -510,7 +514,7 @@ HELP_PAGES = (
         "results",
         "Reading results",
         """
-        <p class="screenshot"><img src="results.png" alt="CS Host results screen"></p>
+        <p class="screenshot"><img src="results.png" alt="BLE Channel Sounding Host results screen"></p>
         <p><i>Synthetic sample data for illustration; this is not a live RF measurement.</i>
         <a href="screenshot:results">View full-size screenshot</a></p>
         <ol>
@@ -680,7 +684,7 @@ HELP_PAGES = (
         <p>The general controls set how much the client firmware logs:</p>
         <ul>
           <li><b>Console log</b>: messages sent to the client's own debug console (UART).</li>
-          <li><b>Host log</b>: messages sent to CS Host. They appear in the Session tab as <i>Client log</i>
+          <li><b>Host log</b>: messages sent to BLE Channel Sounding Host. They appear in the Session tab as <i>Client log</i>
           and are recorded.</li>
         </ul>
         <p>Each level (Off, Error, Warning, Info, Debug) includes the more severe ones. The levels are part of
@@ -717,11 +721,11 @@ HELP_PAGES = (
           <tr><td>Results are empty or noisy</td><td>Check the Controller view for the negotiated configuration
           and the Session tab for warnings. For PBR, try another Path or sign; for RTT, relax <b>Max errors</b>.
           </td></tr>
-          <tr><td>The client was already running</td><td>CS Host loaded its configuration. Stop the run, or use
+          <tr><td>The client was already running</td><td>BLE Channel Sounding Host loaded its configuration. Stop the run, or use
           <b>Record from now</b> to keep it.</td></tr>
         </table>
         <p>For build, flash and wiring questions, see the <a href="{HARDWARE_GUIDE}">hardware Getting Started
-        guide</a>. For detailed behaviour of every feature, see the <a href="{HOST_REFERENCE}">CS Host
+        guide</a>. For detailed behaviour of every feature, see the <a href="{HOST_REFERENCE}">BLE Channel Sounding Host
         reference</a>.</p>
         """,
     ),
@@ -788,7 +792,7 @@ class HelpDialog(W.QDialog):
 
     def __init__(self, parent=None, topic="about"):
         super().__init__(parent)
-        self.setWindowTitle("CS Host Help")
+        self.setWindowTitle("BLE Channel Sounding Host Help")
         self.resize(1360, 920)
         layout = W.QVBoxLayout(self)
         splitter = W.QSplitter(self)
@@ -855,7 +859,7 @@ class ScreenshotDialog(W.QDialog):
 
     def __init__(self, parent, title, image_path):
         super().__init__(parent)
-        self.setWindowTitle(f"CS Host Help — {title}")
+        self.setWindowTitle(f"BLE Channel Sounding Host Help — {title}")
         self.resize(1450, 950)
         self.setMinimumSize(800, 600)
         self.source = QtGui.QPixmap(str(image_path))

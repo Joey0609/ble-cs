@@ -19,9 +19,9 @@ class HelpDialogTests(unittest.TestCase):
     def test_opens_on_the_overview_of_purpose_and_capabilities(self):
         dialog = HelpDialog()
         try:
-            self.assertEqual(dialog.topics.currentItem().text(), "About CS Host")
+            self.assertEqual(dialog.topics.currentItem().text(), "About BLE Channel Sounding Host")
             text = dialog.browser.toPlainText()
-            self.assertIn("What you can do with CS Host", text)
+            self.assertIn("What you can do with BLE Channel Sounding Host", text)
             self.assertIn("Channel Sounding", text)
         finally:
             dialog.deleteLater()

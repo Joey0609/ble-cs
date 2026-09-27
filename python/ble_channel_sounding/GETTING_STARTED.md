@@ -1,12 +1,12 @@
-# CS Host: Getting Started
+# BLE Channel Sounding Host: Getting Started
 
-CS Host (`ble-channel-sounding`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
+BLE Channel Sounding Host (`ble-channel-sounding`) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and can record sessions to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.
 
 You can explore the interface with its built-in simulator before connecting hardware. Inside the app, **Help → Help topics…** or the Help icon at the right end of the session toolbar opens an overview followed by task-based topics.
 
 ## Install and open the app
 
-CS Host requires Python 3.10 or newer. When the package is available on PyPI, install and launch it with:
+BLE Channel Sounding Host requires Python 3.10 or newer. When the package is available on PyPI, install and launch it with:
 
 ```sh
 python -m pip install ble-channel-sounding
@@ -31,7 +31,7 @@ On Windows, the equivalent command is:
 
 ## Try it without boards
 
-Start CS Host with the in-memory client preselected:
+Start BLE Channel Sounding Host with the in-memory client preselected:
 
 ```sh
 ble-channel-sounding --simulate
@@ -63,7 +63,7 @@ The Start action remains unavailable while the client is disconnected, the confi
 
 ## Receive a hostless stream
 
-A `cs_hostless_initiator` board measures on its own from its compiled configuration and streams its reports over USB. Select **CS Hostless** as the operation mode, choose the board's USB CDC ACM port in **Serial port → Client** and click **Connect client**. CS Host only listens in this mode: configuration, discovery and run commands are disabled, and the Configuration tab shows what the firmware reports.
+A `cs_hostless_initiator` board measures on its own from its compiled configuration and streams its reports over USB. Select **CS Hostless** as the operation mode, choose the board's USB CDC ACM port in **Serial port → Client** and click **Connect client**. BLE Channel Sounding Host only listens in this mode: configuration, discovery and run commands are disabled, and the Configuration tab shows what the firmware reports.
 
 ## Save and reopen data
 
@@ -79,4 +79,4 @@ The app also keeps a temporary session history while you work. Use **Save sessio
 - **Start session is disabled:** hover over it for the current prerequisite. Usually the configuration needs to be applied or the Bluetooth peer needs to connect.
 - **You only need to try the UI:** choose the simulator; NCS and hardware are not needed.
 
-Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the [CS Host reference](https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/README.md).
+Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the [BLE Channel Sounding Host reference](https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/README.md).

@@ -141,12 +141,12 @@ class _RunDescriptionDialog(W.QDialog):
 class MainWindow(W.QMainWindow):
     def __init__(self, *, simulate=False, capture=None):
         super().__init__()
-        self.setWindowTitle("CS Host")
+        self.setWindowTitle("BLE Channel Sounding Host")
         self.setWindowIcon(QtGui.QIcon(str(APP_ICON)))
         self.resize(1500, 1000)
         help_menu = self.menuBar().addMenu("&Help")
         help_menu.addAction("Help topics…", lambda: self.show_help())
-        help_menu.addAction("About CS Host", self.show_about)
+        help_menu.addAction("About BLE Channel Sounding Host", self.show_about)
         self.loading = False
         self.mode = OperationMode.CS_INITIATOR
         self.run_number = 0
@@ -1464,8 +1464,8 @@ class MainWindow(W.QMainWindow):
     def show_about(self):
         W.QMessageBox.about(
             self,
-            "About CS Host",
-            f"<b>CS Host {__version__}</b><p>Desktop application for Bluetooth Channel Sounding: plan the "
+            "About BLE Channel Sounding Host",
+            f"<b>BLE Channel Sounding Host {__version__}</b><p>Desktop application for Bluetooth Channel Sounding: plan the "
             "CS configuration, control a client board, view live results and record sessions.</p>"
             "<p>Help → Help topics… explains what the application does and how to use it.</p>",
         )

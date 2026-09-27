@@ -52,7 +52,7 @@ class RunBar(W.QToolBar):
         "Describe session": "Describe session — notes kept with the session and written to its recording",
         "Open capture…": "Open capture… — show a recording or capture file in Results and the Session timeline",
         "Clear": "Clear — drop the shown results, the open capture and the session timeline",
-        "Help": "Help — what CS Host does and how to use it: first steps, hardware, configuration, results and recordings",
+        "Help": "Help — what BLE Channel Sounding Host does and how to use it: first steps, hardware, configuration, results and recordings",
     }
 
     def __init__(self, parent=None):
