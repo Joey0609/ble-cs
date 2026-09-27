@@ -44,7 +44,7 @@ jobs:
       - release-build
     permissions:
       # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: pypi-AgEIcHlwaS5vcmcCJGY1YWNhODg2LWY2YWItNGFmNC1hNjYxLTc1Mjk5MjU3NjZlYwACKlszLCI3N2Q2YjNjMy01OTRlLTRiNTYtOGJmMi1mZjFhYzFiN2NjNzAiXQAABiDoHkBO2tIn5HUuOL1mMmgb6OaXmbSI65JdTYimW-Ej5w
+      id-token: 
 
     # Dedicated environments with protections for publishing are strongly recommended.
     # For more information, see: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#deployment-protection-rules
