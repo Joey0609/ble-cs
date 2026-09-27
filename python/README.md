@@ -1,18 +1,31 @@
 # Python host: `ble_channel_sounding`
 
-The `ble-channel-sounding` distribution contains the `ble_channel_sounding` desktop host and the standalone
-`ble_channel_sounding_planner` frontend. The host connects to a CS client over serial (or the
-built-in simulator), keeps its configuration in sync, starts and stops runs,
-shows results and FAE, records runs to HDF5 and converts recordings to MATLAB
-files. New users can follow the [Getting Started guide](ble_channel_sounding/GETTING_STARTED.md);
-detailed host behavior and protocol notes are in [ble_channel_sounding/README.md](ble_channel_sounding/README.md).
+The `ble-channel-sounding` distribution contains only the `ble_channel_sounding`
+desktop host. The standalone `ble-channel-sounding-planner` app has its own
+project configuration in `ble_channel_sounding_planner/pyproject.toml` and is
+not published by the host app's PyPI workflow. The host connects to a CS client
+over serial (or the built-in simulator), keeps its configuration in sync, starts
+and stops runs, shows results and FAE, records runs to HDF5 and converts
+recordings to MATLAB files. New users can follow the
+[Getting Started guide](ble_channel_sounding/GETTING_STARTED.md); detailed host
+behavior and protocol notes are in
+[ble_channel_sounding/README.md](ble_channel_sounding/README.md).
 
 ```sh
 cd python
 python -m pip install -e .
-ble-channel-sounding           # desktop host
-ble-channel-sounding-planner   # standalone planner
+ble-channel-sounding  # desktop host
 ```
+
+Install the standalone planner from its separate project directory when needed:
+
+```sh
+python -m pip install -e ./ble_channel_sounding_planner
+ble-channel-sounding-planner
+```
+
+The host app and planner can also be built and installed independently, but the
+host PyPI publishing workflow uses only this directory's `pyproject.toml`.
 
 The package includes the HTML and Markdown Getting Started guides. In the app, use the **Help** action at the right end of the session toolbar to open the in-app help (also **Help → Help topics…**): an overview of what the application does, followed by task-based topics. The package metadata uses the Getting Started guide as its PyPI project description.
 
@@ -101,6 +114,47 @@ sessions.
 ```sh
 QT_QPA_PLATFORM=offscreen python -m unittest discover -s tests -v
 ```
+
+## Publishing to PyPI
+
+The [Publish ble-channel-sounding to PyPI workflow](../.github/workflows/publish-pypi.yml)
+builds the `ble-channel-sounding` wheel and source distribution, checks their metadata, installs
+the wheel, and verifies that only the host app entry point and bundled help/logo assets are present.
+It includes the repository's software and documentation license notices in the
+distributions.
+
+Before the first release, create a GitHub Actions environment named `pypi` in
+`Sens-Wear/ble-cs` and configure a
+[PyPI Trusted Publisher](https://docs.pypi.org/trusted-publishers/adding-a-publisher/)
+with these values:
+
+| Field | Value |
+| --- | --- |
+| PyPI project | `ble-channel-sounding` |
+| GitHub owner | `Sens-Wear` |
+| Repository | `ble-cs` |
+| Workflow filename | `publish-pypi.yml` |
+| Environment | `pypi` |
+
+If the PyPI project does not exist yet, use a
+[pending publisher](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/)
+for `ble-channel-sounding`. Trusted Publishing uses GitHub's OIDC identity, so no PyPI API token
+or GitHub secret is needed.
+
+To release:
+
+1. Set the new version in both `pyproject.toml` and `ble_channel_sounding/__init__.py`, and commit
+   the release contents, including any package assets.
+2. Push the commit and publish a GitHub Release with the matching tag, for example
+   `ble-channel-sounding-v0.1.0`. The workflow rejects a version mismatch and ignores releases
+   whose tags do not start with `ble-channel-sounding-v`.
+3. Check the workflow run and install the published version with
+   `python -m pip install --upgrade ble-channel-sounding`.
+
+Publishing a GitHub Release triggers the upload; pushing a tag alone does not.
+Each PyPI release needs a new version. For a build-only check, select **Actions →
+Publish ble-channel-sounding to PyPI → Run workflow**; manual runs retain the distributions as
+an Actions artifact and do not upload to PyPI.
 
 ## Radio RX measurements
 

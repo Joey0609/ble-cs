@@ -24,7 +24,15 @@ python -m ble_channel_sounding_planner ../cs-plan.json      # open a planner fil
 python -m ble_channel_sounding_planner cs_generated_config.c  # open the plan embedded in a ble-channel-sounding C export
 ```
 
-After `pip install -e .` the same window starts with `ble-channel-sounding-planner [file]`.
+Install the planner independently from the repository root:
+
+```sh
+python -m pip install -e ./python/ble_channel_sounding_planner
+ble-channel-sounding-planner [file]
+```
+
+This project has its own `pyproject.toml`. The host app's PyPI workflow does not
+build or publish this planner distribution.
 
 ## Window
 

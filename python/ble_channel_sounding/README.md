@@ -2,7 +2,10 @@
 
 For the user-focused install and first-run walkthrough, see [Getting Started](GETTING_STARTED.md). The **Help** action at the right end of the session toolbar (or **Help → Help topics…**) opens the in-app help: an overview of the application's purpose and capabilities, followed by task-based topics (`views/help_dialog.py`). This document is the detailed reference.
 
-Install from the repository root; run `ble-channel-sounding` for the integrated host or `ble-channel-sounding-planner` for the standalone planner:
+Install from the repository root and run `ble-channel-sounding` for the
+integrated host. The standalone planner has its own project metadata and can be
+installed separately from `python/ble_channel_sounding_planner`; it is not
+included in the host app's PyPI distribution.
 
 ```sh
 .venv/bin/python -m pip install -e ./python
