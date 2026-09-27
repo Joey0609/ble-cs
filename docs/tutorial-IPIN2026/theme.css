@@ -40,6 +40,220 @@
   font-size: 0.75em;
 }
 
+/* Slides 03a-03c: BLE ACL link, timing and data sizes */
+.reveal .acl-link h2,
+.reveal .acl-events h2,
+.reveal .acl-sizes h2 {
+  margin-bottom: 0.15em;
+}
+
+.reveal .acl-events .lead,
+.reveal .acl-sizes .lead {
+  font-size: 0.68em;
+  margin: 0 0 0.3em;
+}
+
+.reveal .acl-link .diagram,
+.reveal .acl-sizes .diagram,
+.reveal .acl-events .timeline {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+
+.reveal .acl-link .takeaway,
+.reveal .acl-events .takeaway,
+.reveal .acl-sizes .takeaway {
+  font-size: 0.66em;
+  margin: 0.3em 0 0.1em;
+}
+
+.reveal .acl-sizes .takeaway {
+  margin-top: 0.7em;
+}
+
+.reveal .acl-link .role-note {
+  font-size: 0.5em;
+  margin: 0;
+}
+
+.reveal .acl-events .units,
+.reveal .acl-sizes .stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+  margin: 0.2em 0 0;
+  text-align: left;
+}
+
+.reveal .acl-sizes .stats {
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 0.6em;
+}
+
+.reveal .acl-events .units > div,
+.reveal .acl-sizes .stats > div {
+  border-top: 3px solid var(--accent);
+  padding: 0.25em 0.1em 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.5em;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.reveal .acl-events .units .name {
+  color: #1f2328;
+  font-weight: 700;
+}
+
+.reveal .acl-events .units .value,
+.reveal .acl-sizes .stats .big {
+  color: var(--accent);
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.reveal .acl-sizes .stats .big {
+  font-size: 1.9em;
+}
+
+/* ACL event and negotiation slides */
+.reveal .acl-event-basics h2,
+.reveal .acl-negotiation h2 {
+  margin-bottom: 0.12em;
+}
+
+.reveal .acl-event-basics .lead,
+.reveal .acl-negotiation .lead {
+  font-size: 0.62em;
+  margin: 0 0 0.22em;
+}
+
+.reveal .acl-event-basics .event-flow {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reveal .acl-event-basics .event-terms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45em;
+  margin: 0.12em 0 0;
+  text-align: left;
+}
+
+.reveal .acl-event-basics .event-terms p {
+  border-top: 3px solid #d0d7de;
+  font-size: 0.48em;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0.2em 0.3em;
+}
+
+.reveal .acl-event-basics .event-terms strong {
+  color: var(--accent);
+}
+
+.reveal .acl-negotiation .negotiation-cards {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.94fr) minmax(0, 0.94fr);
+  gap: 0.42em;
+  min-width: 0;
+  text-align: left;
+}
+
+.reveal .acl-negotiation .negotiation-card {
+  border: 1px solid #d0d7de;
+  border-radius: 0.2em;
+  min-width: 0;
+  padding: 0.32em 0.38em;
+}
+
+.reveal .acl-negotiation .negotiation-card h3 {
+  color: var(--accent);
+  font-size: 0.52em;
+  line-height: 1.12;
+  margin: 0;
+}
+
+.reveal .acl-negotiation .card-kicker {
+  color: var(--muted);
+  font-size: 0.42em;
+  margin: 0.05em 0 0.22em;
+}
+
+.reveal .acl-negotiation .exchange {
+  align-items: center;
+  border-top: 1px solid #e4e8ec;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) auto minmax(0, 1.6fr);
+  gap: 0.18em;
+  min-height: 1.55em;
+  padding: 0.12em 0;
+}
+
+.reveal .acl-negotiation .role,
+.reveal .acl-negotiation .arrow,
+.reveal .acl-negotiation .payload {
+  font-size: 0.42em;
+  line-height: 1.12;
+}
+
+.reveal .acl-negotiation .role {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.reveal .acl-negotiation .role.peripheral,
+.reveal .acl-negotiation .arrow.peripheral {
+  color: #c8641e;
+}
+
+.reveal .acl-negotiation .arrow {
+  font-size: 0.54em;
+  font-weight: 700;
+}
+
+.reveal .acl-negotiation .payload {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.reveal .acl-negotiation .payload code {
+  overflow-wrap: anywhere;
+}
+
+.reveal .acl-negotiation .payload small {
+  color: var(--muted);
+  display: block;
+  font-size: 0.9em;
+}
+
+.reveal .acl-negotiation .card-detail {
+  font-size: 0.42em;
+  line-height: 1.2;
+  margin: 0.2em 0 0;
+}
+
+.reveal .acl-negotiation .limit-note {
+  background: #f6f8fa;
+  font-size: 0.46em;
+  line-height: 1.2;
+  margin: 0.24em 0 0.12em;
+  padding: 0.22em 0.4em;
+}
+
+.reveal .acl-negotiation .role-note {
+  font-size: 0.42em;
+  margin: 0;
+}
+
 /* Slide 05: What is Channel Sounding */
 .reveal .cs-intro h2 {
   margin-bottom: 0.2em;
