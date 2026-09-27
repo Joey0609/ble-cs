@@ -1,6 +1,8 @@
 # Integrated CS host
 
-Install from the repository root; `cs-app` is the only command:
+For the user-focused install and first-run walkthrough, see [Getting Started](GETTING_STARTED.md). The **Help** action at the right end of the session toolbar (or **Help → Help topics…**) opens the in-app help: an overview of the application's purpose and capabilities, followed by task-based topics (`views/help_dialog.py`). This document is the detailed reference.
+
+Install from the repository root; run `cs-app` for the integrated host or `cs-planner` for the standalone planner:
 
 ```sh
 .venv/bin/python -m pip install -e ./python

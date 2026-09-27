@@ -1,15 +1,20 @@
 # Python host: `cs_app`
 
-`cs_app` is the only Python package: one PyQt application that connects to a CS
-client over serial (or the built-in simulator), keeps its configuration in sync,
-starts and stops runs, shows results and FAE, records runs to HDF5 and converts
-recordings to MATLAB files. See [cs_app/README.md](cs_app/README.md) for usage.
+The `cs-app` distribution contains the `cs_app` desktop host and the standalone
+`cs_planner` frontend. The host connects to a CS client over serial (or the
+built-in simulator), keeps its configuration in sync, starts and stops runs,
+shows results and FAE, records runs to HDF5 and converts recordings to MATLAB
+files. New users can follow the [Getting Started guide](cs_app/GETTING_STARTED.md);
+detailed host behavior and protocol notes are in [cs_app/README.md](cs_app/README.md).
 
 ```sh
 cd python
 python -m pip install -e .
-cs-app            # or: python -m cs_app
+cs-app            # desktop host
+cs-planner        # standalone planner
 ```
+
+The package includes the HTML and Markdown Getting Started guides. In the app, use the **Help** action at the right end of the session toolbar to open the in-app help (also **Help → Help topics…**): an overview of what the application does, followed by task-based topics. The package metadata uses the Getting Started guide as its PyPI project description.
 
 ## Package layout
 

@@ -10,6 +10,7 @@ GROUPS = (
     ("Start session", "Stop session"),
     # Record management: what the session keeps, and what the views show from disk.
     ("Record from now", "Describe session", "Open capture…", "Clear"),
+    ("Help",),
 )
 ACTIONS = tuple(name for group in GROUPS for name in group)
 
@@ -35,6 +36,7 @@ class RunBar(W.QToolBar):
         "Describe session": "describe",
         "Open capture…": "open",
         "Clear": "clear",
+        "Help": "help",
     }
     # Connect action by host-session state: label and icon.
     CONNECTION_STATES = {
@@ -50,6 +52,7 @@ class RunBar(W.QToolBar):
         "Describe session": "Describe session — notes kept with the session and written to its recording",
         "Open capture…": "Open capture… — show a recording or capture file in Results and the Session timeline",
         "Clear": "Clear — drop the shown results, the open capture and the session timeline",
+        "Help": "Help — what CS Host does and how to use it: first steps, hardware, configuration, results and recordings",
     }
 
     def __init__(self, parent=None):

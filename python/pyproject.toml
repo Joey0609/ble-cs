@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "cs-app"
 version = "0.1.0"
 description = "Host application for BLE Channel Sounding clients: configuration, results, FAE and run recording"
+readme = "cs_app/GETTING_STARTED.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = [
@@ -24,5 +25,12 @@ mat73 = ["hdf5storage"]
 cs-app = "cs_app.app:main"
 cs-planner = "cs_planner.__main__:main"
 
+[project.urls]
+Source = "https://github.com/Sens-Wear/ble-cs"
+Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/GETTING_STARTED.md"
+
 [tool.setuptools.packages.find]
 include = ["cs_app*", "cs_planner*"]
+
+[tool.setuptools.package-data]
+cs_app = ["GETTING_STARTED.md", "GETTING_STARTED.html"]

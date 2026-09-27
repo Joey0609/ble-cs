@@ -65,7 +65,7 @@ and starting the desktop app.
 | `cs_reflector_tag` | Connected nRF54L15 Tag reflector using its two switched antennas. | [cs_reflector_tag/README.md](cs_reflector_tag/README.md) |
 | `cs_radio_test_client` | Standalone radio-test host-link firmware. **Work in progress; disabled for deployment.** | [cs_radio_test_client/README.md](cs_radio_test_client/README.md) |
 | `cs_tag_modulated_tx` | nRF54L15 Tag modulated transmit utility for RF experiments. | [cs_tag_modulated_tx/README.md](cs_tag_modulated_tx/README.md) |
-| `python/cs_app` | Desktop configuration, live CS results, logs and session recording application (`cs-app`). | [python/cs_app/README.md](python/cs_app/README.md) |
+| `python/cs_app` | Desktop configuration, live CS results, logs and session recording application (`cs-app`). | [Getting Started](python/cs_app/GETTING_STARTED.md), [reference](python/cs_app/README.md) |
 | `python/cs_planner` | Standalone CS planner frontend and C configuration export support. | [python/cs_planner/README.md](python/cs_planner/README.md) |
 | `common/libs` | Shared protocol, configuration, host link, CS roles, logging and radio-test support libraries. | [Protocol](common/libs/cs_protocol/README.md), [CS configuration](common/libs/cs_utils/README.md), [host link](common/libs/host_link/README.md), [logging](common/libs/app_log/README.md), [radio-test helpers](common/libs/radio_test_utils/README.md) |
 | `tests` | Firmware test applications and native C tests for shared libraries. | [Initiator](tests/cs_initiator_test/README.md), [reflector](tests/cs_reflector_test/README.md), [radio test](tests/radio_test/src/README.md), [USB ACM rate test](tests/usb_acm_rate_test/README.md) |

@@ -5,6 +5,8 @@ from PyQt6 import QtCore, QtGui, QtSvg
 COLOR = "#21334b"
 # 24 × 24 outline glyphs with the usual meaning of each action.
 PATHS = {
+    "help": ('<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4.3 1.7c-1.1.9-1.8 1.3-1.8 2.8"/>'
+             '<path d="M12 17h.01"/>'),
     # Plug: open the serial link to the board.
     "connect": ('<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/>'
                 '<path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/>'),

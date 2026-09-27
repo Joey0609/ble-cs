@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 from PyQt6 import QtCore, QtWidgets as W
 import pyqtgraph as pg
+from . import __version__
 from .protocol import PROTOCOL_VERSION
 from .protocol.config import ClientConfig
 from .protocol.packets import (OperationMode, OperationModeMask, PeripheralPatternsPacket, DeviceNamePacket, ClientState, CsFaeTablePacket, PacketType, ProtocolStatus,
@@ -33,6 +34,7 @@ from .views.radio_test_view import RadioTestView, preset_json
 from .views.run_bar import RunBar
 from .views.peers_view import PeersView
 from .views.peer_console_view import PeerConsoleView
+from .views.help_dialog import HelpDialog
 from .peer_console import PeerConsoleReader
 from .report_log import ERROR, INFO, WARNING
 from .session_history import HostMessage, normalize_host_level
@@ -139,6 +141,9 @@ class MainWindow(W.QMainWindow):
         super().__init__()
         self.setWindowTitle("CS Host")
         self.resize(1500, 1000)
+        help_menu = self.menuBar().addMenu("&Help")
+        help_menu.addAction("Help topics…", self.show_help)
+        help_menu.addAction("About CS Host", self.show_about)
         self.loading = False
         self.mode = OperationMode.CS_INITIATOR
         self.run_number = 0
@@ -153,6 +158,7 @@ class MainWindow(W.QMainWindow):
         # its own unsaved-session prompt replaces the end-of-run offer.
         self._closing = False
         self._description_dialog = None
+        self._help_dialog = None
         self._peer_console_transport = None
         self._peer_console_reader = None
         self._peer_console_bridge = _PeerConsoleBridge(self)
@@ -376,6 +382,7 @@ class MainWindow(W.QMainWindow):
         self.run_bar.buttons["Describe session"].clicked.connect(lambda: self.results.edit_description())
         self.run_bar.buttons["Open capture…"].clicked.connect(self.open_capture)
         self.run_bar.buttons["Clear"].clicked.connect(self.clear_results)
+        self.run_bar.buttons["Help"].clicked.connect(self.show_help)
         for label, method in (("Synchronise", self.resolve_sync), ("Start session", self.start),
                               ("Stop session", self.session.stop),
                               ("Record from now", self.session.record_from_now)):
@@ -1338,7 +1345,9 @@ class MainWindow(W.QMainWindow):
         peer_connected = core.link_state in PEER_LINKED_STATES
         for label, button in self.run_bar.buttons.items():
             enabled = connected and not busy and not hostless
-            if label == "Connect":
+            if label == "Help":
+                enabled = True
+            elif label == "Connect":
                 # While connecting the action cancels the handshake, so it stays available.
                 # With the port open and no session it opens a new one over that port (§7.8).
                 enabled = (core.transport is None or connecting or core.state == "DISCONNECTED"
@@ -1426,6 +1435,23 @@ class MainWindow(W.QMainWindow):
             self.port_status.setText(f"Connecting… {max(0, self.session.pending[1] - self.session.clock()):.1f} s")
         self.update_controls()
 
+    def show_help(self):
+        """Open the help window from the menu or session toolbar; it stays open beside the app."""
+        if self._help_dialog is None:
+            self._help_dialog = HelpDialog(self)
+        self._help_dialog.show()
+        self._help_dialog.raise_()
+        self._help_dialog.activateWindow()
+
+    def show_about(self):
+        W.QMessageBox.about(
+            self,
+            "About CS Host",
+            f"<b>CS Host {__version__}</b><p>Desktop application for Bluetooth Channel Sounding: plan the "
+            "CS configuration, control a client board, view live results and record sessions.</p>"
+            "<p>Help → Help topics… explains what the application does and how to use it.</p>",
+        )
+
     def closeEvent(self, event):
         if self._description_dialog is not None and self._description_dialog.isVisible():
             # Closing the application while the non-modal editor is open keeps typed notes.
@@ -1473,8 +1499,23 @@ class MainWindow(W.QMainWindow):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--simulate", nargs="?", const="", default=None, metavar="CAPTURE")
+    parser = argparse.ArgumentParser(
+        description="Desktop host for Bluetooth Channel Sounding clients.",
+        epilog=(
+            "Examples:\n"
+            "  cs-app                         Start and choose a serial client or Simulator.\n"
+            "  cs-app --simulate              Start with the in-memory simulator selected.\n"
+            "  cs-app --simulate run.h5       Load an HDF5 capture into the simulator.\n\n"
+            "The simulator does not require hardware; its measurements are synthetic. Hardware use requires a compatible client.\n"
+            "Guide: https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/GETTING_STARTED.md"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument(
+        "--simulate", nargs="?", const="", default=None, metavar="CAPTURE",
+        help="preselect the in-memory simulator; optionally replay an HDF5 capture",
+    )
     args = parser.parse_args(argv)
     pg.setConfigOptions(antialias=True, foreground="#40556d")
     app = W.QApplication.instance() or W.QApplication(sys.argv)

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CS Host: Getting Started</title>
+  <style>
+    :root { color-scheme: light dark; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    h1, h2 { line-height: 1.25; }
+    h1 { margin-bottom: .4rem; }
+    h2 { margin-top: 2rem; padding-bottom: .35rem; border-bottom: 1px solid #8886; }
+    p, li { max-width: 78ch; }
+    a { color: #1685cf; }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .92em; }
+    pre { padding: 1rem; overflow-x: auto; border-radius: 7px; background: #8882; }
+    pre code { font-size: .9em; }
+    .intro { font-size: 1.1rem; }
+    .note { padding: .75rem 1rem; border-left: 4px solid #1685cf; background: #8881; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CS Host: Getting Started</h1>
+    <p class="intro">CS Host (<code>cs-app</code>) is the desktop application for measuring distance between two Bluetooth devices with Bluetooth Channel Sounding (CS). It controls a CS client board over USB, plans and applies the CS configuration, runs measurements, shows phase-based (PBR) and round-trip-time (RTT) results as they arrive, and records every session to HDF5 for later analysis or MATLAB export. It can also receive the report stream of hostless initiator firmware and export a planned configuration as C source for that firmware.</p>
+    <p>You can explore the interface with its built-in simulator before connecting hardware. Inside the app, <strong>Help → Help topics…</strong> (or the <strong>Help</strong> action at the right end of the session toolbar) opens with an overview of what the application does, followed by task-based topics.</p>
+
+    <h2>Install and open the app</h2>
+    <p>CS Host requires Python 3.10 or newer. When the package is available on PyPI, install and launch it with:</p>
+    <pre><code>python -m pip install cs-app
+cs-app</code></pre>
+    <p>You can also start it with <code>python -m cs_app</code>. If <code>cs-app</code> is not found, use the Python environment where you installed the package, or activate that environment first.</p>
+    <p>Run <code>cs-app --help</code> to see command-line options and examples.</p>
+    <p>For the current source checkout, install the workspace package in editable mode from the repository root:</p>
+    <pre><code>.venv/bin/python -m pip install -e ./python</code></pre>
+    <p>On Windows, the equivalent command is:</p>
+    <pre><code>.venv\Scripts\python.exe -m pip install -e .\python</code></pre>
+
+    <h2>Try it without boards</h2>
+    <p>Start CS Host with the in-memory client preselected:</p>
+    <pre><code>cs-app --simulate</code></pre>
+    <p>Or open the app normally and choose <strong>Simulator — in-memory client</strong> in <strong>Serial port → Client</strong>, then click <strong>Connect client</strong>. To replay an existing HDF5 capture through the simulator, pass its path:</p>
+    <pre><code>cs-app --simulate path/to/session.h5</code></pre>
+    <p>The simulator is useful for exploring controls, session flow, plots and recordings. Its generated measurements are synthetic and do not model radio accuracy. A capture is replayed from its recorded reports; it is not a live RF measurement.</p>
+
+    <h2>Use Bluetooth hardware</h2>
+    <p>The host application does not flash or configure firmware on the boards. For the documented hosted setup, use an nRF54LM20 DK running the workspace's <code>cs_client</code> firmware and a separate Bluetooth CS reflector. A reflector can run the hostless reflector firmware (advertised as <code>CS Hostless Reflector</code> by default) or the Tag reflector image (name prefix <code>CSTag</code>). The full board setup, build commands and connections are in the <a href="https://github.com/Sens-Wear/ble-cs/blob/main/docs/GETTING_STARTED.md">hardware Getting Started guide</a>.</p>
+    <p>Firmware builds in this workspace use nRF Connect SDK (NCS) v3.4.1 and its matching toolchain. The client board exposes the host connection over USB CDC ACM; its debug UART is a different port. Use the client protocol implementation described in the <a href="https://github.com/Sens-Wear/ble-cs/blob/main/common/libs/cs_protocol/README.md">host protocol reference</a>.</p>
+
+    <h2>Run a hosted CS session</h2>
+    <ol>
+      <li>Connect the client board by USB. In <strong>Serial port → Client</strong>, select its USB CDC ACM port and click <strong>Connect client</strong>. The status bar shows the host connection state.</li>
+      <li>In <strong>Configuration</strong>, choose <strong>CS</strong> mode. Under <strong>CS setup</strong>, the CS role is <strong>Initiator</strong>, the only role the client supports. Set the <strong>GAP role</strong> to <strong>Central</strong> to scan for a reflector, and make sure <strong>Peripheral prefixes</strong> contains the start of the reflector's advertised name; the scan lists only matching peers. Peripheral remains supported for saved configurations, but cannot be selected in the UI.</li>
+      <li>Configure the measurement and click <strong>Apply config</strong>. The <strong>Synchronise</strong> action can load configuration from the client or apply the host's current settings.</li>
+      <li>For GAP <strong>Central</strong>, click <strong>Scan</strong>, select a matching reflector, then click <strong>Connect peer</strong>. If a loaded configuration already has GAP <strong>Peripheral</strong>, click <strong>Advertise</strong> and let the central device connect. The Bluetooth link must be established before a session can start.</li>
+      <li>Click <strong>Start session</strong>. Explore live data in <strong>Results</strong> and the event timeline in <strong>Session</strong>. Click <strong>Stop session</strong> when finished.</li>
+    </ol>
+    <p>The Start action remains unavailable while the client is disconnected, the configuration is not synchronized, or the peer link is missing. The tooltip on the action describes the unmet requirement.</p>
+
+    <h2>Receive a hostless stream</h2>
+    <p>A <code>cs_hostless_initiator</code> board measures on its own from its compiled configuration and streams its reports over USB. Select <strong>CS Hostless</strong> as the operation mode, choose the board's USB CDC ACM port in <strong>Serial port → Client</strong> and click <strong>Connect client</strong>. CS Host only listens in this mode: configuration, discovery and run commands are disabled, and the Configuration tab shows what the firmware reports.</p>
+
+    <h2>Save and reopen data</h2>
+    <p>To save each run automatically, enable <strong>Record each run</strong> in the <strong>Recording</strong> panel and choose an output folder. Each run is written to a new HDF5 (<code>.h5</code>) file; existing files are not overwritten. Add an optional description before a run or with <strong>Describe session</strong>.</p>
+    <p>The app also keeps a temporary session history while you work. Use <strong>Save session…</strong> to keep a session that was not recorded automatically. Use <strong>Open capture…</strong> to load an HDF5 session for review, and <strong>Convert file…</strong> in the Recording panel to export supported recordings to MATLAB format.</p>
+
+    <h2>If something does not work</h2>
+    <ul>
+      <li><strong>No client port appears:</strong> check the USB data cable and select the board's USB CDC ACM client interface, not its debug UART. Close other programs that may have the port open.</li>
+      <li><strong>Connect client fails:</strong> confirm the board is running compatible <code>cs_client</code> firmware and that the selected port is the host protocol port.</li>
+      <li><strong>The reflector is not listed:</strong> check that the GAP role is <strong>Central</strong>, a <strong>Peripheral prefixes</strong> line matches the start of the advertised name (case-sensitive), and the reflector is advertising. <strong>Show all</strong> can reveal peers outside the configured name prefixes.</li>
+      <li><strong>Start session is disabled:</strong> hover over it for the current prerequisite. Usually the configuration needs to be applied or the Bluetooth peer needs to connect.</li>
+      <li><strong>You only need to try the UI:</strong> choose the simulator; NCS and hardware are not needed.</li>
+    </ul>
+
+    <p class="note">Radio Test mode is disabled in this desktop application build. For detailed application behavior and configuration options, see the <a href="https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/README.md">CS Host reference</a>.</p>
+  </main>
+</body>
+</html>
