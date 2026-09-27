@@ -3,7 +3,7 @@ os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 import unittest
 from dataclasses import replace
 from unittest.mock import MagicMock, patch
-from PyQt6 import QtWidgets as W
+from PyQt6 import QtCore, QtWidgets as W
 from cs_app.protocol.packets import *
 from cs_app.protocol.frame import Frame, ProtocolError
 from cs_app.session import ClientSession, interruption_text
@@ -72,9 +72,14 @@ class PeerDiscoveryTests(unittest.TestCase):
 
     def window(self):
         window = MainWindow(simulate=True)
+        # Cleanups run last-in, first-out: stop the timers, close, then delete the window now
+        # rather than at some later event loop, where a leftover main window stops later GUI
+        # tests from receiving hover events.
+        self.addCleanup(QtCore.QCoreApplication.sendPostedEvents, None, QtCore.QEvent.Type.DeferredDelete)
+        self.addCleanup(window.deleteLater)
+        self.addCleanup(window.close)
         self.addCleanup(window.qt.timer.stop)
         self.addCleanup(window.poll.stop)
-        self.addCleanup(window.deleteLater)
         with patch.object(SyncDialog, 'exec', lambda dialog: dialog.choose('apply')):
             window.connect_port('Simulator', 921600)
             self.app.processEvents()

@@ -11,6 +11,7 @@ from cs_planner.model import (ALLOWED_CHANNELS, Scenario, build_schedule, channe
                               enabled_channels, loads, step_segments, validate)
 
 PYTHON_DIR = Path(__file__).resolve().parents[1]
+PLAN_FIXTURE = Path(__file__).resolve().parent / "data" / "cs-plan.json"
 
 
 def imported_modules(package: Path):
@@ -33,7 +34,7 @@ class PackageIndependenceTests(unittest.TestCase):
         self.assertFalse({n for n in imported_modules(PYTHON_DIR / "cs_app") if n.split(".")[0] == "cs_planner"})
 
     def test_reads_existing_planner_file_with_host_settings(self):
-        s = loads((PYTHON_DIR / "cs-plan.json").read_text(encoding="utf-8"))
+        s = loads(PLAN_FIXTURE.read_text(encoding="utf-8"))
         self.assertEqual(s.configuration.channel_map.hex(), "fcff7ffcffffffffff1f")
         self.assertEqual(json.loads(dumps(s, {"host_settings": {"gap_role": 1}}))["host_settings"], {"gap_role": 1})
 

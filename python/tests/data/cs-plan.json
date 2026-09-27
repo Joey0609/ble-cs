@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "connection": {
+    "interval_min": 20,
+    "interval_max": 20,
+    "interval": 20,
+    "latency": 0,
+    "timeout": 400,
+    "activity_us": 1000,
+    "mtu": 498
+  },
+  "configuration": {
+    "id": 0,
+    "mode": 2,
+    "min_main_mode_steps": 2,
+    "max_main_mode_steps": 10,
+    "main_mode_repetition": 0,
+    "mode_0_steps": 2,
+    "role": 0,
+    "rtt_type": 0,
+    "cs_sync_phy": 2,
+    "channel_map_repetition": 1,
+    "channel_selection_type": 0,
+    "ch3c_shape": 0,
+    "ch3c_jump": 2,
+    "cs_enhancements_1": 1,
+    "t_ip1_time_us": 30,
+    "t_ip2_time_us": 20,
+    "t_fcs_time_us": 60,
+    "t_pm_time_us": 40,
+    "channel_map": "fcff7ffcffffffffff1f"
+  },
+  "procedure": {
+    "config_id": 0,
+    "state": 1,
+    "tone_antenna_config_selection": 0,
+    "selected_tx_power": 0,
+    "subevent_len": 20000,
+    "subevents_per_event": 1,
+    "subevent_interval": 0,
+    "event_interval": 2,
+    "procedure_interval": 1,
+    "procedure_count": 0,
+    "max_procedure_len": 32
+  },
+  "target_steps": 72,
+  "main_steps": 2,
+  "t_sw_us": 2,
+  "t_sw_ipt_us": 2,
+  "event_offset_us": 1500,
+  "preview_count": 3,
+  "provenance": "Controller fields supplied; ACL/offset/workload remain assumptions",
+  "channel_seed": 1,
+  "host_settings": {
+    "gap_role": 0,
+    "cs_sync_antenna_selection": 254,
+    "max_tx_power": 15,
+    "phy": 2,
+    "tx_power_delta": -128,
+    "preferred_peer_antenna": 2,
+    "snr_control_initiator": 255,
+    "snr_control_reflector": 255,
+    "creation_context": 1,
+    "peer_data": 1,
+    "t_pm": 40,
+    "log": {
+      "console": 3,
+      "host": 2
+    },
+    "peripheral_patterns": [
+      "SW_CS_Reflector"
+    ],
+    "peer_console": {
+      "port": "",
+      "baud": 921600
+    },
+    "_requested_wire": "a55a4500010100001400140000009001fe0f2000010001000000c05d0000c05d000000028002ffff02010100020002fcff7ffcffffffffff1f010000020101e0005c1d5aa5",
+    "_negotiated_wire": "a55a4500010100001400140000009001fe0f2000010001000000204e0000204e000000028002ffff02010100020002fcff7ffcffffffffff1f0100000201010b5a87bd5aa5"
+  }
+}

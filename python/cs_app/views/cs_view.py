@@ -748,11 +748,6 @@ class PlannerWidget(W.QWidget):
         f = self.form("Schedule")
         self.field(f, "procedure.subevent_len", "Subevent budget", 1250, 4000000, " µs")
         self.controls["procedure.subevent_len"].setSingleStep(1000)
-        subevent_budget = self.controls["procedure.subevent_len"]
-        subevent_budget_tip = (SCHEDULE_CONTROL_HELP["procedure.subevent_len"]
-                               + " Arrow buttons change by 1,000 µs; type any whole-microsecond value for fine adjustment.")
-        subevent_budget.setToolTip(subevent_budget_tip)
-        subevent_budget.lineEdit().setToolTip(subevent_budget_tip)
         self.subevent_minimum = W.QLabel()
         self.subevent_minimum.setWordWrap(True)
         self.subevent_minimum.setStyleSheet("color: #536981;")

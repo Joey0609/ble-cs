@@ -289,8 +289,8 @@ class ControllerView(W.QWidget):
             self.fae_box.setTitle("Remote FAE table · not received")
             return
         for row, (channel, raw, ppm) in enumerate(zip(FAE_CHANNELS, table.entries, table.ppm())):
-            set_cell(self.fae, row, 0, channel)
-            set_cell(self.fae, row, 1, raw)
+            set_cell(self.fae, row, 0, str(channel))
+            set_cell(self.fae, row, 1, str(raw))
             set_cell(self.fae, row, 2, f"{ppm:+.5f}")
         when = f" · {self.fae_report_time}" if self.fae_report_time is not None else ""
         self.fae_box.setTitle(f"Remote FAE table · link {self.fae_link_number} · {table.ppm_per_lsb:g} ppm/LSB{when}")

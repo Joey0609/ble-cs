@@ -12,7 +12,7 @@ from html import escape
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 GUI_AVAILABLE = all(importlib.util.find_spec(m) for m in ("PyQt6", "pyqtgraph"))
-PYTHON_DIR = Path(__file__).resolve().parents[1]
+PLAN_FIXTURE = Path(__file__).resolve().parent / "data" / "cs-plan.json"
 
 
 @unittest.skipUnless(GUI_AVAILABLE, "Install PyQt6 and pyqtgraph for Qt checks")
@@ -300,7 +300,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
     def test_open_and_save_keep_host_settings_and_role(self):
         from cs_planner.model import loads
         w = self.window
-        w.open_path(PYTHON_DIR / "cs-plan.json")
+        w.open_path(PLAN_FIXTURE)
         self.assertIn("cs-plan.json", w.source.text())
         self.assertEqual(w.host_settings["peripheral_patterns"], ["SW_CS_Reflector"])
         self.assertEqual(w.patterns.toPlainText(), "SW_CS_Reflector")
@@ -406,7 +406,7 @@ class StandalonePlannerGuiTests(unittest.TestCase):
             return 0
 
         with unittest.mock.patch.object(QApplication, "exec", side_effect=run):
-            self.assertEqual(main([str(PYTHON_DIR / "cs-plan.json")]), 0)
+            self.assertEqual(main([str(PLAN_FIXTURE)]), 0)
         self.assertIn("cs-plan.json", sources[0])
 
 

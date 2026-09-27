@@ -76,12 +76,14 @@ class HelpDialogTests(unittest.TestCase):
                 widths.append(max(images))
             self.assertGreater(widths[1], widths[0])
         finally:
+            dialog.close()  # a shown dialog left open stays the active window for later GUI tests
             dialog.deleteLater()
 
     def test_toolbar_topic_names_every_session_action(self):
         body = dict((key, body) for key, _, body in HELP_PAGES)["toolbar"]
-        labels = [RunBar.CONNECTION_STATES["disconnected"][0] if name == "Connect" else name
-                  for name in ACTIONS]
+        # The topic names the connect action by its current label and describes the Help icon.
+        names = {"Connect": RunBar.CONNECTION_STATES["disconnected"][0], "Help": "Help icon"}
+        labels = [names.get(name, name) for name in ACTIONS]
         for label in labels:
             with self.subTest(action=label):
                 self.assertIn(f"<b>{label}</b>", body)

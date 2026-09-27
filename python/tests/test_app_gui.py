@@ -23,6 +23,11 @@ from cs_app.session_history import SessionHistory
 from cs_app.views.fae_panel import FaePanel
 
 
+# Behaviour the build no longer offers; these tests return when the capability does.
+FUTURE_RADIO_TEST = "Future: Radio Test is disabled in the desktop app while its firmware is work in progress"
+FUTURE_REFLECTOR_ROLE = "Future: the integrated client supports only the CS initiator role"
+
+
 class AppGuiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -142,8 +147,9 @@ class AppGuiTests(unittest.TestCase):
                 self.assertEqual(config_packet(scenario, host, OperationMode.CS_INITIATOR), window.session.host_config.config)
                 window.simulator.tick()
                 self.app.processEvents()
-                self.assertEqual(window.results.fae_panel.table.ppm_per_lsb, 1/32)
-                self.assertFalse(window.results.fae_panel.table.is_zero)
+                # The remote FAE table is shown in the Controller view.
+                self.assertEqual(window.controller_view.fae_table.ppm_per_lsb, 1/32)
+                self.assertFalse(window.controller_view.fae_table.is_zero)
                 self.assertTrue(window.results.store.procedures)
                 self.assertTrue(next(iter(window.results.store.procedures.values())).reflector)
                 controller = window.controller_view
@@ -175,11 +181,13 @@ class AppGuiTests(unittest.TestCase):
                         patch.object(W.QMessageBox, 'question', return_value=W.QMessageBox.StandardButton.Yes):
                     window.recording_view.convert_other.click()
                 self.assertTrue(files[0].with_suffix('.mat').exists())
-                before = window.results.fae_panel.table
-                window.results.fae_panel.add_packet(CsFaeTablePacket(1, 32))
-                self.assertIs(window.results.fae_panel.table, before)
+                # A failed FAE read keeps the table shown; the table goes with its link.
+                before = window.controller_view.fae_table
+                self.assertFalse(window.controller_view.set_fae_table(CsFaeTablePacket(1, 32)))
+                self.assertIs(window.controller_view.fae_table, before)
                 window.session.disconnect_link()
-                self.assertTrue(window.results.fae_panel.previous_link)
+                self.app.processEvents()
+                self.assertIsNone(window.controller_view.fae_table)
         finally:
             # The run left the non-modal run-description dialog open; a visible
             # dialog outlives this test and becomes the application's active
@@ -225,11 +233,12 @@ class AppGuiTests(unittest.TestCase):
             with patch.object(W.QMessageBox, 'question', return_value=W.QMessageBox.StandardButton.Yes):
                 buttons['Connect peer'].click()
             self.app.processEvents()
-            # The link and the session both end; the port stays open (§7.8).
-            self.assertEqual(window.session.state, 'DISCONNECTED')
+            # The link ends and the client reconnects, ready to scan for another peer; the port stays open.
+            self.assertEqual(window.session.state, 'CONFIGURED')
             self.assertIsNotNone(window.session.transport)
+            self.assertTrue(window.simulator.connected)
             self.assertIn('link LINK_DISCONNECTED', window.state_label.text())
-            self.assertEqual(window.message_label.text(), 'Bluetooth link disconnected')
+            self.assertEqual(window.run_bar.toolbar_actions['Connect peer'].text(), 'Connect peer')
             results.clear()
             self.assertEqual(window.session_view.source_label.text(), "No session yet: recent records")
         finally:
@@ -365,11 +374,6 @@ class AppGuiTests(unittest.TestCase):
             self.assertIs(window.general_view.log_controls['host'].parentWidget(), window.general_toolbar)
             self.assertIs(window.cs_view.cs_role.parentWidget(), window.cs_view.host_form.parentWidget())
             self.assertNotIn('Apply config', window.cs_view.toolbar_buttons)
-            window.general_view.mode.setCurrentIndex(window.general_view.mode.findData(OperationMode.RADIO_TX_TEST))
-            self.assertIs(window.config_stack.currentWidget(), window.radio_view)
-            window.select_role(OperationMode.CS_REFLECTOR)
-            self.assertEqual(window.general_view.mode.currentData(), OperationMode.CS_INITIATOR)
-            self.assertEqual(window.cs_view.cs_role.currentData(), OperationMode.CS_REFLECTOR)
             self.assertIs(window.config_stack.currentWidget(), window.configuration_host)
             with patch.object(SyncDialog, 'exec', lambda dialog: dialog.choose('apply')):
                 window.connect_port('Simulator', 921600)
@@ -391,6 +395,20 @@ class AppGuiTests(unittest.TestCase):
         finally:
             window.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
+    def test_radio_mode_and_reflector_role_select_their_setup(self):
+        window = MainWindow(simulate=True)
+        try:
+            window.general_view.mode.setCurrentIndex(window.general_view.mode.findData(OperationMode.RADIO_TX_TEST))
+            self.assertIs(window.config_stack.currentWidget(), window.radio_view)
+            window.select_role(OperationMode.CS_REFLECTOR)
+            self.assertEqual(window.general_view.mode.currentData(), OperationMode.CS_INITIATOR)
+            self.assertEqual(window.cs_view.cs_role.currentData(), OperationMode.CS_REFLECTOR)
+            self.assertIs(window.config_stack.currentWidget(), window.configuration_host)
+        finally:
+            window.close()
+
+    @unittest.skip(FUTURE_REFLECTOR_ROLE)
     def test_received_configurations_keep_the_cs_role(self):
         window = MainWindow(simulate=True)
         try:
@@ -453,28 +471,22 @@ class AppGuiTests(unittest.TestCase):
             self.assertEqual(window.run_bar.toolbar_actions['Connect peer'].text(), 'Disconnect peer')
             self.assertTrue(window.run_bar.buttons['Start session'].isEnabled())
 
-            # The same peer action drops the link and ends the session, leaving the port open.
+            # The same peer action drops the link and reconnects the client over the open port,
+            # ready to scan for another peer.
             with patch.object(W.QMessageBox, 'question',
                               return_value=W.QMessageBox.StandardButton.Yes) as asked:
                 peer_button.click()
                 self.app.processEvents()
-            self.assertIn('ends the session', asked.call_args[0][2])
+            self.assertIn('reconnect the client', asked.call_args[0][2])
 
             self.assertIn('link LINK_DISCONNECTED', window.state_label.text())
-            self.assertEqual(window.session.state, "DISCONNECTED")
-            self.assertFalse(window.simulator.connected)
+            self.assertEqual(window.session.state, "CONFIGURED")
+            self.assertTrue(window.simulator.connected)
             self.assertIsNotNone(window.session.transport)
-            self.assertEqual(window.run_bar.toolbar_actions["Connect"].text(), "Connect client")
-            self.assertEqual(button.toolTip(), "Connect client")
+            self.assertEqual(window.run_bar.toolbar_actions["Connect"].text(), "Disconnect client")
+            self.assertEqual(window.run_bar.toolbar_actions['Connect peer'].text(), 'Connect peer')
             self.assertTrue(button.isEnabled())
             self.assertFalse(window.port_view.isEnabled())  # the port is still ours
-
-            # Connect starts a new session over the port that is already open.
-            with patch.object(SyncDialog, 'exec', lambda dialog: dialog.choose('apply')):
-                button.click()
-                self.app.processEvents()
-            self.assertTrue(window.simulator.connected)
-            self.assertEqual(window.run_bar.toolbar_actions["Connect"].text(), "Disconnect client")
             window.scan_peers()
             window.connect_selected_peer()
 
@@ -783,13 +795,29 @@ class AppGuiTests(unittest.TestCase):
         finally:
             window.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
+    def test_capture_actions_reach_the_radio_view_in_radio_mode(self):
+        window = MainWindow(simulate=True)
+        try:
+            open_button = window.run_bar.buttons['Open capture…']
+            clear_button = window.run_bar.buttons['Clear']
+            window.select_role(OperationMode.RADIO_TX_TEST)
+            with patch.object(window.radio_results, 'open_capture') as radio_open, \
+                    patch.object(window.radio_results, 'clear') as radio_clear:
+                open_button.click()
+                clear_button.click()
+            radio_open.assert_called_once_with()
+            radio_clear.assert_called_once_with()
+        finally:
+            window.close()
+
     def test_capture_actions_live_in_the_session_toolbar(self):
         """Open capture… and Clear are record-management toolbar actions over the shown view."""
         window = MainWindow(simulate=True)
         try:
             names = [action.text() for action in window.run_bar.actions() if not action.isSeparator()]
             self.assertEqual(names[names.index('Describe session') + 1:],
-                             ['Open capture…', 'Clear'])
+                             ['Open capture…', 'Clear', 'Help'])
             self.assertNotIn('Close session', names)  # the teardown belongs to the toggle (§7.8)
             labels = {button.text() for button in window.results.findChildren(W.QPushButton)}
             self.assertFalse(labels & {'Open capture…', 'Clear'})
@@ -811,16 +839,6 @@ class AppGuiTests(unittest.TestCase):
                 self.assertEqual(window.results.capture_path, path)
                 clear_button.click()
                 self.assertIsNone(window.results.capture_path)
-
-                # Radio mode: the same actions reach the radio RX view instead.
-                window.select_role(OperationMode.RADIO_TX_TEST)
-                with patch.object(window.radio_results, 'open_capture') as radio_open, \
-                        patch.object(window.radio_results, 'clear') as radio_clear:
-                    open_button.click()
-                    clear_button.click()
-                radio_open.assert_called_once_with()
-                radio_clear.assert_called_once_with()
-                window.select_role(OperationMode.CS_INITIATOR)
 
             self._started_run(window)
             window.update_controls()
@@ -971,6 +989,7 @@ class AppGuiTests(unittest.TestCase):
             window.session.history = None
             window.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
     def test_configuration_workspace_and_toolbar_survive_radio_mode_switch(self):
         window = MainWindow(simulate=True)
         try:
@@ -1121,6 +1140,7 @@ class AppGuiTests(unittest.TestCase):
         finally:
             view.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
     def test_radio_preset_round_trip_and_running_lock(self):
         from cs_app.views.radio_test_view import preset_json
         view = RadioTestView()
@@ -1322,6 +1342,7 @@ class AppGuiTests(unittest.TestCase):
         finally:
             view.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
     def test_radio_mode_makes_cs_views_dormant(self):
         window = MainWindow(simulate=True)
         try:

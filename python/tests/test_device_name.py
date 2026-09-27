@@ -15,6 +15,9 @@ from cs_app.views.sync_dialog import SyncDialog
 from cs_app.recorder import RunRecorder
 
 
+FUTURE_RADIO_TEST = "Future: Radio Test is disabled in the desktop app while its firmware is work in progress"
+
+
 class DeviceNameTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -33,6 +36,20 @@ class DeviceNameTests(unittest.TestCase):
             DeviceNamePacket(1, b'a' * 32)
         with self.assertRaises(ProtocolError):
             DeviceNamePacket(1, b'\xff' + b'\0' * 31)
+
+    @unittest.skip(FUTURE_RADIO_TEST)
+    def test_radio_mode_omits_the_device_name(self):
+        window = MainWindow(simulate=True)
+        try:
+            field = window.general_view.device_name
+            field.setText('Lab board å')
+            window.select_role(OperationMode.RADIO_TX_TEST)
+            self.assertFalse(field.isEnabled())
+            self.assertIsNone(window.collect_config().device_name)
+            window.select_role(OperationMode.CS_INITIATOR)
+            self.assertEqual(field.text(), 'Lab board å')
+        finally:
+            window.close()
 
     def test_general_apply_fetch_save_record_and_default(self):
         window = MainWindow(simulate=True)
@@ -68,12 +85,6 @@ class DeviceNameTests(unittest.TestCase):
                 recorder.close()
                 with h5py.File(recorder.path) as file:
                     self.assertEqual(file['config/device_name'].asstr()[()], 'Lab board å')
-            field.setText('Lab board å')
-            window.select_role(OperationMode.RADIO_TX_TEST)
-            self.assertFalse(field.isEnabled())
-            self.assertIsNone(window.collect_config().device_name)
-            window.select_role(OperationMode.CS_INITIATOR)
-            self.assertEqual(field.text(), 'Lab board å')
             field.setText('')
             window.session.apply()
             self.assertIsNone(window.simulator.config.device_name)

@@ -11,6 +11,7 @@ from cs_planner.export_c import HOST_DEFAULTS, config_crc32, config_values, docu
 from cs_planner.model import Scenario
 
 PYTHON_DIR = Path(__file__).resolve().parents[1]
+PLAN_FIXTURE = Path(__file__).resolve().parent / "data" / "cs-plan.json"
 
 
 def body(source):
@@ -25,7 +26,7 @@ class ExportTests(unittest.TestCase):
         yield s, {"peripheral_patterns": ["CS"]}
         yield ipt, {"gap_role": 1, "peripheral_patterns": ["R"], "phy": 2, "snr_control_initiator": 2, "device_name": "Tag ä"}
         yield replace(s, provenance="quote */ comment"), {"peripheral_patterns": ['ä"*/', "B"], "tx_power_delta": 3}
-        yield load_document((PYTHON_DIR / "cs-plan.json").read_text(encoding="utf-8"))
+        yield load_document(PLAN_FIXTURE.read_text(encoding="utf-8"))
 
     def test_matches_cs_app_configuration_and_crc(self):
         from cs_app.planner.bridge import config_packet

@@ -363,14 +363,14 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertIn("0/0 RTT step pairs", window.rtt_summary.text())
         window.close()
 
-    def test_correction_and_sign_options_carry_their_own_help(self):
+    def test_sign_options_carry_their_own_help(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtWidgets import QApplication
         from cs_app.views.results_view import ResultsWidget
         app = QApplication.instance() or QApplication([])
         window = ResultsWidget()
         window.show()
-        for combo in (window.correction_select, window.sign_select):
+        for combo in (window.sign_select,):
             tips = [combo.itemData(i, Qt.ItemDataRole.ToolTipRole) for i in range(combo.count())]
             self.assertEqual(len(set(tips)), combo.count())  # one help text per option
             for index, tip in enumerate(tips):
@@ -378,7 +378,7 @@ class ResultsGuiTests(unittest.TestCase):
                 self.assertIn("Δt", tip)
             self.assertIn("Δt", combo.toolTip())
         # The item tooltips need the popup open, so the control itself describes the option in use.
-        for combo, label in ((window.correction_select, window.correction_label), (window.sign_select, None)):
+        for combo, label in ((window.sign_select, None),):
             seen = set()
             for index in range(combo.count()):
                 combo.setCurrentIndex(index)
@@ -389,11 +389,8 @@ class ResultsGuiTests(unittest.TestCase):
                 if label is not None:
                     self.assertEqual(label.toolTip(), tip)
             self.assertEqual(len(seen), combo.count())
-        window.correction_select.setCurrentIndex(2)
-        self.assertIn("A diagnostic rather than a correction", window.correction_select.toolTip())
-        self.assertIn("T_SW_IPT", window.correction_select.toolTip())
-        self.assertIn("slope distance corrected", window.correction_select.toolTip())
-        self.assertIn("doubles it", window.sign_select.toolTip())
+        self.assertIn("applies to both the Mode-0 measured offset and reported frequency compensation lines",
+                      window.sign_select.toolTip())
         window.close()
 
     def test_rtt_tab(self):
@@ -423,9 +420,10 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertFalse(window.pbr_controls.isHidden())
         self.assertFalse(window.rtt_controls.isHidden())
         trend = window.estimates_plot.plotItem.listDataItems()
-        self.assertEqual([item.name() for item in trend], ["RTT mean", "RTT median", "PBR slope (corrected)"])
+        self.assertEqual([item.name() for item in trend], ["RTT mean", "RTT median", "PBR slope (raw)", "PBR slope (Mode-0 offset)",
+                          "PBR slope (frequency compensation)"])
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
-        self.assertTrue(window.estimate_curves["PBR slope (corrected)"]._analysis_visible)
+        self.assertTrue(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
         self.assertFalse(window.estimates_table.isColumnHidden(4))
         self.assertFalse(window.estimates_table.isColumnHidden(8))
         self.assertEqual(window.estimates_table.rowCount(), 2)
@@ -472,7 +470,7 @@ class ResultsGuiTests(unittest.TestCase):
                 window.add_packet(packet, arrival)
         window.refresh()
         self.assertEqual([window.estimates_table.item(r, 0).text() for r in range(2)], ["40.000", "20.000"])
-        curve = window.estimate_curves["PBR slope (corrected)"]
+        curve = window.estimate_curves["PBR slope (Mode-0 offset)"]
         self.assertEqual(list(curve.xData), [20.0, 40.0])
         self.assertAlmostEqual(curve.yData[-1], DISTANCE_M, delta=0.01)
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
@@ -496,7 +494,7 @@ class ResultsGuiTests(unittest.TestCase):
             # Procedure 2 is at 40 s; its replay window is 10–70 s.
             window.procedure_select.setCurrentIndex(2)
             app.processEvents()
-            curve = window.estimate_curves["PBR slope (corrected)"]
+            curve = window.estimate_curves["PBR slope (Mode-0 offset)"]
             self.assertEqual(list(curve.xData), [20.0, 40.0, 60.0])
             self.assertAlmostEqual(window.estimate_marker.value(), 40.0)
             self.assertIn("3 procedures (30 s around selected procedure)", window.estimates_summary.text())
@@ -511,10 +509,10 @@ class ResultsGuiTests(unittest.TestCase):
         for packet in synthetic_packets(paths=1):
             window.add_packet(packet)
         window.refresh()
-        before = list(window.estimate_curves["PBR slope (corrected)"].yData)
+        before = list(window.estimate_curves["PBR slope (Mode-0 offset)"].yData)
         window.sign_select.setCurrentIndex(1)
         app.processEvents()
-        after = list(window.estimate_curves["PBR slope (corrected)"].yData)
+        after = list(window.estimate_curves["PBR slope (Mode-0 offset)"].yData)
         self.assertNotEqual(before, after)
         self.assertIn("PBR", window.estimates_summary.text())
         window.close()
@@ -533,12 +531,12 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.pbr_page)))
         window.set_measurement_mode(1)
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
-        self.assertFalse(window.estimate_curves["PBR slope (corrected)"]._analysis_visible)
+        self.assertFalse(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
         self.assertFalse(window.tabs.isTabVisible(window.tabs.indexOf(window.pbr_page)))
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.rtt_page)))
         window.set_measurement_mode(2)
         self.assertFalse(window.estimate_curves["RTT mean"]._analysis_visible)
-        self.assertTrue(window.estimate_curves["PBR slope (corrected)"]._analysis_visible)
+        self.assertTrue(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.pbr_page)))
         self.assertFalse(window.tabs.isTabVisible(window.tabs.indexOf(window.rtt_page)))
         for mode in (0x12, 0x32, 0x23):

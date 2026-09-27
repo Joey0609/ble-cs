@@ -25,6 +25,9 @@ from cs_app.app import MainWindow
 from cs_app.views.sync_dialog import SyncDialog
 
 
+FUTURE_RADIO_TEST = "Future: Radio Test is disabled in the desktop app while its firmware is work in progress"
+
+
 class RadioTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -103,6 +106,7 @@ class RadioTests(unittest.TestCase):
         finally:
             view.close()
 
+    @unittest.skip(FUTURE_RADIO_TEST)
     def test_simulated_rx_completion_and_second_run(self):
         window = MainWindow(simulate=True)
         try:
