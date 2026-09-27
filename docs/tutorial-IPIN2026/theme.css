@@ -39,3 +39,60 @@
 .reveal table {
   font-size: 0.75em;
 }
+
+/* Slide 03: What is Channel Sounding */
+.reveal .cs-intro h2 {
+  margin-bottom: 0.2em;
+}
+
+.reveal .cs-intro .lead {
+  font-size: 0.72em;
+  margin: 0 0 0.8em;
+}
+
+.reveal .cs-intro .columns {
+  grid-template-columns: 1fr 1.05fr;
+  align-items: start;
+}
+
+.reveal .cs-intro ul {
+  font-size: 0.78em;
+  margin: 0;
+}
+
+.reveal .cs-intro ul ul {
+  font-size: 1em;
+  margin: 0.15em 0 0 1.2em;
+  list-style-type: circle;
+}
+
+.reveal .cs-intro li {
+  margin-bottom: 0.55em;
+}
+
+.reveal .cs-intro li li {
+  margin-bottom: 0.15em;
+}
+
+.reveal .cs-intro .ini {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.reveal .cs-intro .ref {
+  color: #c8641e;
+  font-weight: 700;
+}
+
+.reveal .cs-intro svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.reveal .cs-intro .formulas {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6em;
+  margin-top: 0.2em;
+}

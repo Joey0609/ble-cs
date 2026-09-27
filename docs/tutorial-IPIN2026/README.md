@@ -15,8 +15,8 @@ npm start
 
 This starts `serve.js` (Node.js 18+, no dependencies to install) at
 <http://localhost:8000/tutorial-IPIN2026/> and opens it in the default
-browser. It serves the parent `docs/` folder because some slides use images
-from there. Use `npm start -- --port 8080` for another port, or
+browser. It serves the parent `docs/` folder, so the deck URL includes
+`tutorial-IPIN2026/`. Use `npm start -- --port 8080` for another port, or
 `npm start -- --no-open` to skip opening the browser. reveal.js is loaded from
 the jsDelivr CDN, so the deck needs an internet connection.
 
@@ -36,4 +36,6 @@ slide overview, and `F` enters full screen.
 Speaker notes go in `<aside class="notes">…</aside>` inside a section. Math can
 be written as `\( … \)` or `\[ … \]` (KaTeX). Scripts inside slide files do not
 run; put shared behavior in `index.html`. Shared styles live in `theme.css`.
-Image paths are relative to `index.html`, not to the slide file.
+Put figures in `images/` so the deck is self-contained, and reference them as
+`images/name.png`: image paths are relative to `index.html`, not to the slide
+file.

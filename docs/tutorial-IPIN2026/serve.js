@@ -1,5 +1,5 @@
-// Static server for the presentation. Serves the parent docs/ folder so slides
-// can use the shared figures there, and opens the deck in the default browser.
+// Static server for the presentation. Serves the parent docs/ folder at
+// /tutorial-IPIN2026/, and opens the deck in the default browser.
 //
 // Usage: npm start [-- --port 8080] [-- --no-open]
 
