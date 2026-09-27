@@ -44,8 +44,10 @@ file.
 
 `images/mode-{0..3}-timing.svg` are generated from the planner's step model
 (`ble_channel_sounding_planner.model.step_segments`, default scenario), drawn to scale in the
-style of the app's Individual step view. Regenerate them from the repository
-root after changing the model or the script:
+style of the app's Individual step view. `images/acl-cs-timing.svg` places the
+steps from the planner's `build_schedule` on the ACL connection timeline, using
+the firmware's default connection and procedure parameters. Regenerate them from
+the repository root after changing the model or the script:
 
 ```sh
 .venv/bin/python docs/tutorial-IPIN2026/make_timing_figures.py

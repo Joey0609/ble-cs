@@ -1,14 +1,19 @@
-"""Generate the CS step timing figures (images/mode-N-timing.svg) for the deck.
+"""Generate the timing figures for the deck.
 
-The segments come from the planner's own model (ble_channel_sounding_planner.model.step_segments)
-with its default scenario, and are drawn to scale in the style of the planner's
-"Individual step" view, so the slides match what the app shows.
+images/mode-N-timing.svg: CS step segments from the planner's own model
+(ble_channel_sounding_planner.model.step_segments) with its default scenario, drawn to scale
+in the style of the planner's "Individual step" view, so the slides match what the app shows.
+
+images/acl-cs-timing.svg: CS procedures placed on the ACL connection timeline, with
+the firmware's default connection and procedure parameters and the steps from the
+planner's build_schedule, drawn to scale.
 
 Run from the repository root:
 
     .venv/bin/python docs/tutorial-IPIN2026/make_timing_figures.py
 """
 
+from dataclasses import replace
 from html import escape
 from pathlib import Path
 import re
@@ -17,7 +22,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
-from ble_channel_sounding_planner.model import ANTENNA_PATHS, Scenario, step_segments  # noqa: E402
+from ble_channel_sounding_planner.model import ANTENNA_PATHS, Scenario, build_schedule, step_segments  # noqa: E402
 from ble_channel_sounding_planner.view import COLORS  # noqa: E402
 
 GAP_COLOR = "#a6b6ca"  # same colours as ScenarioWindow.draw_step
@@ -111,6 +116,105 @@ def figure(s, mode):
             f'<rect width="100%" height="100%" fill="#ffffff"/>\n' + "\n".join(out) + "\n</svg>\n")
 
 
+ACL_COLOR, RAS_COLOR = "#527ba8", "#c8641e"  # planner ACL blocks; the deck's Peripheral colour
+
+
+def acl_scenario():
+    """Firmware defaults (common/libs/cs_utils/cs_config.c) on the planner scenario.
+
+    Connection interval 6 x 1.25 ms and a 6 ms subevent budget with mode 2 and a mode-1
+    sub-mode. The controller picks the procedure interval from 1-4; 2 is drawn. One
+    subevent per event and the planner's 1.5 ms CS offset and 1 ms ACL activity are
+    assumptions for the illustration.
+    """
+    s = Scenario()
+    return replace(
+        s,
+        connection=replace(s.connection, interval_min=6, interval_max=6, interval=6),
+        configuration=replace(s.configuration, mode=0x12),
+        procedure=replace(s.procedure, subevent_len=6000, subevents_per_event=1, subevent_interval=0,
+                          event_interval=1, procedure_interval=2, max_procedure_len=10))
+
+
+def acl_figure(s):
+    schedule = build_schedule(s)
+    assert not schedule.errors, schedule.errors
+    interval, p = s.connection.interval_us, s.procedure
+    spacing = p.procedure_interval * interval
+    anchors = 4
+    total = anchors * interval + s.connection.activity_us
+    width, left, right = 1200, 180, 30
+    scale = (width - left - right) / total
+    ms = lambda us: f"{us / 1000:g}"  # noqa: E731
+
+    def x(us):
+        return left + us * scale
+
+    def bracket(a, b, y, label, color=MUTED, size=19):
+        return (f'<line x1="{x(a):.1f}" y1="{y}" x2="{x(b):.1f}" y2="{y}" stroke="{color}" stroke-width="1.5"/>'
+                f'<line x1="{x(a):.1f}" y1="{y - 6}" x2="{x(a):.1f}" y2="{y + 6}" stroke="{color}" stroke-width="1.5"/>'
+                f'<line x1="{x(b):.1f}" y1="{y - 6}" x2="{x(b):.1f}" y2="{y + 6}" stroke="{color}" stroke-width="1.5"/>'
+                f'<text x="{(x(a) + x(b)) / 2:.1f}" y="{y - 10}" text-anchor="middle" font-size="{size}" '
+                f'fill="{color}">{escape(label)}</text>')
+
+    acl_y, cs_y, lane_h, axis_y = 80, 190, 44, 330
+    out = []
+    for i in range(anchors + 1):
+        ax = x(i * interval)
+        out.append(f'<line x1="{ax:.1f}" y1="{acl_y - 12}" x2="{ax:.1f}" y2="{axis_y}" stroke="{GRID}" stroke-width="2"/>')
+        out.append(f'<line x1="{ax:.1f}" y1="{axis_y}" x2="{ax:.1f}" y2="{axis_y + 6}" stroke="{MUTED}"/>')
+        out.append(label_svg(ms(i * interval), ax, axis_y + 26, 19, MUTED))
+    out.append(f'<line x1="{left}" y1="{axis_y}" x2="{width - right}" y2="{axis_y}" stroke="{MUTED}"/>')
+    out.append(label_svg("Time since ACL anchor (ms)", left + (width - left - right) / 2, axis_y + 54, 19, MUTED))
+
+    for title, y in (("ACL events", acl_y), ("CS procedure", cs_y)):
+        out.append(f'<text x="{left - 14}" y="{y + lane_h / 2 + 7}" text-anchor="end" font-size="22" '
+                   f'fill="{MUTED}">{title}</text>')
+
+    out.append(bracket(0, interval, 40, f"connection interval {ms(interval)} ms"))
+    procedures = range(0, anchors * interval, spacing)
+    for i in range(anchors):
+        anchor = i * interval
+        carries_cs = anchor in procedures
+        color = ACL_COLOR if carries_cs else RAS_COLOR
+        out.append(f'<rect x="{x(anchor):.1f}" y="{acl_y}" width="{s.connection.activity_us * scale:.1f}" '
+                   f'height="{lane_h}" fill="{color}"/>')
+        if not carries_cs:
+            out.append(f'<text x="{x(anchor) + 6:.1f}" y="{acl_y + lane_h + 22}" font-size="19" '
+                       f'fill="{RAS_COLOR}">RAS results</text>')
+    out.append(f'<rect x="{x(anchors * interval):.1f}" y="{acl_y}" width="{s.connection.activity_us * scale:.1f}" '
+               f'height="{lane_h}" fill="{ACL_COLOR}"/>')
+
+    steps = [step for se in schedule.subevents for step in se.steps]
+    for start in procedures:
+        origin = start + s.event_offset_us
+        for step in steps:
+            out.append(f'<rect x="{x(origin + step.start):.1f}" y="{cs_y}" '
+                       f'width="{step.duration * scale:.1f}" height="{lane_h}" fill="{COLORS[step.mode]}"/>')
+        out.append(f'<text x="{x(origin + schedule.duration / 2):.1f}" y="{cs_y - 10}" text-anchor="middle" '
+                   f'font-size="19" fill="{TEXT}">{len(steps)} steps, {schedule.duration / 1000:.2f} ms</text>')
+    out.append(bracket(0, s.event_offset_us, cs_y + lane_h + 24, "offset"))
+    out.append(bracket(s.event_offset_us, s.event_offset_us + spacing, cs_y + lane_h + 66,
+                       f"procedure interval {p.procedure_interval} × {ms(interval)} ms = {ms(spacing)} ms", TEXT))
+
+    legend = [(COLORS[0], "Mode 0"), (COLORS[2], "Mode 2 (PBR)"), (COLORS[1], "Mode 1 (RTT)"),
+              (ACL_COLOR, "ACL event"), (RAS_COLOR, "ACL event with RAS data")]
+    lx = left
+    for color, name in legend:
+        out.append(f'<rect x="{lx}" y="{axis_y + 76}" width="20" height="20" fill="{color}"/>')
+        out.append(f'<text x="{lx + 28}" y="{axis_y + 93}" font-size="19" fill="{TEXT}">{escape(name)}</text>')
+        lx += 28 + text_width(name, 19) * 0.85 + 30
+
+    note = (f"CS steps to scale (planner, firmware defaults); "
+            f"ACL airtime and the {ms(s.event_offset_us)} ms offset are illustrative.")
+    height = axis_y + 134
+    out.append(f'<text x="{left}" y="{height - 8}" font-size="18" fill="{MUTED}">{escape(note)}</text>')
+
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+            f'viewBox="0 0 {width} {height}" font-family="{FONT}">\n'
+            f'<rect width="100%" height="100%" fill="#ffffff"/>\n' + "\n".join(out) + "\n</svg>\n")
+
+
 def main():
     s = Scenario()
     images = Path(__file__).resolve().parent / "images"
@@ -118,6 +222,9 @@ def main():
         path = images / f"mode-{mode}-timing.svg"
         path.write_text(figure(s, mode), encoding="utf-8")
         print(path.relative_to(ROOT))
+    path = images / "acl-cs-timing.svg"
+    path.write_text(acl_figure(acl_scenario()), encoding="utf-8")
+    print(path.relative_to(ROOT))
 
 
 if __name__ == "__main__":
