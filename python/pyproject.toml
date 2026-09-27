@@ -33,4 +33,4 @@ Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/cs_app/GET
 include = ["cs_app*", "cs_planner*"]
 
 [tool.setuptools.package-data]
-cs_app = ["GETTING_STARTED.md", "GETTING_STARTED.html"]
+cs_app = ["GETTING_STARTED.md", "GETTING_STARTED.html", "logo/senswear-logo.png"]

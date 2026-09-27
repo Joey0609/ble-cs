@@ -4,7 +4,7 @@ from datetime import datetime
 import logging
 from pathlib import Path
 import sys
-from PyQt6 import QtCore, QtWidgets as W
+from PyQt6 import QtCore, QtGui, QtWidgets as W
 import pyqtgraph as pg
 from . import __version__
 from .protocol import PROTOCOL_VERSION
@@ -39,6 +39,8 @@ from .peer_console import PeerConsoleReader
 from .report_log import ERROR, INFO, WARNING
 from .session_history import HostMessage, normalize_host_level
 from .recorder import update_description
+
+APP_ICON = Path(__file__).resolve().parent / "logo" / "senswear-logo.png"
 
 
 def link_state_name(state):
@@ -140,6 +142,7 @@ class MainWindow(W.QMainWindow):
     def __init__(self, *, simulate=False, capture=None):
         super().__init__()
         self.setWindowTitle("CS Host")
+        self.setWindowIcon(QtGui.QIcon(str(APP_ICON)))
         self.resize(1500, 1000)
         help_menu = self.menuBar().addMenu("&Help")
         help_menu.addAction("Help topics…", self.show_help)
@@ -1519,6 +1522,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     pg.setConfigOptions(antialias=True, foreground="#40556d")
     app = W.QApplication.instance() or W.QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon(str(APP_ICON)))
     tooltips.install(app)
     window = MainWindow(simulate=args.simulate is not None, capture=args.simulate or None)
     window.show()
