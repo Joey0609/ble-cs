@@ -1,0 +1,112 @@
+name: Publish ble-channel-sounding to PyPI
+
+on:
+  release:
+    types: [published]
+  # Manual runs build and check the package without publishing it.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-pypi-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.event.release.tag_name, 'ble-channel-sounding-v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Check package and release versions
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import tomllib
+
+          from ble_channel_sounding import __version__
+
+          project = tomllib.loads(Path('pyproject.toml').read_text())['project']
+          version = project['version']
+          if __version__ != version:
+              raise SystemExit(f'ble_channel_sounding.__version__ ({__version__}) != project.version ({version})')
+          tag = os.environ['RELEASE_TAG']
+          if os.environ['GITHUB_EVENT_NAME'] == 'release' and tag != f'ble-channel-sounding-v{version}':
+              raise SystemExit(f'Release tag must be ble-channel-sounding-v{version}, got {tag!r}')
+          PY
+
+      - name: Install build tools
+        run: python -m pip install --upgrade build twine
+
+      - name: Build wheel and source distribution
+        run: |
+          # The package root is below the repository's license notices.
+          cp ../LICENSE ../LICENSE-DOCS.md .
+          python -m build
+          python -m twine check --strict dist/*
+
+      - name: Install wheel
+        run: python -m pip install dist/*.whl
+
+      - name: Check installed package
+        # Isolated mode avoids importing the source checkout.
+        run: |
+          python -m pip check
+          python -I - <<'PY'
+          from importlib.metadata import distribution
+          from importlib.resources import files
+
+          dist = distribution('ble-channel-sounding')
+          scripts = {ep.name: ep for ep in dist.entry_points if ep.group == 'console_scripts'}
+          for name in ('ble-channel-sounding', 'ble-channel-sounding-planner'):
+              scripts[name].load()
+          for resource in ('GETTING_STARTED.md', 'GETTING_STARTED.html', 'assets/logo/senswear-logo.png'):
+              if not files('ble_channel_sounding').joinpath(resource).is_file():
+                  raise SystemExit(f'Missing package resource: {resource}')
+          PY
+          python -I -m ble_channel_sounding --help
+
+      - name: Store distributions
+        uses: actions/upload-artifact@v7
+        with:
+          name: ble-channel-sounding-distributions
+          path: python/dist/*
+          if-no-files-found: error
+
+  publish:
+    name: Publish to PyPI
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/p/ble-channel-sounding
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v8
+        with:
+          name: ble-channel-sounding-distributions
+          path: dist/
+
+      - name: Publish distributions
+        uses: pypa/gh-action-pypi-publish@release/v1
