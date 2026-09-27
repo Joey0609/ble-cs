@@ -73,14 +73,18 @@ non-sysbuild command and RTT setup.
 After the boards boot:
 
 1. Connect `cs-app` to the USB CDC ACM client port and click **Connect client**.
-2. Select **CS** mode and choose **Initiator** or **Reflector** in CS setup.
-   For the common hostless-reflector arrangement, choose **Initiator**.
-3. Apply the configuration. For a central initiator, start scanning, select
-   the reflector from the peer list and connect to it. A peripheral reflector
-   advertises after its configuration is applied.
-4. Start the CS session. Use **Stop** before disconnecting the peer.
-5. View capabilities, procedures and measurements in **Results**; recordings
-   can be saved from the session controls.
+2. Select **CS** mode. The client's CS role is fixed to **Initiator**. In CS
+   setup, keep the GAP role **Central** and add a **Peripheral prefixes** line
+   that matches the start of the reflector's advertised name, for example
+   `CS Hostless Reflector` or `CSTag`.
+3. Click **Apply config**, then **Scan**, select the reflector in the peer
+   selector and click **Connect peer**. Peripheral cannot be selected in the
+   UI; a loaded configuration that already uses it shows **Advertise** instead
+   of the peer controls.
+4. Click **Start session**. Use **Stop session** before disconnecting the peer.
+5. View capabilities, procedures and measurements in **Results**. To keep the
+   data, enable **Record each run** in the **Recording** panel before starting,
+   or use **Save session…** afterwards.
 
 **Radio Test mode is disabled** in this desktop application build. Its firmware
 builds are marked work in progress and are not required for CS operation.
@@ -101,24 +105,28 @@ west build -b nrf54lm20dk/nrf54lm20b/cpuapp \
 west flash -d cs_hostless_initiator/build
 ```
 
-It scans for a matching reflector and starts CS when connected. By default it
-looks for a name prefix `CSTag`; without planner name patterns, it also accepts
-devices advertising the Ranging Service UUID. Reports are streamed on its USB
-CDC ACM port. Firmware logs go to the DK debug UART and can also appear in
-`cs-app` when its USB port is selected in **Serial port → Peer**.
+It scans for a matching reflector and starts CS when connected. Without a
+linked planner export it looks for the name prefix `CSTag`, which matches the
+Tag reflector but not the default `CS Hostless Reflector` name. A planner
+export selects its own name patterns; an export with no patterns connects to
+the first device advertising the Ranging Service UUID. To pair it with
+`cs_hostless_reflector`, build it with an export whose name patterns match the
+reflector (see [Build with a planner configuration](#build-with-a-planner-configuration)).
 
-Open `cs-app`, select **CS Hostless**, choose the initiator's USB CDC port as
-the Client port, and click **Connect client** to receive reports. Configure the
-initiator's debug UART as the Peer port if you also want to view its firmware
-logs. Hostless mode is receive-only: configuration and start/stop commands are
-controlled by the image's compiled configuration and its firmware behavior.
+Reports and firmware logs are streamed on its USB CDC ACM port; the logs also
+go to the DK debug UART. Open `cs-app`, select **CS Hostless**, choose the
+initiator's USB CDC port as the Client port, and click **Connect client** to
+receive reports and logs. Hostless mode is receive-only: configuration and
+start/stop commands are controlled by the image's compiled configuration and
+its firmware behavior.
 
 ### Hostless reflector
 
 Build and flash the reflector to the desired supported board. For the nRF54LM20
 DK or Tag, use the commands from the [hostless reflector README](../cs_hostless_reflector/README.md).
 The standalone hostless reflector uses the device name `CS Hostless Reflector`
-by default. The connected Tag image uses the `CSTag` prefix. The reflector emits
+by default, which the default hostless initiator does not match. The
+connected Tag image uses the `CSTag` prefix. The reflector emits
 logs only; it does not stream protocol reports to a host.
 
 The initiator and reflector connect over Bluetooth. The initiator owns the
