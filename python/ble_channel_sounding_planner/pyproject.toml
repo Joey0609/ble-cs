@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ble-channel-sounding-planner"
+version = "0.1.0"
+description = "Standalone BLE Channel Sounding timing and channel planner"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "PyQt6>=6.6,<7",
+    "pyqtgraph>=0.13.7,<0.15",
+]
+
+[project.scripts]
+ble-channel-sounding-planner = "ble_channel_sounding_planner.__main__:main"
+
+[project.urls]
+Source = "https://github.com/Sens-Wear/ble-cs"
+Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding_planner/README.md"
+
+[tool.setuptools]
+packages = ["ble_channel_sounding_planner"]
+include-package-data = false
+
+[tool.setuptools.package-dir]
+ble_channel_sounding_planner = "."

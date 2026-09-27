@@ -23,14 +23,13 @@ mat73 = ["hdf5storage"]
 
 [project.scripts]
 ble-channel-sounding = "ble_channel_sounding.app:main"
-ble-channel-sounding-planner = "ble_channel_sounding_planner.__main__:main"
 
 [project.urls]
 Source = "https://github.com/Sens-Wear/ble-cs"
 Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/GETTING_STARTED.md"
 
 [tool.setuptools.packages.find]
-include = ["ble_channel_sounding*", "ble_channel_sounding_planner*"]
+include = ["ble_channel_sounding", "ble_channel_sounding.*"]
 
 [tool.setuptools.package-data]
 ble_channel_sounding = ["GETTING_STARTED.md", "GETTING_STARTED.html", "assets/logo/senswear-logo.png", "assets/help/*.png"]

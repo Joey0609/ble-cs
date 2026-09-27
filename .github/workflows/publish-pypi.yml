@@ -28,6 +28,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install Qt runtime library
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libegl1
+
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
@@ -61,6 +66,25 @@ jobs:
           cp ../LICENSE ../LICENSE-DOCS.md .
           python -m build
           python -m twine check --strict dist/*
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import tarfile
+          import zipfile
+
+          wheels = list(Path('dist').glob('*.whl'))
+          source_dists = list(Path('dist').glob('*.tar.gz'))
+          if len(wheels) != 1 or len(source_dists) != 1:
+              raise SystemExit('Expected exactly one wheel and one source distribution')
+
+          with zipfile.ZipFile(wheels[0]) as wheel:
+              wheel_files = wheel.namelist()
+          with tarfile.open(source_dists[0], 'r:gz') as source_dist:
+              source_files = source_dist.getnames()
+
+          for archive, names in ((wheels[0], wheel_files), (source_dists[0], source_files)):
+              if any('ble_channel_sounding_planner' in PurePosixPath(name).parts for name in names):
+                  raise SystemExit(f'Standalone planner found in {archive.name}')
+          PY
 
       - name: Install wheel
         run: python -m pip install dist/*.whl
@@ -75,13 +99,18 @@ jobs:
 
           dist = distribution('ble-channel-sounding')
           scripts = {ep.name: ep for ep in dist.entry_points if ep.group == 'console_scripts'}
-          for name in ('ble-channel-sounding', 'ble-channel-sounding-planner'):
-              scripts[name].load()
+          if set(scripts) != {'ble-channel-sounding'}:
+              raise SystemExit(f'Unexpected console scripts: {sorted(scripts)}')
+          if scripts['ble-channel-sounding'].value != 'ble_channel_sounding.app:main':
+              raise SystemExit('Unexpected ble-channel-sounding entry point')
+          packaged_files = dist.files or ()
+          if any(str(path).startswith('ble_channel_sounding_planner/') for path in packaged_files):
+              raise SystemExit('Standalone planner package must not be included in this distribution')
           for resource in ('GETTING_STARTED.md', 'GETTING_STARTED.html', 'assets/logo/senswear-logo.png'):
               if not files('ble_channel_sounding').joinpath(resource).is_file():
                   raise SystemExit(f'Missing package resource: {resource}')
           PY
-          python -I -m ble_channel_sounding --help
+          ble-channel-sounding --help
 
       - name: Store distributions
         uses: actions/upload-artifact@v7
