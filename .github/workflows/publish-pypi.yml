@@ -62,8 +62,6 @@ jobs:
 
       - name: Build wheel and source distribution
         run: |
-          # The package root is below the repository's license notices.
-          cp ../LICENSE ../LICENSE-DOCS.md .
           python -m build
           python -m twine check --strict dist/*
           python - <<'PY'
