@@ -1,0 +1,41 @@
+/* Overrides on top of the reveal.js white theme. */
+
+:root {
+  --r-main-font-size: 32px;
+  --r-heading-text-transform: none;
+  --r-link-color: #0b62a4;
+  --accent: #0b62a4;
+  --muted: #5a6470;
+}
+
+.reveal h1,
+.reveal h2 {
+  color: var(--accent);
+}
+
+.reveal .muted {
+  color: var(--muted);
+}
+
+.reveal .small {
+  font-size: 0.7em;
+}
+
+.reveal img.figure {
+  max-height: 520px;
+  margin: 0.4em auto;
+  border: none;
+  box-shadow: none;
+}
+
+/* Two-column layout: <div class="columns"><div>...</div><div>...</div></div> */
+.reveal .columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5em;
+  text-align: left;
+}
+
+.reveal table {
+  font-size: 0.75em;
+}

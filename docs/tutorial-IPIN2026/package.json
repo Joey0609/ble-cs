@@ -1,0 +1,13 @@
+{
+  "name": "tutorial-ipin2026",
+  "version": "1.0.0",
+  "description": "Bluetooth Channel Sounding tutorial slides for IPIN 2026",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
