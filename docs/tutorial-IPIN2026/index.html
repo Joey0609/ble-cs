@@ -3,72 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bluetooth Channel Sounding Tutorial - IPIN 2026</title>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reset.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/white.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/monokai.css">
+  <title>SensWear · From Channel Sounding to Ring Tracks · IPIN 2026</title>
+  <link rel="stylesheet" href="vendor/reveal/dist/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/dist/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/dist/theme/white.css">
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/monokai.css">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="senswear/theme.css">
+  <link rel="stylesheet" href="integration/integrated.css">
+  <link rel="stylesheet" href="integration/unified.css">
 </head>
-<body>
-  <div class="reveal">
-    <div class="slides"></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/highlight.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
-  <script type="module">
-    // Slide order. Each file holds one top-level <section>; nest <section>
-    // elements inside it for vertical sub-slides.
-    const SLIDES = [
-      '01-title.html',
-      '02-agenda.html',
-      '03-bt-localization.html',
-      '03a-acl-link.html',
-      'acl-connection-events.html',
-      'acl-negotiation.html',
-      '03b-acl-events.html',
-      '03c-acl-data-sizes.html',
-      '04-cs-basics.html',
-      '05-what-is-cs.html',
-      '06-cs-modes.html',
-      '07-toolchain.html',
-      '08-hosted-vs-hostless.html',
-      '99-questions.html',
-    ];
-
-    const deck = document.querySelector('.reveal .slides');
-
-    try {
-      const fragments = await Promise.all(SLIDES.map(async (file) => {
-        const response = await fetch(`slides/${file}`);
-        if (!response.ok) {
-          throw new Error(`${file}: HTTP ${response.status}`);
-        }
-        return response.text();
-      }));
-      deck.innerHTML = fragments.join('\n');
-    } catch (error) {
-      deck.innerHTML = `
-        <section>
-          <h3>Could not load slides</h3>
-          <p>${error.message}</p>
-          <p class="small">Run <code>npm start</code> in this folder;
-          <code>file://</code> pages cannot fetch the slide files.
-          See README.md.</p>
-        </section>`;
-    }
-
-    Reveal.initialize({
-      hash: true,
-      slideNumber: 'c/t',
-      width: 1280,
-      height: 720,
-      plugins: [RevealNotes, RevealHighlight, RevealMath.KaTeX],
-    });
-  </script>
+<body class="integrated-deck">
+  <div class="reveal"><div class="slides"></div></div>
+  <footer class="integrated-footer"><span id="slide-counter"></span></footer>
+  <button id="notes-toggle" class="notes-toggle" title="Show speaker notes (N)">Notes · N</button>
+  <div id="notes-panel" class="notes-panel" hidden></div>
+  <script src="vendor/reveal/dist/reveal.js"></script>
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script type="module" src="integration/integrated.js"></script>
 </body>
 </html>

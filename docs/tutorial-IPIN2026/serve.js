@@ -16,7 +16,7 @@ const deckPath = `/${basename(deckDir)}/`;
 
 const args = process.argv.slice(2);
 const portArg = args.indexOf('--port');
-const port = Number(portArg >= 0 ? args[portArg + 1] : process.env.PORT ?? 8000);
+const port = Number(portArg >= 0 ? args[portArg + 1] : process.env.PORT ?? 8023);
 const openBrowser = !args.includes('--no-open');
 
 const MIME_TYPES = {

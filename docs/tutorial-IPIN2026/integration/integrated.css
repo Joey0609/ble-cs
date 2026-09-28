@@ -1,0 +1,12 @@
+/* Shared presentation controls; slide headers are part of the unified theme. */
+.integrated-deck{--chrome-ink:#173c51;--chrome-muted:#5a6470;--chrome-active:#0b62a4}
+.integrated-deck[data-surface=dark]{--chrome-ink:#f5f5ed;--chrome-muted:#afc8cb;--chrome-active:#dcf58a}
+.integrated-footer{position:fixed;bottom:16px;right:25px;font:13px Mono,'Segoe UI',sans-serif;color:var(--chrome-muted);z-index:8;pointer-events:none}
+.reveal .controls{color:var(--chrome-active);bottom:38px;right:16px;transform:scale(.7);transform-origin:bottom right}
+.reveal .progress{height:4px;color:var(--chrome-active)}
+.integrated-deck .notes-toggle{top:auto;bottom:14px;left:18px;right:auto;font-size:11px;padding:4px 8px;opacity:.55;background:transparent;color:var(--chrome-muted);border-color:transparent}
+.integrated-deck .notes-toggle:hover,.integrated-deck .notes-toggle:focus-visible{opacity:1;border-color:var(--chrome-muted)}
+.integrated-deck .notes-panel{top:55px;bottom:60px}
+.notes-panel .presenter-timing{font:15px Mono,monospace;color:#087a75}
+.notes-panel .presenter-copy{display:block}
+@media print{.integrated-footer,.notes-toggle,.notes-panel{display:none!important}}

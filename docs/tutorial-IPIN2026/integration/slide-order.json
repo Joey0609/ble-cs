@@ -1,0 +1,577 @@
+[
+  {
+    "file": "senswear/slides/01.html",
+    "id": "senswear-1",
+    "kind": "senswear",
+    "stage": "Why indoors",
+    "optional": false,
+    "sourceSlide": 1
+  },
+  {
+    "file": "senswear/slides/02.html",
+    "id": "senswear-2",
+    "kind": "senswear",
+    "stage": "Why indoors",
+    "optional": false,
+    "sourceSlide": 2
+  },
+  {
+    "file": "senswear/slides/03.html",
+    "id": "senswear-3",
+    "kind": "senswear",
+    "stage": "Why indoors",
+    "optional": false,
+    "sourceSlide": 3
+  },
+  {
+    "file": "senswear/slides/04.html",
+    "id": "senswear-4",
+    "kind": "senswear",
+    "stage": "Why indoors",
+    "optional": false,
+    "sourceSlide": 4
+  },
+  {
+    "file": "senswear/slides/05.html",
+    "id": "senswear-5",
+    "kind": "senswear",
+    "stage": "Why indoors",
+    "optional": false,
+    "sourceSlide": 5
+  },
+  {
+    "file": "senswear/slides/06.html",
+    "id": "senswear-6",
+    "kind": "senswear",
+    "stage": "SensWear",
+    "optional": false,
+    "sourceSlide": 6
+  },
+  {
+    "file": "senswear/slides/07.html",
+    "id": "senswear-7",
+    "kind": "senswear",
+    "stage": "SensWear",
+    "optional": false,
+    "sourceSlide": 7
+  },
+  {
+    "file": "senswear/slides/08.html",
+    "id": "senswear-8",
+    "kind": "senswear",
+    "stage": "SensWear",
+    "optional": false,
+    "sourceSlide": 8
+  },
+  {
+    "file": "senswear/slides/09.html",
+    "id": "senswear-9",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 9
+  },
+  {
+    "file": "slides/03-bt-localization.html",
+    "id": "technical-03-bt-localization",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/05-what-is-cs.html",
+    "id": "technical-05-what-is-cs",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "senswear/slides/12.html",
+    "id": "senswear-12",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 12
+  },
+  {
+    "file": "slides/03a-acl-link.html",
+    "id": "technical-03a-acl-link",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/acl-connection-events.html",
+    "id": "technical-acl-connection-events",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/acl-negotiation.html",
+    "id": "technical-acl-negotiation",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/03b-acl-events.html",
+    "id": "technical-03b-acl-events",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/03c-acl-data-sizes.html",
+    "id": "technical-03c-acl-data-sizes",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false
+  },
+  {
+    "file": "slides/04-cs-basics.html",
+    "id": "technical-04-cs-basics-1",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 0
+  },
+  {
+    "file": "slides/04-cs-basics.html",
+    "id": "technical-04-cs-basics-2",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 1
+  },
+  {
+    "file": "senswear/slides/15.html",
+    "id": "senswear-15",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 15
+  },
+  {
+    "file": "slides/04-cs-basics.html",
+    "id": "technical-04-cs-basics-3",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 2
+  },
+  {
+    "file": "slides/04-cs-basics.html",
+    "id": "technical-04-cs-basics-4",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 3
+  },
+  {
+    "file": "senswear/slides/20.html",
+    "id": "senswear-20",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 20
+  },
+  {
+    "file": "senswear/slides/21.html",
+    "id": "senswear-21",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 21
+  },
+  {
+    "file": "slides/06-cs-modes.html",
+    "id": "technical-06-cs-modes-1",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 0
+  },
+  {
+    "file": "slides/06-cs-modes.html",
+    "id": "technical-06-cs-modes-2",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 1
+  },
+  {
+    "file": "slides/06-cs-modes.html",
+    "id": "technical-06-cs-modes-3",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 2
+  },
+  {
+    "file": "slides/06-cs-modes.html",
+    "id": "technical-06-cs-modes-4",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 3
+  },
+  {
+    "file": "slides/06-cs-modes.html",
+    "id": "technical-06-cs-modes-5",
+    "kind": "technical",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "child": 4
+  },
+  {
+    "file": "senswear/slides/27.html",
+    "id": "senswear-27",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 27
+  },
+  {
+    "file": "senswear/slides/28.html",
+    "id": "senswear-28",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 28
+  },
+  {
+    "file": "senswear/slides/29.html",
+    "id": "senswear-29",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 29
+  },
+  {
+    "file": "senswear/slides/30.html",
+    "id": "senswear-30",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 30
+  },
+  {
+    "file": "senswear/slides/31.html",
+    "id": "senswear-31",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 31
+  },
+  {
+    "file": "senswear/slides/32.html",
+    "id": "senswear-32",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 32
+  },
+  {
+    "file": "senswear/slides/33.html",
+    "id": "senswear-33",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 33
+  },
+  {
+    "file": "senswear/slides/34.html",
+    "id": "senswear-34",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 34
+  },
+  {
+    "file": "senswear/slides/35.html",
+    "id": "senswear-35",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 35
+  },
+  {
+    "file": "senswear/slides/36.html",
+    "id": "senswear-36",
+    "kind": "senswear",
+    "stage": "Channel Sounding",
+    "optional": false,
+    "sourceSlide": 36
+  },
+  {
+    "file": "senswear/slides/37.html",
+    "id": "senswear-37",
+    "kind": "senswear",
+    "stage": "Positioning",
+    "optional": false,
+    "sourceSlide": 37
+  },
+  {
+    "file": "senswear/slides/38.html",
+    "id": "senswear-38",
+    "kind": "senswear",
+    "stage": "Positioning",
+    "optional": false,
+    "sourceSlide": 38
+  },
+  {
+    "file": "senswear/slides/39.html",
+    "id": "senswear-39",
+    "kind": "senswear",
+    "stage": "Positioning",
+    "optional": false,
+    "sourceSlide": 39
+  },
+  {
+    "file": "senswear/slides/40.html",
+    "id": "senswear-40",
+    "kind": "senswear",
+    "stage": "Positioning",
+    "optional": false,
+    "sourceSlide": 40
+  },
+  {
+    "file": "senswear/slides/41.html",
+    "id": "senswear-41",
+    "kind": "senswear",
+    "stage": "Positioning",
+    "optional": false,
+    "sourceSlide": 41
+  },
+  {
+    "file": "slides/07-toolchain.html",
+    "id": "technical-07-toolchain",
+    "kind": "technical",
+    "stage": "Hands-on",
+    "optional": false
+  },
+  {
+    "file": "slides/08-hosted-vs-hostless.html",
+    "id": "technical-08-hosted-vs-hostless",
+    "kind": "technical",
+    "stage": "Hands-on",
+    "optional": false
+  },
+  {
+    "file": "senswear/slides/42.html",
+    "id": "senswear-42",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 42
+  },
+  {
+    "file": "senswear/slides/43.html",
+    "id": "senswear-43",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 43
+  },
+  {
+    "file": "senswear/slides/44.html",
+    "id": "senswear-44",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 44
+  },
+  {
+    "file": "senswear/slides/45.html",
+    "id": "senswear-45",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 45
+  },
+  {
+    "file": "senswear/slides/46.html",
+    "id": "senswear-46",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 46
+  },
+  {
+    "file": "senswear/slides/47.html",
+    "id": "senswear-47",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 47
+  },
+  {
+    "file": "senswear/slides/48.html",
+    "id": "senswear-48",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 48
+  },
+  {
+    "file": "senswear/slides/49.html",
+    "id": "senswear-49",
+    "kind": "senswear",
+    "stage": "Hands-on",
+    "optional": false,
+    "sourceSlide": 49
+  },
+  {
+    "file": "senswear/slides/10.html",
+    "id": "senswear-10",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 10
+  },
+  {
+    "file": "senswear/slides/11.html",
+    "id": "senswear-11",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 11
+  },
+  {
+    "file": "senswear/slides/13.html",
+    "id": "senswear-13",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 13
+  },
+  {
+    "file": "senswear/slides/14.html",
+    "id": "senswear-14",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 14
+  },
+  {
+    "file": "senswear/slides/16.html",
+    "id": "senswear-16",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 16
+  },
+  {
+    "file": "senswear/slides/17.html",
+    "id": "senswear-17",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 17
+  },
+  {
+    "file": "senswear/slides/18.html",
+    "id": "senswear-18",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 18
+  },
+  {
+    "file": "senswear/slides/19.html",
+    "id": "senswear-19",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 19
+  },
+  {
+    "file": "senswear/slides/22.html",
+    "id": "senswear-22",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 22
+  },
+  {
+    "file": "senswear/slides/23.html",
+    "id": "senswear-23",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 23
+  },
+  {
+    "file": "senswear/slides/24.html",
+    "id": "senswear-24",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 24
+  },
+  {
+    "file": "senswear/slides/25.html",
+    "id": "senswear-25",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 25
+  },
+  {
+    "file": "senswear/slides/26.html",
+    "id": "senswear-26",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 26
+  },
+  {
+    "file": "senswear/slides/50.html",
+    "id": "senswear-50",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 50
+  },
+  {
+    "file": "senswear/slides/51.html",
+    "id": "senswear-51",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 51
+  },
+  {
+    "file": "senswear/slides/52.html",
+    "id": "senswear-52",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 52
+  },
+  {
+    "file": "senswear/slides/53.html",
+    "id": "senswear-53",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 53
+  },
+  {
+    "file": "senswear/slides/54.html",
+    "id": "senswear-54",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 54
+  },
+  {
+    "file": "senswear/slides/55.html",
+    "id": "senswear-55",
+    "kind": "senswear",
+    "stage": "Reference",
+    "optional": true,
+    "sourceSlide": 55
+  }
+]

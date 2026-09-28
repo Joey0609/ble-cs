@@ -1,0 +1,14 @@
+{
+  "source": "ble-cs/python",
+  "method": "Actual PyQt6 widgets rendered offscreen; app built-in simulator; synthetic observations, not RF measurements",
+  "status": "RUNNING",
+  "files": [
+    "app-channels.png",
+    "app-controller.png",
+    "app-estimates.png",
+    "app-pbr.png",
+    "app-planner.png",
+    "app-session.png",
+    "app-step.png"
+  ]
+}
