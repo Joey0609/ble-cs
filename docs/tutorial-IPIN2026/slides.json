@@ -2,82 +2,89 @@
   "header": "SensWear / IPIN 2026",
   "sections": [
     {
-      "title": "Why indoors",
+      "title": "Opening",
       "slides": [
         "01-title",
-        "02-indoors-last-metres",
-        "03-location-changes-action",
-        "04-range-vs-track",
-        "05-route"
+        "02-goal",
+        "03-route",
+        "04-install-app"
       ]
     },
     {
       "title": "SensWear",
       "slides": [
-        "06-senswear-platform",
-        "07-senswear-roles",
-        "08-senswear-campaign"
+        "05-senswear-platform",
+        "06-senswear-roles",
+        "07-senswear-campaign"
+      ]
+    },
+    {
+      "title": "Localization & ranging",
+      "slides": [
+        "08-indoors-last-metres",
+        "09-location-changes-action",
+        "10-range-vs-track"
       ]
     },
     {
       "title": "Channel Sounding",
       "slides": [
-        "09-two-radios-distance",
-        "10-bt-localization",
-        "11-what-is-cs",
-        "12-initiator-reflector",
-        "13-acl-link-setup",
-        "14-acl-connection-events",
-        "15-acl-negotiation",
-        "16-acl-cs-timing",
-        "17-acl-data-sizes",
-        "18-phase-of-one-tone",
-        "19-rtt-of-one-packet",
-        "20-rtt-nanoseconds",
-        "21-many-tones",
-        "22-pbr-iq-to-distance",
-        "23-try-phase",
-        "24-frequency-error-bias",
-        "25-cs-step-modes",
-        "26-mode-0-timing",
-        "27-mode-1-timing",
-        "28-mode-2-timing",
-        "29-mode-3-timing",
-        "30-mode-sequence",
-        "31-procedure-hierarchy",
-        "32-tone-airtime",
-        "33-ranging-rate-budget",
-        "34-channels",
-        "35-antenna-paths",
-        "36-security-vs-quality",
-        "37-multipath-first-path",
-        "38-defensible-range",
-        "39-prediction-pause"
+        "11-two-radios-distance",
+        "12-bt-localization",
+        "13-what-is-cs",
+        "14-initiator-reflector",
+        "15-acl-link-setup",
+        "16-acl-connection-events",
+        "17-acl-negotiation",
+        "18-acl-cs-timing",
+        "19-acl-data-sizes",
+        "20-phase-of-one-tone",
+        "21-rtt-of-one-packet",
+        "22-rtt-nanoseconds",
+        "23-many-tones",
+        "24-pbr-iq-to-distance",
+        "25-try-phase",
+        "26-frequency-error-bias",
+        "27-cs-step-modes",
+        "28-mode-0-timing",
+        "29-mode-1-timing",
+        "30-mode-2-timing",
+        "31-mode-3-timing",
+        "32-mode-sequence",
+        "33-procedure-hierarchy",
+        "34-tone-airtime",
+        "35-ranging-rate-budget",
+        "36-channels",
+        "37-antenna-paths",
+        "38-security-vs-quality",
+        "39-multipath-first-path",
+        "40-defensible-range",
+        "41-prediction-pause"
       ]
     },
     {
       "title": "Positioning",
       "slides": [
-        "40-ranges-to-position",
-        "41-geometry",
-        "42-tracking-and-truth",
-        "43-senswear-radio-experiment",
-        "44-mounting"
+        "42-ranges-to-position",
+        "43-geometry",
+        "44-tracking-and-truth",
+        "45-senswear-radio-experiment",
+        "46-mounting"
       ]
     },
     {
       "title": "Hands-on",
       "slides": [
-        "45-toolchain",
-        "46-hosted-vs-hostless",
-        "47-app-overview",
-        "48-app-planner",
-        "49-app-pbr",
-        "50-app-controller",
-        "51-app-replay",
-        "52-lab-question",
-        "53-first-session",
-        "54-theory-to-evidence"
+        "47-toolchain",
+        "48-hosted-vs-hostless",
+        "49-app-overview",
+        "50-app-planner",
+        "51-app-pbr",
+        "52-app-controller",
+        "53-app-replay",
+        "54-lab-question",
+        "55-first-session",
+        "56-theory-to-evidence"
       ]
     },
     {

@@ -1,0 +1,40 @@
+<section data-timing="60">
+  <h2>Goal: measure what each CS parameter changes</h2>
+  <div class="content">
+    <div class="stepstrip">
+      <div class="stepbox">Laptop<small>ble-channel-sounding app</small></div>
+      <span class="arrow">⇄</span>
+      <div class="stepbox">nRF54LM20 DK<small>cs_client · CS initiator</small></div>
+      <span class="arrow">⇄</span>
+      <div class="stepbox">Reflector<small>nRF54L15 DK or nRF54L15 Tag</small></div>
+    </div>
+    <div class="cols">
+      <div>
+        <p class="lead">
+          Today we use two nRF54 boards to measure how
+          <strong>CS configuration parameters</strong> change the ranging result.
+        </p>
+        <div class="callout">Change one parameter per run; keep distance and mounting fixed.</div>
+      </div>
+      <div>
+        <div class="screenshot-frame" style="height: 300px">
+          <img src="images/app-pbr.png" alt="Screenshot of the actual CS Host application" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      State the goal before any theory, so every later section has a place to land. The kit is two
+      nRF54 boards and a laptop. The nRF54LM20 DK runs cs_client and talks to our desktop app over
+      native USB; it is the CS initiator and connects over Bluetooth to the reflector, an nRF54L15
+      DK or the two-antenna nRF54L15 Tag. The app sets the CS configuration, starts the session and
+      shows the raw steps and the estimates. The screenshot is simulated data from the same app.
+      Everything in the next sections explains one of the parameters we will change in the
+      hands-on, and what that change should do to the result.
+    </p>
+  </aside>
+</section>
