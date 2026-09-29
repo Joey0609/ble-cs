@@ -1,0 +1,36 @@
+<section data-timing="165">
+  <h2>Try it: move the target, watch the phase</h2>
+  <div class="content">
+    <div class="interactive" id="pbr-demo">
+      <div class="control-row">
+        <label
+          >Distance
+          <input id="pbr-distance" type="range" min="1" max="15" step=".5" value="3" /></label
+        ><span id="pbr-distance-label"></span
+        ><label><input type="checkbox" id="pbr-wrap" checked /> Wrapped phase</label
+        ><label><input type="checkbox" id="pbr-echo" /> Add one echo</label>
+      </div>
+      <svg
+        id="pbr-chart"
+        viewBox="0 0 1050 290"
+        aria-label="Interactive phase-versus-frequency chart"
+      ></svg>
+      <div class="interactive-output" id="pbr-output"></div>
+    </div>
+    <p class="small muted">
+      Illustrative model: direct path, optional weaker path 4 m longer. No measured RF data.
+    </p>
+  </div>
+  <div class="source"></div>
+  <aside class="notes">
+    <p>
+      Give the audience thirty seconds to predict the result of increasing distance. Move the slider
+      from three to six metres; the unwrapped slope magnitude doubles and wrapped phase cycles
+      faster. Toggle wrapped phase off to make the slope intuitive. Add the echo, which is a weaker
+      path with four metres extra path length, and show curvature in the phase response and
+      deviation of the simple slope estimate. Explain the assumptions used in this model: reciprocal
+      static channel, no clock error, no measurement noise, and a complex two-way product. It
+      illustrates sensitivity rather than predicting performance of the hardware.
+    </p>
+  </aside>
+</section>

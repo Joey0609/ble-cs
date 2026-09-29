@@ -1,0 +1,31 @@
+<section data-timing="0">
+  <h2>Pair the two phase observations</h2>
+  <div class="content">
+    <div class="stepstrip">
+      <div class="stepbox">Initiator → reflector<small>receive phase zᵣ(f)</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Reflector → initiator<small>receive phase zᵢ(f)</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Combine<small>z₂w(f) = zᵢ(f) · zᵣ(f)</small></div>
+    </div>
+    <div class="formula small">φ₂w(f) ≈ φ₀ − 4πfd/c</div>
+    <div class="callout">
+      Baseline PBR: match procedure, step, channel and antenna path before combining.
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Use complex notation only as much as needed: z equals I plus jQ, and its angle is the measured
+      phase. In the conventional two-way exchange, combining matched phase observations cancels the
+      opposing initial oscillator phase terms under the model assumptions. The application&#x27;s
+      baseline computes the complex product, not the conjugate product. The minus sign follows its
+      receive-phase convention; other conventions may flip the sign. Residual frequency error and
+      hardware effects remain. Peer data are therefore needed for this baseline analysis. Inline PCT
+      Transfer is a newer extension with a different data path and is kept out of this baseline
+      derivation.
+    </p>
+  </aside>
+</section>

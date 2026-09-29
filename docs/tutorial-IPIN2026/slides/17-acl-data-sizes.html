@@ -1,0 +1,56 @@
+<section class="acl-sizes acl-sizes" data-timing="105">
+  <h2>Returning results: data length and ATT MTU</h2>
+  <div class="body">
+    <p class="lead muted">Reflector step data comes back as RAS notifications, packed into Link Layer PDUs</p>
+
+    <svg class="diagram" viewBox="0 64 1120 208" role="img"
+         aria-label="Byte-scaled packet layout. With defaults, one 27-byte LL PDU carries one notification with 19 bytes of ranging data. In this project one notification of ATT MTU 498 fills two 251-byte LL PDUs and carries 494 bytes of ranging data">
+      <g font-family="inherit" fill="#f5f5ed">
+        <!-- 1 byte = 1.673 px; header slivers: L2CAP 4 B, ATT 3 B, RAS segment 1 B -->
+        <text x="20" y="92" font-size="20" font-weight="700">Defaults</text>
+        <text x="20" y="114" font-size="15" fill="#afc8cb">LL 27 B · ATT MTU 23</text>
+        <rect x="250" y="78" width="6.7" height="40" fill="#afc8cb"/>
+        <rect x="256.7" y="78" width="5" height="40" fill="#afc8cb"/>
+        <rect x="261.7" y="78" width="1.7" height="40" fill="#ffb17a"/>
+        <rect x="263.4" y="78" width="31.8" height="40" fill="#65e4d0"/>
+        <text x="312" y="104" font-size="17">one LL PDU carries one notification: <tspan font-weight="700">19 B</tspan> of ranging data</text>
+        <text x="250" y="143" font-size="14" fill="#afc8cb">each notification spends 8 B on headers: L2CAP 4, ATT 3, RAS segment 1</text>
+
+        <text x="20" y="194" font-size="20" font-weight="700" fill="#65e4d0">This project</text>
+        <text x="20" y="216" font-size="15" fill="#afc8cb">LL 251 B · ATT MTU 498</text>
+        <rect x="250" y="180" width="6.7" height="40" fill="#afc8cb"/>
+        <rect x="256.7" y="180" width="5" height="40" fill="#afc8cb"/>
+        <rect x="261.7" y="180" width="1.7" height="40" fill="#ffb17a"/>
+        <rect x="263.4" y="180" width="406.6" height="40" fill="#65e4d0"/>
+        <rect x="678" y="180" width="420" height="40" fill="#65e4d0"/>
+        <text x="466" y="206" text-anchor="middle" font-size="17" font-weight="700" fill="#09242b">LL PDU 1 · 251 B</text>
+        <text x="888" y="206" text-anchor="middle" font-size="17" font-weight="700" fill="#09242b">LL PDU 2 · 251 B</text>
+        <line x1="250" y1="238" x2="1098" y2="238" stroke="#f5f5ed" stroke-width="1.5"/>
+        <line x1="250" y1="232" x2="250" y2="244" stroke="#f5f5ed" stroke-width="1.5"/>
+        <line x1="1098" y1="232" x2="1098" y2="244" stroke="#f5f5ed" stroke-width="1.5"/>
+        <text x="674" y="262" text-anchor="middle" font-size="16">one notification: ATT MTU 498 = 2 × 251 − 4 (L2CAP) → <tspan font-weight="700">494 B</tspan> of ranging data</text>
+      </g>
+    </svg>
+
+    <div class="stats">
+      <div><span class="big">19 → 494 B</span><span>ranging data per notification</span></div>
+      <div><span class="big">39 → 2</span><span>notifications for one 72-step PBR procedure (≈ 0.74 kB)</span></div>
+      <div><span class="big">1.06 ms</span><span>air time of one full LL PDU on LE 2M (2.12 ms on LE 1M)</span></div>
+    </div>
+
+    <p class="takeaway">Both limits are negotiated per link and a peer can lower them. The Ranging Profile recommends an ATT MTU of at least 247 B, one full LL PDU.</p>
+  </div>
+  <aside class="notes">
+    Two different limits decide how many ACL packets a ranging result needs. The Link Layer data length procedure (LL_LENGTH_REQ/RSP) sets the payload of one LL data PDU: 27 octets by default, up to 251 with data length extension; this project configures 251. ATT Exchange MTU sets the largest ATT PDU: 23 octets by default; the Client and Server exchange their receive limits and the smaller one applies. This project offers 498 and exchanges it automatically; the peer can yield a lower value.
+
+    The layers nest. A RAS real-time notification is an ATT notification (3 octets: opcode and handle) whose value starts with a 1-octet RAS segment header. The ATT PDU travels in an L2CAP basic frame with a 4-octet header, and L2CAP segments that frame across as many LL PDUs as needed. With defaults, 23 − 3 − 1 = 19 octets of ranging data fit in one notification. With MTU 498, 498 − 3 − 1 = 494 octets fit, and 498 + 4 = 502 = 2 × 251, so one full notification fills exactly two full LL PDUs. MTU 247 is the one-PDU value, 251 − 4.
+
+    Sizing example: a 72-step mode-2 procedure with one antenna path produces about 10 octets per step of reflector data (step mode plus antenna permutation index plus two tone PCT and quality entries) plus ranging and subevent headers, about 0.74 kB. That is 39 notifications at 19 octets but 2 at 494. The cs_hostless_initiator/prj.conf comment records why this matters: at the default MTU that procedure cannot drain in the single ACL event available between procedures.
+
+    Air time follows from the PHY: a 251-octet payload plus 4-octet MIC, header, access address, preamble and CRC is 265 octets on LE 1M, 2120 µs, and 266 octets on LE 2M, 1064 µs. Each LL PDU is followed by T_IFS and the peer's reply, so a full two-PDU notification occupies roughly 2.7 ms of an ACL event on LE 2M. That does not fit ahead of a CS event 1.5 ms after the anchor, as in the previous slide's illustration; it needs an ACL event without CS.
+
+    If the configuration selects reflector data none, the initiator skips RAS discovery and subscription and none of this traffic exists. ATT Client/Server roles are also separate from Central/Peripheral: here the initiator is the RAS Client and the reflector the RAS Server.
+
+    Sources: Bluetooth Core Specification 6.2, Vol 6 Part B, Sections 2.4 (data PDU format) and 5.1.9 (data length update); Bluetooth LE Primer, Sections 11.4 (L2CAP segmentation and reassembly) and 12.2.6 (ATT MTU); Ranging Service and Ranging Profile specifications; repository configuration in cs_client/prj.conf and cs_hostless_initiator/prj.conf.
+  </aside>
+</section>

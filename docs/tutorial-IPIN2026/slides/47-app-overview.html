@@ -1,0 +1,40 @@
+<section data-timing="45">
+  <h2>Our app connects theory to the experiment</h2>
+  <div class="content">
+    <div class="stepstrip">
+      <div class="stepbox">Plan<small>configuration + timing</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Run<small>USB client ↔ BLE peer</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Inspect<small>raw steps + estimates</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Replay<small>session history + HDF5</small></div>
+    </div>
+    <div class="cols">
+      <div>
+        <p class="lead">
+          We built the app to make each <strong>pairwise CS experiment</strong> inspectable.
+        </p>
+      </div>
+      <div>
+        <p class="lead">
+          We use the exported observations to explore position solving and track evaluation.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Name the application: ble-channel-sounding, the Python/PyQt6 desktop host in the supplied
+      ble-cs repository. Its purpose is to connect the theory to a visible experiment with
+      configuration, controller feedback, raw data and replay. In the documented hosted setup, a
+      native-USB nRF54LM20 DK runs cs_client and connects to a reflector; nRF54L15 DK and Tag
+      reflector options are documented. That distinction prevents accidental claims about a USB
+      interface on the nRF54L15 wearable. Radio Test is visible but disabled in this deployment. The
+      simulator exercises the workflow without proving RF accuracy.
+    </p>
+  </aside>
+</section>

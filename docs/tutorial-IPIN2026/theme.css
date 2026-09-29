@@ -1,51 +1,820 @@
-/* Overrides on top of the reveal.js white theme. */
+/*
+* SensWear · IPIN 2026 deck theme,
+on top of the reveal.js white theme.
+ *
+ * Every slide is a 1280 × 720 <section>: the header (added by deck.js),
+an
+ * <h2> title,
+then one content block:
+ *   <div class="content">  pixel-sized layouts: cards,
+columns,
+formulas,
+photos
+ *   <div class="body">     em-sized layouts from 32px,
+used by the technical diagrams
+ * and an optional <div class="source"> credit line.
+ */
 
 :root {
+  --bg: #09242b;
+  --panel: #12363d;
+  --ink: #f5f5ed;
+  --muted: #afc8cb;
+  --teal: #65e4d0;
+  --lime: #dcf58a;
+  --orange: #ffb17a;
+  --line: #31535a;
+  --accent: var(--teal);
+  --r-background-color: var(--bg);
+  --r-main-font: "Segoe UI", Arial, sans-serif;
   --r-main-font-size: 32px;
+  --r-main-color: var(--ink);
+  --r-heading-font: Outfit, "Segoe UI", sans-serif;
+  --r-heading-color: var(--ink);
+  --r-heading-font-weight: 500;
   --r-heading-text-transform: none;
-  --r-link-color: #0b62a4;
-  --accent: #0b62a4;
-  --muted: #5a6470;
+  --r-link-color: var(--teal);
+  --r-link-color-hover: var(--lime);
 }
 
-.reveal h1,
-.reveal h2 {
-  color: var(--accent);
+.reveal-viewport {
+  background: var(--bg);
+}
+.reveal {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
 }
 
-.reveal .muted {
+/* ---- Slide frame ---- */
+
+.reveal .slides section {
+  box-sizing: border-box;
+  height: 720px;
+  padding: 40px 60px 60px;
+  top: 0 !important;
+  overflow: hidden;
+  text-align: left;
+  font-size: 26px;
+  font-weight: normal;
+  line-height: 1;
+  color: var(--ink);
+}
+.reveal .slides section * {
+  box-sizing: border-box;
+}
+
+.reveal .slides section > h2 {
+  font:
+    500 47px/1.12 Outfit,
+    "Segoe UI",
+    sans-serif;
+  letter-spacing: -0.025em;
+  text-transform: none;
+  color: var(--ink);
+  max-width: 1160px;
+  margin: 12px 0 26px;
+}
+
+.reveal .eyebrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 26px;
+  height: 28px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--teal);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.reveal .eyebrow > span {
+  white-space: nowrap;
+}
+.reveal .breadcrumb {
+  font:
+    16px/20px "Segoe UI",
+    Arial,
+    sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.reveal .breadcrumb ol {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reveal .breadcrumb li {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0;
+}
+.reveal .breadcrumb li + li::before {
+  content: "›";
+  color: var(--muted);
+  font-size: 21px;
+  margin: 0 13px;
+}
+.reveal .breadcrumb a {
+  display: inline-block;
+  padding: 2px 0 4px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+}
+.reveal .breadcrumb .current a {
+  color: var(--lime);
+  border-color: var(--lime);
+  font-weight: 650;
+}
+.reveal .breadcrumb .complete a {
+  color: var(--teal);
+}
+.reveal .breadcrumb a:hover {
+  color: var(--ink);
+}
+
+.reveal .source {
+  position: absolute;
+  bottom: 27px;
+  left: 60px;
+  right: 190px;
+  font-size: 13px;
+  line-height: 1.3;
   color: var(--muted);
 }
+.reveal .source a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.reveal .source a:hover {
+  text-decoration: underline;
+}
+.reveal .source .sep {
+  margin: 0 8px;
+  color: var(--line);
+}
 
-.reveal .small {
+/* ---- Deck controls ---- */
+
+.deck-counter {
+  position: fixed;
+  bottom: 16px;
+  right: 25px;
+  z-index: 8;
+  font:
+    13px "Space Mono",
+    monospace;
+  color: var(--muted);
+  pointer-events: none;
+}
+.reveal .controls {
+  color: var(--lime);
+  bottom: 38px;
+  right: 16px;
+  transform: scale(0.7);
+  transform-origin: bottom right;
+}
+.reveal .progress {
+  height: 4px;
+  color: var(--lime);
+}
+
+.image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px;
+  background: #04171cf5;
+  cursor: zoom-out;
+}
+.image-overlay[hidden] {
+  display: none;
+}
+.image-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.image-overlay span {
+  position: absolute;
+  top: 13px;
+  right: 22px;
+  color: #fff;
+  font:
+    16px "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+@media print {
+  .deck-counter {
+    display: none !important;
+  }
+  .reveal .slides section {
+    height: 720px !important;
+    overflow: hidden !important;
+  }
+  .reveal .source {
+    bottom: 22px;
+  }
+  .reveal .content .fragment {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  .reveal .content .control-row {
+    pointer-events: none;
+  }
+}
+
+/* ---- <div class="content">: pixel-sized story layouts ---- */
+
+.reveal .content h1,
+.reveal .content h3 {
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  text-transform: none;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.12;
+}
+.reveal .content h1 {
+  font-size: 70px;
+}
+.reveal .content h3 {
+  font-size: 31px;
+  margin-bottom: 14px;
+}
+.reveal .content p {
+  margin: 12px 0;
+  line-height: 1.35;
+}
+.reveal .content a {
+  color: var(--teal);
+  text-decoration: none;
+}
+.reveal .content a:hover {
+  text-decoration: underline;
+}
+.reveal .content strong {
+  color: var(--lime);
+  font-weight: 650;
+}
+.reveal .content em {
+  color: var(--teal);
+  font-style: normal;
+}
+.reveal .content {
+  height: 490px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 14px;
+}
+.reveal .content.hero {
+  height: 610px;
+}
+.reveal .content p.lead {
+  font-size: 34px;
+  line-height: 1.3;
+}
+.reveal .content .muted {
+  color: var(--muted);
+}
+.reveal .content .small {
+  font-size: 20px;
+  line-height: 1.4;
+}
+.reveal .content .tiny {
+  font-size: 16px;
+}
+.reveal .content .mono {
+  font-family: "Space Mono", monospace;
+}
+.reveal .content .accent {
+  color: var(--teal);
+}
+.reveal .content .lime {
+  color: var(--lime);
+}
+.reveal .content .orange {
+  color: var(--orange);
+}
+.reveal .content .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: center;
+  width: 100%;
+}
+.reveal .content .cols.photo {
+  grid-template-columns: 1.15fr 1fr;
+}
+.reveal .content .cols > * {
+  min-width: 0;
+}
+.reveal .content .grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  width: 100%;
+}
+.reveal .content .card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 27px;
+  min-width: 0;
+}
+.reveal .content .card .n {
+  font: 17px "Space Mono";
+  color: var(--teal);
+  display: block;
+  margin-bottom: 23px;
+}
+.reveal .content .card p {
+  font-size: 24px;
+  color: var(--muted);
+}
+.reveal .content .big {
+  font: 98px Outfit;
+  line-height: 1.1;
+}
+.reveal .content .metric {
+  font: 66px Outfit;
+  color: var(--teal);
+}
+.reveal .content .callout {
+  padding: 16px 22px;
+  border-left: 4px solid var(--lime);
+  background: #18363b;
+  font-size: 23px;
+  line-height: 1.35;
+}
+.reveal .content .pill {
+  display: inline-block;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: var(--panel);
+  font: 17px "Space Mono";
+  color: var(--teal);
+}
+.reveal .content .formula {
+  font-family: Outfit;
+  font-size: 39px;
+  line-height: 1.4;
+  color: var(--lime);
+  margin: 18px 0;
+  padding: 21px 25px;
+  background: var(--panel);
+  border-radius: 16px;
+}
+.reveal .content .formula.small {
+  font-size: 29px;
+}
+.reveal .content .equations {
+  display: grid;
+  gap: 16px;
+}
+.reveal .content .equations .formula {
+  margin: 0;
+}
+.reveal .content img {
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.reveal .content .photo-frame {
+  height: 430px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: white;
+}
+.reveal .content .photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.reveal .content .cover-photo img {
+  object-fit: cover;
+}
+.reveal .content .ring-hero {
+  height: 530px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+}
+.reveal .content .ring-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 67%;
+}
+.reveal .content .hero-title {
+  font-size: 67px !important;
+  max-width: 690px;
+}
+.reveal .content .subtitle {
+  font: 29px Outfit;
+  margin: 22px 0 !important;
+  line-height: 1.3 !important;
+}
+.reveal .content .byline {
+  font-size: 20px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.reveal .content .diagram {
+  width: 100%;
+  max-height: 395px;
+  overflow: visible;
+}
+.reveal .content .diagram text {
+  font-family: "Segoe UI", sans-serif;
+}
+.reveal .content .stepstrip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 22px 0;
+}
+.reveal .content .stepbox {
+  padding: 21px 20px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  flex: 1;
+  background: var(--panel);
+  text-align: center;
+  font-size: 24px;
+}
+.reveal .content .stepbox small {
+  font-size: 18px;
+  color: var(--muted);
+  margin-top: 10px;
+  display: block;
+  line-height: 1.2;
+}
+.reveal .content .arrow {
+  font-size: 32px;
+  color: var(--teal);
+}
+.reveal .content table {
+  font-size: 24px;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+.reveal .content table th {
+  font: 17px "Space Mono";
+  color: var(--teal);
+  text-transform: uppercase;
+  padding: 15px 18px;
+  border-bottom: 2px solid var(--line);
+}
+.reveal .content table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.2;
+}
+.reveal .content table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.reveal .content table td:first-child {
+  color: var(--lime);
+}
+.reveal .content .screenshot-layout {
+  display: grid;
+  grid-template-columns: 1fr 255px;
+  gap: 24px;
+  height: 463px;
+}
+.reveal .content .screenshot-frame {
+  height: 100%;
+  background: #f8fafc;
+  border: 1px solid #43646c;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reveal .content .screenshot-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+.reveal .content .screen-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+.reveal .content .screen-notes .card {
+  padding: 15px;
+}
+.reveal .content .screen-notes p {
+  margin: 6px 0;
+  font-size: 21px;
+}
+.reveal .content .screen-notes .n {
+  margin: 0;
+  font-size: 15px;
+}
+.reveal .content .badge {
+  display: inline-block;
+  background: var(--orange);
+  color: #16282b;
+  font: 13px "Space Mono";
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.reveal .content .qr {
+  width: 325px !important;
+  height: 325px !important;
+  background: white;
+  padding: 12px;
+  border-radius: 16px;
+}
+.reveal .content .qr-link {
+  font-size: 19px;
+  overflow-wrap: anywhere;
+}
+.reveal .content .campaign {
+  grid-template-columns: 1.35fr 0.7fr;
+  gap: 65px;
+}
+.reveal .content .campaign h3 {
+  font-size: 53px;
+  line-height: 1.1;
+}
+.reveal .content .control-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 23px;
+  margin: 6px 0;
+}
+.reveal .content .control-row input[type="range"] {
+  accent-color: var(--teal);
+  width: 260px;
+}
+.reveal .content .control-row button {
+  font: 18px "Segoe UI";
+  padding: 10px 17px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  cursor: pointer;
+}
+.reveal .content .control-row button.active {
+  background: var(--teal);
+  color: #0c2b31;
+}
+.reveal .content .control-row label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.reveal .content .interactive {
+  background: #0c2c34;
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 18px;
+}
+.reveal .content .interactive svg {
+  height: 290px;
+  max-width: 100%;
+  display: block;
+  width: 100%;
+}
+.reveal .content .interactive-output {
+  font: 22px "Space Mono";
+  color: var(--lime);
+  min-height: 30px;
+}
+.reveal .content .quiz {
+  display: grid;
+  gap: 18px;
+}
+.reveal .content .quiz .question {
+  font-size: 29px;
+  padding: 18px 24px;
+  background: var(--panel);
+  border-radius: 12px;
+}
+.reveal .content .quiz .answer {
+  font-size: 23px;
+  color: var(--lime);
+  margin-top: 12px;
+}
+.reveal .content .agenda {
+  display: grid;
+  gap: 14px;
+}
+.reveal .content .agenda-row {
+  display: grid;
+  align-items: center;
+  background: var(--panel);
+  border-radius: 9px;
+  grid-template-columns: 60px 330px 1fr;
+  gap: 20px;
+  padding: 17px 22px;
+}
+.reveal .content .agenda-row strong {
+  font-size: 25px;
+}
+.reveal .content .references {
+  font-size: 21px;
+  display: grid;
+  gap: 19px;
+}
+.reveal .content .references a {
+  display: block;
+  line-height: 1.35;
+}
+.reveal .content .references small {
+  font-size: 16px;
+  color: var(--muted);
+  display: block;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+#senswear-roles .card {
+  padding: 16px 22px;
+}
+#senswear-roles .card .n {
+  margin-bottom: 7px;
+  font-size: 14px;
+}
+#senswear-roles .card h3 {
+  font-size: 27px;
+  margin-bottom: 7px;
+}
+#senswear-roles .card p {
+  font-size: 21px;
+  margin: 5px 0;
+}
+#mounting .diagram {
+  max-height: 325px;
+}
+.reveal .content .agenda-row .stage-number {
+  font: 20px "Space Mono";
+  color: var(--teal);
+}
+.reveal .content .agenda-row .stage-detail {
+  font-size: 22px;
+  color: var(--muted);
+}
+#rtt-turnaround .diagram {
+  max-height: 375px;
+}
+.reveal .content small {
+  display: inline;
+  vertical-align: baseline;
+  line-height: inherit;
+}
+.reveal .content b {
+  font-weight: 650;
+}
+
+/* ---- <div class="body">: em-sized technical content ---- */
+
+/* A dense slide shrinks its body with an inline style="zoom: 0.9"; the fixed
+width keeps the zoomed block centred. */
+.reveal .body {
+  width: 1160px;
+  margin: 0 auto;
+  font-size: 32px;
+  line-height: 1.3;
+}
+.reveal .body h3,
+.reveal .body h4 {
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  text-transform: none;
+  color: var(--teal);
+}
+.reveal .body strong,
+.reveal .body b {
+  color: var(--lime);
+}
+.reveal .body a {
+  color: var(--teal);
+}
+.reveal .body p {
+  line-height: 1.35;
+}
+.reveal .body ul {
+  padding: 0;
+  list-style-position: outside;
+}
+.reveal .body code {
+  font-family: "Space Mono", monospace;
+  font-size: 0.86em;
+  color: var(--teal);
+}
+.reveal .body .katex {
+  color: inherit;
+}
+.reveal .body .muted {
+  color: var(--muted);
+}
+.reveal .body .small {
   font-size: 0.7em;
 }
 
-.reveal img.figure {
-  max-height: 520px;
-  margin: 0.4em auto;
-  border: none;
-  box-shadow: none;
+.reveal .body table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 24px;
+  text-align: left;
+}
+.reveal .body table th {
+  padding: 15px 18px;
+  border-bottom: 2px solid var(--line);
+  font:
+    17px "Space Mono",
+    monospace;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+.reveal .body table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.3;
+}
+.reveal .body table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.reveal .body table td:first-child {
+  color: var(--lime);
 }
 
-/* Two-column layout: <div class="columns"><div>...</div><div>...</div></div> */
-.reveal .columns {
+/* Inline diagrams default to the ink colour; generated figures are images. */
+.reveal .body svg {
+  fill: var(--ink);
+}
+.reveal .body svg,
+.reveal .body svg text {
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.reveal .body img.figure {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 490px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Two columns: <div class="columns">; add "cards" to frame each column. */
+.reveal .body .columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5em;
   text-align: left;
 }
-
-.reveal table {
-  font-size: 0.75em;
+.reveal .body .columns.cards {
+  gap: 36px;
+  align-items: stretch;
+}
+.reveal .body .columns.cards > div {
+  padding: 27px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.reveal .body .columns.cards h4 {
+  font-size: 29px;
+  margin-bottom: 22px;
+}
+.reveal .body .columns.cards li {
+  margin: 0 0 15px;
 }
 
-/* Slides 03a-03c: BLE ACL link, timing and data sizes */
-.reveal .acl-link h2,
-.reveal .acl-events h2,
-.reveal .acl-sizes h2 {
-  margin-bottom: 0.15em;
+/* Takeaways and reflector-side labels share the orange accent. */
+.reveal .body .takeaway,
+.reveal .body .ref {
+  color: var(--orange);
 }
+.reveal .body .ini {
+  color: var(--teal);
+}
+
+/* ---- ACL link, timing and data sizes ---- */
 
 .reveal .acl-events .lead,
 .reveal .acl-sizes .lead {
@@ -54,14 +823,12 @@
 }
 
 .reveal .acl-link .diagram,
-.reveal .acl-sizes .diagram,
-.reveal .acl-events .timeline {
+.reveal .acl-sizes .diagram {
   display: block;
   width: 100%;
   height: auto;
   margin: 0 auto;
 }
-
 
 .reveal .acl-link .takeaway,
 .reveal .acl-events .takeaway,
@@ -69,11 +836,9 @@
   font-size: 0.66em;
   margin: 0.3em 0 0.1em;
 }
-
 .reveal .acl-sizes .takeaway {
   margin-top: 0.7em;
 }
-
 .reveal .acl-link .role-note {
   font-size: 0.5em;
   margin: 0;
@@ -87,44 +852,35 @@
   margin: 0.2em 0 0;
   text-align: left;
 }
-
 .reveal .acl-sizes .stats {
   grid-template-columns: repeat(3, 1fr);
   margin-top: 0.6em;
 }
-
 .reveal .acl-events .units > div,
 .reveal .acl-sizes .stats > div {
-  border-top: 3px solid var(--accent);
-  padding: 0.25em 0.1em 0;
   display: flex;
   flex-direction: column;
+  padding: 0.25em 0.1em 0;
+  border-top: 3px solid var(--teal);
   font-size: 0.5em;
   line-height: 1.3;
   color: var(--muted);
 }
-
 .reveal .acl-events .units .name {
-  color: #1f2328;
+  color: var(--ink);
   font-weight: 700;
 }
-
 .reveal .acl-events .units .value,
 .reveal .acl-sizes .stats .big {
-  color: var(--accent);
+  color: var(--teal);
   font-size: 1.5em;
   font-weight: 700;
 }
-
 .reveal .acl-sizes .stats .big {
   font-size: 1.9em;
 }
 
-/* ACL event and negotiation slides */
-.reveal .acl-event-basics h2,
-.reveal .acl-negotiation h2 {
-  margin-bottom: 0.12em;
-}
+/* ---- ACL connection events and negotiation ---- */
 
 .reveal .acl-event-basics .lead,
 .reveal .acl-negotiation .lead {
@@ -134,11 +890,10 @@
 
 .reveal .acl-event-basics .event-flow {
   display: block;
+  width: 100%;
   height: auto;
   margin: 0 auto;
-  width: 100%;
 }
-
 .reveal .acl-event-basics .event-terms {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -146,233 +901,191 @@
   margin: 0.12em 0 0;
   text-align: left;
 }
-
 .reveal .acl-event-basics .event-terms p {
-  border-top: 3px solid #d0d7de;
-  font-size: 0.48em;
-  line-height: 1.2;
   margin: 0;
   padding: 0.2em 0.3em;
+  border-top: 3px solid var(--line);
+  font-size: 0.48em;
+  line-height: 1.2;
 }
-
 .reveal .acl-event-basics .event-terms strong {
-  color: var(--accent);
+  color: var(--teal);
 }
 
 .reveal .acl-negotiation .negotiation-cards {
-  align-items: stretch;
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.94fr) minmax(0, 0.94fr);
   gap: 0.42em;
+  align-items: stretch;
   min-width: 0;
   text-align: left;
 }
-
 .reveal .acl-negotiation .negotiation-card {
-  border: 1px solid #d0d7de;
-  border-radius: 0.2em;
   min-width: 0;
   padding: 0.32em 0.38em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
 }
-
 .reveal .acl-negotiation .negotiation-card h3 {
-  color: var(--accent);
+  margin: 0;
   font-size: 0.52em;
   line-height: 1.12;
-  margin: 0;
+  color: var(--teal);
 }
-
 .reveal .acl-negotiation .card-kicker {
-  color: var(--muted);
-  font-size: 0.42em;
   margin: 0.05em 0 0.22em;
+  font-size: 0.42em;
+  color: var(--muted);
 }
-
 .reveal .acl-negotiation .exchange {
-  align-items: center;
-  border-top: 1px solid #e4e8ec;
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) auto minmax(0, 1.6fr);
   gap: 0.18em;
+  align-items: center;
   min-height: 1.55em;
   padding: 0.12em 0;
+  border-top: 1px solid var(--line);
 }
-
 .reveal .acl-negotiation .role,
 .reveal .acl-negotiation .arrow,
 .reveal .acl-negotiation .payload {
   font-size: 0.42em;
   line-height: 1.12;
 }
-
 .reveal .acl-negotiation .role {
-  color: var(--accent);
+  color: var(--teal);
   font-weight: 700;
 }
-
 .reveal .acl-negotiation .role.peripheral,
 .reveal .acl-negotiation .arrow.peripheral {
-  color: #c8641e;
+  color: var(--orange);
 }
-
 .reveal .acl-negotiation .arrow {
   font-size: 0.54em;
   font-weight: 700;
 }
-
-.reveal .acl-negotiation .payload {
+.reveal .acl-negotiation .payload,
+.reveal .acl-negotiation .payload code {
   min-width: 0;
   overflow-wrap: anywhere;
 }
-
-.reveal .acl-negotiation .payload code {
-  overflow-wrap: anywhere;
-}
-
 .reveal .acl-negotiation .payload small {
-  color: var(--muted);
   display: block;
   font-size: 0.9em;
+  color: var(--muted);
 }
-
 .reveal .acl-negotiation .card-detail {
+  margin: 0.2em 0 0;
   font-size: 0.42em;
   line-height: 1.2;
-  margin: 0.2em 0 0;
 }
-
 .reveal .acl-negotiation .limit-note {
-  background: #f6f8fa;
-  font-size: 0.46em;
-  line-height: 1.2;
   margin: 0.24em 0 0.12em;
   padding: 0.22em 0.4em;
+  background: #183e42;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 9px 9px 0;
+  font-size: 0.46em;
+  line-height: 1.2;
+  color: var(--ink);
 }
-
 .reveal .acl-negotiation .role-note {
   font-size: 0.42em;
   margin: 0;
 }
 
-/* Slide 05: What is Channel Sounding */
-.reveal .cs-intro h2 {
-  margin-bottom: 0.2em;
-}
+/* ---- What is Channel Sounding ---- */
 
 .reveal .cs-intro .lead {
   font-size: 0.72em;
   margin: 0 0 0.8em;
 }
-
 .reveal .cs-intro .columns {
   grid-template-columns: 1fr 1.05fr;
   align-items: start;
 }
-
 .reveal .cs-intro ul {
   font-size: 0.78em;
   margin: 0;
 }
-
 .reveal .cs-intro ul ul {
   font-size: 1em;
   margin: 0.15em 0 0 1.2em;
   list-style-type: circle;
 }
-
 .reveal .cs-intro li {
   margin-bottom: 0.55em;
 }
-
 .reveal .cs-intro li li {
   margin-bottom: 0.15em;
 }
-
-.reveal .cs-intro .ini {
-  color: var(--accent);
-  font-weight: 700;
-}
-
+.reveal .cs-intro .ini,
 .reveal .cs-intro .ref {
-  color: #c8641e;
   font-weight: 700;
 }
-
 .reveal .cs-intro svg {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
 }
-
 .reveal .cs-intro .formulas {
   display: flex;
   justify-content: space-between;
-  font-size: 0.6em;
   margin-top: 0.2em;
+  font-size: 0.6em;
 }
 
-/* Slide 03: Localization with Bluetooth */
-.reveal .bt-loc h2 {
-  margin-bottom: 0.2em;
-}
+/* ---- Localization with Bluetooth ---- */
 
 .reveal .bt-loc .lead {
   font-size: 0.72em;
   margin: 0 0 0.7em;
 }
-
 .reveal .bt-loc .cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.6em;
   text-align: left;
 }
-
 .reveal .bt-loc .card {
-  background: #f4f6f8;
-  border-radius: 12px;
   padding: 0.5em 0.6em 0.6em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
   font-size: 0.58em;
   line-height: 1.35;
 }
-
 .reveal .bt-loc .card.cs {
-  background: #e8f1f9;
-  outline: 2px solid var(--accent);
+  background: #16433f;
+  outline: 2px solid var(--teal);
 }
-
 .reveal .bt-loc .card svg {
   display: block;
   width: 100%;
   height: 90px;
   margin-bottom: 0.3em;
 }
-
 .reveal .bt-loc .year {
-  color: var(--muted);
   font-size: 0.85em;
+  color: var(--muted);
 }
-
 .reveal .bt-loc h4 {
   margin: 0.1em 0 0.2em;
-  color: var(--accent);
+  color: var(--teal);
 }
-
 .reveal .bt-loc .card p {
   margin: 0 0 0.5em;
 }
-
 .reveal .bt-loc .q {
   font-style: italic;
   font-weight: 700;
 }
-
 .reveal .bt-loc .res {
-  border-top: 1px solid #d0d7de;
   padding-top: 0.4em;
+  border-top: 1px solid var(--line);
   color: var(--muted);
 }
-
 .reveal .bt-loc .basis {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -381,116 +1094,95 @@
   font-size: 0.5em;
   color: var(--muted);
 }
-
 .reveal .bt-loc .basis span {
-  border-top: 3px solid #d0d7de;
   padding-top: 0.3em;
+  border-top: 3px solid var(--line);
 }
-
 .reveal .bt-loc .basis .span2 {
   grid-column: span 2;
 }
-
 .reveal .bt-loc .basis span:last-child {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--teal);
+  color: var(--teal);
 }
 
-/* Slide 04: Basics of Channel Sounding (three vertical sub-slides) */
-.reveal .cs-basics h3 {
-  color: var(--accent);
-  margin-bottom: 0.4em;
-}
+/* ---- Basics of Channel Sounding ---- */
 
 .reveal .cs-basics svg {
   display: block;
   width: 100%;
   height: auto;
 }
-
 .reveal .cs-basics svg.plots {
   height: 340px;
 }
-
 .reveal .cs-basics .columns {
   grid-template-columns: 1.15fr 1fr;
   align-items: start;
 }
-
 .reveal .cs-basics .eqs {
   font-size: 0.62em;
 }
-
 .reveal .cs-basics .eqs p {
   margin: 0.2em 0;
 }
-
 .reveal .cs-basics .eqs .key {
-  background: #e8f1f9;
-  border-left: 4px solid var(--accent);
   padding: 0.2em 0.5em;
+  background: #183e42;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 9px 9px 0;
+  color: var(--ink);
 }
-
 .reveal .cs-basics .eqs .key .note {
   display: block;
   font-size: 0.8em;
-  color: var(--accent);
+  color: var(--teal);
 }
-
 .reveal .cs-basics ul {
   font-size: 0.62em;
   margin: 0.4em 0 0 1em;
 }
-
 .reveal .cs-basics .takeaway {
+  margin-top: 0.6em;
   font-size: 0.66em;
   font-weight: 700;
-  color: #c8641e;
-  margin-top: 0.6em;
 }
-
 .reveal .cs-basics .lead {
   font-size: 0.64em;
   margin: 0 0 0.3em;
 }
-
 .reveal .cs-basics .facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.6em;
-  font-size: 0.56em;
   margin-top: 0.3em;
+  font-size: 0.56em;
 }
-
 .reveal .cs-basics .facts div,
 .reveal .cs-basics .pipeline div {
-  background: #f4f6f8;
-  border-radius: 10px;
   padding: 0.3em 0.5em 0.5em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
 }
-
 .reveal .cs-basics .facts p {
   margin: 0;
 }
-
 .reveal .cs-basics .note {
   display: block;
   color: var(--muted);
 }
-
 .reveal .cs-basics .pipeline {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.8em;
+  margin-bottom: 0.3em;
   font-size: 0.48em;
   text-align: left;
-  margin-bottom: 0.3em;
 }
-
 .reveal .cs-basics .pipeline div {
   position: relative;
 }
-
 .reveal .cs-basics .pipeline div + div::before {
   content: "\2192";
   position: absolute;
@@ -499,9 +1191,8 @@
   transform: translateY(-50%);
   color: var(--muted);
 }
-
 .reveal .cs-basics .model {
+  margin-top: 0.2em;
   font-size: 0.52em;
   color: var(--muted);
-  margin-top: 0.2em;
 }

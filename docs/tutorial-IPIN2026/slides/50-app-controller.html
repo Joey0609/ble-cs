@@ -1,0 +1,39 @@
+<section data-timing="105">
+  <h2>Read what the controller actually accepted</h2>
+  <div class="content">
+    <div class="screenshot-layout">
+      <div class="screenshot-frame">
+        <img src="images/app-controller.png" alt="Screenshot of the actual CS Host application" />
+      </div>
+      <div class="screen-notes">
+        <span class="badge">OUR APP · SIMULATED DATA</span>
+        <div class="card">
+          <span class="n">01</span>
+          <p>Compare requested and reported settings.</p>
+        </div>
+        <div class="card">
+          <span class="n">02</span>
+          <p>Check local and remote capabilities.</p>
+        </div>
+        <div class="card">
+          <span class="n">03</span>
+          <p>Then compare RTT and PBR in Estimates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Before diagnosing a surprising graph, confirm the experiment that actually ran. The Controller
+      tab reports capabilities, connection parameters, completed configuration and enabled procedure
+      parameters alongside requests. Some settings are negotiated or controller-selected; the
+      accepted result can differ from the values one expected. The Estimates view then compares the
+      available RTT and PBR summaries. This screenshot is a simulator session. During the live lab,
+      ask participants to name one requested setting and find its reported counterpart. Missing peer
+      data or an incomplete procedure should be diagnosed before comparing distance algorithms.
+    </p>
+  </aside>
+</section>

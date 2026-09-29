@@ -1,0 +1,158 @@
+<section class="cs-intro cs-intro" data-timing="105">
+  <h2>What is Channel Sounding in Bluetooth LE&nbsp;6?</h2>
+  <div class="body" style="zoom: 0.94">
+    <p class="lead muted">A Bluetooth Core 6.0 feature that lets two connected LE
+      devices measure the distance between them&nbsp;&mdash; precisely and securely.</p>
+
+    <div class="columns">
+      <div>
+        <ul>
+          <li><strong>Two roles</strong> on an LE connection: the
+            <span class="ini">initiator</span> measures, the
+            <span class="ref">reflector</span> answers</li>
+          <li><strong>Frequency hopping</strong> over up to 72 channels,
+            1&nbsp;MHz apart, from 2402 to 2480&nbsp;MHz</li>
+          <li><strong>Two ranging methods</strong>
+            <ul>
+              <li><strong>PBR</strong>: phase of tones vs. frequency</li>
+              <li><strong>RTT</strong>: round-trip time of packets</li>
+            </ul>
+          </li>
+          <li><strong>Security built in</strong>: random channel order and
+            bit sequences, with checks against relay and spoofing attacks</li>
+          <li><strong>Up to 4 antenna paths</strong> to handle multipath</li>
+        </ul>
+      </div>
+
+      <div>
+        <svg viewBox="0 0 560 380" role="img"
+             aria-label="Initiator and reflector exchanging tones and packets over many channels, with phase-based and round-trip-time ranging">
+          <defs>
+            <marker id="cs-ah-ini" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/>
+            </marker>
+            <marker id="cs-ah-ref" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#ffb17a"/>
+            </marker>
+            <marker id="cs-ah-mut" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/>
+            </marker>
+          </defs>
+
+          <g font-family="inherit" font-size="17">
+            <!-- Devices -->
+            <rect x="4" y="10" width="140" height="64" rx="10"
+                  fill="#16413f" stroke="#65e4d0" stroke-width="2"/>
+            <text x="74" y="40" text-anchor="middle" font-weight="700" fill="#65e4d0">Initiator</text>
+            <text x="74" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">measures</text>
+
+            <rect x="416" y="10" width="140" height="64" rx="10"
+                  fill="#463a34" stroke="#ffb17a" stroke-width="2"/>
+            <text x="486" y="40" text-anchor="middle" font-weight="700" fill="#ffb17a">Reflector</text>
+            <text x="486" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">answers</text>
+
+            <!-- Exchange -->
+            <line x1="152" y1="30" x2="408" y2="30" stroke="#65e4d0" stroke-width="2.5"
+                  marker-end="url(#cs-ah-ini)"/>
+            <line x1="408" y1="56" x2="152" y2="56" stroke="#ffb17a" stroke-width="2.5"
+                  marker-end="url(#cs-ah-ref)"/>
+            <text x="280" y="22" text-anchor="middle" font-size="14" fill="#65e4d0">tone / packet</text>
+            <text x="280" y="76" text-anchor="middle" font-size="14" fill="#ffb17a">tone / packet</text>
+
+            <!-- Distance -->
+            <line x1="74" y1="98" x2="486" y2="98" stroke="#afc8cb" stroke-width="1.5"
+                  marker-start="url(#cs-ah-mut)" marker-end="url(#cs-ah-mut)"/>
+            <rect x="266" y="87" width="28" height="22" fill="#09242b"/>
+            <text x="280" y="104" text-anchor="middle" font-style="italic" fill="#f5f5ed">d</text>
+
+            <!-- Channel hopping strip -->
+            <text x="4" y="138" font-size="14" fill="#afc8cb">repeated on many channels, in random order</text>
+            <line x1="4" y1="176" x2="556" y2="176" stroke="#afc8cb" stroke-width="1"/>
+            <g fill="#65e4d0" opacity="0.85">
+              <rect x="20"  y="160" width="6" height="16"/>
+              <rect x="58"  y="150" width="6" height="26"/>
+              <rect x="96"  y="164" width="6" height="12"/>
+              <rect x="134" y="152" width="6" height="24"/>
+              <rect x="172" y="158" width="6" height="18"/>
+              <rect x="210" y="148" width="6" height="28"/>
+              <rect x="248" y="162" width="6" height="14"/>
+              <rect x="330" y="154" width="6" height="22"/>
+              <rect x="368" y="160" width="6" height="16"/>
+              <rect x="406" y="150" width="6" height="26"/>
+              <rect x="444" y="164" width="6" height="12"/>
+              <rect x="482" y="156" width="6" height="20"/>
+              <rect x="520" y="152" width="6" height="24"/>
+            </g>
+            <text x="4"   y="194" font-size="13" fill="#afc8cb">2402 MHz</text>
+            <text x="556" y="194" font-size="13" fill="#afc8cb" text-anchor="end">2480 MHz</text>
+            <text x="290" y="194" font-size="13" fill="#afc8cb" text-anchor="middle">&#8230;</text>
+
+            <!-- PBR panel -->
+            <text x="4" y="226" font-weight="700" fill="#f5f5ed">PBR</text>
+            <line x1="20" y1="350" x2="250" y2="350" stroke="#afc8cb" stroke-width="1.5"
+                  marker-end="url(#cs-ah-mut)"/>
+            <line x1="20" y1="350" x2="20" y2="238" stroke="#afc8cb" stroke-width="1.5"
+                  marker-end="url(#cs-ah-mut)"/>
+            <text x="248" y="370" font-size="13" fill="#afc8cb" text-anchor="end">frequency f</text>
+            <text x="28" y="248" font-size="13" fill="#afc8cb">phase &#966;</text>
+            <line x1="30" y1="340" x2="236" y2="258" stroke="#65e4d0" stroke-width="2.5"/>
+            <g fill="#65e4d0">
+              <circle cx="50" cy="332" r="3.5"/><circle cx="84" cy="318.5" r="3.5"/>
+              <circle cx="118" cy="305" r="3.5"/><circle cx="152" cy="291.5" r="3.5"/>
+              <circle cx="186" cy="278" r="3.5"/><circle cx="220" cy="264.5" r="3.5"/>
+            </g>
+            <text x="150" y="330" font-size="14" fill="#65e4d0">slope &#8733; d</text>
+
+            <!-- RTT panel -->
+            <text x="300" y="226" font-weight="700" fill="#f5f5ed">RTT</text>
+            <text x="300" y="262" font-size="13" fill="#65e4d0">initiator</text>
+            <text x="300" y="332" font-size="13" fill="#ffb17a">reflector</text>
+            <line x1="366" y1="258" x2="552" y2="258" stroke="#65e4d0" stroke-width="1.5"/>
+            <line x1="366" y1="328" x2="552" y2="328" stroke="#ffb17a" stroke-width="1.5"/>
+            <line x1="378" y1="258" x2="414" y2="328" stroke="#65e4d0" stroke-width="2"
+                  marker-end="url(#cs-ah-ini)"/>
+            <line x1="484" y1="328" x2="520" y2="258" stroke="#ffb17a" stroke-width="2"
+                  marker-end="url(#cs-ah-ref)"/>
+            <line x1="378" y1="246" x2="520" y2="246" stroke="#afc8cb" stroke-width="1.2"
+                  marker-start="url(#cs-ah-mut)" marker-end="url(#cs-ah-mut)"/>
+            <text x="449" y="240" font-size="13" fill="#afc8cb" text-anchor="middle">t_round</text>
+            <line x1="414" y1="342" x2="484" y2="342" stroke="#afc8cb" stroke-width="1.2"
+                  marker-start="url(#cs-ah-mut)" marker-end="url(#cs-ah-mut)"/>
+            <text x="449" y="360" font-size="13" fill="#afc8cb" text-anchor="middle">t_turnaround</text>
+          </g>
+        </svg>
+
+        <div class="formulas">
+          <span>\( d = \dfrac{c}{4\pi}\left|\dfrac{\Delta\varphi}{\Delta f}\right| \)</span>
+          <span>\( d = \dfrac{c}{2}\left(t_{\text{round}} - t_{\text{turnaround}}\right) \)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Channel Sounding (CS) arrived in Bluetooth Core 6.0 (2024); this project
+    follows Core v6.3. It runs over an existing LE ACL connection: the two
+    sides agree on a CS configuration, then run CS procedures made of
+    subevents and steps.
+
+    The initiator and reflector exchange tones and packets on up to 72
+    channels (CS channels 2&ndash;22 and 26&ndash;76, 1 MHz apart). Channel
+    order and packet contents come from a shared random generator, so an
+    attacker cannot predict them.
+
+    PBR: each side measures the phase of the other's tone. The combined
+    round-trip phase grows linearly with frequency, with slope
+    4&pi;d/c, so the slope across channels gives the distance. With 1 MHz
+    spacing the result repeats every 150 m.
+
+    RTT: the initiator times a packet's round trip and subtracts the
+    reflector's known turnaround time. This is coarser than PBR but not
+    ambiguous, and it helps detect relay attacks.
+
+    Both methods can use up to four antenna paths to average out multipath.
+    Step modes 0&ndash;3 are on the next slide.
+  </aside>
+</section>

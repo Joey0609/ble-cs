@@ -1,0 +1,109 @@
+{
+  "header": "SensWear / IPIN 2026",
+  "sections": [
+    {
+      "title": "Why indoors",
+      "slides": [
+        "01-title",
+        "02-indoors-last-metres",
+        "03-location-changes-action",
+        "04-range-vs-track",
+        "05-route"
+      ]
+    },
+    {
+      "title": "SensWear",
+      "slides": [
+        "06-senswear-platform",
+        "07-senswear-roles",
+        "08-senswear-campaign"
+      ]
+    },
+    {
+      "title": "Channel Sounding",
+      "slides": [
+        "09-two-radios-distance",
+        "10-bt-localization",
+        "11-what-is-cs",
+        "12-initiator-reflector",
+        "13-acl-link-setup",
+        "14-acl-connection-events",
+        "15-acl-negotiation",
+        "16-acl-cs-timing",
+        "17-acl-data-sizes",
+        "18-phase-of-one-tone",
+        "19-rtt-of-one-packet",
+        "20-rtt-nanoseconds",
+        "21-many-tones",
+        "22-pbr-iq-to-distance",
+        "23-try-phase",
+        "24-frequency-error-bias",
+        "25-cs-step-modes",
+        "26-mode-0-timing",
+        "27-mode-1-timing",
+        "28-mode-2-timing",
+        "29-mode-3-timing",
+        "30-mode-sequence",
+        "31-procedure-hierarchy",
+        "32-tone-airtime",
+        "33-ranging-rate-budget",
+        "34-channels",
+        "35-antenna-paths",
+        "36-security-vs-quality",
+        "37-multipath-first-path",
+        "38-defensible-range",
+        "39-prediction-pause"
+      ]
+    },
+    {
+      "title": "Positioning",
+      "slides": [
+        "40-ranges-to-position",
+        "41-geometry",
+        "42-tracking-and-truth",
+        "43-senswear-radio-experiment",
+        "44-mounting"
+      ]
+    },
+    {
+      "title": "Hands-on",
+      "slides": [
+        "45-toolchain",
+        "46-hosted-vs-hostless",
+        "47-app-overview",
+        "48-app-planner",
+        "49-app-pbr",
+        "50-app-controller",
+        "51-app-replay",
+        "52-lab-question",
+        "53-first-session",
+        "54-theory-to-evidence"
+      ]
+    },
+    {
+      "title": "Reference",
+      "appendix": true,
+      "slides": [
+        "R01-bt6-ranging-primitive",
+        "R02-measurement-chain",
+        "R03-two-observables",
+        "R04-rtt-turnaround",
+        "R05-phase-cycle",
+        "R06-phase-ambiguity",
+        "R07-phase-pairing",
+        "R08-distance-slope",
+        "R09-step-modes-overview",
+        "R10-mode-0-reference",
+        "R11-mode-1-timestamps",
+        "R12-mode-2-phase",
+        "R13-mode-3-combined",
+        "R14-phase-model",
+        "R15-hardware-routes",
+        "R16-stalled-run",
+        "R17-later-features",
+        "R18-references-spec",
+        "R19-references-platform"
+      ]
+    }
+  ]
+}

@@ -1,73 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="464" viewBox="0 0 1200 464" font-family="Arial, Helvetica, sans-serif">
-<rect width="100%" height="100%" fill="#ffffff"/>
-<line x1="180.0" y1="68" x2="180.0" y2="330" stroke="#e3e9f0" stroke-width="2"/>
-<line x1="180.0" y1="330" x2="180.0" y2="336" stroke="#536981"/>
-<text x="180.0" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">0</text>
-<line x1="419.5" y1="68" x2="419.5" y2="330" stroke="#e3e9f0" stroke-width="2"/>
-<line x1="419.5" y1="330" x2="419.5" y2="336" stroke="#536981"/>
-<text x="419.5" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">7.5</text>
-<line x1="659.0" y1="68" x2="659.0" y2="330" stroke="#e3e9f0" stroke-width="2"/>
-<line x1="659.0" y1="330" x2="659.0" y2="336" stroke="#536981"/>
-<text x="659.0" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">15</text>
-<line x1="898.5" y1="68" x2="898.5" y2="330" stroke="#e3e9f0" stroke-width="2"/>
-<line x1="898.5" y1="330" x2="898.5" y2="336" stroke="#536981"/>
-<text x="898.5" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">22.5</text>
-<line x1="1138.1" y1="68" x2="1138.1" y2="330" stroke="#e3e9f0" stroke-width="2"/>
-<line x1="1138.1" y1="330" x2="1138.1" y2="336" stroke="#536981"/>
-<text x="1138.1" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">30</text>
-<line x1="180" y1="330" x2="1170" y2="330" stroke="#536981"/>
-<text x="675.0" y="384.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#536981">Time since ACL anchor (ms)</text>
-<text x="166" y="109.0" text-anchor="end" font-size="22" fill="#536981">ACL events</text>
-<text x="166" y="219.0" text-anchor="end" font-size="22" fill="#536981">CS procedure</text>
-<line x1="180.0" y1="40" x2="419.5" y2="40" stroke="#536981" stroke-width="1.5"/><line x1="180.0" y1="34" x2="180.0" y2="46" stroke="#536981" stroke-width="1.5"/><line x1="419.5" y1="34" x2="419.5" y2="46" stroke="#536981" stroke-width="1.5"/><text x="299.8" y="30" text-anchor="middle" font-size="19" fill="#536981">connection interval 7.5 ms</text>
-<rect x="180.0" y="80" width="31.9" height="44" fill="#527ba8"/>
-<rect x="419.5" y="80" width="31.9" height="44" fill="#c8641e"/>
-<text x="425.5" y="146" font-size="19" fill="#c8641e">RAS results</text>
-<rect x="659.0" y="80" width="31.9" height="44" fill="#527ba8"/>
-<rect x="898.5" y="80" width="31.9" height="44" fill="#c8641e"/>
-<text x="904.5" y="146" font-size="19" fill="#c8641e">RAS results</text>
-<rect x="1138.1" y="80" width="31.9" height="44" fill="#527ba8"/>
-<rect x="227.9" y="190" width="9.5" height="44" fill="#8b75cb"/>
-<rect x="242.2" y="190" width="9.5" height="44" fill="#8b75cb"/>
-<rect x="256.5" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="271.6" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="286.7" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="298.1" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="313.2" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="328.3" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="339.7" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="354.8" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="369.9" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="381.3" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="396.4" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="411.5" y="190" width="6.6" height="44" fill="#398bcc"/>
-<text x="323.0" y="180" text-anchor="middle" font-size="19" fill="#21334b">14 steps, 5.96 ms</text>
-<rect x="706.9" y="190" width="9.5" height="44" fill="#8b75cb"/>
-<rect x="721.2" y="190" width="9.5" height="44" fill="#8b75cb"/>
-<rect x="735.5" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="750.6" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="765.7" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="777.1" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="792.2" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="807.3" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="818.7" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="833.8" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="848.9" y="190" width="6.6" height="44" fill="#398bcc"/>
-<rect x="860.3" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="875.4" y="190" width="10.3" height="44" fill="#209f91"/>
-<rect x="890.5" y="190" width="6.6" height="44" fill="#398bcc"/>
-<text x="802.0" y="180" text-anchor="middle" font-size="19" fill="#21334b">14 steps, 5.96 ms</text>
-<line x1="180.0" y1="258" x2="227.9" y2="258" stroke="#536981" stroke-width="1.5"/><line x1="180.0" y1="252" x2="180.0" y2="264" stroke="#536981" stroke-width="1.5"/><line x1="227.9" y1="252" x2="227.9" y2="264" stroke="#536981" stroke-width="1.5"/><text x="204.0" y="248" text-anchor="middle" font-size="19" fill="#536981">offset</text>
-<line x1="227.9" y1="300" x2="706.9" y2="300" stroke="#21334b" stroke-width="1.5"/><line x1="227.9" y1="294" x2="227.9" y2="306" stroke="#21334b" stroke-width="1.5"/><line x1="706.9" y1="294" x2="706.9" y2="306" stroke="#21334b" stroke-width="1.5"/><text x="467.4" y="290" text-anchor="middle" font-size="19" fill="#21334b">procedure interval 2 × 7.5 ms = 15 ms</text>
-<rect x="180" y="406" width="20" height="20" fill="#8b75cb"/>
-<text x="208" y="423" font-size="19" fill="#21334b">Mode 0</text>
-<rect x="296.14" y="406" width="20" height="20" fill="#209f91"/>
-<text x="324.14" y="423" font-size="19" fill="#21334b">Mode 2 (PBR)</text>
-<rect x="470.41999999999996" y="406" width="20" height="20" fill="#398bcc"/>
-<text x="498.41999999999996" y="423" font-size="19" fill="#21334b">Mode 1 (RTT)</text>
-<rect x="644.6999999999999" y="406" width="20" height="20" fill="#527ba8"/>
-<text x="672.6999999999999" y="423" font-size="19" fill="#21334b">ACL event</text>
-<rect x="789.9099999999999" y="406" width="20" height="20" fill="#c8641e"/>
-<text x="817.9099999999999" y="423" font-size="19" fill="#21334b">ACL event with RAS data</text>
-<text x="180" y="456" font-size="18" fill="#536981">CS steps to scale (planner, firmware defaults); ACL airtime and the 1.5 ms offset are illustrative.</text>
+<rect width="100%" height="100%" fill="#09242b"/>
+<line x1="180.0" y1="68" x2="180.0" y2="330" stroke="#24454d" stroke-width="2"/>
+<line x1="180.0" y1="330" x2="180.0" y2="336" stroke="#afc8cb"/>
+<text x="180.0" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">0</text>
+<line x1="419.5" y1="68" x2="419.5" y2="330" stroke="#24454d" stroke-width="2"/>
+<line x1="419.5" y1="330" x2="419.5" y2="336" stroke="#afc8cb"/>
+<text x="419.5" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">7.5</text>
+<line x1="659.0" y1="68" x2="659.0" y2="330" stroke="#24454d" stroke-width="2"/>
+<line x1="659.0" y1="330" x2="659.0" y2="336" stroke="#afc8cb"/>
+<text x="659.0" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">15</text>
+<line x1="898.5" y1="68" x2="898.5" y2="330" stroke="#24454d" stroke-width="2"/>
+<line x1="898.5" y1="330" x2="898.5" y2="336" stroke="#afc8cb"/>
+<text x="898.5" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">22.5</text>
+<line x1="1138.1" y1="68" x2="1138.1" y2="330" stroke="#24454d" stroke-width="2"/>
+<line x1="1138.1" y1="330" x2="1138.1" y2="336" stroke="#afc8cb"/>
+<text x="1138.1" y="356.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">30</text>
+<line x1="180" y1="330" x2="1170" y2="330" stroke="#afc8cb"/>
+<text x="675.0" y="384.0" text-anchor="middle" font-size="19" font-weight="normal" fill="#afc8cb">Time since ACL anchor (ms)</text>
+<text x="166" y="109.0" text-anchor="end" font-size="22" fill="#afc8cb">ACL events</text>
+<text x="166" y="219.0" text-anchor="end" font-size="22" fill="#afc8cb">CS procedure</text>
+<line x1="180.0" y1="40" x2="419.5" y2="40" stroke="#afc8cb" stroke-width="1.5"/><line x1="180.0" y1="34" x2="180.0" y2="46" stroke="#afc8cb" stroke-width="1.5"/><line x1="419.5" y1="34" x2="419.5" y2="46" stroke="#afc8cb" stroke-width="1.5"/><text x="299.8" y="30" text-anchor="middle" font-size="19" fill="#afc8cb">connection interval 7.5 ms</text>
+<rect x="180.0" y="80" width="31.9" height="44" fill="#86b8dc"/>
+<rect x="419.5" y="80" width="31.9" height="44" fill="#ffb17a"/>
+<text x="425.5" y="146" font-size="19" fill="#ffb17a">RAS results</text>
+<rect x="659.0" y="80" width="31.9" height="44" fill="#86b8dc"/>
+<rect x="898.5" y="80" width="31.9" height="44" fill="#ffb17a"/>
+<text x="904.5" y="146" font-size="19" fill="#ffb17a">RAS results</text>
+<rect x="1138.1" y="80" width="31.9" height="44" fill="#86b8dc"/>
+<rect x="227.9" y="190" width="9.5" height="44" fill="#c5a3f2"/>
+<rect x="242.2" y="190" width="9.5" height="44" fill="#c5a3f2"/>
+<rect x="256.5" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="271.6" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="286.7" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="298.1" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="313.2" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="328.3" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="339.7" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="354.8" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="369.9" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="381.3" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="396.4" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="411.5" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<text x="323.0" y="180" text-anchor="middle" font-size="19" fill="#f5f5ed">14 steps, 5.96 ms</text>
+<rect x="706.9" y="190" width="9.5" height="44" fill="#c5a3f2"/>
+<rect x="721.2" y="190" width="9.5" height="44" fill="#c5a3f2"/>
+<rect x="735.5" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="750.6" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="765.7" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="777.1" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="792.2" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="807.3" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="818.7" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="833.8" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="848.9" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<rect x="860.3" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="875.4" y="190" width="10.3" height="44" fill="#65e4d0"/>
+<rect x="890.5" y="190" width="6.6" height="44" fill="#78cbd8"/>
+<text x="802.0" y="180" text-anchor="middle" font-size="19" fill="#f5f5ed">14 steps, 5.96 ms</text>
+<line x1="180.0" y1="258" x2="227.9" y2="258" stroke="#afc8cb" stroke-width="1.5"/><line x1="180.0" y1="252" x2="180.0" y2="264" stroke="#afc8cb" stroke-width="1.5"/><line x1="227.9" y1="252" x2="227.9" y2="264" stroke="#afc8cb" stroke-width="1.5"/><text x="204.0" y="248" text-anchor="middle" font-size="19" fill="#afc8cb">offset</text>
+<line x1="227.9" y1="300" x2="706.9" y2="300" stroke="#f5f5ed" stroke-width="1.5"/><line x1="227.9" y1="294" x2="227.9" y2="306" stroke="#f5f5ed" stroke-width="1.5"/><line x1="706.9" y1="294" x2="706.9" y2="306" stroke="#f5f5ed" stroke-width="1.5"/><text x="467.4" y="290" text-anchor="middle" font-size="19" fill="#f5f5ed">procedure interval 2 × 7.5 ms = 15 ms</text>
+<rect x="180" y="406" width="20" height="20" fill="#c5a3f2"/>
+<text x="208" y="423" font-size="19" fill="#f5f5ed">Mode 0</text>
+<rect x="296.14" y="406" width="20" height="20" fill="#65e4d0"/>
+<text x="324.14" y="423" font-size="19" fill="#f5f5ed">Mode 2 (PBR)</text>
+<rect x="470.41999999999996" y="406" width="20" height="20" fill="#78cbd8"/>
+<text x="498.41999999999996" y="423" font-size="19" fill="#f5f5ed">Mode 1 (RTT)</text>
+<rect x="644.6999999999999" y="406" width="20" height="20" fill="#86b8dc"/>
+<text x="672.6999999999999" y="423" font-size="19" fill="#f5f5ed">ACL event</text>
+<rect x="789.9099999999999" y="406" width="20" height="20" fill="#ffb17a"/>
+<text x="817.9099999999999" y="423" font-size="19" fill="#f5f5ed">ACL event with RAS data</text>
+<text x="180" y="456" font-size="18" fill="#afc8cb">CS steps to scale (planner, firmware defaults); ACL airtime and the 1.5 ms offset are illustrative.</text>
 </svg>

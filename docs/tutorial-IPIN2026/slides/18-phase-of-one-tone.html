@@ -1,0 +1,84 @@
+<section class="cs-basics" data-timing="105">
+  <h2>Basics of Channel Sounding: phase of one tone</h2>
+  <div class="body" style="zoom: 0.95">
+    <div class="columns">
+      <div>
+      <svg viewBox="0 0 520 200" role="img"
+         aria-label="The initiator sends a tone, the reflector measures its phase, then the reflector sends a tone back and the initiator measures it">
+        <defs>
+        <marker id="bas0-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
+        <marker id="bas0-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
+        <marker id="bas0-ref" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb17a"/></marker>
+        </defs>
+        <g font-family="inherit" font-size="17">
+          <rect x="2" y="20" width="140" height="100" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2"/>
+          <text x="72" y="52" text-anchor="middle" font-weight="700" fill="#65e4d0">Initiator</text>
+          <text x="72" y="80" text-anchor="middle" font-size="14" fill="#afc8cb">oscillator phase</text>
+          <text x="72" y="102" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">&#981;<tspan font-size="11" dy="4">I</tspan></text>
+          <rect x="378" y="20" width="140" height="100" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2"/>
+          <text x="448" y="52" text-anchor="middle" font-weight="700" fill="#ffb17a">Reflector</text>
+          <text x="448" y="80" text-anchor="middle" font-size="14" fill="#afc8cb">oscillator phase</text>
+          <text x="448" y="102" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">&#981;<tspan font-size="11" dy="4">R</tspan></text>
+
+          <line x1="150" y1="48" x2="370" y2="48" stroke="#65e4d0" stroke-width="2.5" marker-end="url(#bas0-ini)"/>
+          <text x="260" y="38" text-anchor="middle" font-size="13.5" fill="#65e4d0">&#9312; tone at f &#8594; reflector measures &#952;<tspan font-size="11" dy="4">R</tspan></text>
+          <line x1="370" y1="92" x2="150" y2="92" stroke="#ffb17a" stroke-width="2.5" marker-end="url(#bas0-ref)"/>
+          <text x="260" y="114" text-anchor="middle" font-size="13.5" fill="#ffb17a">&#9313; tone at f &#8594; initiator measures &#952;<tspan font-size="11" dy="4">I</tspan></text>
+
+          <line x1="72" y1="152" x2="448" y2="152" stroke="#afc8cb" stroke-width="1.5"
+                marker-start="url(#bas0-mut)" marker-end="url(#bas0-mut)"/>
+          <rect x="200" y="140" width="120" height="24" fill="#09242b"/>
+          <text x="260" y="158" text-anchor="middle" font-size="16" fill="#f5f5ed">distance <tspan font-style="italic">d</tspan></text>
+        </g>
+      </svg>
+        <div class="eqs">
+          <p>\( \theta_R = -2\pi\,\dfrac{d}{\lambda} + (\phi_I - \phi_R) \)</p>
+          <p>\( \theta_I = -2\pi\,\dfrac{d}{\lambda} + (\phi_R - \phi_I) \)</p>
+          <p class="key">\( \Theta = \theta_I + \theta_R = -4\pi\,\dfrac{d}{\lambda} \pmod{2\pi}, \quad \lambda = \dfrac{c}{f} \)
+            <span class="note">Only phases are measured, never a time; the unknown oscillator phases cancel</span></p>
+        </div>
+      </div>
+      <div>
+      <svg viewBox="0 0 420 260" role="img"
+         aria-label="Two-way phase of one tone versus distance: a sawtooth that repeats every 6.1 centimetres">
+        <defs>
+        <marker id="bas1-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
+        <marker id="bas1-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
+        <marker id="bas1-ref" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb17a"/></marker>
+        </defs>
+        <g font-family="inherit">
+        <line x1="60" y1="210" x2="400" y2="210" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
+        <line x1="60" y1="210" x2="60" y2="30" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
+        <text x="400" y="244" font-size="14" fill="#afc8cb" text-anchor="end">distance d</text>
+        <text transform="translate(24,130) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">phase lag mod 2&#960;</text>
+        <line x1="55" y1="50.0" x2="60" y2="50.0" stroke="#afc8cb"/><text x="52" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">2&#960;</text><line x1="60.0" y1="210" x2="60.0" y2="215" stroke="#afc8cb"/><text x="60.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">0 cm</text><line x1="188.0" y1="210" x2="188.0" y2="215" stroke="#afc8cb"/><text x="188.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">10 cm</text><line x1="316.0" y1="210" x2="316.0" y2="215" stroke="#afc8cb"/><text x="316.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">20 cm</text>
+        <path d="M60.0,210 L138.6,50.0 M138.6,210 L217.3,50.0 M217.3,210 L295.9,50.0 M295.9,210 L374.5,50.0 M374.5,210 L380.0,198.9" fill="none" stroke="#65e4d0" stroke-width="2.5"/>
+        <line x1="60.0" y1="44" x2="138.6" y2="44" stroke="#ffb17a" stroke-width="1.5"
+              marker-start="url(#bas1-ref)" marker-end="url(#bas1-ref)"/>
+        <text x="146.6" y="48" font-size="15" fill="#ffb17a">&#955;/2 &#8776; 6.1 cm</text>
+        </g>
+      </svg>
+        <ul>
+          <li>A tone has no start or end marker: the receiver sees its phase, not its arrival time</li>
+          <li>The phase is precise, but it repeats every \( \lambda/2 = c/2f \approx 6.1 \) cm at 2.44&nbsp;GHz</li>
+          <li>One tone cannot tell 1.00&nbsp;m from 1.06&nbsp;m</li>
+        </ul>
+      </div>
+    </div>
+    <p class="takeaway">One tone: fine but ambiguous &rarr; measure on many frequencies</p>
+  </div>
+  <aside class="notes">
+    Start with a single frequency. The initiator sends an unmodulated tone
+    and the reflector measures its phase against its own oscillator; then
+    the roles swap. Nothing is timed here: an unmodulated tone has no edge
+    to timestamp, so each side only measures a phase. That phase is the
+    phase accumulated over the distance, 2 pi d over lambda, plus the unknown
+    phase difference between the two oscillators, with opposite signs.
+    Adding the two measurements cancels the oscillator term and leaves the
+    round-trip phase, 4 pi d over lambda.
+
+    The catch: phase is only known modulo 2 pi, so a single tone gives the
+    distance only modulo half a wavelength, about 6 cm at 2.4 GHz.
+    Next: the same two-way idea with time instead of phase.
+  </aside>
+</section>

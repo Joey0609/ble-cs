@@ -1,0 +1,46 @@
+<section data-timing="105">
+  <h2>Channels: coverage and coexistence</h2>
+  <div class="content">
+    <div class="screenshot-layout">
+      <div class="screenshot-frame">
+        <img src="images/app-channels.png" alt="Screenshot of the actual CS Host application" />
+      </div>
+      <div class="screen-notes">
+        <span class="badge">OUR APP · EXAMPLE HOPS</span>
+        <div class="card">
+          <span class="n">01</span>
+          <p>72 permitted CS channels on a 1 MHz grid.</p>
+        </div>
+        <div class="card">
+          <span class="n">02</span>
+          <p>Mode 0: CSA #3a.<br />Other steps: #3b / #3c.</p>
+        </div>
+        <div class="card">
+          <span class="n">03</span>
+          <p>Preview hopping is an example sequence.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Bluetooth Core 6.0 · Vol 6, Part A</a
+    ><span class="sep">·</span
+    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      The CS channel arrangement differs from the ordinary BLE data-channel grid. Within 2402–2480
+      MHz, seven reserved indices leave 72 permitted channels. The application can edit the channel
+      map and overlays reference Wi-Fi bands for context. Its example random generator is
+      deliberately not the CS security DRBG; the actual on-air sequence cannot be inferred from the
+      offline example seed. Losing channels can reduce frequency coverage and complicate slope
+      fitting. For ideal uniformly spaced 1 MHz samples, the nominal two-way phase ambiguity
+      interval is c divided by two delta-f, about 150 m; this is not an operating-range guarantee
+      and gaps can make unwrapping harder.
+    </p>
+  </aside>
+</section>

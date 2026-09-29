@@ -23,11 +23,13 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "python"))
 
 from ble_channel_sounding_planner.model import ANTENNA_PATHS, Scenario, build_schedule, step_segments  # noqa: E402
-from ble_channel_sounding_planner.view import COLORS  # noqa: E402
-
-GAP_COLOR = "#a6b6ca"  # same colours as ScenarioWindow.draw_step
-EXTENSION_COLOR = "#c4a269"
-TEXT, MUTED, GRID = "#21334b", "#536981", "#e3e9f0"
+# The planner's colours (ScenarioWindow.draw_step), lightened for the deck's
+# dark background.
+COLORS = {0: "#c5a3f2", 1: "#78cbd8", 2: "#65e4d0", 3: "#ffb17a"}
+GAP_COLOR = "#6f9199"
+EXTENSION_COLOR = "#d9bd86"
+BACKGROUND = "#09242b"
+TEXT, MUTED, GRID = "#f5f5ed", "#afc8cb", "#24454d"
 FONT = "Arial, Helvetica, sans-serif"
 
 WIDTH, LEFT, RIGHT = 1200, 130, 30
@@ -79,7 +81,7 @@ def figure(s, mode):
             out.append(f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{BLOCK_H}" fill="{color}"/>')
             size = next((z for z in (17, 14) if w > text_width(p.label, z) + 6), None)
             if size:
-                out.append(label_svg(p.label, x + w / 2, y + BLOCK_H / 2 + size / 3, size, "#ffffff", "bold"))
+                out.append(label_svg(p.label, x + w / 2, y + BLOCK_H / 2 + size / 3, size, BACKGROUND, "bold"))
             else:
                 below.append(p)
         rows = ([], [])  # occupied (left, right) spans per row
@@ -113,10 +115,10 @@ def figure(s, mode):
 
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{height}" '
             f'viewBox="0 0 {WIDTH} {height}" font-family="{FONT}">\n'
-            f'<rect width="100%" height="100%" fill="#ffffff"/>\n' + "\n".join(out) + "\n</svg>\n")
+            f'<rect width="100%" height="100%" fill="{BACKGROUND}"/>\n' + "\n".join(out) + "\n</svg>\n")
 
 
-ACL_COLOR, RAS_COLOR = "#527ba8", "#c8641e"  # planner ACL blocks; the deck's Peripheral colour
+ACL_COLOR, RAS_COLOR = "#86b8dc", "#ffb17a"  # planner ACL blocks; the deck's Peripheral colour
 
 
 def acl_scenario():
@@ -212,7 +214,7 @@ def acl_figure(s):
 
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
             f'viewBox="0 0 {width} {height}" font-family="{FONT}">\n'
-            f'<rect width="100%" height="100%" fill="#ffffff"/>\n' + "\n".join(out) + "\n</svg>\n")
+            f'<rect width="100%" height="100%" fill="{BACKGROUND}"/>\n' + "\n".join(out) + "\n</svg>\n")
 
 
 def main():

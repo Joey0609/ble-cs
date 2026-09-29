@@ -1,0 +1,40 @@
+<section data-timing="105">
+  <h2>Make the experiment replayable</h2>
+  <div class="content">
+    <div class="screenshot-layout">
+      <div class="screenshot-frame">
+        <img src="images/app-session.png" alt="Screenshot of the actual CS Host application" />
+      </div>
+      <div class="screen-notes">
+        <span class="badge">OUR APP · SIMULATED DATA</span>
+        <div class="card">
+          <span class="n">01</span>
+          <p>Describe the run and the physical setup.</p>
+        </div>
+        <div class="card">
+          <span class="n">02</span>
+          <p>Inspect sent commands and received reports.</p>
+        </div>
+        <div class="card">
+          <span class="n">03</span>
+          <p>Save HDF5; reopen the same session.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      The Session tab is the chronological record: commands, frames and logs. The Results tab is the
+      analysis of those observations. Add a description before forgetting the physical conditions.
+      The app keeps temporary live history, but participants should explicitly save a session or
+      enable recording for persistence. Stored data include requested configuration where available,
+      controller reports, raw frames and decoded observations. Hostless captures do not invent a
+      host request. Reopen the saved HDF5 file to compare analysis settings without repeating the
+      experiment; optional MATLAB conversion is available in the app. The screenshot shows synthetic
+      simulator events, not RF measurements.
+    </p>
+  </aside>
+</section>

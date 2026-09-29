@@ -1,0 +1,68 @@
+<section data-timing="105">
+  <h2>Build a sequence from main mode and sub-mode</h2>
+  <div class="content">
+    <div class="cols">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Main</th>
+              <th>Allowed sub-mode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>None · 1 · 3</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>None · 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card">
+          <span class="n">EXAMPLE · MAIN 2 / SUB 1</span>
+          <div class="stepstrip">
+            <span class="pill">0</span><span class="pill">0</span><span class="pill">2</span
+            ><span class="pill">2</span><span class="pill">1</span>
+          </div>
+          <p class="">
+            Calibration prefix, then a run of main steps and an inserted sub-mode step.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      Main-step bounds define a range. The actual cadence is chosen by the controller.
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a
+    ><span class="sep">·</span
+    ><a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Bluetooth Core 6.0 · Vol 6, Part H</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Explain the six permitted non-Mode-0 combinations, grouped here into three rows. The app
+      exposes exactly these choices. Mode zero is not selected as the main ranging mode. When a
+      sub-mode exists, the minimum and maximum main-step counts bound the run before insertion.
+      Actual counts are randomized within the rules. A main/sub sequence can continue across
+      subevent boundaries while a new Mode-0 prefix appears at each subevent. The offline planner
+      selects an illustrative cadence; it cannot predict the controller&#x27;s exact random
+      decisions. Have the audience read the small sequence aloud and identify what each step
+      contributes.
+    </p>
+  </aside>
+</section>

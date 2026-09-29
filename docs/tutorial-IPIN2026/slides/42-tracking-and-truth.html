@@ -1,0 +1,38 @@
+<section data-timing="90">
+  <h2>Tracking needs time, and evaluation needs truth</h2>
+  <div class="content">
+    <div class="grid3">
+      <div class="card">
+        <span class="n">TIME</span>
+        <h3>Align the observations</h3>
+        <p>Sequential ranges belong to different instants.</p>
+      </div>
+      <div class="card">
+        <span class="n">MOTION</span>
+        <h3>Smooth with a model</h3>
+        <p>Filtering trades jitter against lag; IMU fusion is an extension.</p>
+      </div>
+      <div class="card">
+        <span class="n">EVALUATION</span>
+        <h3>Keep a held-out route</h3>
+        <p>Report median, tail error, availability and latency.</p>
+      </div>
+    </div>
+    <div class="callout">
+      Fit calibration on one dataset. Judge the result on a different route.
+    </div>
+  </div>
+  <div class="source"></div>
+  <aside class="notes">
+    <p>
+      A moving ring is not at the same point during every pairwise link. Attach timestamps and
+      understand the age of each range before solving. Temporal filtering can reduce jitter but
+      introduce delay and hide failures; compare filtered and unfiltered estimates. IMU measurements
+      can extend the model, but inertial integration drifts and requires careful fusion. For
+      evaluation, use labelled checkpoints or an independent reference trajectory. Report the median
+      and a tail percentile such as the 95th, plus valid-fix availability and latency. Do not
+      discard failed fixes from the story. Calibrate on separate data to avoid evaluating on what
+      the estimator was tuned to.
+    </p>
+  </aside>
+</section>

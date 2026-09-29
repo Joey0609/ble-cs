@@ -1,0 +1,44 @@
+<section data-timing="0">
+  <h2>Distance is the slope across frequency</h2>
+  <div class="content">
+    <div class="cols">
+      <div>
+        <div id="slope-static" class="interactive">
+          <svg
+            viewBox="0 0 700 290"
+            role="img"
+            aria-label="Illustrative unwrapped phase versus frequency"
+          >
+            <path d="M65 25V235H660" stroke="#829ca2" fill="none" />
+            <path d="M85 55L620 210" stroke="#65e4d0" stroke-width="5" />
+            <text x="65" y="275" fill="#afc8cb" font-size="20">frequency f →</text>
+            <text x="100" y="28" fill="#afc8cb" font-size="20">unwrapped two-way phase φ</text>
+            <text x="390" y="115" fill="#dcf58a" font-size="24">slope β</text>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <div class="formula small">d = −cβ / (4π)</div>
+        <p class="">β = dφ / df, in rad/Hz</p>
+        <p class="small">Sort by frequency → unwrap → fit.<br />Keep antenna paths separate.</p>
+      </div>
+    </div>
+    <div class="callout">
+      A straight-line fit is an educational estimator. Multipath can break its model.
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Differentiate the ideal phase model with respect to frequency. The intercept drops out,
+      leaving minus four pi times range divided by c. The app groups repeated observations by
+      channel, averages complex products for a chosen antenna path, unwraps the phases and fits a
+      line. Do not average wrapped angles arithmetically. Fitting across more well-spaced
+      frequencies can help constrain the slope, but it does not guarantee removal of reflected
+      paths. Explain that sign conventions must be consistent through data decoding, correction and
+      range estimation; avoid silently taking an absolute value to hide a sign error.
+    </p>
+  </aside>
+</section>

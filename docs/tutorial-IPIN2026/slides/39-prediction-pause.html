@@ -1,0 +1,36 @@
+<section data-timing="90">
+  <h2>Prediction pause: which explanation survives?</h2>
+  <div class="content">
+    <div class="quiz">
+      <div class="question">
+        1. The reflector takes longer to respond. Does the true range grow?
+        <div class="answer fragment">No. Corrected RTT subtracts its turnaround interval.</div>
+      </div>
+      <div class="question">
+        2. The phase curve looks clean. Can the range still be biased?
+        <div class="answer fragment">
+          Yes. Calibration error or a dominant reflected path can remain.
+        </div>
+      </div>
+      <div class="question">
+        3. The planner changes its random seed. Did we set the radio’s hop sequence?
+        <div class="answer fragment">
+          No. The preview uses an example PRNG, not the controller’s CS DRBG.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Allocate roughly forty seconds per question: brief individual prediction, a show of hands,
+      then reveal the answer. Question one checks whether the timing subtraction is understood.
+      Question two checks whether precision is being confused with accuracy. Question three prevents
+      a particularly misleading interpretation of the planner. Keep this interactive even if the
+      room is quiet by offering two possibilities and asking participants to explain their choice to
+      a neighbour. These questions close the 53-minute Channel Sounding block, at minute 66.
+    </p>
+  </aside>
+</section>

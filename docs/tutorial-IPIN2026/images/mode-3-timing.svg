@@ -1,72 +1,72 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="442" viewBox="0 0 1200 442" font-family="Arial, Helvetica, sans-serif">
-<rect width="100%" height="100%" fill="#ffffff"/>
-<line x1="130.0" y1="15" x2="130.0" y2="320" stroke="#e3e9f0"/>
-<line x1="130.0" y1="320" x2="130.0" y2="326" stroke="#536981"/>
-<text x="130.0" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">0</text>
-<line x1="261.6" y1="15" x2="261.6" y2="320" stroke="#e3e9f0"/>
-<line x1="261.6" y1="320" x2="261.6" y2="326" stroke="#536981"/>
-<text x="261.6" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">50</text>
-<line x1="393.3" y1="15" x2="393.3" y2="320" stroke="#e3e9f0"/>
-<line x1="393.3" y1="320" x2="393.3" y2="326" stroke="#536981"/>
-<text x="393.3" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">100</text>
-<line x1="524.9" y1="15" x2="524.9" y2="320" stroke="#e3e9f0"/>
-<line x1="524.9" y1="320" x2="524.9" y2="326" stroke="#536981"/>
-<text x="524.9" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">150</text>
-<line x1="656.6" y1="15" x2="656.6" y2="320" stroke="#e3e9f0"/>
-<line x1="656.6" y1="320" x2="656.6" y2="326" stroke="#536981"/>
-<text x="656.6" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">200</text>
-<line x1="788.2" y1="15" x2="788.2" y2="320" stroke="#e3e9f0"/>
-<line x1="788.2" y1="320" x2="788.2" y2="326" stroke="#536981"/>
-<text x="788.2" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">250</text>
-<line x1="919.9" y1="15" x2="919.9" y2="320" stroke="#e3e9f0"/>
-<line x1="919.9" y1="320" x2="919.9" y2="326" stroke="#536981"/>
-<text x="919.9" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">300</text>
-<line x1="1051.5" y1="15" x2="1051.5" y2="320" stroke="#e3e9f0"/>
-<line x1="1051.5" y1="320" x2="1051.5" y2="326" stroke="#536981"/>
-<text x="1051.5" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">350</text>
-<line x1="1170.0" y1="15" x2="1170.0" y2="320" stroke="#e3e9f0"/>
-<line x1="1170.0" y1="320" x2="1170.0" y2="326" stroke="#536981"/>
-<text x="1170.0" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">395</text>
-<line x1="130" y1="320" x2="1170" y2="320" stroke="#536981"/>
-<text x="650.0" y="370.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#536981">Time since step start (µs)</text>
-<text x="116" y="61.0" text-anchor="end" font-size="18" fill="#536981">Initiator TX</text>
-<rect x="130.0" y="30" width="68.5" height="50" fill="#db9540"/>
-<text x="164.2" y="59.7" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">CS_SYNC</text>
-<rect x="198.5" y="30" width="26.3" height="50" fill="#a6b6ca"/>
-<rect x="224.8" y="30" width="5.3" height="50" fill="#a6b6ca"/>
-<rect x="230.1" y="30" width="105.3" height="50" fill="#db9540"/>
-<text x="282.7" y="60.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">P1</text>
-<rect x="335.4" y="30" width="5.3" height="50" fill="#a6b6ca"/>
-<rect x="340.6" y="30" width="105.3" height="50" fill="#c4a269"/>
-<text x="393.3" y="60.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">Extension</text>
-<rect x="445.9" y="30" width="13.2" height="50" fill="#a6b6ca"/>
-<text x="211.6" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">GD</tspan></text>
-<text x="452.5" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">RD</tspan></text>
-<text x="227.4" y="116.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="338.0" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="116" y="166.0" text-anchor="end" font-size="18" fill="#536981">Reflector TX</text>
-<rect x="840.9" y="135" width="5.3" height="50" fill="#a6b6ca"/>
-<rect x="846.2" y="135" width="105.3" height="50" fill="#db9540"/>
-<text x="898.8" y="165.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">P1</text>
-<rect x="951.5" y="135" width="5.3" height="50" fill="#a6b6ca"/>
-<rect x="956.7" y="135" width="105.3" height="50" fill="#c4a269"/>
-<text x="1009.4" y="165.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">Extension</text>
-<rect x="1062.1" y="135" width="26.3" height="50" fill="#a6b6ca"/>
-<rect x="1088.4" y="135" width="68.5" height="50" fill="#db9540"/>
-<text x="1122.6" y="164.7" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">CS_SYNC</text>
-<rect x="1156.8" y="135" width="13.2" height="50" fill="#a6b6ca"/>
-<text x="1075.2" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">GD</tspan></text>
-<text x="1163.4" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">RD</tspan></text>
-<text x="843.5" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="954.1" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#21334b">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="116" y="271.0" text-anchor="end" font-size="18" fill="#536981">Timing</text>
-<rect x="459.1" y="240" width="381.8" height="50" fill="#a6b6ca"/>
-<text x="650.0" y="270.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">T<tspan dy="5.1" font-size="12.2">IP2</tspan></text>
-<rect x="130" y="392" width="18" height="18" fill="#db9540"/>
-<text x="156" y="407" font-size="16" fill="#21334b">Transmission</text>
-<rect x="299.68" y="392" width="18" height="18" fill="#a6b6ca"/>
-<text x="325.68" y="407" font-size="16" fill="#21334b">Guard, ramp-down, switch or interlude</text>
-<rect x="685.36" y="392" width="18" height="18" fill="#c4a269"/>
-<text x="711.36" y="407" font-size="16" fill="#21334b">Tone extension slot</text>
-<text x="130" y="434" font-size="15" fill="#536981">Mode 3 step: 395 µs, drawn to scale. Planner defaults: LE 2M CS_SYNC, T_IP2 = 145 µs, T_SW = 2 µs, T_PM = 40 µs, 1 antenna path.</text>
+<rect width="100%" height="100%" fill="#09242b"/>
+<line x1="130.0" y1="15" x2="130.0" y2="320" stroke="#24454d"/>
+<line x1="130.0" y1="320" x2="130.0" y2="326" stroke="#afc8cb"/>
+<text x="130.0" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">0</text>
+<line x1="261.6" y1="15" x2="261.6" y2="320" stroke="#24454d"/>
+<line x1="261.6" y1="320" x2="261.6" y2="326" stroke="#afc8cb"/>
+<text x="261.6" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">50</text>
+<line x1="393.3" y1="15" x2="393.3" y2="320" stroke="#24454d"/>
+<line x1="393.3" y1="320" x2="393.3" y2="326" stroke="#afc8cb"/>
+<text x="393.3" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">100</text>
+<line x1="524.9" y1="15" x2="524.9" y2="320" stroke="#24454d"/>
+<line x1="524.9" y1="320" x2="524.9" y2="326" stroke="#afc8cb"/>
+<text x="524.9" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">150</text>
+<line x1="656.6" y1="15" x2="656.6" y2="320" stroke="#24454d"/>
+<line x1="656.6" y1="320" x2="656.6" y2="326" stroke="#afc8cb"/>
+<text x="656.6" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">200</text>
+<line x1="788.2" y1="15" x2="788.2" y2="320" stroke="#24454d"/>
+<line x1="788.2" y1="320" x2="788.2" y2="326" stroke="#afc8cb"/>
+<text x="788.2" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">250</text>
+<line x1="919.9" y1="15" x2="919.9" y2="320" stroke="#24454d"/>
+<line x1="919.9" y1="320" x2="919.9" y2="326" stroke="#afc8cb"/>
+<text x="919.9" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">300</text>
+<line x1="1051.5" y1="15" x2="1051.5" y2="320" stroke="#24454d"/>
+<line x1="1051.5" y1="320" x2="1051.5" y2="326" stroke="#afc8cb"/>
+<text x="1051.5" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">350</text>
+<line x1="1170.0" y1="15" x2="1170.0" y2="320" stroke="#24454d"/>
+<line x1="1170.0" y1="320" x2="1170.0" y2="326" stroke="#afc8cb"/>
+<text x="1170.0" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">395</text>
+<line x1="130" y1="320" x2="1170" y2="320" stroke="#afc8cb"/>
+<text x="650.0" y="370.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">Time since step start (µs)</text>
+<text x="116" y="61.0" text-anchor="end" font-size="18" fill="#afc8cb">Initiator TX</text>
+<rect x="130.0" y="30" width="68.5" height="50" fill="#ffb17a"/>
+<text x="164.2" y="59.7" text-anchor="middle" font-size="14" font-weight="bold" fill="#09242b">CS_SYNC</text>
+<rect x="198.5" y="30" width="26.3" height="50" fill="#6f9199"/>
+<rect x="224.8" y="30" width="5.3" height="50" fill="#6f9199"/>
+<rect x="230.1" y="30" width="105.3" height="50" fill="#ffb17a"/>
+<text x="282.7" y="60.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">P1</text>
+<rect x="335.4" y="30" width="5.3" height="50" fill="#6f9199"/>
+<rect x="340.6" y="30" width="105.3" height="50" fill="#d9bd86"/>
+<text x="393.3" y="60.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">Extension</text>
+<rect x="445.9" y="30" width="13.2" height="50" fill="#6f9199"/>
+<text x="211.6" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">GD</tspan></text>
+<text x="452.5" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">RD</tspan></text>
+<text x="227.4" y="116.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
+<text x="338.0" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
+<text x="116" y="166.0" text-anchor="end" font-size="18" fill="#afc8cb">Reflector TX</text>
+<rect x="840.9" y="135" width="5.3" height="50" fill="#6f9199"/>
+<rect x="846.2" y="135" width="105.3" height="50" fill="#ffb17a"/>
+<text x="898.8" y="165.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">P1</text>
+<rect x="951.5" y="135" width="5.3" height="50" fill="#6f9199"/>
+<rect x="956.7" y="135" width="105.3" height="50" fill="#d9bd86"/>
+<text x="1009.4" y="165.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">Extension</text>
+<rect x="1062.1" y="135" width="26.3" height="50" fill="#6f9199"/>
+<rect x="1088.4" y="135" width="68.5" height="50" fill="#ffb17a"/>
+<text x="1122.6" y="164.7" text-anchor="middle" font-size="14" font-weight="bold" fill="#09242b">CS_SYNC</text>
+<rect x="1156.8" y="135" width="13.2" height="50" fill="#6f9199"/>
+<text x="1075.2" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">GD</tspan></text>
+<text x="1163.4" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">RD</tspan></text>
+<text x="843.5" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
+<text x="954.1" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
+<text x="116" y="271.0" text-anchor="end" font-size="18" fill="#afc8cb">Timing</text>
+<rect x="459.1" y="240" width="381.8" height="50" fill="#6f9199"/>
+<text x="650.0" y="270.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">T<tspan dy="5.1" font-size="12.2">IP2</tspan></text>
+<rect x="130" y="392" width="18" height="18" fill="#ffb17a"/>
+<text x="156" y="407" font-size="16" fill="#f5f5ed">Transmission</text>
+<rect x="299.68" y="392" width="18" height="18" fill="#6f9199"/>
+<text x="325.68" y="407" font-size="16" fill="#f5f5ed">Guard, ramp-down, switch or interlude</text>
+<rect x="685.36" y="392" width="18" height="18" fill="#d9bd86"/>
+<text x="711.36" y="407" font-size="16" fill="#f5f5ed">Tone extension slot</text>
+<text x="130" y="434" font-size="15" fill="#afc8cb">Mode 3 step: 395 µs, drawn to scale. Planner defaults: LE 2M CS_SYNC, T_IP2 = 145 µs, T_SW = 2 µs, T_PM = 40 µs, 1 antenna path.</text>
 </svg>
