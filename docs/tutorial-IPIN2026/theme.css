@@ -615,6 +615,11 @@ used by the technical diagrams
 .reveal .cs-detail .cs-phase-cols > div + div {
   border-color: var(--orange);
 }
+/* Keep each timing name on one line so the table and callout fit. */
+#step-timing .cs-table th:first-child,
+#step-timing .cs-table td:first-child {
+  width: 34%;
+}
 .reveal .content .screenshot-layout {
   display: grid;
   grid-template-columns: 1fr 255px;
@@ -671,6 +676,23 @@ used by the technical diagrams
 .reveal .content .qr-link {
   font-size: 19px;
   overflow-wrap: anywhere;
+}
+/* Title slide: small QR to the online deck under the byline. */
+.reveal .content .online-deck {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 6px;
+}
+.reveal .content .online-deck .qr {
+  width: 128px !important;
+  height: 128px !important;
+  padding: 6px;
+  border-radius: 10px;
+}
+.reveal .content .online-deck p {
+  font-size: 21px;
+  line-height: 1.45;
 }
 .reveal .content .campaign {
   grid-template-columns: 1.35fr 0.7fr;

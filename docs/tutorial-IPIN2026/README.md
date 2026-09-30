@@ -131,16 +131,16 @@ technical slides:
 
 - **23 — CS procedure initialization:** negotiated parameters, conditional FAE
   retrieval (`No_FAE = 0` and no known table), then procedure start.
-- **24 — Why ranging needs security:** distance as an access decision, relay
-  and distance-reduction attacks; below it, how CS answers each attack, and
-  the CS security levels, DRBG initialization, its use in modes 0–3, state
-  synchronization, and the distinction between security and measurement quality.
-- **25 — Two-way measurements must meet in one place:** each end keeps half of
+- **24 — Two-way measurements must meet in one place:** each end keeps half of
   every observable; RAS returns the reflector's half as a GATT service on the
   ACL link, scheduled with CS; for PBR, Inline PCT Transfer lets the initiator
   measure the two-way phase itself. Below it, RAS delivery, the IPT phase
   relation and capability/timing/data tradeoffs. IPT is explicitly labeled
-  Core 6.3; the preceding mode/security explanation uses the Core 6.0 baseline.
+  Core 6.3; the mode and security slides use the Core 6.0 baseline.
+- **25 — Why ranging needs security:** distance as an access decision, relay
+  and distance-reduction attacks; below it, one slide on how CS answers each
+  attack, with a single line on the CS security levels. The level details stay
+  in the speaker notes.
 - **26 — Practical implementation: four decisions.** Mode-0 steps, subevents,
   spacing and the controllers' step timings form one time budget, paid in radio
   time and energy; the ATT MTU sets how long RAS holds the link; the ACL

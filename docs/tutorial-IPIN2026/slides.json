@@ -138,11 +138,7 @@
         {
           "slide": "25-ranging-security",
           "down": [
-            "25a-cs-security",
-            "25b-drbg-initialization",
-            "25c-drbg-modes",
-            "25d-drbg-state",
-            "25e-security-vs-quality"
+            "25a-cs-security"
           ]
         }
       ]
