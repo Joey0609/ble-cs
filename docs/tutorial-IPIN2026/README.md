@@ -50,13 +50,13 @@ Chrome and print to PDF; add `&showNotes=true` to include the notes.
 ## Publish with GitHub Pages
 
 The workflow in `.github/workflows/publish-tutorial.yml` publishes this folder
-when changes are pushed to `main`, or when run manually from the Actions tab.
-To enable it for the repository:
+only when run manually from the Actions tab; pushes to `main` do not redeploy
+it. To enable it for the repository and publish:
 
 1. Open **Settings → Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Push a change to `docs/tutorial-IPIN2026/` on `main`, or open **Actions →
-   Publish tutorial presentation → Run workflow** and select `main`.
+3. Open **Actions → Publish tutorial presentation → Run workflow** and select
+   `main`.
 4. When the run succeeds, open
    <https://sens-wear.github.io/ble-cs/ipin2026-tutorial/>. The
    deployment URL is also shown in the workflow run's `github-pages` environment.

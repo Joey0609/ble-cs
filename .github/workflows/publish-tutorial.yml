@@ -1,12 +1,7 @@
 name: Publish tutorial presentation
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - docs/tutorial-IPIN2026/**
-      - .github/workflows/publish-tutorial.yml
+  # Manual runs only: publish from Actions → Run workflow on main.
   workflow_dispatch:
 
 permissions:
