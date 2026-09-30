@@ -581,7 +581,8 @@ HELP_PAGES = (
           <li><b>Amplitude:</b> initiator and reflector PCT magnitude per channel.</li>
           <li><b>Wrapped phase:</b> reflector and product phase per channel, raw and corrected.</li>
           <li><b>Unwrapped product phase:</b> raw and corrected phase with their fitted lines.</li>
-          <li><b>Summary:</b> step pairs, offsets and the slope distance of each correction.</li>
+          <li><b>IFFT magnitude:</b> range profile and peak for raw, Mode-0 corrected and frequency-compensation corrected complex products. Missing channels remain empty on the frequency grid.</li>
+          <li><b>Summary:</b> step pairs, offsets, and slope and IFFT peak distances for each correction.</li>
         </ol>
 
         <h3>RTT</h3>
@@ -600,7 +601,7 @@ HELP_PAGES = (
         <ol>
           <li><b>Analysis selectors:</b> the PBR and RTT options that the estimates use.</li>
           <li><b>Plot lines:</b> show or hide each estimate.</li>
-          <li><b>Distance estimates:</b> one point per procedure over time.</li>
+          <li><b>Distance estimates:</b> RTT, PBR slope and PBR IFFT peak, one point per procedure over time. PBR estimates share the selected path, tone-quality filter and correction sign.</li>
           <li><b>Summary:</b> the latest procedure's estimates and the time window shown.</li>
         </ol>
 

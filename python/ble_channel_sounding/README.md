@@ -112,9 +112,15 @@ and its neighbours again.
 
 The wrapped and unwrapped PBR per-channel plots show separate correction lines
 for the Mode-0 measured offset and the reported frequency compensation. The
-Estimates plot compares raw, Mode-0 corrected and frequency-compensation
-corrected slope distances across procedures. Checkboxes above the plot control
-which estimate lines are visible. All PBR comparisons use the same selected
+PBR plots form a 2×2 grid: amplitude beside wrapped phase, then unwrapped
+product phase beside an IFFT range profile. The IFFT uses the same per-tone
+complex frequency correction as the phase plots and shows raw, Mode-0 and
+reported-compensation peaks. Missing channels are left empty on the 1 MHz
+frequency grid; the IFFT peak is shown in the PBR summary. Zero padding makes
+the peak easier to locate but does not improve the physical range resolution.
+The Estimates plot compares raw, Mode-0 corrected and frequency-compensation
+corrected slope and IFFT peak distances across procedures. Checkboxes above the
+plot control which estimate lines are visible. All PBR comparisons use the same selected
 path, tone quality filter and correction sign.
 
 For hardware, the client must implement the handshake and commands in

@@ -6,7 +6,7 @@ in a capture:
 1. Mode-0 / FFO: measured Mode-0 offsets and reported frequency compensation
    by initiator result report over the recent time window.
 2. PBR per channel: amplitude and phase of both PCTs, their reciprocal product,
-   unwrapped phase with the slope distance estimate, and per-channel values.
+   unwrapped phase with slope distance, IFFT range profile, and per-channel values.
 3. RTT: mode-1/3 distance per step against channel, its histogram and steps.
 4. Estimates: RTT and PBR distance estimates over the recent time window.
 
@@ -31,6 +31,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets as W
 import pyqtgraph as pg
 
 from ..planner.model import uses_pbr, uses_rtt
+from ..pbr_ifft import ifft_range
 from ..protocol.frame import ProtocolError
 from ..protocol.packets import (ConnectionParametersPacket, CsCapabilitiesPacket, CsConfigurationPacket,
                                 CsInitiatorSubeventResultPacket, CsInitiatorConfigPacket, CsPeerDataPacket,
@@ -472,11 +473,14 @@ class ResultsWidget(W.QWidget):
         for name, visible in (("RTT mean", has_rtt), ("RTT median", has_rtt),
                               ("PBR slope (raw)", has_pbr),
                               ("PBR slope (Mode-0 offset)", has_pbr),
-                              ("PBR slope (frequency compensation)", has_pbr)):
+                              ("PBR slope (frequency compensation)", has_pbr),
+                              ("PBR IFFT (raw)", has_pbr),
+                              ("PBR IFFT (Mode-0 offset)", has_pbr),
+                              ("PBR IFFT (frequency compensation)", has_pbr)):
             curve = self.estimate_curves[name]
             curve._analysis_visible = visible
             self.set_estimate_line_enabled(name, self.estimate_line_checks[name].isChecked())
-        for column in range(4, 11):
+        for column in range(4, self.estimates_table.columnCount()):
             self.estimates_table.setColumnHidden(column, not (has_rtt if column < 8 else has_pbr))
         if self.controller_view is not None:
             self.controller_view.set_mode(self.measurement_mode)
@@ -588,26 +592,40 @@ class ResultsWidget(W.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         views = W.QTabWidget()
         plots_page = W.QSplitter(QtCore.Qt.Orientation.Vertical)
-        self.amplitude_plot, self.phase_plot, self.unwrapped_plot = (pg.PlotWidget(background="white")
-                                                                     for _ in range(3))
-        phases = W.QSplitter(QtCore.Qt.Orientation.Horizontal)
-        labels = (("Amplitude", ""), ("Wrapped phase", "rad"), ("Unwrapped product phase", "rad"))
-        for plot, (label, units) in zip((self.amplitude_plot, self.phase_plot, self.unwrapped_plot), labels):
+        self.amplitude_plot, self.phase_plot, self.unwrapped_plot, self.ifft_plot = (
+            pg.PlotWidget(background="white") for _ in range(4))
+        top = W.QSplitter(QtCore.Qt.Orientation.Horizontal)
+        bottom = W.QSplitter(QtCore.Qt.Orientation.Horizontal)
+        labels = (("Amplitude", ""), ("Wrapped phase", "rad"),
+                  ("Unwrapped product phase", "rad"), ("IFFT magnitude", ""))
+        for plot, (label, units) in zip((self.amplitude_plot, self.phase_plot,
+                                         self.unwrapped_plot, self.ifft_plot), labels):
             plot.setLabel("left", label, units=units)
-            plot.setLabel("bottom", "CS channel (2402 + ch MHz)")
+            if plot is self.ifft_plot:
+                plot.setLabel("bottom", "Range", units="m")
+            else:
+                plot.setLabel("bottom", "CS channel (2402 + ch MHz)")
             plot.showGrid(x=True, y=True, alpha=.15)
             plot.addLegend(offset=(-10, 10), colCount=4)
-            plot.setXRange(0, 79, padding=.01)
-            if plot is not self.amplitude_plot:
+            if plot is self.ifft_plot:
+                plot.setXRange(0, 30, padding=.01)
+            else:
+                plot.setXRange(0, 79, padding=.01)
+            if plot in (self.phase_plot, self.unwrapped_plot):
                 plot.setXLink(self.amplitude_plot)
-                phases.addWidget(plot)
+        top.addWidget(self.amplitude_plot)
+        top.addWidget(self.phase_plot)
+        bottom.addWidget(self.unwrapped_plot)
+        bottom.addWidget(self.ifft_plot)
+        top.setSizes([300, 300])
+        bottom.setSizes([300, 300])
         self.phase_plot.setYRange(-math.pi, math.pi, padding=.05)
         self.channel_table = _table(("Ch", "MHz", "N", "Initiator PCT", "Reflector PCT", "Product raw",
                                      "Mode-0 ppm", "Mode-0 correction (rad)", "Product Mode-0 corrected",
                                      "Freq. comp. ppm", "Freq. comp. correction (rad)",
                                      "Product freq. comp. corrected"))
-        plots_page.addWidget(self.amplitude_plot)
-        plots_page.addWidget(phases)
+        plots_page.addWidget(top)
+        plots_page.addWidget(bottom)
         plots_page.setSizes([240, 300])
         views.addTab(plots_page, "Plots")
         views.addTab(self.channel_table, "Table")
@@ -658,17 +676,21 @@ class ResultsWidget(W.QWidget):
         self.estimates_summary.setToolTip(
             "One estimate per procedure with both roles reported. RTT uses the AA and bit error filters of the "
             "RTT tab; PBR uses the selected path and tone quality, without averaging procedures. Use the plot "
-            "line checkboxes to show or hide RTT, uncompensated PBR and either corrected PBR estimate.")
+            "line checkboxes to show or hide RTT, PBR slope and PBR IFFT estimates.")
         lines_group = W.QGroupBox("Plot lines")
-        lines_layout = W.QHBoxLayout(lines_group)
+        lines_layout = W.QGridLayout(lines_group)
         self.estimate_line_checks = {}
-        for name, label in (("RTT mean", "RTT mean"), ("RTT median", "RTT median"),
-                            ("PBR slope (raw)", "PBR raw"),
-                            ("PBR slope (Mode-0 offset)", "PBR Mode-0 offset"),
-                            ("PBR slope (frequency compensation)", "PBR frequency compensation")):
+        line_choices = (("RTT mean", "RTT mean"), ("RTT median", "RTT median"),
+                        ("PBR slope (raw)", "PBR slope raw"),
+                        ("PBR slope (Mode-0 offset)", "PBR slope Mode-0"),
+                        ("PBR slope (frequency compensation)", "PBR slope freq. comp."),
+                        ("PBR IFFT (raw)", "PBR IFFT raw"),
+                        ("PBR IFFT (Mode-0 offset)", "PBR IFFT Mode-0"),
+                        ("PBR IFFT (frequency compensation)", "PBR IFFT freq. comp."))
+        for index, (name, label) in enumerate(line_choices):
             check = W.QCheckBox(label)
             check.setChecked(True)
-            lines_layout.addWidget(check)
+            lines_layout.addWidget(check, index // 5, index % 5)
             self.estimate_line_checks[name] = check
         layout.addWidget(lines_group)
         views = W.QTabWidget()
@@ -685,9 +707,14 @@ class ResultsWidget(W.QWidget):
                                     ("RTT median", RTT_SERIES["median"], "t"),
                                     ("PBR slope (raw)", SERIES["raw"], "o"),
                                     ("PBR slope (Mode-0 offset)", RTT_SERIES["pbr"], "s"),
-                                    ("PBR slope (frequency compensation)", "#eb6834", "t")):
+                                    ("PBR slope (frequency compensation)", "#eb6834", "t"),
+                                    ("PBR IFFT (raw)", SERIES["raw"], "d"),
+                                    ("PBR IFFT (Mode-0 offset)", RTT_SERIES["pbr"], "d"),
+                                    ("PBR IFFT (frequency compensation)", "#eb6834", "d")):
             self.estimate_curves[name] = plot.plot(
-                name=name, pen=pg.mkPen(color, width=1), symbol=symbol, symbolSize=6,
+                name=name, pen=pg.mkPen(color, width=1, style=(QtCore.Qt.PenStyle.DashLine if "IFFT" in name
+                                                              else QtCore.Qt.PenStyle.SolidLine)),
+                symbol=symbol, symbolSize=6,
                 symbolBrush=color, symbolPen=None, connect="finite")
             self.estimate_curve_legends[name] = plot.plotItem.legend
         self.estimates_legend = plot.plotItem.legend
@@ -702,7 +729,8 @@ class ResultsWidget(W.QWidget):
         views.addTab(plot, "Plots")
         self.estimates_table = _table(("Time (s)", "Procedure", "Config", "ACL event", "RTT mean (m)",
                                        "RTT median (m)", "RTT σ (m)", "RTT pairs", "PBR raw (m)",
-                                       "PBR Mode-0 (m)", "PBR freq. comp. (m)"))
+                                       "PBR Mode-0 (m)", "PBR freq. comp. (m)", "IFFT raw (m)",
+                                       "IFFT Mode-0 (m)", "IFFT freq. comp. (m)"))
         views.addTab(self.estimates_table, "Table")
         self.tabs.addTab(page, "Estimates")
 
@@ -1227,7 +1255,7 @@ class ResultsWidget(W.QWidget):
         self.update_global_status()
 
     def draw_pbr(self, *_):
-        for plot in (self.amplitude_plot, self.phase_plot, self.unwrapped_plot):
+        for plot in (self.amplitude_plot, self.phase_plot, self.unwrapped_plot, self.ifft_plot):
             plot.clear()
             plot.plotItem.legend.clear()
         procedures, path = self.pbr_procedures(), self.path_select.currentData()
@@ -1253,6 +1281,9 @@ class ResultsWidget(W.QWidget):
         raw_result = results[CORRECTION_NONE]
         measured_result = results[CORRECTION_MEASURED]
         compensation_result = results[CORRECTION_COMPENSATION]
+        ifft_results = {source: ifft_range(result) for source, result in results.items()}
+        ifft_distances = {source: None if profile is None else profile.peak_distance_m
+                          for source, profile in ifft_results.items()}
         points = raw_result.points
         channels = [p.channel for p in points]
 
@@ -1288,6 +1319,15 @@ class ResultsWidget(W.QWidget):
                 self.unwrapped_plot.plot(
                     ends, [slope * (2402 + ch) * 1e6 + intercept for ch in ends],
                     name=f"{label} fit", pen=pg.mkPen(color, width=1, style=QtCore.Qt.PenStyle.DashLine))
+        for source, label, color in ((CORRECTION_NONE, "Raw", SERIES["raw"]),
+                                     (CORRECTION_MEASURED, "Mode-0 offset", SERIES["initiator"]),
+                                     (CORRECTION_COMPENSATION, "Frequency compensation", SERIES["reflector"])):
+            profile = ifft_results[source]
+            if profile is not None:
+                self.ifft_plot.plot(profile.distances_m, profile.magnitude, name=label,
+                                    pen=pg.mkPen(color, width=1.5))
+                self.ifft_plot.plot([profile.peak_distance_m], [profile.peak_magnitude],
+                                    pen=None, symbol="o", symbolSize=7, symbolBrush=color, symbolPen=None)
 
         _fill(self.channel_table, [
             (raw.channel, 2402 + raw.channel, raw.count, _iq(raw.initiator), _iq(raw.reflector),
@@ -1335,6 +1375,9 @@ class ResultsWidget(W.QWidget):
             f"<br>slope distance: raw <b>{_metres(raw_result.distance_raw_m)}</b> · "
             f"Mode-0 corrected <b>{_metres(measured_result.distance_corrected_m)}</b> · "
             f"frequency compensation corrected <b>{_metres(compensation_result.distance_corrected_m)}</b>" +
+            f"<br>IFFT peak: raw <b>{_metres(ifft_distances[CORRECTION_NONE])}</b> · "
+            f"Mode-0 corrected <b>{_metres(ifft_distances[CORRECTION_MEASURED])}</b> · "
+            f"frequency compensation corrected <b>{_metres(ifft_distances[CORRECTION_COMPENSATION])}</b>" +
             (f"<br><span style='color:#b44136'>{'; '.join(notes)}.</span>" if notes else ""))
         self.update_global_status()
 
@@ -1410,7 +1453,7 @@ class ResultsWidget(W.QWidget):
         self.update_global_status()
 
     def estimate(self, procedure):
-        """RTT and correction-specific PBR analyses for one procedure, cached until its reports change."""
+        """RTT, PBR slope and IFFT peak inputs for one procedure, cached until its reports change."""
         inputs = (len(procedure.initiator), len(procedure.reflector), procedure.config_id in self.store.configurations)
         cached = self.estimates.get(procedure.key)
         if cached is not None and cached[0] == inputs:
@@ -1419,13 +1462,15 @@ class ResultsWidget(W.QWidget):
         path = self.path_select.currentData()
         configuration = self.store.configurations.get(procedure.config_id)
         steps, _ = procedure.pbr_steps(configuration, self.store.t_sw_us(configuration))
-        pbr = {}
+        pbr, ifft_peaks = {}, {}
         if path is not None and steps:
             for correction in (CORRECTION_NONE, CORRECTION_MEASURED, CORRECTION_COMPENSATION):
                 pbr[correction] = analyze_pbr(steps, path, correction, self.sign_select.currentData(),
                                               self.quality_only.isChecked())
-        self.estimates[procedure.key] = inputs, (rtt, pbr)
-        return rtt, pbr
+                profile = ifft_range(pbr[correction])
+                ifft_peaks[correction] = None if profile is None else profile.peak_distance_m
+        self.estimates[procedure.key] = inputs, (rtt, pbr, ifft_peaks)
+        return rtt, pbr, ifft_peaks
 
     def estimate_window(self):
         """Complete procedures in the active estimate time window, oldest first.
@@ -1468,7 +1513,7 @@ class ResultsWidget(W.QWidget):
         selected = self.selected_procedure()
         marker = None
         for x, procedure in window:
-            rtt, pbr_by_correction = self.estimate(procedure)
+            rtt, pbr_by_correction, ifft_peaks = self.estimate(procedure)
             raw_pbr = pbr_by_correction.get(CORRECTION_NONE)
             measured_pbr = pbr_by_correction.get(CORRECTION_MEASURED)
             compensation_pbr = pbr_by_correction.get(CORRECTION_COMPENSATION)
@@ -1478,7 +1523,10 @@ class ResultsWidget(W.QWidget):
                                 ("PBR slope (Mode-0 offset)", None if measured_pbr is None
                                  else measured_pbr.distance_corrected_m),
                                 ("PBR slope (frequency compensation)", None if compensation_pbr is None
-                                 else compensation_pbr.distance_corrected_m)):
+                                 else compensation_pbr.distance_corrected_m),
+                                ("PBR IFFT (raw)", ifft_peaks.get(CORRECTION_NONE)),
+                                ("PBR IFFT (Mode-0 offset)", ifft_peaks.get(CORRECTION_MEASURED)),
+                                ("PBR IFFT (frequency compensation)", ifft_peaks.get(CORRECTION_COMPENSATION))):
                 series[name].append(math.nan if value is None else value)
             if procedure is selected:
                 marker = x
@@ -1487,7 +1535,10 @@ class ResultsWidget(W.QWidget):
                          _metres(rtt.std_m, ""), f"{len(rtt.accepted)}/{len(rtt.accepted) + len(rtt.rejected)}",
                          _metres(None if raw_pbr is None else raw_pbr.distance_corrected_m, ""),
                          _metres(None if measured_pbr is None else measured_pbr.distance_corrected_m, ""),
-                         _metres(None if compensation_pbr is None else compensation_pbr.distance_corrected_m, "")))
+                         _metres(None if compensation_pbr is None else compensation_pbr.distance_corrected_m, ""),
+                         _metres(ifft_peaks.get(CORRECTION_NONE), ""),
+                         _metres(ifft_peaks.get(CORRECTION_MEASURED), ""),
+                         _metres(ifft_peaks.get(CORRECTION_COMPENSATION), "")))
         # Without a selected mode, keep the default view permissive.
         if self.measurement_mode is None:
             self.apply_mode()
@@ -1516,11 +1567,16 @@ class ResultsWidget(W.QWidget):
             details.append(f"RTT mean <b>{_metres(rtt.mean_m)}</b> · median <b>{_metres(rtt.median_m)}</b>")
         if has_pbr:
             details.append(
-                f"PBR raw <b>{_metres(None if raw_pbr is None else raw_pbr.distance_corrected_m)}</b> · "
+                f"PBR slope: raw <b>{_metres(None if raw_pbr is None else raw_pbr.distance_corrected_m)}</b> · "
                 f"Mode-0 <b>{_metres(None if measured_pbr is None else measured_pbr.distance_corrected_m)}</b> · "
                 f"frequency compensation <b>{_metres(None if compensation_pbr is None else compensation_pbr.distance_corrected_m)}</b>"
             )
+            details.append(
+                f"PBR IFFT: raw <b>{_metres(ifft_peaks.get(CORRECTION_NONE))}</b> · "
+                f"Mode-0 <b>{_metres(ifft_peaks.get(CORRECTION_MEASURED))}</b> · "
+                f"frequency compensation <b>{_metres(ifft_peaks.get(CORRECTION_COMPENSATION))}</b>"
+            )
         self.estimates_summary.setText(
             f"Latest: procedure {latest[1]} at {latest[0]}{' s' if timed else ''}"
-            f" · {' · '.join(details)} · {len(rows)} procedures ({span})")
+            f" · {'<br>'.join(details)} · {len(rows)} procedures ({span})")
         self.update_global_status()

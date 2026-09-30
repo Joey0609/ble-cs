@@ -18,6 +18,7 @@ from ble_channel_sounding.protocol.packets import (CsCapabilitiesPacket, CsConfi
 from ble_channel_sounding.results import (CORRECTION_COMPENSATION, CORRECTION_MEASURED, CORRECTION_NONE, CORRECTION_RESIDUAL,
                               MAX_PACKETS, ResultStore, analyze_pbr, analyze_rtt, centi_ppm, load_capture,
                               tone_pair_delay_us, unwrap)
+from ble_channel_sounding.pbr_ifft import ifft_range
 from ble_channel_sounding.simulator import RTT_DISTANCE_M, Simulator
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -226,6 +227,29 @@ class ModelTests(unittest.TestCase):
         flipped = analyze_pbr(steps, 0, CORRECTION_MEASURED, sign=-1)
         self.assertAlmostEqual(DISTANCE_M - flipped.distance_corrected_m, 2 * bias, delta=0.01)
 
+    def test_ifft_uses_corrected_products_and_channel_gaps(self):
+        store, procedure = procedure_of(synthetic_packets(compensation=round(OFFSET_PPM * 100)))
+        steps, _ = procedure.pbr_steps(store.configurations[0])
+        raw = ifft_range(analyze_pbr(steps, 0, CORRECTION_NONE))
+        measured = ifft_range(analyze_pbr(steps, 0, CORRECTION_MEASURED))
+        compensated = ifft_range(analyze_pbr(steps, 0, CORRECTION_COMPENSATION))
+        self.assertIsNotNone(raw)
+        self.assertIsNotNone(measured)
+        self.assertIsNotNone(compensated)
+        self.assertAlmostEqual(measured.peak_distance_m, DISTANCE_M, delta=0.04)
+        self.assertAlmostEqual(compensated.peak_distance_m, DISTANCE_M, delta=0.04)
+        self.assertGreater(measured.peak_distance_m - raw.peak_distance_m, 0.1)
+        reversed_sign = ifft_range(analyze_pbr(steps, 0, CORRECTION_MEASURED, sign=-1))
+        self.assertLess(reversed_sign.peak_distance_m, raw.peak_distance_m)
+        # Skipping every other channel must retain its frequency position.
+        sparse = ifft_range(analyze_pbr(steps[::2], 0, CORRECTION_MEASURED))
+        self.assertAlmostEqual(sparse.peak_distance_m, DISTANCE_M, delta=0.04)
+
+    def test_ifft_needs_two_nonzero_channels(self):
+        store, procedure = procedure_of(synthetic_packets())
+        steps, _ = procedure.pbr_steps(store.configurations[0])
+        self.assertIsNone(ifft_range(analyze_pbr(steps[:1], 0)))
+
     def test_compensation_choices(self):
         store = ResultStore()
         for packet in synthetic_packets(compensation=200):
@@ -354,6 +378,10 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertEqual(window.path_select.count(), 2)
         self.assertEqual(window.channel_table.rowCount(), len(CHANNELS))
         self.assertIn("corrected <b>3.00 m</b>", window.summary.text())
+        self.assertIn("IFFT peak:", window.summary.text())
+        self.assertEqual(window.amplitude_plot.parentWidget().indexOf(window.phase_plot), 1)
+        self.assertEqual(window.unwrapped_plot.parentWidget().indexOf(window.ifft_plot), 1)
+        self.assertEqual(len(window.ifft_plot.plotItem.listDataItems()), 6)
         # Results has no History tab or detail tables; the Session view shows the records.
         self.assertFalse(hasattr(window, "steps_table") or hasattr(window, "reports") or hasattr(window, "log"))
         model = window.session_view.model
@@ -421,11 +449,14 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertFalse(window.rtt_controls.isHidden())
         trend = window.estimates_plot.plotItem.listDataItems()
         self.assertEqual([item.name() for item in trend], ["RTT mean", "RTT median", "PBR slope (raw)", "PBR slope (Mode-0 offset)",
-                          "PBR slope (frequency compensation)"])
+                          "PBR slope (frequency compensation)", "PBR IFFT (raw)", "PBR IFFT (Mode-0 offset)",
+                          "PBR IFFT (frequency compensation)"])
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
         self.assertTrue(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
+        self.assertTrue(window.estimate_curves["PBR IFFT (Mode-0 offset)"]._analysis_visible)
         self.assertFalse(window.estimates_table.isColumnHidden(4))
         self.assertFalse(window.estimates_table.isColumnHidden(8))
+        self.assertFalse(window.estimates_table.isColumnHidden(11))
         self.assertEqual(window.estimates_table.rowCount(), 2)
         self.assertEqual(window.estimates_table.item(0, 4).text(), "3.00")
         window.aa_success_only.setChecked(False)
@@ -473,11 +504,33 @@ class ResultsGuiTests(unittest.TestCase):
         curve = window.estimate_curves["PBR slope (Mode-0 offset)"]
         self.assertEqual(list(curve.xData), [20.0, 40.0])
         self.assertAlmostEqual(curve.yData[-1], DISTANCE_M, delta=0.01)
+        ifft_curve = window.estimate_curves["PBR IFFT (Mode-0 offset)"]
+        self.assertEqual(list(ifft_curve.xData), [20.0, 40.0])
+        self.assertAlmostEqual(ifft_curve.yData[-1], DISTANCE_M, delta=0.04)
+        self.assertEqual(window.estimates_table.item(0, 12).text(), "3.00")
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
         self.assertFalse(window.estimates_table.isColumnHidden(4))
         self.assertFalse(window.estimates_table.isColumnHidden(8))
         self.assertEqual(set(window.estimates), {(0, 11, 1), (0, 12, 2)})
         self.assertIn("2 procedures (last 30 s)", window.estimates_summary.text())
+        window.close()
+
+    def test_estimates_ifft_tracks_both_frequency_corrections(self):
+        from PyQt6.QtWidgets import QApplication
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        app = QApplication.instance() or QApplication([])
+        window = ResultsWidget()
+        for packet in synthetic_packets(paths=1, compensation=round(OFFSET_PPM * 100)):
+            window.add_packet(packet)
+        window.refresh()
+        app.processEvents()
+        raw = window.estimate_curves["PBR IFFT (raw)"].yData[-1]
+        measured = window.estimate_curves["PBR IFFT (Mode-0 offset)"].yData[-1]
+        reported = window.estimate_curves["PBR IFFT (frequency compensation)"].yData[-1]
+        self.assertGreater(measured - raw, 0.1)
+        self.assertAlmostEqual(measured, DISTANCE_M, delta=0.04)
+        self.assertAlmostEqual(reported, DISTANCE_M, delta=0.04)
+        self.assertIn("PBR IFFT:", window.estimates_summary.text())
         window.close()
 
     def test_replay_estimates_are_centered_on_selected_procedure(self):
@@ -510,10 +563,13 @@ class ResultsGuiTests(unittest.TestCase):
             window.add_packet(packet)
         window.refresh()
         before = list(window.estimate_curves["PBR slope (Mode-0 offset)"].yData)
+        before_ifft = list(window.estimate_curves["PBR IFFT (Mode-0 offset)"].yData)
         window.sign_select.setCurrentIndex(1)
         app.processEvents()
         after = list(window.estimate_curves["PBR slope (Mode-0 offset)"].yData)
+        after_ifft = list(window.estimate_curves["PBR IFFT (Mode-0 offset)"].yData)
         self.assertNotEqual(before, after)
+        self.assertNotEqual(before_ifft, after_ifft)
         self.assertIn("PBR", window.estimates_summary.text())
         window.close()
 
@@ -532,11 +588,13 @@ class ResultsGuiTests(unittest.TestCase):
         window.set_measurement_mode(1)
         self.assertTrue(window.estimate_curves["RTT mean"]._analysis_visible)
         self.assertFalse(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
+        self.assertFalse(window.estimate_curves["PBR IFFT (Mode-0 offset)"]._analysis_visible)
         self.assertFalse(window.tabs.isTabVisible(window.tabs.indexOf(window.pbr_page)))
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.rtt_page)))
         window.set_measurement_mode(2)
         self.assertFalse(window.estimate_curves["RTT mean"]._analysis_visible)
         self.assertTrue(window.estimate_curves["PBR slope (Mode-0 offset)"]._analysis_visible)
+        self.assertTrue(window.estimate_curves["PBR IFFT (Mode-0 offset)"]._analysis_visible)
         self.assertTrue(window.tabs.isTabVisible(window.tabs.indexOf(window.pbr_page)))
         self.assertFalse(window.tabs.isTabVisible(window.tabs.indexOf(window.rtt_page)))
         for mode in (0x12, 0x32, 0x23):
