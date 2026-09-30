@@ -1,0 +1,16 @@
+<section class="cs-detail" data-timing="105">
+  <h2>RAS: delivering the matching reflector result</h2>
+  <div class="content">
+<ol class="cs-flow">
+<li><b>Discover and configure</b><span>Client reads RAS Features and subscribes to the selected data/control characteristics.</span></li>
+<li><b>Real-time or on-demand</b><span>Stream results as they complete, or fetch stored procedures through the Control Point.</span></li>
+<li><b>Segment and reassemble</b><span>Use ATT notifications/indications in ACL airtime left by CS; detect gaps and reassemble the procedure.</span></li>
+<li><b>Pair and estimate</b><span>Match procedure, step, channel and antenna path with the initiator’s local results, then combine: \( H[k] = \mathrm{PCT}_I[k]\,\mathrm{PCT}_R[k] \) (18c).</span></li>
+</ol><div class="callout">A typical route is reflector = RAS Server, initiator = RAS Client. Missing remote data means an incomplete paired measurement, even if CS ran successfully.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">RAS 1.0 · §2.7; §3.1–3.5</a></div>
+  <aside class="notes">
+    <p>These service roles are independent of Central/Peripheral. RAS reports the measurements produced by the controller, including procedure/subevent context, step data and status. Real-time delivery starts after a complete subevent result or complete procedure result is available; it is still subject to ACL scheduling. The segments share the connection with the CS events that are offset from its anchors: if the procedure interval leaves too little ACL airtime, notifications back up and results arrive late or are lost. This project reports that case to the host as RAS_DATA_LOST. On-demand operation uses stored data and the RAS Control Point; buffer overwrite and optional lost-segment retrieval matter. Read feature support instead of assuming all recovery operations exist. Reassemble before interpreting records, match procedure identity and steps, and handle counter wrap and incomplete/aborted results. Baseline PBR pairs one tone at a time: the same procedure (ranging counter and configuration), the same step, the same channel and the same antenna path; only then are the two PCTs multiplied. This project pairs steps by their position in the procedure and counts a pair whose mode or channel differs as mismatched, leaving it out. Packet sizes and ATT MTU are covered in slide 26d. The ranging algorithm remains an implementation choice.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">RAS 1.0 · §2.7; §3.1–3.5</a>.</p>
+  </aside>
+</section>

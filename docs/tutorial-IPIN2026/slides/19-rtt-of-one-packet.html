@@ -1,0 +1,82 @@
+<section class="cs-basics" data-timing="90">
+  <h2>Round-trip time (RTT) from a two-way exchange</h2>
+  <div class="body">
+    <div class="columns">
+      <div>
+      <svg viewBox="0 0 520 210" role="img"
+         aria-label="Initiator and reflector timelines: the initiator sends a packet and later receives the reply; each side timestamps departure and arrival on its own clock">
+        <defs>
+        <marker id="bas1b-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
+        <marker id="bas1b-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
+        <marker id="bas1b-ref" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb17a"/></marker>
+        </defs>
+        <g font-family="inherit" font-size="15">
+          <text x="0" y="61" font-weight="700" fill="#65e4d0" font-size="17">Initiator</text>
+          <text x="0" y="141" font-weight="700" fill="#ffb17a" font-size="17">Reflector</text>
+          <line x1="100" y1="56" x2="515" y2="56" stroke="#65e4d0" stroke-width="1.5"/>
+          <line x1="100" y1="136" x2="515" y2="136" stroke="#ffb17a" stroke-width="1.5"/>
+
+          <line x1="130" y1="56" x2="200" y2="136" stroke="#65e4d0" stroke-width="3" marker-end="url(#bas1b-ini)"/>
+          <line x1="360" y1="136" x2="430" y2="56" stroke="#ffb17a" stroke-width="3" marker-end="url(#bas1b-ref)"/>
+          <text x="177.0" y="98.0" fill="#65e4d0">&#9312; packet</text>
+          <text x="383.0" y="98.0" fill="#ffb17a" text-anchor="end">&#9313; packet</text>
+          <text x="280.0" y="126" font-size="13" fill="#afc8cb" text-anchor="middle">turnaround</text>
+
+          <g stroke="#f5f5ed" stroke-width="1.5">
+            <line x1="130" y1="50" x2="130" y2="62"/><line x1="430" y1="50" x2="430" y2="62"/>
+            <line x1="200" y1="130" x2="200" y2="142"/><line x1="360" y1="130" x2="360" y2="142"/>
+          </g>
+          <text fill="#f5f5ed" x="130" y="44" text-anchor="middle">ToD<tspan font-size="11" dy="4">I</tspan></text>
+          <text fill="#f5f5ed" x="430" y="44" text-anchor="middle">ToA<tspan font-size="11" dy="4">I</tspan></text>
+          <text fill="#f5f5ed" x="200" y="160" text-anchor="middle">ToA<tspan font-size="11" dy="4">R</tspan></text>
+          <text fill="#f5f5ed" x="360" y="160" text-anchor="middle">ToD<tspan font-size="11" dy="4">R</tspan></text>
+
+          <line x1="130" y1="14" x2="430" y2="14" stroke="#65e4d0" stroke-width="1.5"
+                marker-start="url(#bas1b-ini)" marker-end="url(#bas1b-ini)"/>
+          <rect x="170.0" y="3" width="220" height="20" fill="#09242b"/>
+          <text fill="#65e4d0" x="212.0" y="19" font-style="italic">A<tspan font-size="11" dy="4">I</tspan></text>
+          <text x="240.0" y="19" fill="#65e4d0" font-size="14">on the initiator clock</text>
+          <line x1="200" y1="180" x2="360" y2="180" stroke="#ffb17a" stroke-width="1.5"
+                marker-start="url(#bas1b-ref)" marker-end="url(#bas1b-ref)"/>
+          <text fill="#ffb17a" x="202.0" y="202" font-style="italic">B<tspan font-size="11" dy="4">R</tspan></text>
+          <text x="228.0" y="202" fill="#ffb17a" font-size="14">on the reflector clock</text>
+        </g>
+      </svg>
+      </div>
+      <div>
+        <div class="eqs">
+          <p>\( A_I = \mathrm{ToA}_I - \mathrm{ToD}_I = \dfrac{2d}{c} + B_R \)</p>
+          <p>\( B_R = \mathrm{ToD}_R - \mathrm{ToA}_R \)</p>
+          <p class="key">\( \mathrm{RTT} = A_I - B_R = \dfrac{2d}{c}, \quad d = \dfrac{c}{2}\,\mathrm{RTT} \)
+            <span class="note">Each side measures only an interval on its own clock; the unknown clock offset and the turnaround cancel, the clock rate does not</span></p>
+        </div>
+        <ul>
+          <li>ToD is time of departure; ToA is time of arrival</li>
+          <li>A known synchronization packet (CS_SYNC) lets the receiver locate its arrival</li>
+          <li>If the reflector's crystal runs \( \varepsilon \) fast, \( B_R \) comes out \( \varepsilon B_R \) long: RTT needs the mode-0 frequency offset too</li>
+        </ul>
+      </div>
+    </div>
+    <p class="takeaway">Two intervals, two clocks: offset and turnaround cancel; mode 0 corrects the clock rate, leaving 2d/c</p>
+  </div>
+  <aside class="notes">
+    The same two-way trick works in time. The initiator sends a CS_SYNC
+    packet and timestamps its departure; the reflector timestamps its
+    arrival, waits, replies, and timestamps the reply's departure; the
+    initiator timestamps the reply's arrival. Unlike a tone, a packet has a
+    known bit pattern, so its arrival can be located.
+
+    Each device only measures an interval on its own clock, A_I and B_R, so
+    the unknown offset between the two clocks never enters. Subtracting the
+    reflector's interval leaves the round trip, 2d over c. This mirrors the
+    phase case, where the unknown oscillator phases cancelled.
+
+    What cancels is the offset between the clocks, not their rates. The
+    reflector counts its turnaround on its own crystal, and the carrier and
+    the timer come from that one crystal. If it runs epsilon fast, B_R comes
+    out epsilon times B_R too long: 12 ppm over a 176 microsecond turnaround
+    is 2.1 ns, 32 cm. So round-trip timing needs the frequency offset from
+    mode 0 just as phase-based ranging does; the timing-errors slide below
+    has the numbers, and the calibration section shows how it is measured.
+  </aside>
+</section>

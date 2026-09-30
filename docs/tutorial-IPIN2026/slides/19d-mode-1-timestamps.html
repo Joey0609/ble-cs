@@ -1,0 +1,122 @@
+<section class="acl-steps" data-timing="90">
+  <h2>Round-trip timing in CS: from timestamps to distance</h2>
+  <div class="content">
+    <div class="rtt-cols">
+      <svg
+        class="diagram"
+        viewBox="0 0 840 300"
+        role="img"
+        aria-label="One CS step: the initiator sends a CS_SYNC, the reflector receives it one time of flight later, waits a turnaround and sends its own CS_SYNC, which the initiator receives one time of flight later. The initiator measures A from its departure to its arrival, the reflector measures B from its arrival to its departure, each on its own clock. The arrival time is the correlation peak."
+      >
+        <!-- Lanes -->
+        <text x="10" y="96" font-size="19" font-weight="700" fill="#65e4d0">Initiator</text>
+        <text x="10" y="196" font-size="19" font-weight="700" fill="#ffb17a">Reflector</text>
+        <g stroke="#31535a" stroke-width="2">
+          <line x1="110" y1="90" x2="830" y2="90" />
+          <line x1="110" y1="190" x2="830" y2="190" />
+        </g>
+        <!-- CS_SYNC out: preamble + access address, optional sequence -->
+        <rect x="130" y="77" width="132" height="26" rx="3" fill="#65e4d0" />
+        <rect x="262" y="77" width="68" height="26" rx="3" fill="#65e4d0" fill-opacity="0.35" />
+        <text x="196" y="95" font-size="15" fill="#09242b" text-anchor="middle">CS_SYNC</text>
+        <text x="296" y="95" font-size="12" fill="#f5f5ed" text-anchor="middle">seq.</text>
+        <rect x="150" y="177" width="200" height="26" rx="3" fill="none" stroke="#65e4d0" stroke-width="1.5" stroke-dasharray="5 4" />
+        <text x="250" y="195" font-size="15" fill="#65e4d0" text-anchor="middle">received</text>
+        <!-- CS_SYNC back -->
+        <rect x="470" y="177" width="132" height="26" rx="3" fill="#ffb17a" />
+        <rect x="602" y="177" width="68" height="26" rx="3" fill="#ffb17a" fill-opacity="0.35" />
+        <text x="536" y="195" font-size="15" fill="#09242b" text-anchor="middle">CS_SYNC</text>
+        <text x="636" y="195" font-size="12" fill="#f5f5ed" text-anchor="middle">seq.</text>
+        <rect x="490" y="77" width="200" height="26" rx="3" fill="none" stroke="#ffb17a" stroke-width="1.5" stroke-dasharray="5 4" />
+        <text x="590" y="95" font-size="15" fill="#ffb17a" text-anchor="middle">received</text>
+        <!-- Time of flight, twice, and the turnaround -->
+        <g stroke="#afc8cb" stroke-width="1.5" stroke-dasharray="4 4">
+          <line x1="130" y1="103" x2="150" y2="177" />
+          <line x1="470" y1="177" x2="490" y2="103" />
+        </g>
+        <text x="162" y="145" font-size="15" fill="#afc8cb">ToF</text>
+        <text x="502" y="145" font-size="15" fill="#afc8cb">ToF</text>
+        <text x="410" y="172" font-size="15" fill="#afc8cb" text-anchor="middle">turnaround</text>
+        <!-- The four timestamps -->
+        <g stroke="#dcf58a" stroke-width="2.5">
+          <line x1="130" y1="70" x2="130" y2="110" />
+          <line x1="490" y1="70" x2="490" y2="110" />
+          <line x1="150" y1="170" x2="150" y2="210" />
+          <line x1="470" y1="170" x2="470" y2="210" />
+        </g>
+        <g font-size="15" font-weight="700" fill="#dcf58a" text-anchor="middle">
+          <text x="130" y="122">ToD</text>
+          <text x="490" y="122">ToA</text>
+          <text x="150" y="166">ToA</text>
+          <text x="470" y="166">ToD</text>
+        </g>
+        <!-- What each clock measures -->
+        <g stroke="#65e4d0" stroke-width="1.5">
+          <line x1="130" y1="48" x2="490" y2="48" />
+          <line x1="130" y1="42" x2="130" y2="54" />
+          <line x1="490" y1="42" x2="490" y2="54" />
+        </g>
+        <text x="310" y="38" font-size="17" fill="#65e4d0" text-anchor="middle">A = ToA − ToD, on the initiator's clock</text>
+        <g stroke="#ffb17a" stroke-width="1.5">
+          <line x1="150" y1="226" x2="470" y2="226" />
+          <line x1="150" y1="220" x2="150" y2="232" />
+          <line x1="470" y1="220" x2="470" y2="232" />
+        </g>
+        <text x="310" y="248" font-size="17" fill="#ffb17a" text-anchor="middle">B = ToD − ToA, on the reflector's clock</text>
+        <!-- The arrival time is a correlation peak -->
+        <path d="M110 292 L130 290 L140 285 L146 272 L150 262 L154 272 L160 285 L170 290 L190 292" fill="none" stroke="#dcf58a" stroke-width="2" />
+        <text x="200" y="290" font-size="15" fill="#afc8cb">arrival = peak of the correlation with the known access address</text>
+      </svg>
+      <div class="rtt-eqs">
+        <p>\( \mathrm{RTT} = \dfrac{2d}{c} = \dfrac{A - B}{1 + \mathrm{FFO}\cdot 10^{-6}} \)</p>
+        <p>\( d = \dfrac{c}{2}\,\mathrm{RTT} \)</p>
+        <p class="note">Each clock measures only its own interval, so the offset between the two clocks never enters.</p>
+      </div>
+    </div>
+    <div class="params">
+      <div><b>Time of arrival</b>The correlation peak of the CS_SYNC, measured at the antenna port</div>
+      <div><b>Reports</b>Each side sends its interval minus the nominal step timing, in 0.5 ns units</div>
+      <div><b>Clock drift</b>The initiator corrects for fractional frequency offset (FFO) from mode 0</div>
+      <div><b>RTT type</b>Access address only, a sounding sequence for finer timing, or a random sequence against spoofing</div>
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part H, §3.1 (measuring RTT), §4.3.2</a
+    ><span class="sep">·</span
+    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      This is how Channel Sounding turns the round-trip idea into numbers, in a step that exchanges
+      packets. The initiator transmits a CS_SYNC packet; the reflector receives it one time of
+      flight later, waits a fixed turnaround, and transmits its own CS_SYNC, which reaches the
+      initiator one time of flight after that. Each device timestamps the departure of what it sends
+      and the arrival of what it receives, at its antenna port, with known internal delays removed.
+      An arrival time is not a detected edge: the receiver correlates the incoming packet with the
+      access address it expects, and with the random sequence if there is one, and takes the delay
+      where the correlation peaks. The initiator measures A, from its departure to its arrival; the
+      reflector measures B, from its arrival to its departure. Each interval uses only one clock, so
+      the unknown offset between the clocks never enters. The difference A minus B is the round
+      trip, twice the time of flight. The initiator also corrects for the drift between the two
+      clocks with the fractional frequency offset it measured in mode 0, which is why the equation
+      divides by one plus FFO times ten to the minus six. The initiator's controller applies that
+      correction itself, before it reports, and the reflector must not; so the host only subtracts
+      the two reports, which is what our app does. Neither side reports raw timestamps: each
+      reports its interval minus the known nominal part, the packet length and the interlude, as a
+      signed number in half-nanosecond units; the half nanosecond is the reporting unit, not the
+      accuracy. The RTT type in the configuration chooses what is correlated: the access address
+      alone, a sounding sequence, or a random sequence. The sounding sequence alternates ones and
+      zeros, so the GFSK frequency swings as fast as the modulation allows; that widens the effective
+      bandwidth, sharpens the timing, and also yields phase. Because it is periodic, the receiver
+      locks on the access address first and only then refines on the sequence. The random sequence
+      is harder to spoof and comes with an attack-detection metric, NADM. Check packet
+      quality before using a time difference. The figure is illustrative. This packet-exchange step
+      is what the step modes later call mode 1; its real durations come with the other step timing
+      diagrams.
+    </p>
+  </aside>
+</section>

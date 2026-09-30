@@ -1,0 +1,20 @@
+<section class="cs-detail" data-timing="90">
+  <h2>How each CS step gets its frequency</h2>
+  <div class="content">
+    <p class="cs-intro">The CS channel map sets eligible measurement frequencies. A Channel Selection Algorithm (CSA) determines the order.</p>
+    <table class="cs-table">
+      <thead><tr><th scope="col">Step</th><th scope="col">Frequency selection</th></tr></thead>
+      <tbody>
+        <tr><td>Mode 0</td><td>CSA #3a uses its own shuffled channel sequence for calibration steps.</td></tr>
+        <tr><td>Main and sub-modes</td><td>CSA #3b or #3c orders the channels enabled by the configured map for this procedure.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">Both controllers run the same seeded, standard-defined rules, so they tune to the same frequency at each step without exchanging a step list.</div>
+  </div>
+  <div class="source">
+    <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">Core · Vol 6, Part H, §4 (CS channel selection)</a>
+  </div>
+  <aside class="notes">
+    <p>The channel map is part of the agreed CS configuration. It sets the candidate measurement frequencies; the channel sequence is not a literal list of steps sent over the air. Current channel classification can further exclude channels for a procedure. For the mode-0 prefix, channel selection algorithm #3a generates a separate shuffled sequence. For main-mode and sub-mode steps, the configured selection algorithm #3b or #3c generates a procedure-specific, pseudorandom traversal of the eligible channels. #3b shuffles the traversal; #3c constrains its frequency pattern through the configured shape and jump. The shared CS random generator and the specification's rules let both controllers derive the same next channel and retune together. This is a structured sequence, not an independent random choice for every step.</p>
+  </aside>
+</section>

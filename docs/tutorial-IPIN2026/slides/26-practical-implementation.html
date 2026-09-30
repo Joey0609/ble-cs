@@ -1,0 +1,16 @@
+<section class="cs-detail" data-timing="120">
+  <h2>Practical implementation: four decisions</h2>
+  <div class="content">
+<p class="cs-intro">A CS configuration that works on paper still has to fit the link, the controllers and the application.</p><ol class="cs-flow">
+<li><b>Step budget</b><span>Mode-0 steps, subevents, spacing and the controllers' step timings add up to one time budget. More measurements mean more radio time and more energy.</span></li>
+<li><b>Result message size</b><span>The Attribute Protocol maximum transmission unit (ATT MTU) makes a procedure's result take 39 notifications by default or 2 at 498.</span></li>
+<li><b>ACL interval</b><span>Sets what fits in the schedule: CS events and RAS results share its events, so the interval decides how a procedure is split and how often it can run.</span></li>
+<li><b>Security</b><span>Set by the use case: the required CS security level follows from what a wrong distance would cost.</span></li>
+</ol><div class="callout">Build the time budget from the step up, then check it against the use case.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §4.5.18; §5.1.26</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">Planner model and lab runs</a></div>
+  <aside class="notes">
+    <p>This stack turns the previous sections into four decisions an implementer has to make, and builds them from the smallest unit up. First, the step budget: the step timings both controllers support, mode-0 steps, subevents and their spacing all spend the same time, and every added measurement is radio time, which is energy. Second, the ATT MTU, exchanged once after the connection is set up: it decides how many notifications, and so how much ACL airtime, the reflector's RAS results need. Third, the ACL connection interval: CS events are anchored to ACL events, and on our controller each must end within one interval, so once the procedure and its results are known, the interval decides how the procedure is split into CS events and how often procedures can repeat. Fourth, security: the CS security level is chosen per use case, because each use case loses something different when a distance is wrong.</p>
+    <p>The numbers on the following slides come from the host application's planner model with the step timings our nRF54 pair selected, and from lab runs recorded in implementation_plan.md. They are examples for one controller pair, not general limits. Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §4.5.18; §5.1.26</a>. <a href="sources.html#application">Planner model and lab runs</a>.</p>
+  </aside>
+</section>

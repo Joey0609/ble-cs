@@ -1,0 +1,200 @@
+<section class="acl-steps" data-timing="105">
+  <h2>Scheduling: how events form a procedure</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="0 0 1160 266"
+      role="img"
+      aria-label="ACL anchors m to m+4. CS procedure 1 holds three CS events at anchors m, m+1 and m+2, with one subevent each. Under each event a bar shows how much of the channel array has been used: a third, two thirds, then all of it, which completes the procedure. A dashed Max_Procedure_Len bracket marks where the procedure would be cut if it were still incomplete. Procedure 2 starts one procedure interval after procedure 1, at anchor m+4, with a new channel shuffle."
+    >
+      <!-- Procedure interval, on top -->
+      <g stroke="#dcf58a" stroke-width="1.5">
+        <line x1="194" y1="24" x2="1074" y2="24" />
+        <line x1="194" y1="18" x2="194" y2="30" />
+        <line x1="1074" y1="18" x2="1074" y2="30" />
+      </g>
+      <text x="634" y="14" font-size="15" fill="#dcf58a" text-anchor="middle">procedure interval: whole connection intervals, start to start</text>
+      <!-- Lanes -->
+      <text x="20" y="62" font-size="19" font-weight="700" fill="#afc8cb">ACL</text>
+      <text x="20" y="140" font-size="19" font-weight="700" fill="#dcf58a">CS</text>
+      <text x="20" y="199" font-size="15" fill="#afc8cb">channels</text>
+      <line x1="140" y1="56" x2="1150" y2="56" stroke="#31535a" stroke-width="2" />
+      <!-- ACL events at every anchor: Central, then Peripheral -->
+      <g font-size="13" fill="#afc8cb">
+        <text x="150" y="40">m</text>
+        <text x="370" y="40">m+1</text>
+        <text x="590" y="40">m+2</text>
+        <text x="810" y="40">m+3</text>
+        <text x="1030" y="40">m+4</text>
+      </g>
+      <g fill="#65e4d0">
+        <rect x="150" y="46" width="16" height="20" rx="3" />
+        <rect x="370" y="46" width="16" height="20" rx="3" />
+        <rect x="590" y="46" width="16" height="20" rx="3" />
+        <rect x="810" y="46" width="16" height="20" rx="3" />
+        <rect x="1030" y="46" width="16" height="20" rx="3" />
+      </g>
+      <g fill="#ffb17a">
+        <rect x="168" y="46" width="16" height="20" rx="3" />
+        <rect x="388" y="46" width="16" height="20" rx="3" />
+        <rect x="608" y="46" width="16" height="20" rx="3" />
+        <rect x="828" y="46" width="16" height="20" rx="3" />
+        <rect x="1048" y="46" width="16" height="20" rx="3" />
+      </g>
+      <text x="810" y="84" font-size="13" fill="#ffb17a">results over ACL</text>
+      <!-- Procedures contain events, events contain subevents -->
+      <g fill="#dcf58a" fill-opacity="0.05" stroke="#dcf58a" stroke-width="2" stroke-dasharray="7 5">
+        <rect x="180" y="76" width="592" height="102" rx="10" />
+        <rect x="1060" y="76" width="96" height="102" rx="10" />
+      </g>
+      <g font-size="14" font-weight="700" fill="#dcf58a">
+        <text x="190" y="92">CS procedure 1 · one ranging result</text>
+        <text x="1068" y="92">procedure 2</text>
+      </g>
+      <g fill="#65e4d0" fill-opacity="0.08" stroke="#65e4d0" stroke-width="2">
+        <rect x="186" y="100" width="136" height="70" rx="8" />
+        <rect x="406" y="100" width="136" height="70" rx="8" />
+        <rect x="626" y="100" width="136" height="70" rx="8" />
+        <rect x="1066" y="100" width="86" height="70" rx="8" />
+      </g>
+      <g font-size="12" fill="#65e4d0">
+        <text x="194" y="115">CS event</text>
+        <text x="414" y="115">CS event</text>
+        <text x="634" y="115">CS event</text>
+        <text x="1074" y="115">CS event</text>
+      </g>
+      <g fill="#dcf58a" fill-opacity="0.12" stroke="#dcf58a" stroke-width="2">
+        <rect x="194" y="120" width="120" height="44" rx="5" />
+        <rect x="414" y="120" width="120" height="44" rx="5" />
+        <rect x="634" y="120" width="120" height="44" rx="5" />
+        <rect x="1074" y="120" width="76" height="44" rx="5" />
+      </g>
+      <!-- Steps: 0 0 2 2 1 | 0 0 2 2 2 | 0 0 1 2 2 | 0 0 2 -->
+      <g fill="#12363d" stroke-width="2">
+        <g stroke="#afc8cb">
+          <rect x="200" y="127" width="18" height="30" rx="3" />
+          <rect x="223" y="127" width="18" height="30" rx="3" />
+          <rect x="420" y="127" width="18" height="30" rx="3" />
+          <rect x="443" y="127" width="18" height="30" rx="3" />
+          <rect x="640" y="127" width="18" height="30" rx="3" />
+          <rect x="663" y="127" width="18" height="30" rx="3" />
+          <rect x="1080" y="127" width="18" height="30" rx="3" />
+          <rect x="1103" y="127" width="18" height="30" rx="3" />
+        </g>
+        <g stroke="#65e4d0">
+          <rect x="246" y="127" width="18" height="30" rx="3" />
+          <rect x="269" y="127" width="18" height="30" rx="3" />
+          <rect x="466" y="127" width="18" height="30" rx="3" />
+          <rect x="489" y="127" width="18" height="30" rx="3" />
+          <rect x="512" y="127" width="18" height="30" rx="3" />
+          <rect x="709" y="127" width="18" height="30" rx="3" />
+          <rect x="732" y="127" width="18" height="30" rx="3" />
+          <rect x="1126" y="127" width="18" height="30" rx="3" />
+        </g>
+        <g stroke="#ffb17a">
+          <rect x="292" y="127" width="18" height="30" rx="3" />
+          <rect x="686" y="127" width="18" height="30" rx="3" />
+        </g>
+      </g>
+      <g font-size="12" font-weight="700" text-anchor="middle">
+        <g fill="#afc8cb">
+          <text x="209" y="147">0</text>
+          <text x="232" y="147">0</text>
+          <text x="429" y="147">0</text>
+          <text x="452" y="147">0</text>
+          <text x="649" y="147">0</text>
+          <text x="672" y="147">0</text>
+          <text x="1089" y="147">0</text>
+          <text x="1112" y="147">0</text>
+        </g>
+        <g fill="#65e4d0">
+          <text x="255" y="147">2</text>
+          <text x="278" y="147">2</text>
+          <text x="475" y="147">2</text>
+          <text x="498" y="147">2</text>
+          <text x="521" y="147">2</text>
+          <text x="718" y="147">2</text>
+          <text x="741" y="147">2</text>
+          <text x="1135" y="147">2</text>
+        </g>
+        <g fill="#ffb17a">
+          <text x="301" y="147">1</text>
+          <text x="695" y="147">1</text>
+        </g>
+      </g>
+      <!-- How much of the channel array each procedure has used -->
+      <g fill="#1d4249" stroke="#31535a" stroke-width="1">
+        <rect x="186" y="188" width="136" height="12" rx="3" />
+        <rect x="406" y="188" width="136" height="12" rx="3" />
+        <rect x="626" y="188" width="136" height="12" rx="3" />
+        <rect x="1066" y="188" width="86" height="12" rx="3" />
+      </g>
+      <g fill="#65e4d0">
+        <rect x="186" y="188" width="45.3" height="12" rx="3" />
+        <rect x="406" y="188" width="90.7" height="12" rx="3" />
+      </g>
+      <rect x="626" y="188" width="136" height="12" rx="3" fill="#dcf58a" />
+      <g font-size="13" text-anchor="middle">
+        <text x="254" y="218" fill="#afc8cb">a third of the array</text>
+        <text x="474" y="218" fill="#afc8cb">two thirds</text>
+        <text x="694" y="218" fill="#dcf58a">all used: complete</text>
+        <text x="1109" y="218" fill="#afc8cb">new shuffle</text>
+      </g>
+      <!-- The length limit -->
+      <g stroke="#dcf58a" stroke-width="1.5">
+        <line x1="194" y1="238" x2="900" y2="238" stroke-dasharray="6 4" />
+        <line x1="194" y1="232" x2="194" y2="244" />
+        <line x1="900" y1="232" x2="900" y2="244" />
+      </g>
+      <text x="547" y="258" font-size="13" fill="#dcf58a" text-anchor="middle">Max_Procedure_Len: the procedure stops here even if incomplete</text>
+    </svg>
+    <div class="params">
+      <div><b>Complete</b>The non-mode-0 channel array has run Channel_Map_Repetition times</div>
+      <div><b>Cut short</b>Max_Procedure_Len (× 625 µs) runs out first, or 256 steps are used</div>
+      <div><b>Repeat</b>Next start one procedure interval later; Procedure_Count times, 0 = until stopped</div>
+      <div><b>Fresh draw</b>New channel shuffle and main-mode counts; no repeated steps in the first subevent</div>
+    </div>
+    <div class="callout">
+      One procedure, one ranging result: channel coverage sets how long it takes, the procedure
+      interval how often it comes.
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part H, §4 (channel selection)</a
+    ><span class="sep">·</span
+    ><a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Vol 6, Part B, §4.5.18</a
+    ><span class="sep">·</span
+    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      The top level: a CS procedure is one ranging measurement, and it ends by channel coverage,
+      not by a step count. Each procedure shuffles the enabled channels into an array for the
+      non-mode-0 steps and works through it Channel_Map_Repetition times; when the last pass is used
+      up, the procedure is complete, whether that took one subevent or several CS events. It is cut
+      short if Max_Procedure_Len, counted in 625 µs, runs out first, or when it reaches 256 steps;
+      the result then covers fewer channels. The next procedure starts one procedure interval after
+      the start of this one, counted in connection intervals, so this one has to end before that;
+      Procedure_Count sets how many run, 0 until stopped. Each procedure starts from a fresh draw of
+      the random generator: a new channel order and new main-mode counts, and its first subevent has no
+      steps to repeat.
+    </p>
+    <p>
+      This is where the parameters meet. The firmware's default request is 36 channels with one
+      map repetition, but a Max_Procedure_Len of 10 × 625 µs, room for a single 6 ms subevent; the
+      planner therefore predicts procedures that end by length after one subevent, having measured
+      only part of the 36 channels. The planner's schedule view names the condition that ended each
+      procedure. The rate follows from the procedure interval: one result every procedure interval
+      × connection interval, the arithmetic on the ACL timing slide. The figure is schematic, with
+      one subevent per event and illustrative channel fractions.
+    </p>
+  </aside>
+</section>

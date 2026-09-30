@@ -127,43 +127,56 @@
         </td>
       </tr>
       <tr>
-        <td><code>python/cs_app/README.md</code></td>
+        <td><code>python/ble_channel_sounding/README.md</code></td>
         <td>
           Configuration, controller comparison, result views, simulator behavior, recording and
           replay; Radio Test disabled.
         </td>
       </tr>
       <tr>
-        <td><code>python/cs_app/planner/README.md</code></td>
+        <td><code>python/ble_channel_sounding/planner/README.md</code></td>
         <td>
           Five timing/channel views; sent settings versus illustrative values; example PRNG distinct
           from the CS DRBG.
         </td>
       </tr>
       <tr>
-        <td><code>python/cs_app/planner/model.py</code></td>
+        <td><code>python/ble_channel_sounding/planner/model.py</code></td>
         <td>
           Six mode combinations, chronological step segments, guard/switching/extension time and
           later IPT handling.
         </td>
       </tr>
       <tr>
-        <td><code>python/cs_app/results.py</code></td>
+        <td>
+          <code>python/ble_channel_sounding/planner/model.py</code>,
+          <code>implementation_plan.md</code> §3.3, §8.5, §15
+        </td>
+        <td>
+          Practical-implementation numbers: schedule, RAS transfer size and airtime, and the lab
+          runs on an nRF54LM20 DK initiator with an nRF54L15 reflector (selected step timings,
+          steps per subevent against T_PM, RAS data lost with one ACL event between procedures, a
+          refused CS event, a rejected sounding-sequence RTT type).
+        </td>
+      </tr>
+      <tr>
+        <td><code>python/ble_channel_sounding/results.py</code>,
+          <code>python/ble_channel_sounding/pbr_ifft.py</code></td>
         <td>
           Procedure and step pairing, channel/path validation, complex PBR products, phase
-          corrections, slope sign and RTT units.
+          corrections, slope sign, RTT units and the IFFT range profile.
         </td>
       </tr>
       <tr>
         <td>
-          <code>python/cs_app/app.py</code>, <code>views/cs_view.py</code>,
+          <code>python/ble_channel_sounding/app.py</code>, <code>views/cs_view.py</code>,
           <code>views/results_view.py</code>
         </td>
         <td>Actual UI flow, analysis views, session controls and real screenshots.</td>
       </tr>
       <tr>
         <td>
-          <code>python/cs_app/protocol/packets.py</code>, <code>python/tests/test_app_gui.py</code>
+          <code>python/ble_channel_sounding/protocol/packets.py</code>, <code>python/tests/test_app_gui.py</code>
         </td>
         <td>Connection-report decoding and demonstrated simulator workflow used for capture.</td>
       </tr>
@@ -177,11 +190,11 @@
     </p>
     <h2>Screenshot provenance</h2>
     <p>
-      All six <code>images/app-*.png</code> screenshots were rendered from the actual supplied PyQt6
-      application, using offscreen Qt rendering with its normal widgets. Planner images contain
-      illustrative configurations. Results, controller and session images use the app's built-in
-      simulator and synthetic observations. These are not mockups, measured RF captures or evidence
-      of distance accuracy.
+      The four <code>images/app-*.png</code> screenshots were rendered from the supplied PyQt6
+      application's normal widgets. Planner images contain illustrative configurations. Controller
+      and session images use the built-in simulator; the PBR image uses synthetic packets from
+      <code>python/tests/test_results.py</code> to show the current four-plot Results view, including
+      the IFFT range profile. These are not measured RF captures or evidence of distance accuracy.
     </p>
     <p>
       An isolated capture script needed an explicit base-class dispatch for
@@ -210,13 +223,14 @@
         guarantee is asserted.
       </li>
     </ul>
-    <h2>Assets and licenses</h2>
+    <h2 id="assets">Assets and licenses</h2>
     <p>
       Slide 6 uses our Crowd Supply full sensor kit photograph,
-      <code>images/full-sensor-kit.jpg</code>. Our workshop photograph and logo come from the
-      IPIN2026 assets, and the ring-on-finger image comes from our product-photo library. The
-      workshop photograph is from earlier teaching activity, not IPIN 2026. No generated concept
-      image was used as a hardware photograph.
+      <code>images/full-sensor-kit.jpg</code>. The logo comes from the IPIN2026 assets, and the
+      ring-on-finger image comes from our product-photo library. Slide 32 uses
+      <code>images/workshop-synthetic-photo.png</code>, a photorealistic AI-generated image of
+      fictional students, not a photograph of real people or of the IPIN 2026 event. Its electronics
+      are illustrative and do not document a specific hardware setup.
     </p>
     <p>
       Reveal.js 5.2.1 and KaTeX 0.16.22 (both MIT) are loaded from the jsDelivr CDN, and the Outfit

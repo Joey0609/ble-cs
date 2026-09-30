@@ -1,0 +1,18 @@
+<section class="cs-detail" data-timing="120">
+  <h2>Mode 0, subevents and spacing share one budget</h2>
+  <div class="content">
+<table class="cs-table"><thead><tr><th scope="col">Setting</th><th scope="col">Benefit</th><th scope="col">Cost</th></tr></thead><tbody>
+<tr><td>Mode-0 steps, 1–3</td><td>A better frequency-offset estimate.</td><td>278 µs each, in every subevent.</td></tr>
+<tr><td>More subevents</td><td>Fit shorter windows; calibrate again.</td><td>Mode 0 in each: 5 subevents take 12.4 ms instead of 10.4.</td></tr>
+<tr><td>Subevent spacing</td><td>Gaps for other radio work.</td><td>A longer CS event; 625 µs units.</td></tr>
+<tr><td>Procedure spacing</td><td>Room for RAS and other links.</td><td>Fewer ranges per second.</td></tr>
+</tbody></table><div class="callout">Every mode-0 step, subevent and gap must still fit the ACL interval and leave ACL events for RAS.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part H, §4.4–4.5</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Vol 6, Part B, §4.5.18</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">Planner model</a></div>
+  <aside class="notes">
+    <p>The scheduling slides showed how steps fill subevents, subevents form CS events and CS events form a procedure. Here are the four settings an implementer chooses, and what each costs, for the baseline workload used through this stack: 72 channels once in mode 2, one antenna path, with the nRF54 step timings of the previous slide.</p>
+    <p>Every subevent opens with one to three mode-0 steps. They estimate the frequency offset between the two radios, which the phase measurements that follow depend on. With our timings each costs 278 µs including its retune gap, and it is paid again in every subevent: one subevent of 72 channels takes 10.2, 10.4 or 10.7 ms with one, two or three mode-0 steps.</p>
+    <p>More subevents fit smaller windows: at a 7.5 ms interval the 72 channels need two. Each subevent repeats the mode-0 steps and adds a RAS subevent header, and the last step that does not fit leaves unused tail time. Split into short 2.8 ms subevents, the same channels need five subevents, ten mode-0 steps and 12.4 ms of steps, over two CS events. Subevent spacing, in 625 µs units and longer than the subevent plus 150 µs, leaves gaps inside a CS event: two 5.5 ms subevents 6.25 ms apart hold 10.9 ms of steps over 11.7 ms. Procedure spacing, in whole ACL intervals, gives RAS and other links their room and sets the rate. Splitting a procedure does not make a new measurement: the channel arrays and the mode sequence continue across subevents and events.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html">Core 6.0 · Vol 6, Part H, §4.4–4.5</a>; <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Vol 6, Part B, §4.5.18</a>. <a href="sources.html#application">Planner model</a> (python/ble_channel_sounding/planner/model.py).</p>
+  </aside>
+</section>

@@ -1,0 +1,80 @@
+<section data-timing="90">
+  <h2>Fundamentals of frequency calibration: the problem</h2>
+  <div class="content">
+    <div class="cols">
+      <svg
+        class="diagram"
+        viewBox="0 0 560 300"
+        role="img"
+        aria-label="Two radios, each with its own crystal: the initiator at f0 times one plus epsilon I, the reflector at f0 times one plus epsilon R. A tone from the reflector arrives off the channel frequency by epsilon times f0."
+      >
+        <defs>
+          <marker id="fc-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8" fill="#ffb17a" />
+          </marker>
+        </defs>
+        <rect x="10" y="40" width="170" height="130" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
+        <text x="95" y="72" font-size="20" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
+        <rect x="380" y="40" width="170" height="130" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
+        <text x="465" y="72" font-size="20" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
+        <!-- A crystal in each radio -->
+        <g stroke="#f5f5ed" stroke-width="2" fill="none">
+          <line x1="80" y1="92" x2="80" y2="122" />
+          <rect x="86" y="90" width="14" height="34" rx="2" />
+          <line x1="106" y1="92" x2="106" y2="122" />
+          <line x1="450" y1="92" x2="450" y2="122" />
+          <rect x="456" y="90" width="14" height="34" rx="2" />
+          <line x1="476" y1="92" x2="476" y2="122" />
+        </g>
+        <g font-size="17" fill="#f5f5ed" text-anchor="middle">
+          <text x="95" y="152">f<tspan font-size="12" dy="4">0</tspan><tspan dy="-4">(1 + ε</tspan><tspan font-size="12" dy="4">I</tspan><tspan dy="-4">)</tspan></text>
+          <text x="465" y="152">f<tspan font-size="12" dy="4">0</tspan><tspan dy="-4">(1 + ε</tspan><tspan font-size="12" dy="4">R</tspan><tspan dy="-4">)</tspan></text>
+        </g>
+        <!-- The reflector's tone arrives off frequency -->
+        <line x1="372" y1="105" x2="190" y2="105" stroke="#ffb17a" stroke-width="3" marker-end="url(#fc-arrow)" />
+        <text x="281" y="94" font-size="15" fill="#ffb17a" text-anchor="middle">tone</text>
+        <text x="281" y="128" font-size="15" fill="#f5f5ed" text-anchor="middle">arrives ε·f<tspan font-size="11" dy="4">0</tspan><tspan dy="-4"> off</tspan></text>
+        <!-- The relative offset -->
+        <text x="280" y="222" font-size="26" fill="#dcf58a" text-anchor="middle">ε = ε<tspan font-size="17" dy="6">R</tspan><tspan dy="-6"> − ε</tspan><tspan font-size="17" dy="6">I</tspan></text>
+        <text x="280" y="256" font-size="16" fill="#afc8cb" text-anchor="middle">tens of ppm per crystal; |ε| &lt; 50 ppm</text>
+        <text x="280" y="280" font-size="16" fill="#afc8cb" text-anchor="middle">50 ppm at 2.44 GHz is 122 kHz</text>
+      </svg>
+      <div class="breaks">
+        <h3>What an offset breaks</h3>
+        <p><b>Phase</b> keeps turning between the two tones<br />\( |\Delta d| = c\,|\varepsilon|\,\Delta t/2 \)</p>
+        <p><b>Intervals</b> are timed on the reflector's own clock<br />\( |\Delta d| = c\,|\varepsilon|\,T/2 \)</p>
+        <p><b>Tones</b> land \( \varepsilon f_0 \) away from their channel</p>
+      </div>
+    </div>
+    <div class="callout">
+      <b>The problem:</b> estimate ε in every subevent, to well below 1&nbsp;ppm, and remove it before
+      any phase or time is used. 1&nbsp;ppm left over is 1&nbsp;cm for phase (Δt&nbsp;=&nbsp;69&nbsp;µs) and
+      2.6&nbsp;cm for time (T&nbsp;=&nbsp;176&nbsp;µs).
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part A, §3.5 (frequency in Channel Sounding)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Both ranging methods assumed that the two radios share one frequency and one time base. They
+      do not. Each radio derives its carrier from its own crystal, and every crystal is off by some
+      parts per million: the initiator sits at f0 times one plus epsilon I, the reflector at f0
+      times one plus epsilon R. What matters is the relative offset, epsilon, the difference of the
+      two. The specification allows up to 50 ppm, which at 2.44 GHz is 122 kHz. That offset breaks
+      three things we relied on. Phase: the two tone measurements are tens of microseconds apart,
+      and an offset keeps rotating the phase in between, a bias of c times epsilon times delta t
+      over two. Time: the reflector times its turnaround on its own
+      clock, which runs fast or slow by epsilon, the same form with the turnaround T, as on the
+      round-trip slides. Tones: every tone lands epsilon f0 away from the channel the receiver is
+      tuned to. So the calibration problem, stated formally: estimate epsilon in every subevent,
+      well below 1 ppm, and remove it before any phase or time is used. The numbers: 1 ppm left
+      over is 1 cm over a 69 microsecond tone gap and 2.6 cm over a 176 microsecond turnaround.
+    </p>
+  </aside>
+</section>

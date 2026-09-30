@@ -1,0 +1,19 @@
+<section class="cs-detail" data-timing="120">
+  <h2>More measurements cost airtime, and airtime costs energy</h2>
+  <div class="content">
+<table class="cs-table"><thead><tr><th scope="col">Change</th><th scope="col">What it improves</th><th scope="col">CS time per procedure</th></tr></thead><tbody>
+<tr><td>Baseline</td><td>72 channels once, one antenna path, mode 2</td><td>10.4 ms</td></tr>
+<tr><td>2 or 4 antenna paths</td><td>Multipath diversity</td><td>12.2 ms, 15.6 ms</td></tr>
+<tr><td>T_PM 40 µs</td><td>Less phase noise per tone</td><td>19.1 ms</td></tr>
+<tr><td>Every channel twice</td><td>A second look at each channel</td><td>20.4 ms</td></tr>
+<tr><td>Mode 3 (RTT + PBR)</td><td>A timing check on every step</td><td>18.2 ms</td></tr>
+</tbody></table><div class="callout">At 20 procedures per second the radio is busy 21% of the time for the baseline and 74% with 4 paths and T_PM 40 µs. The radio draws current for the whole step, so energy per range grows with its CS time.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part H, §4</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">Planner model</a></div>
+  <aside class="notes">
+    <p>Every way of improving the measurement adds steps or makes them longer. The planner times each change against the same baseline, 72 channels once in mode 2 with one antenna path, two mode-0 steps and our nRF54 step timings: 10.4 ms of CS steps per procedure. Two antenna paths make it 12.2 ms and four 15.6 ms, because each path adds a tone slot and a switch. T_PM 40 µs instead of 10 µs makes each tone four times longer: 19.1 ms. Visiting every channel twice doubles the main-mode steps: 20.4 ms. Mode 3 adds an RTT exchange to every tone step: 18.2 ms. The changes add up: four paths with T_PM 40 µs take 37.2 ms. The results grow too, from 740 to 1604 octets of RAS data with four paths, which the next slide turns into ACL airtime.</p>
+    <p>Radio time is energy. During a step the radio transmits or receives, with gaps of only tens of microseconds between, so energy per range scales with CS time, and energy per second with procedures per second. At 20 procedures per second the baseline keeps the radio busy about 21% of the time in CS alone; four paths with T_PM 40 µs raise that to 74%. ACL events and RAS transfers come on top, and a shorter ACL interval wakes the radio more often even when nothing is measured. Use the SoC data sheet for current figures; the planner gives the time.</p>
+    <p>For positioning with several anchors, each link needs its own time on the one radio: four links at 30 ms per procedure give at most about 8 complete sets of ranges per second, before reconnection and scheduling overhead. Decide which improvement the application needs, then check the rate and the battery it leaves.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html">Core 6.0 · Vol 6, Part H, §4</a>. <a href="sources.html#application">Planner model</a> (python/ble_channel_sounding/planner/model.py).</p>
+  </aside>
+</section>

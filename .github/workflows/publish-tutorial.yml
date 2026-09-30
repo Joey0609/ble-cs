@@ -1,0 +1,64 @@
+name: Publish tutorial presentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/tutorial-IPIN2026/**
+      - .github/workflows/publish-tutorial.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare tutorial site
+        run: |
+          mkdir -p _site/ipin2026-tutorial
+          cp -R docs/tutorial-IPIN2026/. _site/ipin2026-tutorial/
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <meta http-equiv="refresh" content="0; url=./ipin2026-tutorial/">
+              <title>IPIN 2026 Tutorial</title>
+            </head>
+            <body>
+              <p><a href="./ipin2026-tutorial/">Open the IPIN 2026 tutorial presentation</a></p>
+            </body>
+          </html>
+          EOF
+
+      - name: Upload tutorial site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

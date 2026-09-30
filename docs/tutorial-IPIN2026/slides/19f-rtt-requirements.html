@@ -1,0 +1,55 @@
+<section data-timing="75">
+  <h2>What round-trip timing requires</h2>
+  <div class="content">
+    <div class="reqs">
+      <div class="card">
+        <span class="n">01 · KNOWN PACKET</span>
+        <h3>A pattern to correlate against</h3>
+        <p>CS_SYNC with a known access address and optional sequence; bandwidth and signal-to-noise ratio set how sharp the peak is.</p>
+      </div>
+      <div class="card">
+        <span class="n">02 · BOTH INTERVALS</span>
+        <h3>The reflector&rsquo;s interval reaches the initiator</h3>
+        <p>The reflector reports its own ToD &minus; ToA; its turnaround need not be exact, only measured.</p>
+      </div>
+      <div class="card">
+        <span class="n">03 · CLOCK RATE</span>
+        <h3>A known clock-rate offset</h3>
+        <p>Mode 0 measures the fractional frequency offset, which corrects the turnaround interval.</p>
+      </div>
+      <div class="card">
+        <span class="n">04 · CALIBRATION</span>
+        <h3>Timestamps at the antenna</h3>
+        <p>Each side removes its transmit and receive chain delays; what is left over becomes a constant bias.</p>
+      </div>
+    </div>
+    <div class="callout">
+      Also assumed: the correlation peak belongs to the first path, which multipath can hide.
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part H, §3.1 (measuring RTT)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      The two-interval equation hides four requirements, the counterpart of the phase-based list.
+      First, a known packet: the receiver can only find an arrival time by correlating with a
+      pattern it expects, the access address and, if configured, a sounding or random sequence; the
+      signal bandwidth and the SNR decide how sharp that peak is. Second, both intervals must meet:
+      the reflector reports its own departure minus arrival, so its turnaround does not have to be
+      exact, only measured. Third, the clock rate: the two crystals tick at slightly different
+      rates, mode 0 measures the fractional frequency offset, and the initiator corrects the round
+      trip with it. Fourth, calibration: timestamps are defined at the antenna port, so each device
+      removes its internal transmit and receive delays; any residual is a constant range bias.
+      Underneath: the correlation peak is assumed to be the direct path. Indoors a stronger
+      reflection can dominate, which pulls the estimate long, and where security matters a random
+      sequence makes an early, forged arrival harder. This slide closes round-trip timing; next
+      comes the frequency calibration that both methods depend on.
+    </p>
+  </aside>
+</section>

@@ -1,0 +1,62 @@
+<section data-timing="60">
+  <h2>Mode 3: combine timing and phase in one step</h2>
+  <div class="content">
+    <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="Teaching diagram">
+      <defs>
+        <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+        </marker>
+      </defs>
+      <text x="30" y="85" font-size="25" fill="#f5f5ed" text-anchor="start">Initiator</text>
+      <text x="30" y="225" font-size="25" fill="#f5f5ed" text-anchor="start">Reflector</text>
+      <line
+        x1="170"
+        y1="105"
+        x2="960"
+        y2="105"
+        stroke="#31535a"
+        stroke-width="3"
+        stroke-dasharray=""
+      />
+      <line
+        x1="170"
+        y1="245"
+        x2="960"
+        y2="245"
+        stroke="#31535a"
+        stroke-width="3"
+        stroke-dasharray=""
+      />
+      <rect x="180" y="65" width="125" height="64" rx="7" fill="#1c5c5c" />
+      <text x="242.5" y="104" font-size="20" fill="#f5f5ed" text-anchor="middle">CS_SYNC</text>
+      <rect x="325" y="65" width="150" height="64" rx="7" fill="#1c5c5c" />
+      <text x="400.0" y="104" font-size="20" fill="#f5f5ed" text-anchor="middle">Tones</text>
+      <rect x="560" y="205" width="150" height="64" rx="7" fill="#65523e" />
+      <text x="635.0" y="244" font-size="20" fill="#f5f5ed" text-anchor="middle">Tones</text>
+      <rect x="735" y="205" width="125" height="64" rx="7" fill="#65523e" />
+      <text x="797.5" y="244" font-size="20" fill="#f5f5ed" text-anchor="middle">CS_SYNC</text>
+      <text x="485" y="174" font-size="24" fill="#f5f5ed" text-anchor="middle">T_IP2</text>
+      <text x="960" y="315" font-size="22" fill="#f5f5ed" text-anchor="end">time →</text>
+      <text x="195" y="345" font-size="18" fill="#f5f5ed" text-anchor="start">
+        Conceptual order · guard, switching and ramp times omitted here
+      </text>
+    </svg>
+    <div class="callout">
+      T_IP2 separates the two directions. Timing and phase share a step but need separate quality checks.
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Walk through the exact conceptual order used in the planner: initiator synchronization packet
+      followed by its tones, turnaround, reflector tones followed by its synchronization packet.
+      Guard periods are not drawn here. Mode three is not a promise that adding two estimators
+      produces perfect ranging, and the host does not automatically implement a robust fused
+      estimator simply because both traces are available. It provides a convenient way to examine
+      timing and phase evidence from related exchanges, at a different airtime cost from tone-only
+      steps.
+    </p>
+  </aside>
+</section>

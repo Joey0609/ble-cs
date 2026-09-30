@@ -1,0 +1,131 @@
+<section class="acl-steps" data-timing="105">
+  <h2>On the established link: connection events, then encryption</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="0 -40 1160 340"
+      role="img"
+      aria-label="Timeline after CONNECT_IND: pairing and encryption start run in the first connection events, and every later packet is encrypted; the first packet falls in a transmit window and sets the first anchor; a connection event starts at every anchor, one connection interval apart, each on its own data channel; in each event the Central transmits first and the Peripheral replies, within an event budget; the rest of the interval is free; in one event the Peripheral skips its reply"
+    >
+      <defs>
+        <marker id="cev-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#dcf58a" />
+        </marker>
+      </defs>
+      <!-- Security on the established link: pairing and encryption start, then encrypted -->
+      <g stroke="#65e4d0" stroke-width="1.5">
+        <line x1="264" y1="-12" x2="636" y2="-12" />
+        <line x1="264" y1="-18" x2="264" y2="-6" />
+        <line x1="636" y1="-18" x2="636" y2="-6" />
+      </g>
+      <text x="450" y="-24" font-size="15" fill="#65e4d0" text-anchor="middle">pairing, then Link Layer encryption</text>
+      <line x1="724" y1="-12" x2="1136" y2="-12" stroke="#dcf58a" stroke-width="3" marker-end="url(#cev-arrow)" />
+      <text x="930" y="-24" font-size="15" fill="#dcf58a" text-anchor="middle">encrypted: every packet from here on</text>
+      <!-- Lanes -->
+      <text x="20" y="117" font-size="21" font-weight="700" fill="#65e4d0">Central</text>
+      <text x="20" y="197" font-size="21" font-weight="700" fill="#ffb17a">Peripheral</text>
+      <g stroke="#31535a" stroke-width="2">
+        <line x1="150" y1="110" x2="1140" y2="110" />
+        <line x1="150" y1="190" x2="1140" y2="190" />
+      </g>
+      <!-- CONNECT_IND and the transmit window -->
+      <rect x="160" y="99" width="30" height="22" rx="3" fill="#65e4d0" />
+      <text x="175" y="88" font-size="14" fill="#65e4d0" text-anchor="middle">CONNECT_IND</text>
+      <g stroke="#afc8cb" stroke-width="1.5">
+        <line x1="238" y1="66" x2="308" y2="66" />
+        <line x1="238" y1="60" x2="238" y2="72" />
+        <line x1="308" y1="60" x2="308" y2="72" />
+      </g>
+      <text x="273" y="52" font-size="14" fill="#afc8cb" text-anchor="middle">transmit window</text>
+      <!-- Event budgets -->
+      <g fill="#65e4d0" fill-opacity="0.07" stroke="#65e4d0" stroke-width="1.5" stroke-dasharray="6 5">
+        <rect x="264" y="88" width="142" height="120" rx="6" />
+        <rect x="494" y="88" width="142" height="120" rx="6" />
+        <rect x="724" y="88" width="142" height="120" rx="6" />
+        <rect x="954" y="88" width="142" height="120" rx="6" />
+      </g>
+      <text x="565" y="80" font-size="15" fill="#65e4d0" text-anchor="middle">event budget</text>
+      <!-- Packets: the Central opens each event, the Peripheral replies -->
+      <g fill="#65e4d0">
+        <rect x="270" y="99" width="26" height="22" rx="3" />
+        <rect x="500" y="99" width="26" height="22" rx="3" />
+        <rect x="568" y="99" width="26" height="22" rx="3" />
+        <rect x="730" y="99" width="26" height="22" rx="3" />
+        <rect x="960" y="99" width="26" height="22" rx="3" />
+      </g>
+      <g fill="#ffb17a">
+        <rect x="304" y="179" width="26" height="22" rx="3" />
+        <rect x="534" y="179" width="26" height="22" rx="3" />
+        <rect x="602" y="179" width="26" height="22" rx="3" />
+        <rect x="764" y="179" width="26" height="22" rx="3" />
+      </g>
+      <rect x="994" y="179" width="26" height="22" rx="3" fill="none" stroke="#ffb17a" stroke-width="1.5" stroke-dasharray="4 3" />
+      <text x="1030" y="236" font-size="14" fill="#ffb17a" text-anchor="middle">may skip: latency</text>
+      <!-- Free time between events -->
+      <g font-size="14" fill="#afc8cb" text-anchor="middle">
+        <text x="450" y="155">free</text>
+        <text x="680" y="155">free</text>
+        <text x="910" y="155">free</text>
+      </g>
+      <!-- Time axis, anchors and the interval -->
+      <line x1="150" y1="258" x2="1140" y2="258" stroke="#afc8cb" stroke-width="2" />
+      <g stroke="#dcf58a" stroke-width="2.5">
+        <line x1="270" y1="248" x2="270" y2="268" />
+        <line x1="500" y1="248" x2="500" y2="268" />
+        <line x1="730" y1="248" x2="730" y2="268" />
+        <line x1="960" y1="248" x2="960" y2="268" />
+      </g>
+      <g font-size="14" fill="#f5f5ed" text-anchor="middle">
+        <text x="335" y="288">event n · ch 12</text>
+        <text x="565" y="288">event n+1 · ch 34</text>
+        <text x="795" y="288">event n+2 · ch 7</text>
+        <text x="1025" y="288">event n+3 · ch 25</text>
+      </g>
+      <line x1="270" y1="240" x2="500" y2="240" stroke="#dcf58a" stroke-width="1.5" />
+      <g stroke="#dcf58a" stroke-width="1.5">
+        <line x1="270" y1="235" x2="270" y2="245" />
+        <line x1="500" y1="235" x2="500" y2="245" />
+      </g>
+      <text x="385" y="231" font-size="15" fill="#dcf58a" text-anchor="middle">connection interval</text>
+      <text x="1140" y="250" font-size="14" fill="#afc8cb" text-anchor="end">time</text>
+    </svg>
+    <div class="params rows">
+      <div><b>Connection interval</b> anchor to anchor, one event each</div>
+      <div><b>Channel map</b> the data channel of each event</div>
+      <div><b>Peripheral latency</b> events the Peripheral may skip</div>
+      <div><b>Supervision timeout</b> silence before the link is lost</div>
+      <div><b>Event budget</b> reserved per event, not negotiated</div>
+      <div class="enc"><b>Encryption</b> key from pairing, switched on by the LL</div>
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Core 6.0 · Vol 6, Part B (Link Layer)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      The parameters from CONNECT_IND turn the link into a fixed rhythm. The Central sends its first
+      packet inside the transmit window; that packet sets the first anchor point. From then on a
+      connection event starts at every anchor, one connection interval apart, and the event counter
+      goes up by one each time. In each event the Central transmits first and the Peripheral replies
+      a fixed inter-frame space later; if either side has more data they keep alternating, as in
+      event n+1. Each event uses one data channel, chosen from the channel map by the hopping
+      algorithm. The event budget is how long a controller reserves for an event; it is a local
+      scheduling choice, not negotiated, and an event with little data ends early. The rest of the
+      interval is free for other radio activity, and that is where Channel Sounding will go.
+      Peripheral latency lets the Peripheral skip events when it has nothing to send, as in event
+      n+3, without moving the anchors. The supervision timeout ends the link if no valid packet
+      arrives for that long. These events also carry the link's own control traffic, and the first
+      thing that matters for CS is security. If the devices are not bonded yet, they pair through
+      the Security Manager, which runs over the link like any other data. The Central then starts
+      Link Layer encryption with LL_ENC_REQ and LL_ENC_RSP, followed by LL_START_ENC_REQ and
+      LL_START_ENC_RSP, using the key from pairing or from an earlier bond. From then on every
+      packet on the link is encrypted, and only then may CS security start: Channel Sounding needs
+      this encrypted link. The figure is illustrative; the channel numbers are examples.
+    </p>
+  </aside>
+</section>

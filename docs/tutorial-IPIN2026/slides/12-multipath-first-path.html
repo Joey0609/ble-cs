@@ -1,0 +1,79 @@
+<section data-timing="105">
+  <h2>Indoors, the shortest path may be the hardest to see</h2>
+  <div class="content">
+    <div class="cols">
+      <div>
+        <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="An anchor and a node with an obstacle between them: the dashed direct path runs through the obstacle, a longer path reflects off the wall above it">
+          <defs>
+            <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+            </marker>
+          </defs>
+          <rect x="40" y="55" width="920" height="250" rx="12" fill="#12363d" />
+          <rect x="450" y="100" width="90" height="160" rx="12" fill="#4a6165" />
+          <circle
+            cx="150"
+            cy="210"
+            r="15"
+            stroke="#65e4d0"
+            fill="#65e4d0"
+            stroke-width="3"
+            stroke-dasharray=""
+          />
+          <circle
+            cx="850"
+            cy="210"
+            r="15"
+            stroke="#65e4d0"
+            fill="#dcf58a"
+            stroke-width="3"
+            stroke-dasharray=""
+          />
+          <line
+            x1="170"
+            y1="210"
+            x2="830"
+            y2="210"
+            stroke="#afc8cb"
+            stroke-width="3"
+            stroke-dasharray="8 9"
+          />
+          <path d="M150 210L500 65L850 210" fill="none" stroke="#ffb17a" stroke-width="5" />
+          <text x="150" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">anchor</text>
+          <text x="850" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">node</text>
+          <text x="580" y="245" font-size="22" fill="#afc8cb" text-anchor="start">direct path</text>
+          <text x="448" y="295" font-size="22" fill="#f5f5ed" text-anchor="start">obstacle</text>
+          <text x="615" y="100" font-size="22" fill="#f5f5ed" text-anchor="start">
+            reflected path
+          </text>
+        </svg>
+      </div>
+      <div>
+        <p class="lead"><strong>Multipath</strong><br />Signals add as complex waves.</p>
+        <p class="lead"><strong>No line of sight</strong><br />The direct path is blocked or weak.</p>
+      </div>
+    </div>
+    <div class="callout warning">
+      <strong>Warning:</strong> amplitude, phase and delay give the range only along one path. A
+      reflection biases all three, and a stable bias survives averaging.
+    </div>
+  </div>
+  <div class="source"></div>
+  <aside class="notes">
+    <p>
+      The previous slide read a range from the signal's amplitude, phase or delay. Each of those
+      follows distance only when the signal takes one path. Indoors it does not: point to the direct
+      path and the longer path reflected off the wall. The receiver sees the sum of every
+      path as complex waves. Amplitude: the copies add or cancel, so the strength fades deeply
+      over a few centimetres of movement or a small change of frequency. Phase: the phase of the
+      sum is not the phase of the direct path, so it can curve with frequency rather than follow
+      a single line. Delay: the direct path arrives first, but a later and stronger reflection can
+      hide it. When the direct path is blocked or weak, by a wall or a body, a longer path
+      dominates and produces a persistent range bias. Averaging helps random noise but does not
+      necessarily correct that bias. Changing the frequency, the antenna or the position changes
+      how the paths add, which helps against fading, but it does not remove a bias every
+      measurement shares. The most useful teaching experiment is to change one condition, such
+      as orientation or an obstacle, and compare the raw evidence before and after.
+    </p>
+  </aside>
+</section>

@@ -1,0 +1,41 @@
+<section data-timing="105">
+  <h2>Inspect PBR phase and IFFT range</h2>
+  <div class="content">
+    <div class="screenshot-layout">
+      <div class="screenshot-frame">
+        <img src="images/app-pbr.png" alt="PBR results with amplitude, wrapped phase, unwrapped phase and IFFT range profile" />
+      </div>
+      <div class="screen-notes">
+        <span class="badge">OUR APP · SIMULATED DATA</span>
+        <div class="card">
+          <span class="n">01</span>
+          <p>Select one procedure and antenna path.</p>
+        </div>
+        <div class="card">
+          <span class="n">02</span>
+          <p>Compare unwrapped phase slope with the IFFT peak.</p>
+        </div>
+        <div class="card">
+          <span class="n">03</span>
+          <p>Check tone quality, correction choice and range profile shape.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      The screenshot is from the actual Results widget with synthetic test packets, not RF
+      measurements. The four plots show amplitude, wrapped phase, unwrapped phase and the IFFT
+      magnitude range profile. Both the slope and IFFT use the same selected path, tone quality
+      filter and phase correction choice. The IFFT places measured complex products on a 1 MHz
+      frequency grid and leaves missing channels empty. Zero padding locates the displayed peak more
+      smoothly but does not improve physical range resolution. A strong peak may include multipath,
+      so compare it with the phase slope, RTT and a known-distance reference before interpreting it
+      as the direct path. The synthetic example lacks a reported compensation value; that overlay
+      coincides with raw data in this screenshot.
+    </p>
+  </aside>
+</section>

@@ -1,0 +1,118 @@
+<section class="acl-steps" data-timing="90">
+  <h2>Connection establishment: advertise, connect, negotiate</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="0 0 1160 288"
+      role="img"
+      aria-label="An advertiser sends ADV_IND on the three advertising channels in each advertising event while a scanner listens; the scanner answers one ADV_IND with CONNECT_IND on the same channel; the advertiser becomes the Peripheral and the scanner the Central of one LE ACL connection"
+    >
+      <defs>
+        <marker id="ce-arrow-c" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+        </marker>
+        <marker id="ce-arrow-p" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#ffb17a" />
+        </marker>
+      </defs>
+      <!-- Lanes -->
+      <text x="20" y="106" font-size="21" font-weight="700" fill="#ffb17a">Advertiser</text>
+      <text x="20" y="128" font-size="15" fill="#afc8cb">becomes Peripheral</text>
+      <text x="20" y="216" font-size="21" font-weight="700" fill="#65e4d0">Scanner</text>
+      <text x="20" y="238" font-size="15" fill="#afc8cb">becomes Central</text>
+      <g stroke="#31535a" stroke-width="2">
+        <line x1="180" y1="110" x2="690" y2="110" />
+        <line x1="180" y1="220" x2="690" y2="220" />
+      </g>
+      <!-- Two advertising events: ADV_IND on channels 37, 38, 39 -->
+      <g fill="#ffb17a">
+        <rect x="200" y="97" width="36" height="26" rx="3" />
+        <rect x="250" y="97" width="36" height="26" rx="3" />
+        <rect x="300" y="97" width="36" height="26" rx="3" />
+        <rect x="470" y="97" width="36" height="26" rx="3" />
+        <rect x="520" y="97" width="36" height="26" rx="3" />
+      </g>
+      <g font-size="14" fill="#afc8cb" text-anchor="middle">
+        <text x="218" y="89">37</text>
+        <text x="268" y="89">38</text>
+        <text x="318" y="89">39</text>
+        <text x="488" y="89">37</text>
+        <text x="538" y="89">38</text>
+      </g>
+      <text x="268" y="62" font-size="16" fill="#ffb17a" text-anchor="middle">ADV_IND, connectable</text>
+      <line x1="200" y1="148" x2="470" y2="148" stroke="#afc8cb" stroke-width="1.5" />
+      <g stroke="#afc8cb" stroke-width="1.5">
+        <line x1="200" y1="141" x2="200" y2="155" />
+        <line x1="470" y1="141" x2="470" y2="155" />
+      </g>
+      <text x="335" y="170" font-size="15" fill="#afc8cb" text-anchor="middle">advertising interval</text>
+      <!-- Scanner listens, hears one ADV_IND, answers on the same channel -->
+      <rect x="190" y="209" width="360" height="22" rx="4" fill="#65e4d0" fill-opacity="0.12" stroke="#65e4d0" stroke-dasharray="6 5" />
+      <text x="370" y="262" font-size="15" fill="#afc8cb" text-anchor="middle">scanning: listens on the advertising channels</text>
+      <line x1="538" y1="124" x2="538" y2="203" stroke="#ffb17a" stroke-width="2" marker-end="url(#ce-arrow-p)" />
+      <rect x="566" y="207" width="70" height="26" rx="3" fill="#65e4d0" />
+      <line x1="601" y1="206" x2="601" y2="128" stroke="#65e4d0" stroke-width="2.5" marker-end="url(#ce-arrow-c)" />
+      <text x="601" y="262" font-size="16" font-weight="700" fill="#65e4d0" text-anchor="middle">CONNECT_IND</text>
+      <text x="601" y="282" font-size="14" fill="#afc8cb" text-anchor="middle">same channel, right after</text>
+      <!-- Result: one connection, two Link Layer roles -->
+      <line x1="720" y1="50" x2="720" y2="280" stroke="#31535a" stroke-width="2" stroke-dasharray="6 6" />
+      <rect x="760" y="88" width="370" height="44" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
+      <text x="945" y="117" font-size="19" fill="#f5f5ed" text-anchor="middle">
+        <tspan font-weight="700" fill="#ffb17a">Peripheral</tspan>: it advertised
+      </text>
+      <rect x="760" y="198" width="370" height="44" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
+      <text x="945" y="227" font-size="19" fill="#f5f5ed" text-anchor="middle">
+        <tspan font-weight="700" fill="#65e4d0">Central</tspan>: it sent CONNECT_IND
+      </text>
+      <line x1="945" y1="132" x2="945" y2="198" stroke="#dcf58a" stroke-width="3" />
+      <text x="960" y="171" font-size="16" fill="#dcf58a">one LE ACL connection</text>
+    </svg>
+    <div class="groups">
+      <div class="group">
+        <span class="n">FIXED BY CONNECT_IND</span>
+        <ul>
+          <li><b>Connection interval</b>, Peripheral latency, supervision timeout</li>
+          <li><b>Channel map</b> and hopping</li>
+          <li>Access address, packet-check seed, first transmit window</li>
+        </ul>
+      </div>
+      <div class="group after">
+        <span class="n">NEGOTIATED RIGHT AFTER, ON THE NEW LINK</span>
+        <ul>
+          <li><b>Physical layer (PHY)</b>: LL_PHY_REQ / RSP; starts on the connect request&rsquo;s PHY</li>
+          <li><b>Packet data length</b>: LL_LENGTH_REQ / RSP</li>
+          <li><b>Attribute Protocol maximum transmission unit (ATT MTU)</b>: ATT_EXCHANGE_MTU_REQ / RSP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Core 6.0 · Vol 6, Part B (Link Layer)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      A connection starts from advertising. The advertiser sends connectable ADV_IND packets on the
+      three primary advertising channels, 37, 38 and 39, once per advertising interval. The scanner
+      listens; when it hears an ADV_IND it wants to connect to, it answers on the same channel right
+      after the packet with CONNECT_IND. From that moment the scanner is the Central and the
+      advertiser the Peripheral of one LE ACL connection. With extended advertising the same happens
+      with AUX_ADV_IND, AUX_CONNECT_REQ and AUX_CONNECT_RSP on a secondary channel. Watch the words:
+      the Link Layer calls the scanning side the initiator while it tries to connect, which has
+      nothing to do with the CS initiator. CONNECT_IND fixes the link's timing and channels:
+      connection interval, Peripheral latency, supervision timeout, channel map and hopping, plus
+      the access address, CRC seed and a transmit window for the first packet. The timing can change
+      later with a connection parameter update. Three things are not in CONNECT_IND; they are
+      negotiated over the new link right after it forms. The PHY: the link starts on the PHY the
+      connect request used, 1M with legacy advertising or the secondary advertising PHY with
+      extended advertising, and a PHY update can move it to 2M or Coded. The Link Layer data length,
+      the largest payload per packet. And the ATT MTU, which is a GATT exchange, not a Link Layer
+      one. The next slide shows how the timing parameters shape the connection over time; the
+      negotiations come back when we size the ranging data. The figure is illustrative.
+    </p>
+  </aside>
+</section>

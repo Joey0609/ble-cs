@@ -1,0 +1,177 @@
+<section class="acl-steps" data-timing="120">
+  <h2>Scheduling: how a subevent is filled with steps</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="0 0 1160 232"
+      role="img"
+      aria-label="One 6 ms subevent drawn to scale: two mode-0 steps, then blocks of three, two and five mode-2 main-mode steps, the first two blocks each followed by one mode-1 sub-mode step, with a frequency-change gap before every step after the first. The modes stay fixed; only the number of main-mode steps in each block is drawn. Only four steps of the block of five fit: 285 µs remain unused because the next mode-2 step and its gap need 473 µs, so the fifth step carries over to the next subevent."
+    >
+      <!-- The time budget of the subevent -->
+      <g stroke="#dcf58a" stroke-width="1.5">
+        <line x1="110" y1="26" x2="1130" y2="26" />
+        <line x1="110" y1="20" x2="110" y2="32" />
+        <line x1="1130" y1="20" x2="1130" y2="32" />
+      </g>
+      <text x="620" y="16" font-size="15" fill="#dcf58a" text-anchor="middle">subevent length, as agreed for the procedure: 6 ms</text>
+      <!-- Which steps are which -->
+      <g stroke-width="1.5">
+        <g stroke="#afc8cb">
+          <line x1="110" y1="58" x2="236.5" y2="58" />
+          <line x1="110" y1="52" x2="110" y2="64" />
+          <line x1="236.5" y1="52" x2="236.5" y2="64" />
+        </g>
+        <g stroke="#65e4d0">
+          <line x1="262" y1="58" x2="477.7" y2="58" />
+          <line x1="262" y1="52" x2="262" y2="64" />
+          <line x1="477.7" y1="52" x2="477.7" y2="64" />
+          <line x1="563.9" y1="58" x2="699.2" y2="58" />
+          <line x1="563.9" y1="52" x2="563.9" y2="64" />
+          <line x1="699.2" y1="52" x2="699.2" y2="64" />
+          <line x1="785.4" y1="58" x2="1081.5" y2="58" />
+          <line x1="785.4" y1="52" x2="785.4" y2="64" />
+          <line x1="1081.5" y1="52" x2="1081.5" y2="64" />
+        </g>
+        <g stroke="#ffb17a">
+          <line x1="503.2" y1="58" x2="538.4" y2="58" />
+          <line x1="503.2" y1="52" x2="503.2" y2="64" />
+          <line x1="538.4" y1="52" x2="538.4" y2="64" />
+          <line x1="724.7" y1="58" x2="759.9" y2="58" />
+          <line x1="724.7" y1="52" x2="724.7" y2="64" />
+          <line x1="759.9" y1="52" x2="759.9" y2="64" />
+        </g>
+      </g>
+      <g font-size="14" text-anchor="middle">
+        <text x="173.3" y="46" fill="#afc8cb">2 × mode 0</text>
+        <text x="369.9" y="46" fill="#65e4d0">3 × mode 2</text>
+        <text x="520.8" y="46" fill="#ffb17a">sub</text>
+        <text x="631.6" y="46" fill="#65e4d0">2 × mode 2</text>
+        <text x="742.3" y="46" fill="#ffb17a">sub</text>
+        <text x="933.5" y="46" fill="#65e4d0">5 × mode 2: 4 fit, 1 carries over</text>
+      </g>
+      <!-- Steps to scale: 0.17 px per µs from x = 110 -->
+      <text x="96" y="105" font-size="15" fill="#afc8cb" text-anchor="end">steps</text>
+      <g fill="#12363d" stroke-width="2">
+        <g stroke="#afc8cb">
+          <rect x="110" y="72" width="50.5" height="56" rx="5" />
+          <rect x="186" y="72" width="50.5" height="56" rx="5" />
+        </g>
+        <g stroke="#65e4d0">
+          <rect x="262" y="72" width="54.9" height="56" rx="5" />
+          <rect x="342.4" y="72" width="54.9" height="56" rx="5" />
+          <rect x="422.8" y="72" width="54.9" height="56" rx="5" />
+          <rect x="563.9" y="72" width="54.9" height="56" rx="5" />
+          <rect x="644.3" y="72" width="54.9" height="56" rx="5" />
+          <rect x="785.4" y="72" width="54.9" height="56" rx="5" />
+          <rect x="865.8" y="72" width="54.9" height="56" rx="5" />
+          <rect x="946.2" y="72" width="54.9" height="56" rx="5" />
+          <rect x="1026.6" y="72" width="54.9" height="56" rx="5" />
+        </g>
+        <g stroke="#ffb17a">
+          <rect x="503.2" y="72" width="35.2" height="56" rx="5" />
+          <rect x="724.7" y="72" width="35.2" height="56" rx="5" />
+        </g>
+      </g>
+      <g font-size="20" font-weight="700" text-anchor="middle">
+        <text x="135.3" y="107" fill="#afc8cb">0</text>
+        <text x="211.3" y="107" fill="#afc8cb">0</text>
+        <text x="289.5" y="107" fill="#65e4d0">2</text>
+        <text x="369.9" y="107" fill="#65e4d0">2</text>
+        <text x="450.3" y="107" fill="#65e4d0">2</text>
+        <text x="520.8" y="107" fill="#ffb17a">1</text>
+        <text x="591.4" y="107" fill="#65e4d0">2</text>
+        <text x="671.8" y="107" fill="#65e4d0">2</text>
+        <text x="742.3" y="107" fill="#ffb17a">1</text>
+        <text x="812.9" y="107" fill="#65e4d0">2</text>
+        <text x="893.3" y="107" fill="#65e4d0">2</text>
+        <text x="973.7" y="107" fill="#65e4d0">2</text>
+        <text x="1054.1" y="107" fill="#65e4d0">2</text>
+      </g>
+      <!-- The time left over: the next step does not fit -->
+      <rect x="1081.5" y="72" width="48.5" height="56" rx="5" fill="none" stroke="#afc8cb" stroke-width="1.5" stroke-dasharray="5 4" />
+      <line x1="1105.8" y1="128" x2="1105.8" y2="140" stroke="#afc8cb" stroke-width="1.5" />
+      <text x="1130" y="156" font-size="13" fill="#afc8cb" text-anchor="end">285 µs left; the next step needs 473 µs with its T<tspan dy="3" font-size="10">FCS</tspan></text>
+      <!-- The retuning gap between two steps -->
+      <g stroke="#afc8cb" stroke-width="1.5">
+        <line x1="160.5" y1="140" x2="186" y2="140" />
+        <line x1="160.5" y1="134" x2="160.5" y2="146" />
+        <line x1="186" y1="134" x2="186" y2="146" />
+      </g>
+      <text x="110" y="160" font-size="13" fill="#afc8cb">T<tspan dy="3" font-size="10">FCS</tspan><tspan dy="-3">: retune between steps</tspan></text>
+      <!-- Time axis -->
+      <line x1="110" y1="182" x2="1130" y2="182" stroke="#afc8cb" stroke-width="2" />
+      <g stroke="#afc8cb" stroke-width="1.5">
+        <line x1="110" y1="176" x2="110" y2="188" />
+        <line x1="280" y1="176" x2="280" y2="188" />
+        <line x1="450" y1="176" x2="450" y2="188" />
+        <line x1="620" y1="176" x2="620" y2="188" />
+        <line x1="790" y1="176" x2="790" y2="188" />
+        <line x1="960" y1="176" x2="960" y2="188" />
+        <line x1="1130" y1="176" x2="1130" y2="188" />
+      </g>
+      <g font-size="14" fill="#f5f5ed" text-anchor="middle">
+        <text x="110" y="204">0</text>
+        <text x="280" y="204">1</text>
+        <text x="450" y="204">2</text>
+        <text x="620" y="204">3</text>
+        <text x="790" y="204">4</text>
+        <text x="960" y="204">5</text>
+        <text x="1130" y="204">6 ms</text>
+      </g>
+      <text x="110" y="228" font-size="13" fill="#afc8cb">To scale, planner step model (LE 2M): mode 0 297 µs, mode 2 323 µs, mode 1 207 µs, T<tspan dy="3" font-size="10">FCS</tspan><tspan dy="-3"> 150 µs. Counts n = 3, 2, 5: one possible draw from [2, 10].</tspan></text>
+    </svg>
+    <div class="params">
+      <div><b>First, mode 0</b>1–3 steps open every subevent; channel-selection algorithm #3a</div>
+      <div><b>Then repeats</b>0–3 main-mode steps from the end of the previous subevent, same channels</div>
+      <div><b>Then main + sub</b>n main-mode steps, then one sub-mode step; modes fixed, n redrawn from [min, max]; channel selection #3b or #3c</div>
+      <div><b>Until full</b>A step is added only if it and its T<sub>FCS</sub> still fit; at most 160 steps</div>
+    </div>
+    <div class="callout">
+      No step list is sent: both controllers apply these rules to the same configuration, subevent
+      length and CS random generator, so both know each step's mode, channel and start time.
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part H, §4 (step scheduling and channel selection)</a
+    ><span class="sep">·</span
+    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Scheduling answers where every step goes: which mode, which channel, at what time. The answer
+      is never transmitted. After CS setup both controllers hold the same configuration, the same
+      agreed timing and the same seeded CS random generator, and each runs the same rules, so the
+      reflector knows what the initiator does next without being told. We build the schedule from
+      the inside out: here how one subevent is filled, then, below, the mode sequence, how channels
+      are selected, how subevents form CS events, and how events form a procedure.
+    </p>
+    <p>
+      A subevent is a time budget, the subevent length agreed for the procedure. It always opens
+      with one to three mode-0 steps, which re-establish the shared frequency; their channels come
+      from their own shuffled array, channel selection #3a. Next come up to three main-mode steps
+      repeated from the end of the previous subevent, on the same channels; the first subevent of a
+      procedure has nothing to repeat, and our firmware requests no repetition. Then the
+      measurement: blocks of n main-mode steps, each followed by one sub-mode step. The two modes are
+      set once in the CS configuration and stay the same for the whole procedure; what changes is n,
+      which the random generator draws again for every block, between the configured minimum and
+      maximum. Setting the minimum equal to the maximum gives a fixed pattern. These steps take their
+      channels from the other array, #3b or #3c. Before every step after the first, the
+      radios retune for T_FCS. A step is added only while it and its T_FCS still fit; then the
+      subevent ends, with at most 160 steps.
+    </p>
+    <p>
+      The figure is to scale with the planner's step model: mode 2 with a mode-1 sub-mode, two
+      mode-0 steps, LE 2M, T_IP 145 µs and T_FCS 150 µs, in the firmware's 6 ms subevent. Two mode-0
+      steps and eleven more fit in 5.715 ms; the next mode-2 step would need 473 µs with its T_FCS,
+      and only 285 µs remain. The counts three, two and five are one possible draw from the
+      firmware's range of 2 to 10. Only four steps of the block of five fit; the block does not
+      restart at the subevent boundary, so its fifth step, then its sub-mode step, come first in the
+      next subevent, right after the mode-0 steps. The planner uses a fixed count of two instead,
+      which fits 14 steps in 5.96 ms, the procedure shown on the ACL timing slide.
+    </p>
+  </aside>
+</section>

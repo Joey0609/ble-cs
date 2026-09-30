@@ -1,0 +1,39 @@
+<section data-timing="120">
+  <h2>Try it: a frequency offset becomes range bias</h2>
+  <div class="content">
+    <div class="interactive" id="cal-demo">
+      <div class="control-row">
+        <label
+          >ε
+          <input id="cal-eps" type="range" min="0" max="50" step="0.5" value="12" /></label
+        ><span id="cal-eps-label"></span
+        ><label
+          >Δt
+          <input id="cal-dt" type="range" min="10" max="250" step="1" value="69" /></label
+        ><span id="cal-dt-label"></span
+        ><button id="cal-pbr" type="button">Tone gap 69 µs</button
+        ><button id="cal-rtt" type="button">Turnaround 176 µs</button>
+      </div>
+      <svg id="cal-chart" viewBox="0 0 1050 290" aria-label="Interactive chart of range bias against frequency offset"></svg>
+      <div class="interactive-output" id="cal-output"></div>
+    </div>
+    <p class="small muted">
+      Ideal model: |Δd| = c·|ε|·Δt / 2, the same for phase and for time. Read ε as whatever is left
+      after calibration.
+    </p>
+  </div>
+  <div class="source"></div>
+  <aside class="notes">
+    <p>
+      One formula covers both methods: the range bias is c times the frequency offset times the time
+      between the two observations, over two. For phase-based ranging that time is the gap between
+      the initiator's and the reflector's tones; for round-trip timing it is the reflector's
+      turnaround. Start at 12 ppm on the tone gap: about 12 cm.
+      Switch to the turnaround: the same offset now costs about 32 cm. Then pull the offset down to
+      1 ppm: the bias falls to about 1 cm and 2.6 cm. That is the argument for calibration: the
+      crystals cannot be made perfect, so the offset has to be measured and removed until what is
+      left is well below 1 ppm. The model is ideal: no noise, no multipath, one offset for the
+      whole step.
+    </p>
+  </aside>
+</section>

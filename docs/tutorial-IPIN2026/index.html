@@ -14,7 +14,13 @@
 </head>
 <body>
   <div class="reveal"><div class="slides"></div></div>
-  <div id="deck-counter" class="deck-counter"></div>
+  <footer class="deck-footer" aria-label="Slide footer">
+    <div class="deck-down-hint" hidden>
+      <span>Press</span> <kbd aria-label="Down arrow">↓</kbd> <span>to see related slides</span>
+    </div>
+    <span class="deck-footer-hint">Press F1 or ? to learn the controls</span>
+    <span id="deck-counter" class="deck-counter"></span>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>

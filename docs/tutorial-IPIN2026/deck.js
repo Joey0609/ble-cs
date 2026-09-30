@@ -1,22 +1,40 @@
 // Builds the deck from slides.json: fetches slides/<file>.html in order, adds
 // the shared header, then starts reveal.js. Files are named <NN>-<name> (R<NN>-
-// in the appendix); each slide's id is <name>, so #/<name> links to it and
-// survives renumbering.
+// in the appendix, <NN><a-z>- below a slide); each slide's id is <name>, so
+// #/<name> links to it and survives renumbering.
 
 const deck = document.querySelector('.reveal .slides');
 const counter = document.getElementById('deck-counter');
+const downMarker = document.querySelector('.deck-down-hint');
 
-const slideId = (file) => file.replace(/^R?\d+-/, '');
+const slideId = (file) => file.replace(/^R?\d+[a-z]?-/, '');
 
-// Header breadcrumb: the main sections, plus the current one on appendix slides.
+// A slides.json entry is a file, or {"slide": file, "down": [files]} for a
+// slide with a vertical stack below it, reached with the down arrow.
+const top = (entry) => entry.slide ?? entry;
+const below = (entry) => entry.down ?? [];
+
+// Header breadcrumb: a window of five sections with the current one in the
+// middle, taken from the main sections plus, on the last main section and the
+// appendix slides, the appendix sections after it.
+// Near either end the window stays full and the current section moves off
+// centre. An ellipsis marks the sections left out on either side.
+const CRUMBS = 5;
 function header(label, sections, current) {
-  const shown = sections.filter((section) => !section.appendix || section === current);
-  const at = shown.indexOf(current);
-  const items = shown.map((section, i) => {
-    const state = i === at ? 'current' : i < at ? 'complete' : 'upcoming';
-    const aria = i === at ? ' aria-current="step"' : '';
-    return `<li class="${state}"><a href="#/${slideId(section.slides[0])}"${aria}>${section.title}</a></li>`;
+  const lastMain = sections.filter((section) => !section.appendix).at(-1);
+  const tail = current === lastMain || current.appendix;
+  const all = sections.filter((section) => !section.appendix || tail);
+  const at = all.indexOf(current);
+  const centred = at - Math.floor((CRUMBS - 1) / 2);
+  const start = Math.max(0, Math.min(centred, all.length - CRUMBS));
+  const items = all.slice(start, start + CRUMBS).map((section, i) => {
+    const state = start + i === at ? 'current' : start + i < at ? 'complete' : 'upcoming';
+    const aria = start + i === at ? ' aria-current="step"' : '';
+    return `<li class="${state}"><a href="#/${slideId(top(section.slides[0]))}"${aria}>${section.title}</a></li>`;
   });
+  const more = '<li class="more" aria-hidden="true">…</li>';
+  if (start > 0) items.unshift(more);
+  if (start + CRUMBS < all.length) items.push(more);
   const div = document.createElement('div');
   div.className = 'eyebrow';
   div.innerHTML = `<span>${label}</span>`
@@ -38,16 +56,35 @@ async function load(name) {
   return section;
 }
 
-// Main slides count as 01 / 54; appendix slides count within their section.
-function updateCounter(sections) {
-  const slide = Reveal.getCurrentSlide();
-  const section = sections.find((s) => s.slides.map(slideId).includes(slide.id));
-  if (section.appendix) {
-    counter.textContent = `${section.title} ${section.slides.map(slideId).indexOf(slide.id) + 1} / ${section.slides.length}`;
-  } else {
-    const main = sections.filter((s) => !s.appendix).flatMap((s) => s.slides.map(slideId));
-    counter.textContent = `${String(main.indexOf(slide.id) + 1).padStart(2, '0')} / ${main.length}`;
+// Counter text per file: main slides count as 01 / 38, and the slides below
+// one as 12a, 12b, …; appendix slides count within their section.
+function counterLabels(sections) {
+  const labels = new Map();
+  const main = sections.filter((s) => !s.appendix).flatMap((s) => s.slides);
+  for (const section of sections) {
+    section.slides.forEach((entry, i) => {
+      const n = section.appendix
+        ? `${section.title} ${i + 1}`
+        : String(main.indexOf(entry) + 1).padStart(2, '0');
+      const total = section.appendix ? section.slides.length : main.length;
+      labels.set(top(entry), `${n} / ${total}`);
+      below(entry).forEach((file, j) => {
+        labels.set(file, `${n}${String.fromCharCode(97 + j)} / ${total}`);
+      });
+    });
   }
+  return labels;
+}
+
+// Shows the slide's number, with a separate cue above the footer
+// whenever another slide is available below.
+function updateFooter(labels) {
+  const slide = Reveal.getCurrentSlide();
+  const { file } = slide.dataset;
+  const hasBelow = slide.parentElement !== deck
+    && slide.nextElementSibling?.matches('section');
+  counter.textContent = labels.get(file);
+  downMarker.hidden = !hasBelow;
 }
 
 try {
@@ -57,11 +94,24 @@ try {
   }
   const { header: label, sections } = await response.json();
   for (const section of sections) {
-    const slides = await Promise.all(section.slides.map(load));
-    slides.forEach((slide, i) => {
-      slide.id = slideId(section.slides[i]);
-      slide.prepend(header(label, sections, section));
-      deck.append(slide);
+    const entries = await Promise.all(
+      section.slides.map((entry) => Promise.all([top(entry), ...below(entry)].map(load))),
+    );
+    entries.forEach((slides, i) => {
+      const entry = section.slides[i];
+      [top(entry), ...below(entry)].forEach((file, j) => {
+        slides[j].id = slideId(file);
+        slides[j].dataset.file = file;
+        slides[j].prepend(header(label, sections, section));
+      });
+      if (slides.length === 1) {
+        deck.append(slides[0]);
+      } else {
+        // reveal.js shows a <section> of <section>s as a vertical stack.
+        const stack = document.createElement('section');
+        stack.append(...slides);
+        deck.append(stack);
+      }
     });
   }
 
@@ -76,8 +126,9 @@ try {
     });
   });
 
-  Reveal.on('ready', () => updateCounter(sections));
-  Reveal.on('slidechanged', () => updateCounter(sections));
+  const labels = counterLabels(sections);
+  Reveal.on('ready', () => updateFooter(labels));
+  Reveal.on('slidechanged', () => updateFooter(labels));
   Reveal.initialize({
     width: 1280,
     height: 720,
@@ -88,6 +139,14 @@ try {
     backgroundTransition: 'none',
     // Pacing for the speaker view (S); slides override it with data-timing.
     defaultTiming: 60,
+    // ← and → always change slide, so ↓ and ↑ alone reveal and hide
+    // fragments such as quiz answers. Shift jumps to the first or last slide.
+    keyboard: {
+      37: (event) => (event.shiftKey ? Reveal.slide(0) : Reveal.left({ skipFragments: true })),
+      39: (event) => (event.shiftKey
+        ? Reveal.slide(Reveal.getHorizontalSlides().length - 1)
+        : Reveal.right({ skipFragments: true })),
+    },
     plugins: [RevealNotes, RevealMath.KaTeX],
     katex: { version: '0.16.22' },
   });

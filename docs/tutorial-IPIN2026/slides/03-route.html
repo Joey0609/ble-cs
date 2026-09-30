@@ -11,28 +11,44 @@
         ><span class="stage-detail">Positions from ranges: amplitude, angle, time, phase</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">03</span><strong>BLE connection</strong
-        ><span class="stage-detail">The link that CS runs on</span>
+        <span class="stage-number">03</span><strong>LE link</strong
+        ><span class="stage-detail">Bluetooth Low Energy (LE): the connection CS runs on</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">04</span><strong>Channel Sounding</strong
-        ><span class="stage-detail">Steps, modes, procedures and what limits them</span>
+        <span class="stage-number">04</span><strong>Measurement principles</strong
+        ><span class="stage-detail">Phase, round-trip time and frequency calibration</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">05</span><strong>Hands-on</strong
-        ><span class="stage-detail">Which parameter changes what</span>
+        <span class="stage-number">05</span><strong>CS procedure</strong
+        ><span class="stage-detail">Steps, modes, scheduling and result delivery</span>
+      </div>
+      <div class="agenda-row">
+        <span class="stage-number">06</span><strong>Security</strong
+        ><span class="stage-detail">Why a distance needs protecting, and how CS does it</span>
+      </div>
+      <div class="agenda-row">
+        <span class="stage-number">07</span><strong>In practice</strong
+        ><span class="stage-detail">Budgets, link settings and tradeoffs</span>
+      </div>
+      <div class="agenda-row">
+        <span class="stage-number">08</span><strong>Hands-on</strong
+        ><span class="stage-detail">What the app shows; which parameter changes what</span>
       </div>
     </div>
   </div>
   <div class="source"></div>
   <aside class="notes">
     <p>
-      Five parts, each feeding the hands-on. SensWear is the platform the radio lives on.
+      Eight parts, each feeding the hands-on. SensWear is the platform the radio lives on.
       Localization and ranging places Channel Sounding among the four ways to get distance from a
-      radio. The BLE connection part matters because CS has no link of its own: the connection
-      interval, PHY, data length and MTU decide when CS runs and how fast results come back. The
-      Channel Sounding part is the longest: what is measured, how exchanges are organized and what
-      invalidates a result. The hands-on then changes one parameter at a time. Questions and
+      radio. The LE link part introduces CS and the connection it needs: CS has no link of its own,
+      so the connection interval, PHY, data length and MTU decide when CS runs and how fast results
+      come back. Measurement principles covers what CS observes: the phase of tones, the round-trip
+      time of packets, and the frequency calibration both depend on. The CS procedure part organizes
+      those measurements into steps, subevents, events and procedures, sets them up, and delivers
+      the reflector's results. Security explains why a distance must be protected and how CS does
+      it. In practice turns all of this into the choices an implementer makes. The hands-on shows
+      how the app checks a range estimate, then changes one parameter at a time. Questions and
       prediction pauses are included in the timings. The appendix is optional and outside the
       90-minute total.
     </p>

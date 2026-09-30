@@ -1,0 +1,42 @@
+<section data-timing="120">
+  <h2>Let’s think it through</h2>
+  <div class="content">
+    <div class="quiz">
+      <div class="question">
+        1. Doubling the tone steps gives more samples. What happens to range update rate?
+        <div class="answer fragment">
+          CS airtime and result traffic grow. The procedure may need more events, reducing complete ranges per second.
+        </div>
+      </div>
+      <div class="question">
+        2. PBR reads 1 m too far with little spread; RTT is noisier but near the reference. What do you check?
+        <div class="answer fragment">
+          Check accepted steps, quality flags, phase residuals and calibration. A repeatable result can still be biased.
+        </div>
+      </div>
+      <div class="question">
+        3. Rotating the reflector changes the range at a fixed distance. How would you isolate the cause?
+        <div class="answer fragment">
+          Hold the configuration fixed; repeat each orientation and compare phase shape, antenna path, quality and RTT.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Allocate roughly forty seconds per question: brief individual prediction, discussion with a
+      neighbour, then reveal. For question one, ask where extra steps and result bytes fit in the
+      CS and ACL schedule; more samples do not guarantee a higher rate of complete procedures.
+      For question two, ask what each method contributes and why a narrow spread does not establish
+      accuracy. Use the measured reference, validity and quality flags, phase residuals and
+      calibration context before choosing a result. For question three, ask for a controlled
+      follow-up experiment: keep distance and configuration fixed, repeat orientations and inspect
+      both the observations and the range estimates. The exact cause is a hypothesis to test, not
+      something the first range change proves. These questions close the theory parts and prepare the
+      hands-on experiment.
+    </p>
+  </aside>
+</section>

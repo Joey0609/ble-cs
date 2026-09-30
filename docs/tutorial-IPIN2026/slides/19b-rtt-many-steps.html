@@ -1,0 +1,106 @@
+<section class="cs-basics" data-timing="105">
+  <h2>Fundamentals of round-trip timing: many steps</h2>
+  <div class="body">
+    <p class="lead">Repeat the exchange in every step, each on its own hopped channel.
+      Example: <em>d</em>&nbsp;=&nbsp;5&nbsp;m, 32 steps.</p>
+      <svg class="plots" viewBox="0 0 780 260" role="img"
+         aria-label="Left: RTT distance of 32 steps against channel for a device 5 metres away; two steps are rejected, the rest scatter by about half a metre, a few are pulled long, and the median is 5.15 metres. Right: the noise of the average falls as one over the square root of the step count, while a 15 centimetre bias stays; they cross near 10 steps">
+        <defs>
+        <marker id="bas1d-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
+        </defs>
+        <g font-family="inherit">
+        <text x="50" y="22" font-size="16" font-weight="700" fill="#f5f5ed">Each step: one RTT, on its own channel</text>
+        <line x1="50" y1="220" x2="350" y2="220" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1d-mut)"/>
+        <line x1="50" y1="220" x2="50" y2="30" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1d-mut)"/>
+        <text x="350" y="254" font-size="14" fill="#afc8cb" text-anchor="end">channel (MHz)</text>
+        <text transform="translate(14,135) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">distance (m)</text>
+        <line x1="50.0" y1="220" x2="50.0" y2="225" stroke="#afc8cb"/><text x="50.0" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">2402</text>
+        <line x1="186.4" y1="220" x2="186.4" y2="225" stroke="#afc8cb"/><text x="186.4" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">2440</text>
+        <line x1="330.0" y1="220" x2="330.0" y2="225" stroke="#afc8cb"/><text x="330.0" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">2480</text>
+        <line x1="45" y1="198.8" x2="50" y2="198.8" stroke="#afc8cb"/><text x="42" y="202.8" font-size="13" fill="#afc8cb" text-anchor="end">3</text>
+        <line x1="45" y1="156.2" x2="50" y2="156.2" stroke="#afc8cb"/><text x="42" y="160.2" font-size="13" fill="#afc8cb" text-anchor="end">5</text>
+        <line x1="45" y1="113.8" x2="50" y2="113.8" stroke="#afc8cb"/><text x="42" y="117.8" font-size="13" fill="#afc8cb" text-anchor="end">7</text>
+        <line x1="45" y1="71.2" x2="50" y2="71.2" stroke="#afc8cb"/><text x="42" y="75.2" font-size="13" fill="#afc8cb" text-anchor="end">9</text>
+        <line x1="50" y1="153.0" x2="330" y2="153.0" stroke="#ffb17a" stroke-width="2" stroke-dasharray="6 4"/>
+        <circle cx="57.2" cy="147.1" r="3" fill="#65e4d0"/><circle cx="60.8" cy="116.1" r="3" fill="#65e4d0"/><circle cx="64.4" cy="179.0" r="3" fill="#65e4d0"/><circle cx="71.5" cy="148.0" r="3" fill="#65e4d0"/><circle cx="85.9" cy="152.9" r="3" fill="#65e4d0"/><circle cx="89.5" cy="159.5" r="3" fill="#65e4d0"/><circle cx="93.1" cy="151.5" r="3" fill="#65e4d0"/><circle cx="100.3" cy="150.8" r="3" fill="#65e4d0"/><circle cx="107.4" cy="145.4" r="3" fill="#65e4d0"/><circle cx="114.6" cy="158.6" r="3" fill="#65e4d0"/><circle cx="154.1" cy="162.4" r="3" fill="#65e4d0"/><circle cx="157.7" cy="162.5" r="3" fill="#65e4d0"/><circle cx="175.6" cy="166.5" r="3" fill="#65e4d0"/><circle cx="186.4" cy="156.7" r="3" fill="#65e4d0"/><circle cx="190.0" cy="164.4" r="3" fill="#65e4d0"/><circle cx="193.6" cy="145.2" r="3" fill="#65e4d0"/><circle cx="200.8" cy="175.6" r="3" fill="#65e4d0"/><circle cx="211.5" cy="126.0" r="3" fill="#65e4d0"/><circle cx="218.7" cy="137.9" r="3" fill="#65e4d0"/><circle cx="229.5" cy="114.3" r="3" fill="#65e4d0"/><circle cx="236.7" cy="159.2" r="3" fill="#65e4d0"/><circle cx="251.0" cy="161.7" r="3" fill="#65e4d0"/><circle cx="254.6" cy="139.1" r="3" fill="#65e4d0"/><circle cx="258.2" cy="176.8" r="3" fill="#65e4d0"/><circle cx="276.2" cy="102.7" r="3" fill="#65e4d0"/><circle cx="283.3" cy="163.8" r="3" fill="#65e4d0"/><circle cx="286.9" cy="201.3" r="3.2" fill="none" stroke="#afc8cb" stroke-width="1.5"/><circle cx="290.5" cy="157.1" r="3" fill="#65e4d0"/><circle cx="294.1" cy="152.6" r="3" fill="#65e4d0"/><circle cx="308.5" cy="66.2" r="3.2" fill="none" stroke="#afc8cb" stroke-width="1.5"/><circle cx="315.6" cy="110.5" r="3" fill="#65e4d0"/><circle cx="322.8" cy="153.1" r="3" fill="#65e4d0"/>
+        <text x="190" y="90" font-size="13" fill="#afc8cb" text-anchor="middle">a few pulled long by reflections</text>
+        <text x="300" y="70" font-size="13" fill="#afc8cb" text-anchor="end">rejected</text>
+        <text x="175" y="212" font-size="14" text-anchor="middle"><tspan fill="#ffb17a">median 5.15 m</tspan><tspan fill="#afc8cb"> &#183; true 5 m</tspan></text>
+        <text x="450" y="22" font-size="16" font-weight="700" fill="#f5f5ed">Averaging: noise falls, bias stays</text>
+        <line x1="450" y1="220" x2="750" y2="220" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1d-mut)"/>
+        <line x1="450" y1="220" x2="450" y2="30" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1d-mut)"/>
+        <text x="750" y="254" font-size="14" fill="#afc8cb" text-anchor="end">steps averaged, M</text>
+        <text transform="translate(414,135) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">error (m)</text>
+        <line x1="450.0" y1="220" x2="450.0" y2="225" stroke="#afc8cb"/><text x="450.0" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">1</text>
+        <line x1="496.7" y1="220" x2="496.7" y2="225" stroke="#afc8cb"/><text x="496.7" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">2</text>
+        <line x1="543.3" y1="220" x2="543.3" y2="225" stroke="#afc8cb"/><text x="543.3" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">4</text>
+        <line x1="590.0" y1="220" x2="590.0" y2="225" stroke="#afc8cb"/><text x="590.0" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">8</text>
+        <line x1="636.7" y1="220" x2="636.7" y2="225" stroke="#afc8cb"/><text x="636.7" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">16</text>
+        <line x1="683.3" y1="220" x2="683.3" y2="225" stroke="#afc8cb"/><text x="683.3" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">32</text>
+        <line x1="730.0" y1="220" x2="730.0" y2="225" stroke="#afc8cb"/><text x="730.0" y="239" font-size="13" fill="#afc8cb" text-anchor="middle">64</text>
+        <line x1="445" y1="186.0" x2="450" y2="186.0" stroke="#afc8cb"/><text x="442" y="190.0" font-size="13" fill="#afc8cb" text-anchor="end">0.1</text>
+        <line x1="445" y1="152.0" x2="450" y2="152.0" stroke="#afc8cb"/><text x="442" y="156.0" font-size="13" fill="#afc8cb" text-anchor="end">0.2</text>
+        <line x1="445" y1="118.0" x2="450" y2="118.0" stroke="#afc8cb"/><text x="442" y="122.0" font-size="13" fill="#afc8cb" text-anchor="end">0.3</text>
+        <line x1="445" y1="84.0" x2="450" y2="84.0" stroke="#afc8cb"/><text x="442" y="88.0" font-size="13" fill="#afc8cb" text-anchor="end">0.4</text>
+        <line x1="445" y1="50.0" x2="450" y2="50.0" stroke="#afc8cb"/><text x="442" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">0.5</text>
+        <line x1="450" y1="169.0" x2="730" y2="169.0" stroke="#ffb17a" stroke-width="2" stroke-dasharray="6 4"/>
+        <line x1="608.6" y1="169.0" x2="608.6" y2="220" stroke="#afc8cb" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <polyline points="450.0,54.4 452.3,57.3 454.7,60.1 457.0,62.8 459.3,65.5 461.7,68.2 464.0,70.8 466.3,73.3 468.7,75.9 471.0,78.3 473.3,80.8 475.7,83.2 478.0,85.5 480.3,87.8 482.7,90.1 485.0,92.3 487.3,94.5 489.7,96.7 492.0,98.8 494.3,100.9 496.7,102.9 499.0,104.9 501.3,106.9 503.7,108.8 506.0,110.8 508.3,112.6 510.7,114.5 513.0,116.3 515.3,118.1 517.7,119.8 520.0,121.5 522.3,123.2 524.7,124.9 527.0,126.5 529.3,128.1 531.7,129.7 534.0,131.3 536.3,132.8 538.7,134.3 541.0,135.8 543.3,137.2 545.7,138.6 548.0,140.0 550.3,141.4 552.7,142.8 555.0,144.1 557.3,145.4 559.7,146.7 562.0,147.9 564.3,149.2 566.7,150.4 569.0,151.6 571.3,152.8 573.7,153.9 576.0,155.0 578.3,156.2 580.7,157.3 583.0,158.3 585.3,159.4 587.7,160.4 590.0,161.5 592.3,162.5 594.7,163.5 597.0,164.4 599.3,165.4 601.7,166.3 604.0,167.2 606.3,168.1 608.7,169.0 611.0,169.9 613.3,170.8 615.7,171.6 618.0,172.4 620.3,173.3 622.7,174.1 625.0,174.9 627.3,175.6 629.7,176.4 632.0,177.1 634.3,177.9 636.7,178.6 639.0,179.3 641.3,180.0 643.7,180.7 646.0,181.4 648.3,182.0 650.7,182.7 653.0,183.3 655.3,184.0 657.7,184.6 660.0,185.2 662.3,185.8 664.7,186.4 667.0,187.0 669.3,187.5 671.7,188.1 674.0,188.6 676.3,189.2 678.7,189.7 681.0,190.2 683.3,190.7 685.7,191.2 688.0,191.7 690.3,192.2 692.7,192.7 695.0,193.2 697.3,193.6 699.7,194.1 702.0,194.5 704.3,195.0 706.7,195.4 709.0,195.8 711.3,196.2 713.7,196.6 716.0,197.0 718.3,197.4 720.7,197.8 723.0,198.2 725.3,198.6 727.7,198.9 730.0,199.3" fill="none" stroke="#65e4d0" stroke-width="2.5"/>
+        <circle cx="683.3" cy="190.7" r="4" fill="#65e4d0"/>
+        <text x="683.3" y="210" font-size="13" fill="#65e4d0" text-anchor="middle">8.6 cm</text>
+        <text x="480" y="66" font-size="15" fill="#65e4d0">noise &#963;/&#8730;M</text>
+        <text x="456" y="186" font-size="13" fill="#ffb17a">bias 15 cm (1 ns)</text>
+        <text x="614" y="160" font-size="13" fill="#afc8cb">&#8776; 10 steps</text>
+        </g>
+      </svg>
+    <div class="facts">
+      <div><p>\( \sigma_{\bar d} = \dfrac{\sigma_d}{\sqrt{M}} \)</p>
+        <span class="note">Noise averages: 0.49&nbsp;m for one step, 8.6&nbsp;cm for 32 (bound at 20&nbsp;dB)</span></div>
+      <div><p>\( \hat d = \operatorname{median}_k\, d_k \)</p>
+        <span class="note">Bias does not: calibrate the chain delay, correct the clock rate (mode 0). The median resists steps pulled long</span></div>
+      <div><p>30 / 32 accepted</p>
+        <span class="note">Our app: steps with a clean packet on both sides &rarr; mean, median, &sigma;</span></div>
+    </div>
+    <p class="takeaway">Many steps: unambiguous and decimetre-level &rarr; the anchor for the precise but ambiguous phase</p>
+  </div>
+  <aside class="notes">
+    One packet gives a coarse round trip, so Channel Sounding repeats the
+    exchange: a procedure holds many steps, each on its own hopped channel,
+    and each step gives one independent round-trip time. Left: 32 steps for a
+    device 5 m away, plotted against channel as the app's RTT tab shows them.
+    Two failed the packet check and are rejected; the other 30 scatter by
+    about half a metre, and a few sit well above the truth.
+
+    A delay is the same quantity on every channel, so unlike phase the steps
+    combine directly, with no unwrapping. Only the transmit and receive chain
+    delay differs a little from channel to channel, so its calibration is per
+    channel.
+
+    Noise averages: M independent steps shrink the scatter by the square root
+    of M. The bound for the LE 2M PHY with a 96-bit sequence at 20 dB SNR is
+    0.49 m for one step and 8.6 cm for 32. Bias does not average. Right: 1 ns
+    left in the chain delay is 15 cm on every step; beyond about ten steps it
+    is larger than the noise, so calibration buys more than more steps. The
+    clock-rate error is a bias of the same kind: the reflector's turnaround,
+    timed on its own crystal, is stretched the same way on every step, and
+    only the mode-0 frequency offset removes it.
+
+    Hopping helps against multipath. On one channel a reflection shifts every
+    step the same way; across channels its phase relative to the direct path
+    changes, so part of that error turns into scatter. What is left mostly
+    pulls long, so a robust summary matters: here the mean is 5.30 m and the
+    median 5.15 m. A low quantile goes further.
+
+    Our app does exactly this much, per procedure: it pairs the initiator and
+    reflector steps, keeps a pair when both report a time difference and
+    passed the access-address check (a bit-error limit is optional), and
+    shows the accepted count, mean, median and spread. It applies no
+    per-channel calibration and no quantile.
+
+    Averaged RTT is unambiguous and, once calibrated, good to decimetres: the
+    anchor that tells the phase estimate which ambiguity interval it is in,
+    while the phase supplies the precision. Details:
+    docs/Bluetooth_CS_Mode1_RTT_Estimation.pdf, sections on aggregation and on
+    the relationship to phase-based ranging.
+  </aside>
+</section>

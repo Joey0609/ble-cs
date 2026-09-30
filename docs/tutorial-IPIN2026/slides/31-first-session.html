@@ -1,0 +1,54 @@
+<section data-timing="105">
+  <h2>Set up your boards and start ranging</h2>
+  <div class="content">
+    <div class="grid3">
+      <div class="card">
+        <span class="n">CLIENT · CS INITIATOR</span>
+        <h3>nRF54LM20 DK</h3>
+        <p>USB to your computer; the app controls CS through it.</p>
+      </div>
+      <div class="card">
+        <span class="n">REFLECTOR · OPTION 1</span>
+        <h3>nRF54L15 DK</h3>
+        <p>One antenna. Bluetooth peer; no app cable.</p>
+      </div>
+      <div class="card">
+        <span class="n">REFLECTOR · OPTION 2</span>
+        <h3>nRF54L15 Tag</h3>
+        <p>Two switched antennas. Bluetooth peer; no app cable.</p>
+      </div>
+    </div>
+    <div class="stepstrip">
+      <div class="stepbox">1 · Connect<small>client port or Simulator</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">2 · Apply<small>validate + synchronize</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">3 · Link<small>scan → connect peer</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">4 · Start<small>inspect → record</small></div>
+    </div>
+    <p class="small muted">
+      Boards are preprogrammed. No board?
+      <span class="mono">ble-channel-sounding --simulate</span> runs the same steps.
+    </p>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Start with the boards at the station. The nRF54LM20 DK is the client and the CS initiator; it
+      connects to the computer over its native USB CDC ACM port, not the debug UART. The reflector
+      is a separate Bluetooth device with no cable to the app: either the nRF54L15 DK, with one CS
+      antenna, or the nRF54L15 Tag, whose two antennas are switched by an RF switch so that CS can
+      measure more than one antenna path. The boards are preprogrammed; participants only need the
+      desktop app and a USB data cable. Then walk through the actual toolbar sequence. Select the
+      client port, connect, apply the host configuration or synchronize with the client, scan for
+      the intended peer, connect it and start the session. Start remains unavailable until the
+      required configuration and peer state are ready; the tooltip explains the missing step. Stop
+      retains the Bluetooth link for another run, while changing applied configuration may require
+      disconnecting it. In simulator mode the same controls operate the built-in simulated protocol
+      client. The detailed board/build commands are in the repository&#x27;s Getting Started guide.
+    </p>
+  </aside>
+</section>

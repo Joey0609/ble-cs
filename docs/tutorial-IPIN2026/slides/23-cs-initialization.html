@@ -1,0 +1,17 @@
+<section class="cs-detail" data-timing="120">
+  <h2>CS procedure initialization</h2>
+  <div class="content">
+<p class="cs-intro">The ACL link carries setup; the controllers then execute the agreed CS schedule.</p><ol class="cs-flow">
+<li><b>Capabilities</b><span>Find the shared roles, modes, radio options, antenna limits and supported step timings.</span></li>
+<li><b>Reflector calibration</b><span>Use zero frequency actuation error (FAE), a known table, or retrieve the table when required.</span></li>
+<li><b>Configuration</b><span>Agree a configuration identifier (Config_ID), measurement modes, sequence rules, channels and step timing.</span></li>
+<li><b>CS security</b><span>Exchange seed material over the encrypted data link and initialize the shared random generator.</span></li>
+<li><b>Procedure start</b><span>Agree the schedule; the Central sends the final start parameters.</span></li>
+</ol><div class="callout">Before the first step: configuration and FAE known, CS security ready, start timing agreed.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.23–29</a></div>
+  <aside class="notes">
+    <p>This is a dependency overview, not a mandatory total ordering of every setup operation. Capabilities must be known before configuration; CS Security Start requires an encrypted ACL. The initiator needs the reflector FAE information before CS starts. Setup exchanges need not repeat before every procedure: an accepted configuration and known capabilities can be reused, and repeated procedures advance the DRBG state. Central/Peripheral are ACL roles; Initiator/Reflector are selected per CS configuration. Either device can request CS start; the Central supplies the final indication. Read controller completion events rather than treating a successful host command submission as completed negotiation.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.23–29</a>.</p>
+  </aside>
+</section>

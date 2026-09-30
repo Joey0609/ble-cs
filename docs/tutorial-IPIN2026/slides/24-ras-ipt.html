@@ -1,0 +1,57 @@
+<section class="cs-detail" data-timing="120">
+  <h2>Returning the reflector's measurements</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="0 0 1160 184"
+      role="img"
+      aria-label="Initiator and reflector exchange tones and packets in each CS step, so each keeps half of every measurement: the initiator its phase and ToA minus ToD, the reflector its phase and ToD minus ToA. A dashed arrow returns the reflector's half to the initiator through RAS, a GATT service on the ACL link"
+    >
+      <defs>
+        <marker id="ras-ini" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+        </marker>
+        <marker id="ras-ref" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#ffb17a" />
+        </marker>
+      </defs>
+      <!-- Same boxes as initiator-reflector: initiator teal, reflector orange -->
+      <rect x="2" y="4" width="286" height="176" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
+      <text x="145" y="44" font-size="27" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
+      <text x="145" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">measures the reflector's signals</text>
+      <text x="145" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · initiator phase</text>
+      <text x="145" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT · ToA<tspan baseline-shift="sub" font-size="15">I</tspan> − ToD<tspan baseline-shift="sub" font-size="15">I</tspan></text>
+      <rect x="872" y="4" width="286" height="176" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
+      <text x="1015" y="44" font-size="27" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
+      <text x="1015" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">measures the initiator's signals</text>
+      <text x="1015" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · reflector phase</text>
+      <text x="1015" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT · ToD<tspan baseline-shift="sub" font-size="15">R</tspan> − ToA<tspan baseline-shift="sub" font-size="15">R</tspan></text>
+      <line x1="306" y1="30" x2="852" y2="30" stroke="#65e4d0" stroke-width="3" marker-end="url(#ras-ini)" />
+      <line x1="854" y1="56" x2="308" y2="56" stroke="#ffb17a" stroke-width="3" marker-end="url(#ras-ref)" />
+      <text x="580" y="86" font-size="17" fill="#afc8cb" text-anchor="middle">CS step: tones and packets both ways</text>
+      <line x1="854" y1="140" x2="308" y2="140" stroke="#ffb17a" stroke-width="2.5" stroke-dasharray="9 7" marker-end="url(#ras-ref)" />
+      <text x="580" y="128" font-size="19" font-weight="700" fill="#ffb17a" text-anchor="middle">Ranging Service (RAS): reflector data</text>
+      <text x="580" y="166" font-size="17" fill="#afc8cb" text-anchor="middle">Data-service notifications in ACL connection events</text>
+    </svg>
+    <div class="answers">
+      <div class="ras">
+        <span class="n">ONE ANSWER · RANGING SERVICE (RAS)</span>
+        <p>A <b>Generic Attribute Profile (GATT) service</b> returns the reflector's results as they arrive or when requested. The initiator matches them to its own steps by ranging counter.</p>
+        <p>GATT runs <b>over the ACL link</b>, whose anchors also time the CS events. Result traffic gets only the airtime CS leaves: <b>schedule the two together</b>.</p>
+      </div>
+      <div class="ipt">
+        <span class="n">FOR PBR · INLINE PHASE CORRECTION TERM TRANSFER (IPT)</span>
+        <p>The reflector turns its reply tone by the phase it just measured, so the initiator’s own phase is already the two-way phase, 2θ<sub>ch</sub>.</p>
+        <p>A phase-slope range then needs <b>no reflector measurements</b>. RTT still needs the reflector’s <span class="nowrap">ToD − ToA</span>. Optional, Core&nbsp;6.3.</p>
+      </div>
+    </div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">Bluetooth Ranging Service 1.0</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.3 · Vol 6, Part B, §4.5.18.1</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html" target="_blank" rel="noopener">Vol 1, Part A, §9.2</a></div>
+  <aside class="notes">
+    <p>Start with the motivation. Every CS step is two-way, so every observable is split between the two radios. For phase-based ranging, the reflector measures the initiator's tone and the initiator measures the reflector's tone; each phase carries the unknown oscillator offset with opposite sign, and only their combination gives the two-way channel phase. For round-trip timing, the initiator's ToA minus ToD includes the reflector's turnaround, which only the reflector measured. Until both halves reach one ranging entity there is no distance, however well the radio exchange went. In this project the initiator collects both and forwards them to the desktop app.</p>
+    <p>The Ranging Service is one standard answer. The reflector is normally the RAS Server and the initiator the RAS Client; these GATT roles are independent of Central and Peripheral. RAS carries the reflector controller's subevent results: in real-time mode as notifications or indications while results become available, in on-demand mode stored per procedure and requested through the RAS Control Point. Segments are reassembled and matched to the initiator's own results by ranging counter and step order. This project subscribes to real-time data.</p>
+    <p>RAS is GATT, so it travels as ATT PDUs over L2CAP in ACL connection events. CS events are offset from the anchors of that same ACL connection: the offset is at least 500 µs and less than one connection interval, and a CS event may extend beyond the interval. One radio does both, so result traffic can use only the ACL airtime that the CS schedule leaves; if a procedure's results have not drained before the next one, results are delayed or lost. Slides 26d and 26e size this.</p>
+    <p>For phase-based ranging there is a second answer. With Inline PCT Transfer, optional from Core 6.3, the reflector applies the phase it measured on the initiator's tone to its own outgoing carrier. The oscillator term then cancels in the air, and the initiator's measured phase is already twice the channel phase. A phase-slope distance needs no reflector measurements; the reflector's PCT keeps only its amplitude, with Q equal to zero. IPT does nothing for RTT, so a mode-1 or mode-3 timing estimate still needs the reflector's data. In the app, Reflector data None requires IPT: the initiator runs without RAS, and RTT is shown as unavailable. Below (↓): RAS delivery step by step, the IPT phase relation, and its tradeoffs.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">Bluetooth Ranging Service 1.0</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html">Core 6.3 · Vol 6, Part B, §4.5.18.1; §2.4.2.47 (LL_CS_REQ Offset_Min, Offset_Max)</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html">Vol 1, Part A, §9.2</a>; Vol 6, Part A, §6.5. Repository: docs/Bluetooth_CS_Inline_Phase_Transfer.tex; python/README.md, Reflector data and IPT.</p>
+  </aside>
+</section>

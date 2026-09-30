@@ -1,0 +1,46 @@
+<section data-timing="45">
+  <h2>What the app does</h2>
+  <div class="content">
+    <div class="stepstrip">
+      <div class="stepbox">Plan<small>configuration + timing</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Run<small>USB client ↔ BLE peer</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Inspect<small>RTT, PBR slope + IFFT range</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Replay<small>session history + recordings</small></div>
+    </div>
+    <div class="cols">
+      <div>
+        <p class="lead">
+          The desktop app controls a <strong>pairwise CS experiment</strong> and shows what each controller reported.
+        </p>
+      </div>
+      <div>
+        <p class="lead">
+          Its Results view compares timing, phase slope and IFFT peak estimates across procedures.
+        </p>
+      </div>
+    </div>
+    <p class="small muted">Press ↓ for Plan, Run, Inspect and Replay; press → to continue to the lab.</p>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Name the application: ble-channel-sounding, the Python/PyQt6 desktop host in the supplied
+      ble-cs repository. Its purpose is to connect the theory to a visible experiment with
+      configuration, controller feedback, raw data and replay. In the documented hosted setup, a
+      native-USB nRF54LM20 DK runs cs_client and connects to a reflector. The controllers schedule
+      and time the RF exchanges; the host PC only configures them and analyses what they report,
+      so the app never times the radio. The Results view now
+      includes an IFFT range profile of the complex PBR products and IFFT peak distances beside
+      phase-slope and RTT estimates. Radio Test is disabled in this deployment. The simulator
+      exercises the workflow without proving RF accuracy. Press down for the four parts of the app:
+      planning, running, inspection and replay. Inspection takes three slides so participants can
+      see controller feedback, PBR with IFFT and the estimate comparison. Press right to continue
+      to the lab question.
+    </p>
+  </aside>
+</section>

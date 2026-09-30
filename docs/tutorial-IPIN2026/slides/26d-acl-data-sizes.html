@@ -1,0 +1,55 @@
+<section class="acl-sizes" data-timing="105">
+  <h2>Message size sets how long RAS holds the link</h2>
+  <div class="body">
+    <p class="lead muted">The Attribute Protocol maximum transmission unit (ATT MTU) sets notification size; Link Layer protocol data units (PDUs) carry them</p>
+
+    <svg class="diagram" viewBox="0 64 1120 208" role="img"
+         aria-label="Byte-scaled packet layout. With defaults, one 27-byte LL PDU carries one notification with 19 bytes of ranging data. In this project one notification of ATT MTU 498 fills two 251-byte LL PDUs and carries 494 bytes of ranging data">
+      <g font-family="inherit" fill="#f5f5ed">
+        <!-- 1 byte = 1.673 px; header slivers: L2CAP 4 B, ATT 3 B, RAS segment 1 B -->
+        <text x="20" y="92" font-size="20" font-weight="700">Defaults</text>
+        <text x="20" y="114" font-size="15" fill="#afc8cb">LL 27 B · ATT MTU 23</text>
+        <rect x="250" y="78" width="6.7" height="40" fill="#afc8cb"/>
+        <rect x="256.7" y="78" width="5" height="40" fill="#afc8cb"/>
+        <rect x="261.7" y="78" width="1.7" height="40" fill="#ffb17a"/>
+        <rect x="263.4" y="78" width="31.8" height="40" fill="#65e4d0"/>
+        <text x="312" y="104" font-size="17">one LL PDU carries one notification: <tspan font-weight="700">19 B</tspan> of ranging data</text>
+        <text x="250" y="143" font-size="14" fill="#afc8cb">each notification spends 8 B on headers: framing 4, ATT 3, RAS segment 1</text>
+
+        <text x="20" y="194" font-size="20" font-weight="700" fill="#65e4d0">This project</text>
+        <text x="20" y="216" font-size="15" fill="#afc8cb">LL 251 B · ATT MTU 498</text>
+        <rect x="250" y="180" width="6.7" height="40" fill="#afc8cb"/>
+        <rect x="256.7" y="180" width="5" height="40" fill="#afc8cb"/>
+        <rect x="261.7" y="180" width="1.7" height="40" fill="#ffb17a"/>
+        <rect x="263.4" y="180" width="406.6" height="40" fill="#65e4d0"/>
+        <rect x="678" y="180" width="420" height="40" fill="#65e4d0"/>
+        <text x="466" y="206" text-anchor="middle" font-size="17" font-weight="700" fill="#09242b">LL PDU 1 · 251 B</text>
+        <text x="888" y="206" text-anchor="middle" font-size="17" font-weight="700" fill="#09242b">LL PDU 2 · 251 B</text>
+        <line x1="250" y1="238" x2="1098" y2="238" stroke="#f5f5ed" stroke-width="1.5"/>
+        <line x1="250" y1="232" x2="250" y2="244" stroke="#f5f5ed" stroke-width="1.5"/>
+        <line x1="1098" y1="232" x2="1098" y2="244" stroke="#f5f5ed" stroke-width="1.5"/>
+        <text x="674" y="262" text-anchor="middle" font-size="16">one notification: ATT MTU 498 = 2 × 251 − 4 (framing) → <tspan font-weight="700">494 B</tspan> of ranging data</text>
+      </g>
+    </svg>
+
+    <div class="stats">
+      <div><span class="big">39 → 2</span><span>notifications for one 72-channel procedure (740 B of results)</span></div>
+      <div><span class="big">26 → 8 ms</span><span>ACL airtime on LE 1M (19 → 4.6 ms on LE 2M)</span></div>
+      <div><span class="big">22 → 33 /s</span><span>procedures at a 15 ms interval: RAS needs 2 ACL events, then 1</span></div>
+    </div>
+
+    <p class="takeaway">RAS needs ACL events without CS, so the MTU sets part of the procedure interval. Leave a spare event: with one event between procedures, 0.5–1.5% of our procedures lost their RAS data.</p>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §2.4; §5.1.9</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/host/attribute-protocol--att-.html" target="_blank" rel="noopener">Vol 3, Part F, §3.4.2</a><span class="sep">·</span><a href="https://www.bluetooth.com/specifications/specs/ranging-service/" target="_blank" rel="noopener">Ranging Service 1.0</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">Planner model and lab runs</a></div>
+  <aside class="notes">
+    Two limits decide how many ACL packets a ranging result needs, and both are negotiated on the new link, as the connection-establishment slide listed. The Link Layer data length sets the payload of one LL data PDU: 27 octets by default, up to 251 with the Data Length Update procedure (LL_LENGTH_REQ/RSP), which either controller may start at any time; this project allows 251. The ATT MTU sets the largest notification: 23 octets by default. The ATT client sends ATT_EXCHANGE_MTU_REQ only once per connection, and both sides then use the smaller receive MTU for the rest of the connection. This project offers 498 and starts the exchange automatically on connection; if the peer offers less, or the exchange never happens, every procedure's results need more notifications. ATT client and server are separate from Central and Peripheral: in the RAS route the initiator is the client and the reflector the server.
+
+    The layers nest. A RAS real-time notification is an ATT notification (3 octets: opcode and handle) whose value starts with a 1-octet RAS segment header. The ATT PDU travels in an L2CAP basic frame with a 4-octet header, and L2CAP segments that frame across as many LL PDUs as needed. With defaults, 23 − 3 − 1 = 19 octets of results fit in one notification. With MTU 498, 498 − 3 − 1 = 494 octets fit, and 498 + 4 = 502 = 2 × 251, so a full notification fills exactly two full LL PDUs.
+
+    Sizing uses the baseline workload of the previous slides: 72 channels once in mode 2, two mode-0 steps, one antenna path. The reflector's RAS record is a 4-octet ranging header, an 8-octet subevent header 10 octets per mode-2 step (step mode, antenna permutation index, and a phase and quality entry for the path and the extension slot) and 4 per mode-0 step, 740 octets in all. That is 39 notifications at MTU 23 and 2 at MTU 498. The planner charges each LL PDU with the Central's empty poll and two T_IFS gaps: 26 ms of ACL airtime at MTU 23 on LE 1M against 8 ms at 498; on LE 2M, 19 ms against 4.6 ms. The planner leaves out the 4-octet MIC of the encrypted link, under 2 percent.
+
+    The airtime turns into schedule, which the next slide draws. RAS results travel in ACL events that carry no CS event, so at a 15 ms interval the default MTU needs two such events per procedure and 498 needs one: a procedure every 3 intervals (22 per second) or every 2 (33 per second). At 7.5 ms the default MTU needs four events. Leave margin above that floor: in our lab runs one ACL event between procedures lost the RAS data of 0.5 to 1.5 percent of procedures, more for larger payloads, which is why the hostless initiator's default repeats procedures every 3 intervals. If the configuration selects no reflector data, which requires IPT, none of this traffic exists.
+
+    Sources: Bluetooth Core Specification 6.0, Vol 6 Part B, Sections 2.4 (data PDU format) and 5.1.9 (Data Length Update); Vol 3 Part F, Section 3.4.2 (MTU exchange: the request is sent only once during a connection); Ranging Service specification; planner model python/ble_channel_sounding/planner/model.py (ras_transfer); lab runs in implementation_plan.md §8.5 and §15.3; cs_hostless_initiator/README.md; repository configuration in cs_client/prj.conf and cs_hostless_initiator/prj.conf.
+  </aside>
+</section>

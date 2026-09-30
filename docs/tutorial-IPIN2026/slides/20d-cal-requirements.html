@@ -1,0 +1,54 @@
+<section data-timing="60">
+  <h2>What frequency calibration requires</h2>
+  <div class="content">
+    <div class="reqs">
+      <div class="card">
+        <span class="n">01 · FRESH MEASUREMENT</span>
+        <h3>Measure again every subevent</h3>
+        <p>One to three mode-0 steps open every subevent: the offset drifts with temperature and time.</p>
+      </div>
+      <div class="card">
+        <span class="n">02 · KNOWN FAE</span>
+        <h3>The reflector&rsquo;s table first</h3>
+        <p>The initiator reads the FAE table before ranging starts, or uses a cached copy.</p>
+      </div>
+      <div class="card">
+        <span class="n">03 · STABLE CRYSTAL</span>
+        <h3>An offset that holds still</h3>
+        <p>Within a subevent, the mode-0 estimates must agree to 1&nbsp;ppm, and |FFO| must stay below 50&nbsp;ppm.</p>
+      </div>
+      <div class="card">
+        <span class="n">04 · SHARED FREQUENCY</span>
+        <h3>Both radios at f<sub>E</sub></h3>
+        <p>Every later step is sent at the shared frequency: tones within 10&nbsp;kHz, CS_SYNC within 20&nbsp;kHz.</p>
+      </div>
+    </div>
+    <div class="callout">
+      Frequency calibration does not remove chain delays or hardware phase offsets: those need their
+      own calibration.
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part A, §3.5</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Four conditions make frequency calibration work, all from the specification. It must be
+      fresh: the crystals drift with temperature and time, so every subevent opens with one to
+      three mode-0 steps instead of reusing an old value. The FAE must be known: the initiator
+      reads the reflector's table before ranging starts, or uses a copy it cached from an earlier
+      connection. The crystal must be stable: within one subevent the mode-0 estimates must agree
+      to within 1 ppm of the first, and the offset must stay below 50 ppm. And the frequency must
+      be shared: every later step is transmitted at the shared frequency, tones within 10 kHz and
+      CS_SYNC packets within 20 kHz of it. What frequency calibration does not fix: the fixed
+      delays in each radio's transmit and receive chains, and the fixed phase offsets of its
+      hardware and antenna paths. Those are separate calibrations, done once per device or on a
+      known distance, and they matter as much, as the round-trip error slide showed.
+    </p>
+  </aside>
+</section>

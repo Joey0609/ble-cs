@@ -1,0 +1,140 @@
+<section data-timing="90">
+  <h2>Two quantities: FFO and FAE</h2>
+  <div class="content">
+    <div class="defs">
+      <div class="card">
+        <span class="n">FFO · FRACTIONAL FREQUENCY OFFSET</span>
+        <h3>How far a tone is off, in ppm</h3>
+        <p class="eq">\( \mathrm{FFO}[k] = 10^{6}\,\dfrac{f[k] - f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])}{f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])} \)</p>
+        <p>The measured frequency f[k] of step k&rsquo;s tone against where it should be, as a fraction of the carrier. Measured on every mode-0 step; |FFO| &lt; 50&nbsp;parts per million (ppm).</p>
+      </div>
+      <div class="card">
+        <span class="n">FAE · FREQUENCY ACTUATION ERROR</span>
+        <h3>How far a radio misses a channel</h3>
+        <p>A frequency synthesizer turns the crystal reference into each channel frequency with finite resolution, so on channel k it realizes f<sub>0</sub>[k](1&nbsp;+&nbsp;10<sup>&minus;6</sup>&middot;FAE[k]): a small, repeatable miss, in parts per million.</p>
+        <svg viewBox="0 0 520 120" role="img" aria-label="Illustrative per-channel FAE values across 72 channels, a repeatable pattern between about minus 2 and plus 2 ppm">
+          <line x1="36" y1="70" x2="506" y2="70" stroke="#afc8cb" stroke-width="1.5" />
+          <g fill="#ffb17a">
+          <rect x="40.0" y="70.0" width="4.4" height="25.2" />
+          <rect x="46.4" y="64.1" width="4.4" height="5.9" />
+          <rect x="52.8" y="70.0" width="4.4" height="13.3" />
+          <rect x="59.2" y="52.2" width="4.4" height="17.8" />
+          <rect x="65.6" y="70.0" width="4.4" height="1.4" />
+          <rect x="72.0" y="70.0" width="4.4" height="20.7" />
+          <rect x="78.4" y="59.5" width="4.4" height="10.5" />
+          <rect x="84.8" y="70.0" width="4.4" height="8.8" />
+          <rect x="91.2" y="47.6" width="4.4" height="22.4" />
+          <rect x="97.6" y="66.9" width="4.4" height="3.1" />
+          <rect x="104.0" y="70.0" width="4.4" height="16.1" />
+          <rect x="110.4" y="55.0" width="4.4" height="15.0" />
+          <rect x="116.8" y="70.0" width="4.4" height="4.2" />
+          <rect x="123.2" y="70.0" width="4.4" height="23.5" />
+          <rect x="129.6" y="62.3" width="4.4" height="7.7" />
+          <rect x="136.0" y="70.0" width="4.4" height="11.6" />
+          <rect x="142.4" y="50.4" width="4.4" height="19.6" />
+          <rect x="148.8" y="69.7" width="4.4" height="0.3" />
+          <rect x="155.2" y="70.0" width="4.4" height="18.9" />
+          <rect x="161.6" y="57.8" width="4.4" height="12.2" />
+          <rect x="168.0" y="70.0" width="4.4" height="7.0" />
+          <rect x="174.4" y="45.9" width="4.4" height="24.1" />
+          <rect x="180.8" y="65.1" width="4.4" height="4.9" />
+          <rect x="187.2" y="70.0" width="4.4" height="14.4" />
+          <rect x="193.6" y="53.2" width="4.4" height="16.8" />
+          <rect x="200.0" y="70.0" width="4.4" height="2.5" />
+          <rect x="206.4" y="70.0" width="4.4" height="21.7" />
+          <rect x="212.8" y="60.6" width="4.4" height="9.4" />
+          <rect x="219.2" y="70.0" width="4.4" height="9.8" />
+          <rect x="225.6" y="48.7" width="4.4" height="21.3" />
+          <rect x="232.0" y="67.9" width="4.4" height="2.1" />
+          <rect x="238.4" y="70.0" width="4.4" height="17.2" />
+          <rect x="244.8" y="56.0" width="4.4" height="14.0" />
+          <rect x="251.2" y="70.0" width="4.4" height="5.3" />
+          <rect x="257.6" y="70.0" width="4.4" height="24.5" />
+          <rect x="264.0" y="63.4" width="4.4" height="6.6" />
+          <rect x="270.4" y="70.0" width="4.4" height="12.7" />
+          <rect x="276.8" y="51.5" width="4.4" height="18.5" />
+          <rect x="283.2" y="70.0" width="4.4" height="0.8" />
+          <rect x="289.6" y="70.0" width="4.4" height="20.0" />
+          <rect x="296.0" y="58.9" width="4.4" height="11.1" />
+          <rect x="302.4" y="70.0" width="4.4" height="8.1" />
+          <rect x="308.8" y="47.0" width="4.4" height="23.0" />
+          <rect x="315.2" y="66.2" width="4.4" height="3.8" />
+          <rect x="321.6" y="70.0" width="4.4" height="15.5" />
+          <rect x="328.0" y="54.3" width="4.4" height="15.7" />
+          <rect x="334.4" y="70.0" width="4.4" height="3.6" />
+          <rect x="340.8" y="70.0" width="4.4" height="22.8" />
+          <rect x="347.2" y="61.7" width="4.4" height="8.3" />
+          <rect x="353.6" y="70.0" width="4.4" height="10.9" />
+          <rect x="360.0" y="49.8" width="4.4" height="20.2" />
+          <rect x="366.4" y="69.0" width="4.4" height="1.0" />
+          <rect x="372.8" y="70.0" width="4.4" height="18.3" />
+          <rect x="379.2" y="57.1" width="4.4" height="12.9" />
+          <rect x="385.6" y="70.0" width="4.4" height="6.4" />
+          <rect x="392.0" y="45.2" width="4.4" height="24.8" />
+          <rect x="398.4" y="64.5" width="4.4" height="5.5" />
+          <rect x="404.8" y="70.0" width="4.4" height="13.7" />
+          <rect x="411.2" y="52.6" width="4.4" height="17.4" />
+          <rect x="417.6" y="70.0" width="4.4" height="1.8" />
+          <rect x="424.0" y="70.0" width="4.4" height="21.1" />
+          <rect x="430.4" y="59.9" width="4.4" height="10.1" />
+          <rect x="436.8" y="70.0" width="4.4" height="9.2" />
+          <rect x="443.2" y="48.0" width="4.4" height="22.0" />
+          <rect x="449.6" y="67.3" width="4.4" height="2.7" />
+          <rect x="456.0" y="70.0" width="4.4" height="16.5" />
+          <rect x="462.4" y="55.4" width="4.4" height="14.6" />
+          <rect x="468.8" y="70.0" width="4.4" height="4.6" />
+          <rect x="475.2" y="70.0" width="4.4" height="23.9" />
+          <rect x="481.6" y="62.7" width="4.4" height="7.3" />
+          <rect x="488.0" y="70.0" width="4.4" height="12.0" />
+          <rect x="494.4" y="50.8" width="4.4" height="19.2" />
+          </g>
+          <text x="36" y="116" font-size="14" fill="#afc8cb">72 channels · one FAE each · retrieved when required</text>
+          <text x="506" y="20" font-size="13" fill="#afc8cb" text-anchor="end">illustrative</text>
+        </svg>
+      </div>
+    </div>
+    <div class="relation">
+      The reflector&rsquo;s tone carries its FAE and the crystal offset ε:
+      \( f[k] \approx f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])\,(1 + \varepsilon) \),
+      so \( \mathrm{FFO}[k] \approx 10^{6}\,\varepsilon \): ε in ppm, with the FAE taken out.
+    </div>
+    <div class="callout">
+      FFO measures ε, which changes with every crystal and temperature, so it is measured every
+      subevent; FAE is a radio property, retrieved as a table only when needed (see slide 23b).
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part A, §3.5.1 (fractional frequency offset)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Two quantities, and they are easy to confuse. The fractional frequency offset, FFO, is an
+      observation: how far the frequency of a tone is from where it should be, divided by the
+      carrier and expressed in parts per million. The specification defines it for each mode-0
+      step k: the measured frequency f of k, minus the nominal channel frequency corrected by the
+      FAE, over that corrected frequency, times ten to the six. It must stay below 50 ppm, and
+      the initiator reports the value it used in steps of 0.01 ppm. The frequency actuation error,
+      FAE, is a property of the reflector's radio. Its local oscillator is synthesized: a
+      phase-locked loop or a numerically controlled oscillator turns the crystal into each channel
+      frequency, but with finite resolution, the divider ratios or the frequency steps it can make.
+      On some channels the frequency it actually realizes misses the nominal one by a small,
+      repeatable amount. Because it is repeatable, the reflector can publish it as a table, one
+      value per channel, 72 in all, between minus 4 and plus 3.97 ppm. If No_FAE is 0 and no table is already known, the initiator retrieves that
+      table before ranging starts and takes it out of every FFO it measures, so a synthesizer
+      quirk is not mistaken for crystal offset. A radio that realizes every channel exactly has an
+      FAE of zero; a peer declaring No_FAE = 1 must not be sent a table request. So how do the two relate to epsilon, the relative crystal offset of the
+      previous slide? The initiator measures the reflector's tone on its own clock, with its own
+      synthesizer error already compensated. The tone then arrives at f0 times one plus the FAE in
+      ppm, times one plus epsilon: the synthesizer's miss, scaled by the crystal offset. Put that
+      into the definition and the FAE cancels: FFO is epsilon, in parts per million, to first
+      order. Positive means the reflector's crystal runs fast against the initiator's. FAE is the
+      part of the offset that is not the crystal, which is why it has to be removed before the
+      FFO is used as epsilon. The bar chart is an illustration, not a real table.
+    </p>
+  </aside>
+</section>

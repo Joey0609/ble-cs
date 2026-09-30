@@ -27,23 +27,23 @@ function updatePBR(){
   $('pbr-chart').innerHTML=out;$('pbr-distance-label').textContent=d.toFixed(1)+' m';$('pbr-output').textContent=`True: ${d.toFixed(2)} m   |   simple slope estimate: ${estimate.toFixed(2)} m${echo?'   |   echo amplitude: 0.42':''}`;
 }
 ['pbr-distance','pbr-wrap','pbr-echo'].forEach(id=>$(id).addEventListener('input',updatePBR));updatePBR();
-function updateGeometry(clustered=false){
- const p=[6,4],anchors=clustered?[[.5,3.1],[.5,3.7],[.5,4.3],[.5,4.9]]:[[1,1],[11,1],[1,7],[11,7]],sigma=.25;
- let aa=0,ab=0,bb=0;for(const a of anchors){const dx=p[0]-a[0],dy=p[1]-a[1],r=Math.hypot(dx,dy),ux=dx/r,uy=dy/r;aa+=ux*ux;ab+=ux*uy;bb+=uy*uy;}
- const det=aa*bb-ab*ab,c00=sigma*sigma*bb/det,c01=-sigma*sigma*ab/det,c11=sigma*sigma*aa/det;
- const trace=c00+c11,disc=Math.sqrt((c00-c11)**2+4*c01*c01),major=Math.sqrt((trace+disc)/2),minor=Math.sqrt((trace-disc)/2),angle=.5*Math.atan2(2*c01,c00-c11);
- const X=x=>115+x*60,Y=y=>270-y*30;let s='';
- // Keep equal metric scales by drawing the 12 m x 8 m room at 30 px/m.
- const xx=x=>180+x*30,yy=y=>270-y*30;
- for(let i=0;i<=12;i++)s+=lin(xx(i),yy(0),xx(i),yy(8));for(let i=0;i<=8;i++)s+=lin(xx(0),yy(i),xx(12),yy(i));
- anchors.forEach((a,i)=>{s+=lin(xx(a[0]),yy(a[1]),xx(p[0]),yy(p[1]),colors.teal,'5 5');s+=`<rect x="${xx(a[0])-6}" y="${yy(a[1])-6}" width="12" height="12" fill="${colors.teal}"/>`;s+=txt(xx(a[0])+10,yy(a[1])-6,'A'+(i+1),colors.teal,16);});
- let path='';for(let i=0;i<=100;i++){const t=i/100*TAU,dx=major*Math.cos(t)*Math.cos(angle)-minor*Math.sin(t)*Math.sin(angle),dy=major*Math.cos(t)*Math.sin(angle)+minor*Math.sin(t)*Math.cos(angle);path+=(i?'L':'M')+xx(p[0]+dx)+','+yy(p[1]+dy);}
- s+=`<path d="${path}Z" stroke="${colors.orange}" fill="#ffb17a22" stroke-width="3"/><circle cx="${xx(p[0])}" cy="${yy(p[1])}" r="5" fill="${colors.lime}"/>`;
- s+=txt(635,75,'Same target. Same range noise.',colors.ink,25)+txt(635,125,'1σ major axis: '+major.toFixed(2)+' m',colors.orange,24)+txt(635,165,'1σ minor axis: '+minor.toFixed(2)+' m',colors.teal,24)+txt(635,215,'Ellipse drawn to the room scale.',colors.muted,18)+txt(180,25,'12 m × 8 m · floor plane',colors.muted,18);
- $('geometry-chart').innerHTML=s;$('geometry-output').textContent=clustered?'Clustered bearings weaken cross-range observability.':'Surrounding anchors provide diverse range directions.';
- $('geom-wide').classList.toggle('active',!clustered);$('geom-wall').classList.toggle('active',clustered);
+// Frequency offset to range bias: |Δd| = c·ε·Δt/2, the same for phase and time.
+function updateCal(){
+  const eps=+$('cal-eps').value,dt=+$('cal-dt').value,bias=(e,t)=>C*e*1e-6*t*1e-6/2,ymax=2;
+  const x=v=>75+v/50*900,y=v=>235-v/ymax*190;
+  let out=txt(78,22,'Range bias (m)');
+  for(let i=0;i<=4;i++){const v=ymax*i/4;out+=lin(75,y(v),975,y(v))+txt(22,y(v)+5,v.toFixed(1));}
+  for(const p of [0,10,20,30,40,50])out+=lin(x(p),45,x(p),235)+txt(x(p)-10,263,p.toString());
+  out+=txt(420,287,'Frequency offset ε (ppm)');
+  out+=`<rect x="${x(0)}" y="45" width="${x(1)-x(0)}" height="190" fill="${colors.lime}" opacity=".18"/>`+txt(x(1)+8,62,'≤ 1 ppm',colors.lime,15);
+  for(const [t,label] of [[69,'tone gap 69 µs'],[176,'turnaround 176 µs']])out+=lin(x(0),y(0),x(50),y(bias(50,t)),colors.muted,'6 6')+txt(x(50)-150,y(bias(50,t))-8,label,colors.muted,15);
+  out+=`<path d="M${x(0)},${y(0)} L${x(50)},${y(bias(50,dt))}" stroke="${colors.teal}" stroke-width="3" fill="none"/><circle cx="${x(eps)}" cy="${y(bias(eps,dt))}" r="7" fill="${colors.orange}"/>`;
+  $('cal-chart').innerHTML=out;$('cal-eps-label').textContent=eps.toFixed(1)+' ppm';$('cal-dt-label').textContent=dt+' µs';
+  const b=bias(eps,dt);$('cal-output').textContent=`Δf = ${(eps*2.44).toFixed(1)} kHz at 2.44 GHz   |   range bias: ${b<1?(b*100).toFixed(1)+' cm':b.toFixed(2)+' m'}`;
+  $('cal-pbr').classList.toggle('active',dt===69);$('cal-rtt').classList.toggle('active',dt===176);
 }
-$('geom-wide').onclick=()=>updateGeometry(false);$('geom-wall').onclick=()=>updateGeometry(true);updateGeometry();
+['cal-eps','cal-dt'].forEach(id=>$(id).addEventListener('input',updateCal));
+$('cal-pbr').onclick=()=>{$('cal-dt').value=69;updateCal();};$('cal-rtt').onclick=()=>{$('cal-dt').value=176;updateCal();};updateCal();
 // Screenshots can be enlarged in the room without leaving the deck.
 const zoom=document.createElement('div');zoom.className='image-overlay';zoom.hidden=true;zoom.setAttribute('role','dialog');zoom.setAttribute('aria-label','Enlarged application screenshot');zoom.innerHTML='<span>Click or press Esc to close</span><img alt="Enlarged actual application screenshot">';document.body.appendChild(zoom);
 zoom.onclick=()=>zoom.hidden=true;

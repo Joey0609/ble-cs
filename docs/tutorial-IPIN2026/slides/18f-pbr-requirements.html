@@ -1,0 +1,66 @@
+<section data-timing="75">
+  <h2>What phase-based ranging requires</h2>
+  <div class="content">
+    <div class="reqs">
+      <div class="card">
+        <span class="n">01 · TWO-WAY PHASE</span>
+        <h3>Both directions, one channel</h3>
+        <p>Initiator to reflector, then back, within one step. Each radio keeps its oscillator phase-continuous, so &phi;<sub>I</sub> and &phi;<sub>R</sub> cancel.</p>
+      </div>
+      <div class="card">
+        <span class="n">02 · PHASE EXCHANGE</span>
+        <h3>Both phases in one place</h3>
+        <p>The reflector reports its phases over the ACL link, or folds them into its reply tone (inline PCT transfer, Core&nbsp;6.3).</p>
+      </div>
+      <div class="card">
+        <span class="n">03 · FREQUENCY</span>
+        <h3>A known frequency offset</h3>
+        <p>Both tune to the same channel; mode 0 measures what is left between their oscillators, or it becomes range bias.</p>
+      </div>
+      <div class="card">
+        <span class="n">04 · TIMING</span>
+        <h3>A shared step schedule</h3>
+        <p>Both know, to the microsecond, when to send and when to listen, how far apart the two tones are, and which antenna path each tone uses.</p>
+      </div>
+    </div>
+    <div class="callout">
+      Also assumed: a channel that stays still during the step, and calibrated hardware phase offsets.
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core · Vol 6, Part H (CS)</a
+    ><span class="sep">·</span
+    ><a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Vol 6, Part A (radio, inline PCT transfer from 6.3)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      The one-tone equation hides four requirements. First, two-way phase: the tone goes both ways
+      on the same channel within one step, and each radio must keep its local oscillator phase-
+      continuous between its transmission and its reception, or correct for it; the specification
+      states this directly. Only then do the two oscillator phases cancel. Second, the two phases
+      must meet. Normally the reflector reports its measured phase, as a phase correction term per
+      step and antenna path, and the initiator combines it with its own; in this project that report
+      travels over the ACL link through the Ranging Service. Core 6.3 adds inline PCT transfer: the
+      reflector turns its reply tone by the phase it measured, so the initiator directly sees the
+      doubled channel phase. Third, frequency: both radios tune to the same channel, but their
+      oscillators still differ slightly; mode-0 steps measure that residual offset, because any
+      offset left over rotates the phase between the two tones and becomes a range bias; the
+      calibration section puts a number on it. Fourth, timing: both radios must follow the same step schedule to the
+      microsecond, knowing when to transmit and when to listen, and the time between the two tones
+      must be known to correct the frequency error; with several antennas, both must also follow the
+      same antenna path order, or phases from different paths mix. Underneath all four: the channel must not change
+      during the step, so no fast motion, and the hardware phase offsets of each radio must be
+      calibrated. This slide closes phase-based ranging: it collects what the previous slides
+      needed.
+    </p>
+  </aside>
+</section>

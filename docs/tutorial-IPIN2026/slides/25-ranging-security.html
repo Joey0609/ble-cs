@@ -1,0 +1,142 @@
+<section class="modality" data-timing="120">
+  <h2>Why ranging needs security: distance opens doors</h2>
+  <div class="content">
+    <div class="cols">
+      <svg
+        class="diagram"
+        viewBox="0 0 560 270"
+        role="img"
+        aria-label="A relay attack: the owner's phone, the car key, is indoors far from the car. One attacker's relay waits near the car, another near the phone, and they forward the radio traffic between them over any distance. The car sees a valid key and unlocks, although the key is far outside its unlock zone."
+      >
+        <defs>
+          <marker id="rs-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto-start-reverse">
+            <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+          </marker>
+        </defs>
+        <!-- The real distance: far outside the unlock zone -->
+        <g stroke="#afc8cb" stroke-width="1.5">
+          <line x1="70" y1="44" x2="483" y2="44" />
+          <line x1="70" y1="38" x2="70" y2="50" />
+          <line x1="483" y1="38" x2="483" y2="50" />
+        </g>
+        <text x="276" y="30" font-size="14" fill="#afc8cb" text-anchor="middle">
+          real distance: far outside the unlock zone
+        </text>
+        <!-- Car and its unlock zone -->
+        <circle cx="70" cy="160" r="56" fill="none" stroke="#dcf58a" stroke-width="2" stroke-dasharray="6 5" />
+        <text x="70" y="94" font-size="14" fill="#dcf58a" text-anchor="middle">unlock zone</text>
+        <g fill="#12363d" stroke="#65e4d0" stroke-width="3">
+          <path d="M38 152 L54 130 L90 130 L104 152" />
+          <rect x="22" y="152" width="96" height="28" rx="8" />
+          <circle cx="44" cy="182" r="9" fill="#09242b" />
+          <circle cx="96" cy="182" r="9" fill="#09242b" />
+        </g>
+        <text x="70" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">car</text>
+        <text x="14" y="258" font-size="14" fill="#ffb17a">unlocks: the key looks near</text>
+        <!-- Owner's phone, the key, indoors -->
+        <rect x="424" y="112" width="118" height="100" fill="#12363d" stroke="#afc8cb" stroke-width="3" />
+        <path d="M418 112 L483 72 L548 112" fill="none" stroke="#afc8cb" stroke-width="3" />
+        <rect x="467" y="130" width="32" height="58" rx="6" fill="#09242b" stroke="#65e4d0" stroke-width="3" />
+        <line x1="477" y1="178" x2="489" y2="178" stroke="#65e4d0" stroke-width="2" />
+        <text x="483" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">owner's phone</text>
+        <text x="483" y="258" font-size="14" fill="#afc8cb" text-anchor="middle">the key, far away</text>
+        <!-- Two relays, one attacker -->
+        <g fill="#463a34" stroke="#ffb17a" stroke-width="3">
+          <rect x="168" y="136" width="56" height="42" rx="8" />
+          <rect x="340" y="136" width="56" height="42" rx="8" />
+        </g>
+        <g stroke="#ffb17a" stroke-width="2.5">
+          <line x1="196" y1="136" x2="196" y2="120" />
+          <line x1="368" y1="136" x2="368" y2="120" />
+        </g>
+        <g fill="#ffb17a">
+          <circle cx="196" cy="117" r="3.5" />
+          <circle cx="368" cy="117" r="3.5" />
+        </g>
+        <g font-size="15" fill="#f5f5ed" text-anchor="middle">
+          <text x="196" y="162">relay</text>
+          <text x="368" y="162">relay</text>
+        </g>
+        <g font-size="14" fill="#ffb17a" text-anchor="middle">
+          <text x="196" y="200">attacker</text>
+          <text x="368" y="200">attacker</text>
+        </g>
+        <!-- The relay link: any distance, packets unchanged -->
+        <line x1="226" y1="157" x2="338" y2="157" stroke="#ffb17a" stroke-width="2.5" stroke-dasharray="8 6" />
+        <text x="282" y="146" font-size="14" fill="#ffb17a" text-anchor="middle">relay link</text>
+        <text x="282" y="178" font-size="14" fill="#afc8cb" text-anchor="middle">any distance</text>
+        <!-- Radio links at each end -->
+        <g stroke="#65e4d0" stroke-width="2.5" marker-start="url(#rs-arrow)" marker-end="url(#rs-arrow)">
+          <line x1="126" y1="157" x2="164" y2="157" />
+          <line x1="400" y1="157" x2="462" y2="157" />
+        </g>
+      </svg>
+      <dl class="facts">
+        <dt>ACCESS</dt>
+        <dd>Car keys, smart locks and door badges open when the key is near: the range decides who gets in.</dd>
+        <dt>CRYPTO</dt>
+        <dd>Pairing and encryption prove who is talking, not where. A relay forwards the encrypted packets unchanged.</dd>
+        <dt>SHOWN</dt>
+        <dd>Keyless cars relayed over 50&nbsp;m (2011); BLE phone keys and smart locks (2022), adding only 8&nbsp;ms.</dd>
+        <dt>GOAL</dt>
+        <dd>The attacker wants far to look near: a distance-reduction attack.</dd>
+      </dl>
+    </div>
+    <div class="limits">
+      <span class="n">WHAT AN ATTACKER EXPLOITS</span>
+      <ul>
+        <li>Signal strength: amplify it, and far looks near</li>
+        <li>A connection: relay it, encryption intact</li>
+        <li>Phase: periodic, so a relay can hide its delay</li>
+        <li>Predictable packets: answer them before they arrive</li>
+      </ul>
+    </div>
+  </div>
+  <div class="source">
+    <a href="https://eprint.iacr.org/2010/332" target="_blank" rel="noopener"
+      >Francillon, Danev, Čapkun · NDSS 2011</a
+    ><span class="sep">·</span
+    ><a
+      href="https://www.nccgroup.com/research/technical-advisory-ble-proximity-authentication-vulnerable-to-relay-attacks/"
+      target="_blank"
+      rel="noopener"
+      >NCC Group · BLE relay advisory, 2022</a
+    ><span class="sep">·</span
+    ><a href="https://eprint.iacr.org/2017/591" target="_blank" rel="noopener"
+      >Ólafsdóttir, Ranganathan, Čapkun · CHES 2017</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Before the mechanisms, ask why a ranging standard needs security at all. Many applications
+      that motivate Channel Sounding act on the distance: a car unlocks when its digital key is
+      within a metre or two, a smart lock opens when the phone reaches the door, a laptop stays
+      unlocked while the watch is near. The distance is then an access decision, and an attacker
+      gains from one kind of error: making a far key look near, a distance-reduction attack.
+      Ordinary link security does not help. Pairing, authentication and encryption prove who is at
+      the other end of the link, not where it is. The figure shows the relay attack: one relay
+      waits near the car, another near the owner, who is indoors and far away. They forward the
+      radio traffic, over any distance and without decrypting it, so every cryptographic check
+      passes.
+    </p>
+    <p>
+      This is not hypothetical. Francillon, Danev and Čapkun relayed the passive keyless entry
+      systems of 10 car models from 8 manufacturers in 2011, with the key up to 50 m away. In 2022
+      NCC Group relayed Bluetooth LE at the link layer, adding as little as 8 ms of round-trip
+      latency, unlocked and operated a Tesla Model 3 and Model Y with a phone key, and opened smart
+      locks; their recommendation was secure time-of-flight ranging. Signal strength is no defence,
+      because an amplifier makes a far signal strong. Phase alone is not either: it is periodic, so a
+      relay can shift each tone to hide its delay, and Ólafsdóttir, Ranganathan and Čapkun made a multi-carrier phase-ranging system
+      report under 3 m with the devices more than 50 m apart.
+    </p>
+    <p>
+      What physics does give is a bound on time: no relay beats the speed of light, so a relay can
+      only add delay, provided the attacker cannot predict a packet and answer early. That is the
+      requirement Channel Sounding takes on: timing evidence that a relay can only lengthen, and
+      exchanges that nobody outside the link can predict. The next slide shows how. Keep
+      the claim precise: the protection depends on the configuration and on how the application
+      uses the attack indicators, and the incidents illustrate the attack class, not the current
+      state of any product.
+    </p>
+  </aside>
+</section>

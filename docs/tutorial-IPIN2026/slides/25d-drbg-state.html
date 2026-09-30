@@ -1,0 +1,15 @@
+<section class="cs-detail" data-timing="105">
+  <h2>Shared DRBG state across steps and procedures</h2>
+  <div class="content">
+<ol class="cs-flow">
+<li><b>Before each procedure</b><span>Update the key/nonce state for backtracking resistance before generating that procedure’s random bits.</span></li>
+<li><b>For each transaction</b><span>AES-128 generates bit blocks using the step counter, transaction ID and transaction counter.</span></li>
+<li><b>At both peers</b><span>Consume bits in the specified step, role and transaction order; retain unused bits for that transaction type.</span></li>
+</ol><div class="cs-equation">shared state + identical invocation rules → matching channels, packets and tone choices</div><div class="callout">A subevent boundary does not reseed the DRBG. A new procedure evolves its state; a CS Security Start exchange reinitializes it.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/low-energy-link-layer-security.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part E, §3</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">Vol 6, Part H, §4.8</a></div>
+  <aside class="notes">
+    <p>The CS_DRBG uses the AES-128 security function e. h9 derives the initial key and nonce vector; f9 participates in their updates. Backtracking resistance is invoked whenever CSProcCount is incremented, before the first CS_DRBG invocation for that procedure. It is intended to protect earlier outputs if the current state becomes known. The step counter continues through a procedure’s subevents; transaction IDs separate the different uses. Counters and bit-consumption rules keep both controllers synchronized without transmitting every random choice. This is controller behavior; the planner’s example pseudo-random channel sequence does not reproduce the secure on-air sequence.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/low-energy-link-layer-security.html">Core 6.0 · Vol 6, Part E, §3</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html">Vol 6, Part H, §4.8</a>.</p>
+  </aside>
+</section>

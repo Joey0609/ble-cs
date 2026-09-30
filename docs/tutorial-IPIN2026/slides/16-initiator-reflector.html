@@ -1,0 +1,80 @@
+<section data-timing="90">
+  <h2>The reflector is an active radio, not a mirror</h2>
+  <div class="content">
+    <svg
+      class="diagram"
+      viewBox="40 55 920 200"
+      role="img"
+      aria-label="Initiator and reflector in a two-way exchange: the initiator starts each CS step, the reflector receives and transmits"
+    >
+      <defs>
+        <marker id="ir-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
+        </marker>
+        <marker id="ir-arrow-ref" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8" fill="#ffb17a" />
+        </marker>
+      </defs>
+      <!-- Same boxes as what-is-cs: initiator teal, reflector orange -->
+      <rect x="70" y="70" width="270" height="170" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
+      <text x="205" y="138" font-size="30" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
+      <text x="205" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">starts each CS step</text>
+      <rect x="660" y="70" width="270" height="170" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
+      <text x="795" y="138" font-size="30" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
+      <text x="795" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">receives + transmits</text>
+      <line x1="365" y1="110" x2="635" y2="110" stroke="#65e4d0" stroke-width="3" marker-end="url(#ir-arrow)" />
+      <line x1="635" y1="210" x2="365" y2="210" stroke="#ffb17a" stroke-width="3" marker-end="url(#ir-arrow-ref)" />
+      <text x="500" y="155" font-size="22" fill="#f5f5ed" text-anchor="middle">two-way exchange</text>
+    </svg>
+    <div class="layer link">
+      <span class="n">LINK LAYER · PREREQUISITE</span>
+      <p>
+        The two must share an encrypted Low Energy asynchronous connection (LE ACL): one is its
+        <b>Central</b>, the other its <b>Peripheral</b>.
+      </p>
+    </div>
+    <div class="pair">
+      <div class="layer cs">
+        <span class="n">CS ROLES</span>
+        <p>Link Layer roles do not imply CS roles: the Central or the Peripheral can be the initiator.</p>
+      </div>
+      <div class="layer host">
+        <span class="n">HOST · APPLICATION ROLES</span>
+        <p>Advertising and data-service roles follow from connection setup and the application. CS does not depend on them.</p>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
+      target="_blank"
+      rel="noopener"
+      >Core 6.0 · Vol 6, Part H (CS)</a
+    ><span class="sep">·</span
+    ><a
+      href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
+      target="_blank"
+      rel="noopener"
+      >Vol 6, Part B (Link Layer)</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Start with the premise: the reflector is not a passive mirror. In every CS step it receives
+      the initiator's tone or packet, measures it and transmits its own; an ordinary wall reflection
+      is not the protocol reflector. Two active radios that must agree on every step's channel and
+      timing need a link, so the prerequisite follows: the two share an established, encrypted LE
+      ACL connection. In the Link Layer that connection has two roles: the Central sent the
+      connection request, the Peripheral advertised and accepted it. Encryption comes from pairing
+      or an earlier bond; a controller refuses to start CS security on an unencrypted link. The Link
+      Layer roles do not imply the CS roles: either the Central or the Peripheral can be the
+      initiator, so the reflector does not have to be connected by the initiator. The CS role is
+      chosen per CS configuration, in its Role field. The Link Layer roles still appear inside CS
+      setup, since the Central starts the CS security exchange, but they do not decide the CS roles. Above the Link Layer, GAP names follow from how the
+      connection was made, and GATT client and server come from the application; CS does not depend
+      on either. The connectionless GAP roles, Broadcaster and Observer, never connect and so cannot
+      run CS. We meet the GATT roles again with the Ranging Service. Below (↓), the connection step
+      by step.
+    </p>
+  </aside>
+</section>

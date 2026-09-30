@@ -1,0 +1,15 @@
+<section class="cs-detail" data-timing="120">
+  <h2>Deterministic random bit generator (DRBG) initialization</h2>
+  <div class="content">
+<table class="cs-table"><thead><tr><th scope="col">Peer contribution</th><th scope="col">Initialization vector<br>(CS_IV)</th><th scope="col">Instantiation nonce<br>(CS_IN)</th><th scope="col">Personalization vector<br>(CS_PV)</th></tr></thead><tbody>
+<tr><td>Central → LL_CS_SEC_REQ</td><td>64 random bits</td><td>32 random bits</td><td>64-bit value</td></tr>
+<tr><td>Peripheral → LL_CS_SEC_RSP</td><td>64 random bits</td><td>32 random bits</td><td>64-bit value</td></tr>
+<tr><td>Combined input to h9</td><td>128 bits</td><td>64 bits</td><td>128 bits</td></tr>
+</tbody></table><div class="cs-equation">\(K_{\mathrm{DRBG}},\ V_{\mathrm{DRBG}} = h9(\mathrm{CS\_IV},\ \mathrm{CS\_IN},\ \mathrm{CS\_PV})\)</div><p class="cs-caption">Inputs: Peripheral part ∥ Central part. Output: shared 128-bit key and 128-bit nonce.</p><div class="callout">Encrypted ACL → CS Security Start → procedure counter reset to 0 → ready for CS.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.23</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/low-energy-link-layer-security.html" target="_blank" rel="noopener">Vol 6, Part E, §3.1.5</a></div>
+  <aside class="notes">
+    <p>The Central initiates the CS Security Start procedure; these are ACL roles, not CS roles. Both devices contribute fresh random initialization-vector and instantiation-nonce parts. The personalization vector contributes additional input but is not required to be random or treated as critical entropy. Concatenation is shown in specification notation, not packet byte order. h9 instantiates K_DRBG and V_DRBG. This is dedicated CS security material exchanged under ACL encryption, not simply the ACL session key renamed. On restart, outstanding CS procedures and repeats must finish before the security exchange. Normal repeated ranging does not require a new security exchange every time.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.23</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/low-energy-link-layer-security.html">Vol 6, Part E, §3.1.5</a>.</p>
+  </aside>
+</section>

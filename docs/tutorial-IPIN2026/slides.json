@@ -23,93 +23,175 @@
       "slides": [
         "08-indoors-last-metres",
         "09-location-changes-action",
-        "10-range-vs-track"
+        "10-why-ble-localization",
+        "11-indoor-position",
+        "12-multipath-first-path",
+        "13-range-vs-track",
+        {
+          "slide": "14-bt-localization",
+          "down": [
+            "14a-find-me",
+            "14b-beacons",
+            "14c-direction-finding",
+            "14d-channel-sounding"
+          ]
+        }
       ]
     },
     {
-      "title": "Channel Sounding",
+      "title": "LE link",
       "slides": [
-        "11-two-radios-distance",
-        "12-bt-localization",
-        "13-what-is-cs",
-        "14-initiator-reflector",
-        "15-acl-link-setup",
-        "16-acl-connection-events",
-        "17-acl-negotiation",
-        "18-acl-cs-timing",
-        "19-acl-data-sizes",
-        "20-phase-of-one-tone",
-        "21-rtt-of-one-packet",
-        "22-rtt-nanoseconds",
-        "23-many-tones",
-        "24-pbr-iq-to-distance",
-        "25-try-phase",
-        "26-frequency-error-bias",
-        "27-cs-step-modes",
-        "28-mode-0-timing",
-        "29-mode-1-timing",
-        "30-mode-2-timing",
-        "31-mode-3-timing",
-        "32-mode-sequence",
-        "33-procedure-hierarchy",
-        "34-tone-airtime",
-        "35-ranging-rate-budget",
-        "36-channels",
-        "37-antenna-paths",
-        "38-security-vs-quality",
-        "39-multipath-first-path",
-        "40-defensible-range",
-        "41-prediction-pause"
+        "15-what-is-cs",
+        {
+          "slide": "16-initiator-reflector",
+          "down": [
+            "16a-connection-establishment",
+            "16b-connection-events",
+            "16c-cs-negotiation",
+            "16d-cs-timeline",
+            "16e-subevent-steps"
+          ]
+        }
       ]
     },
     {
-      "title": "Positioning",
+      "title": "Measurement principles",
       "slides": [
-        "42-ranges-to-position",
-        "43-geometry",
-        "44-tracking-and-truth",
-        "45-senswear-radio-experiment",
-        "46-mounting"
+        "17-two-radios-distance",
+        {
+          "slide": "18-phase-of-one-tone",
+          "down": [
+            "18a-many-tones",
+            "18b-try-phase",
+            "18c-pbr-iq-to-distance",
+            "18d-multiple-antennas",
+            "18e-antenna-paths",
+            "18f-pbr-requirements"
+          ]
+        },
+        {
+          "slide": "19-rtt-of-one-packet",
+          "down": [
+            "19a-rtt-resolution",
+            "19b-rtt-many-steps",
+            "19c-rtt-nanoseconds",
+            "19d-mode-1-timestamps",
+            "19e-rtt-timing-errors",
+            "19f-rtt-requirements"
+          ]
+        },
+        {
+          "slide": "20-freq-calibration",
+          "down": [
+            "20a-ffo-fae",
+            "20b-try-frequency-offset",
+            "20c-cs-frequency-calibration",
+            "20d-cal-requirements"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "CS procedure",
+      "slides": [
+        {
+          "slide": "21-step-modes-overview",
+          "down": [
+            "21a-mode-0-timing",
+            "21b-mode-1-timing",
+            "21c-mode-2-phase",
+            "21d-mode-2-timing",
+            "21e-mode-3-combined",
+            "21f-mode-3-timing"
+          ]
+        },
+        {
+          "slide": "22-scheduling",
+          "down": [
+            "22a-mode-sequence",
+            "22b-channel-selection",
+            "22c-event-scheduling",
+            "22d-procedure-scheduling"
+          ]
+        },
+        {
+          "slide": "23-cs-initialization",
+          "down": [
+            "23a-cs-negotiated-parameters",
+            "23b-fae-retrieval",
+            "23c-cs-start"
+          ]
+        },
+        {
+          "slide": "24-ras-ipt",
+          "down": [
+            "24a-ras-delivery",
+            "24b-ipt-phase",
+            "24c-ipt-tradeoffs"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Security",
+      "slides": [
+        {
+          "slide": "25-ranging-security",
+          "down": [
+            "25a-cs-security",
+            "25b-drbg-initialization",
+            "25c-drbg-modes",
+            "25d-drbg-state",
+            "25e-security-vs-quality"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "In practice",
+      "slides": [
+        {
+          "slide": "26-practical-implementation",
+          "down": [
+            "26a-step-timing",
+            "26b-splitting-costs",
+            "26c-measurement-budget",
+            "26d-acl-data-sizes",
+            "26e-acl-interval-layout",
+            "26f-interval-choice",
+            "26g-security-use-cases"
+          ]
+        },
+        "27-prediction-pause"
       ]
     },
     {
       "title": "Hands-on",
       "slides": [
-        "47-toolchain",
-        "48-hosted-vs-hostless",
-        "49-app-overview",
-        "50-app-planner",
-        "51-app-pbr",
-        "52-app-controller",
-        "53-app-replay",
-        "54-lab-question",
-        "55-first-session",
-        "56-theory-to-evidence"
+        "28-install-check",
+        {
+          "slide": "29-app-overview",
+          "down": [
+            "29a-app-planner",
+            "29b-workshop-setup",
+            "29c-app-controller",
+            "29d-app-pbr",
+            "29e-defensible-range",
+            "29f-app-replay"
+          ]
+        },
+        "30-lab-question",
+        "31-first-session",
+        "32-theory-to-evidence"
       ]
     },
     {
       "title": "Reference",
       "appendix": true,
       "slides": [
-        "R01-bt6-ranging-primitive",
-        "R02-measurement-chain",
-        "R03-two-observables",
-        "R04-rtt-turnaround",
-        "R05-phase-cycle",
-        "R06-phase-ambiguity",
-        "R07-phase-pairing",
-        "R08-distance-slope",
-        "R09-step-modes-overview",
-        "R10-mode-0-reference",
-        "R11-mode-1-timestamps",
-        "R12-mode-2-phase",
-        "R13-mode-3-combined",
-        "R14-phase-model",
-        "R15-hardware-routes",
-        "R16-stalled-run",
-        "R17-later-features",
-        "R18-references-spec",
-        "R19-references-platform"
+        "R01-stalled-run",
+        "R02-references-spec",
+        "R03-references-platform"
       ]
     }
   ]

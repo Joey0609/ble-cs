@@ -1,0 +1,36 @@
+<section class="rtt-errors" data-timing="90">
+  <h2>Small timing errors become large range errors</h2>
+  <div class="body">
+    <p class="lead">\( |\Delta d| = \dfrac{c}{2}\,\Delta T \): every nanosecond of round-trip error is 15&nbsp;cm</p>
+    <table>
+      <thead>
+        <tr><th>Source</th><th>Timing error</th><th>Range error</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Round-trip timing error</td><td>1&nbsp;ns</td><td>15&nbsp;cm</td></tr>
+        <tr><td>Clock-rate offset, 12&nbsp;ppm over a 176&nbsp;&micro;s turnaround</td><td>2.1&nbsp;ns</td><td>32&nbsp;cm</td></tr>
+        <tr><td>Uncalibrated transmit and receive chain delay</td><td>10&nbsp;ns</td><td>1.5&nbsp;m</td></tr>
+      </tbody>
+    </table>
+    <p class="takeaway">A clock-rate offset stretches the reflector&rsquo;s interval as it rotates a phase:
+      \( |\Delta d| \approx c\,|\varepsilon|\,T/2 \), the same form as for phase-based ranging</p>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Every error in time becomes an error in range at half the speed of light: one nanosecond of
+      round-trip error is 15 cm. Two system effects dominate. The first is the clock rate: the
+      reflector measures its interval, about 176 microseconds for a mode-1 step on LE 2M with the
+      planner's 145 microsecond T_IP1, on its own crystal. A 12 ppm offset stretches that interval
+      by 2.1 ns, which is 32 cm. The form is c times epsilon times the time between the two
+      observations, over two, and the same offset biases phase-based ranging in the same way, as
+      the calibration section shows; the initiator removes it by dividing by one plus the fractional frequency offset measured in mode
+      0. The second is the hardware: the transmit and receive chains add delay between the antenna
+      and the point where the timestamp is taken. The specification requires devices to compensate
+      it, but any residual shows up as a constant bias; 10 ns uncalibrated is 1.5 m, so calibrate
+      on a known distance. The numbers are illustrative magnitudes, not measurements.
+    </p>
+  </aside>
+</section>

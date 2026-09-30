@@ -1,0 +1,30 @@
+<section data-timing="75">
+  <h2>Run CS from the app</h2>
+  <div class="content">
+    <div class="cols">
+      <div>
+        <h3>Preprogrammed boards</h3>
+        <p class="lead">Connect the nRF54LM20 client to your computer by USB. The app uses its USB CDC ACM port to control CS with the nearby reflector.</p>
+        <p class="small muted">The app applies a configuration, connects to the peer and starts the session.</p>
+      </div>
+      <div>
+        <h3>Without a board</h3>
+        <p class="lead"><span class="mono">ble-channel-sounding --simulate</span> lets you practice the same controls and inspect synthetic results.</p>
+        <p class="small muted">Simulator values teach the workflow; they are not RF measurements.</p>
+      </div>
+    </div>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      The workshop boards are already programmed. The hosted nRF54LM20 client connects to the
+      desktop application over its native USB CDC ACM host port, not the debug UART. The separate
+      reflector advertises over Bluetooth. With the supplied boards, participants only need the
+      desktop app and a USB data cable. The simulator is a fallback for learning the controls and
+      cannot stand in for a physical ranging result. The main first-session slide gives the exact
+      toolbar sequence after the app walkthrough.
+    </p>
+  </aside>
+</section>

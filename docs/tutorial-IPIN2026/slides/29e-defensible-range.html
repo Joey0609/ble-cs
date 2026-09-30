@@ -1,0 +1,57 @@
+<section data-timing="105">
+  <h2>Compare the range estimates</h2>
+  <div class="content">
+    <div class="stepstrip">
+      <div class="stepbox">Match<small>procedure · step · channel</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Filter<small>validity · tone / packet quality</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Estimate<small>one path · correct units</small></div>
+      <span class="arrow">→</span>
+      <div class="stepbox">Check<small>residuals · spread · reference</small></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>In the app</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PBR slope: raw / corrected</td>
+          <td>Distance from the phase trend across channels</td>
+        </tr>
+        <tr>
+          <td>PBR IFFT peak: raw / corrected</td>
+          <td>Peak in the complex-product range profile</td>
+        </tr>
+        <tr>
+          <td>RTT mean / median</td>
+          <td>Summary of accepted paired timing observations</td>
+        </tr>
+        <tr>
+          <td>Counts, flags, frequency offsets</td>
+          <td>Context needed to judge the estimate</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="source">
+    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+  </div>
+  <aside class="notes">
+    <p>
+      Describe what the repository actually implements. Pairing uses configuration ID, start ACL
+      event and procedure counter; steps are paired in their common order and mismatched channels
+      are discarded. The selected antenna path and quality filter affect both PBR estimates. The
+      IFFT uses the corrected complex products on their 1 MHz channel grid; missing channels are
+      left empty. Zero padding samples the profile more finely without improving physical resolution.
+      RTT uses
+      paired time differences, validity and packet-quality information; its mean and median
+      summarize accepted steps. A low spread does not eliminate calibration bias. Check controller
+      reports and missing or incomplete procedures. This is a transparent educational pipeline, not
+      a claim that a simple fit or the largest IFFT peak identifies the first path in multipath.
+    </p>
+  </aside>
+</section>

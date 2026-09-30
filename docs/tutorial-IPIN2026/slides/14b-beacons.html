@@ -1,0 +1,112 @@
+<section class="modality" data-timing="75">
+  <h2>Beacons: signal strength mapped to range</h2>
+  <div class="content">
+    <div class="cols">
+      <svg
+        class="diagram"
+        viewBox="0 0 560 270"
+        role="img"
+        aria-label="RSSI against distance for a path-loss model; with plus or minus 6 dB of fading, a reading of minus 71 dBm fits any distance from 2 to 8 metres"
+      >
+        <defs>
+          <clipPath id="bc-plot">
+            <rect x="70" y="30" width="470" height="200" />
+          </clipPath>
+        </defs>
+        <!-- Axes and ticks -->
+        <g stroke="#31535a" stroke-width="1.5">
+          <line x1="70" y1="40.5" x2="540" y2="40.5" />
+          <line x1="70" y1="93.2" x2="540" y2="93.2" />
+          <line x1="70" y1="145.8" x2="540" y2="145.8" />
+          <line x1="70" y1="198.4" x2="540" y2="198.4" />
+        </g>
+        <line x1="70" y1="30" x2="70" y2="230" stroke="#afc8cb" stroke-width="2" />
+        <line x1="70" y1="230" x2="540" y2="230" stroke="#afc8cb" stroke-width="2" />
+        <g font-size="14" fill="#afc8cb" text-anchor="end">
+          <text x="62" y="45">−50</text>
+          <text x="62" y="98">−60</text>
+          <text x="62" y="150">−70</text>
+          <text x="62" y="203">−80</text>
+        </g>
+        <g font-size="14" fill="#afc8cb" text-anchor="middle">
+          <text x="70" y="249">0</text>
+          <text x="162" y="249">2</text>
+          <text x="254" y="249">4</text>
+          <text x="346" y="249">6</text>
+          <text x="438" y="249">8</text>
+          <text x="530" y="249">10</text>
+        </g>
+        <text x="540" y="268" font-size="15" fill="#afc8cb" text-anchor="end">distance (m)</text>
+        <text x="10" y="20" font-size="15" fill="#afc8cb">signal strength (dBm)</text>
+        <!-- Model and a ±6 dB band -->
+        <g clip-path="url(#bc-plot)">
+          <path
+            d="M88.4,14.4 L97.6,33.0 L106.8,46.1 L116.0,56.3 L125.2,64.7 L134.4,71.7 L143.6,77.8 L152.8,83.2 L162.0,88.0 L171.2,92.4 L180.4,96.3 L189.6,100.0 L198.8,103.4 L208.0,106.5 L217.2,109.5 L226.4,112.3 L235.6,114.9 L244.8,117.3 L254.0,119.7 L263.2,121.9 L272.4,124.0 L281.6,126.1 L290.8,128.0 L300.0,129.9 L309.2,131.7 L318.4,133.4 L327.6,135.1 L336.8,136.7 L346.0,138.2 L355.2,139.7 L364.4,141.2 L373.6,142.6 L382.8,143.9 L392.0,145.3 L401.2,146.6 L410.4,147.8 L419.6,149.0 L428.8,150.2 L438.0,151.4 L447.2,152.5 L456.4,153.6 L465.6,154.7 L474.8,155.7 L484.0,156.8 L493.2,157.8 L502.4,158.8 L511.6,159.7 L520.8,160.7 L530.0,161.6 L530.0,224.7 L520.8,223.8 L511.6,222.9 L502.4,221.9 L493.2,220.9 L484.0,219.9 L474.8,218.9 L465.6,217.8 L456.4,216.8 L447.2,215.7 L438.0,214.5 L428.8,213.4 L419.6,212.2 L410.4,211.0 L401.2,209.7 L392.0,208.4 L382.8,207.1 L373.6,205.7 L364.4,204.3 L355.2,202.9 L346.0,201.4 L336.8,199.8 L327.6,198.2 L318.4,196.6 L309.2,194.8 L300.0,193.0 L290.8,191.2 L281.6,189.2 L272.4,187.2 L263.2,185.1 L254.0,182.8 L244.8,180.5 L235.6,178.0 L226.4,175.4 L217.2,172.6 L208.0,169.7 L198.8,166.5 L189.6,163.2 L180.4,159.5 L171.2,155.5 L162.0,151.2 L152.8,146.3 L143.6,141.0 L134.4,134.9 L125.2,127.8 L116.0,119.5 L106.8,109.3 L97.6,96.1 L88.4,77.6 Z"
+            fill="#65e4d0"
+            fill-opacity="0.16"
+          />
+          <path
+            d="M88.4,46.0 L97.6,64.5 L106.8,77.7 L116.0,87.9 L125.2,96.2 L134.4,103.3 L143.6,109.4 L152.8,114.8 L162.0,119.6 L171.2,123.9 L180.4,127.9 L189.6,131.6 L198.8,135.0 L208.0,138.1 L217.2,141.1 L226.4,143.8 L235.6,146.5 L244.8,148.9 L254.0,151.3 L263.2,153.5 L272.4,155.6 L281.6,157.7 L290.8,159.6 L300.0,161.5 L309.2,163.3 L318.4,165.0 L327.6,166.7 L336.8,168.3 L346.0,169.8 L355.2,171.3 L364.4,172.8 L373.6,174.2 L382.8,175.5 L392.0,176.9 L401.2,178.1 L410.4,179.4 L419.6,180.6 L428.8,181.8 L438.0,183.0 L447.2,184.1 L456.4,185.2 L465.6,186.3 L474.8,187.3 L484.0,188.3 L493.2,189.3 L502.4,190.3 L511.6,191.3 L520.8,192.2 L530.0,193.2"
+            fill="none"
+            stroke="#65e4d0"
+            stroke-width="3"
+          />
+        </g>
+        <!-- One reading, and the distances it fits -->
+        <g stroke="#dcf58a" stroke-width="2" stroke-dasharray="6 5">
+          <line x1="70" y1="151" x2="438" y2="151" />
+          <line x1="162" y1="151" x2="162" y2="230" />
+          <line x1="438" y1="151" x2="438" y2="230" />
+        </g>
+        <line x1="162" y1="222" x2="438" y2="222" stroke="#ffb17a" stroke-width="5" />
+        <text x="300" y="214" font-size="17" fill="#ffb17a" text-anchor="middle">2 m … 8 m</text>
+        <text x="78" y="172" font-size="16" fill="#dcf58a">−71 dBm</text>
+        <text x="420" y="118" font-size="15" fill="#65e4d0" text-anchor="middle">model ± 6 dB</text>
+      </svg>
+      <dl class="facts">
+        <dt>SINCE</dt>
+        <dd>Apple iBeacon (2013); also Eddystone, AltBeacon</dd>
+        <dt>LINK</dt>
+        <dd>None: the beacon advertises an identifier and its measured power at 1&nbsp;m</dd>
+        <dt>MODEL</dt>
+        <dd>Received signal strength indicator (RSSI) = P<sub>1m</sub> − 10·n·log<sub>10</sub>&nbsp;d, solved for d</dd>
+        <dt>RESULT</dt>
+        <dd>Zones (immediate, near, far), or a coarse position from several beacons</dd>
+      </dl>
+    </div>
+    <div class="limits">
+      <span class="n">LIMITATIONS</span>
+      <ul>
+        <li>6 dB of error doubles or halves the range (n&nbsp;=&nbsp;2)</li>
+        <li>Fading, the body and orientation move RSSI by several dB</li>
+        <li>n and P<sub>1m</sub> change with the room and the receiver</li>
+        <li>The advertised identifier is public: easy to spoof or replay</li>
+      </ul>
+    </div>
+  </div>
+  <div class="source">
+    <a href="https://developer.apple.com/ibeacon/" target="_blank" rel="noopener">Apple · iBeacon</a
+    ><span class="sep">|</span
+    ><a
+      href="https://developer.apple.com/documentation/corelocation/determining-the-proximity-to-an-ibeacon-device"
+      target="_blank"
+      rel="noopener"
+      >Determining the proximity to an iBeacon device</a
+    >
+  </div>
+  <aside class="notes">
+    <p>
+      Beacons are connectionless: a beacon advertises an identifier and a measured power, the RSSI a
+      receiver should see at 1 m. The receiver compares its RSSI with that value and solves a log-
+      distance path-loss model for the distance. The plot uses P1m = −59 dBm and n = 2, a teaching
+      example rather than a measurement. Because distance sits inside a logarithm, a dB error
+      becomes a multiplicative range error: with n = 2, 6 dB doubles or halves the distance, so a
+      reading of −71 dBm fits anything from 2 to 8 m. Fading, a hand or body between the devices,
+      antenna orientation and phone-to-phone RSSI calibration all move the reading by several dB.
+      That is why Core Location reports a proximity zone (immediate, near, far) with only a rough
+      accuracy estimate. Several beacons give a coarse position by trilateration or by
+      fingerprinting a site survey. The identifier is broadcast in the clear, so it can be copied or
+      replayed.
+    </p>
+  </aside>
+</section>

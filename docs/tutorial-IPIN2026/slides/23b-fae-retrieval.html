@@ -1,0 +1,15 @@
+<section class="cs-detail" data-timing="105">
+  <h2>Frequency actuation error (FAE) retrieval</h2>
+  <div class="content">
+<p class="cs-intro">Check the reflector’s <em>No_FAE</em> (“no frequency actuation error”) capability before requesting its table.</p><table class="cs-table"><thead><tr><th scope="col">Condition</th><th scope="col">Initiator action</th></tr></thead><tbody>
+<tr><td>No_FAE = 1</td><td>FAE is zero on every permitted CS channel. Do not send LL_CS_FAE_REQ.</td></tr>
+<tr><td>No_FAE = 0<br>table known</td><td>Supply the known reflector table to the controller; no new air exchange is needed.</td></tr>
+<tr><td>No_FAE = 0<br>table unknown</td><td>Request LL_CS_FAE_REQ → receive LL_CS_FAE_RSP before starting CS.</td></tr>
+</tbody></table><div class="callout">The 72-entry table describes the reflector’s per-channel actuation error. Mode 0 still measures the changing frequency offset in every subevent.</div>
+  </div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.29; §2.4.2.52</a></div>
+  <aside class="notes">
+    <p>The request is conditional on No_FAE being zero and the table not already being known. The specification prohibits requesting a table from a peer that declares No_FAE = 1. A potential initiator requests the table of its potential reflector, independently of their Central/Peripheral roles. If CS roles reverse, use the new reflector’s information. The table is calibration information, not a value negotiated to a compromise. It must be known before the procedure; it is not retrieved in every subevent. Each subevent’s mode-0 measurement still supplies the current relative frequency estimate. Manage cached information for the correct peer and calibration.</p>
+    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.29; §2.4.2.52</a>.</p>
+  </aside>
+</section>

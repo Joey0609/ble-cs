@@ -62,6 +62,10 @@ used by the technical diagrams
 .reveal .slides section * {
   box-sizing: border-box;
 }
+/* A vertical stack (a slides.json "down" entry) only wraps its slides. */
+.reveal .slides section.stack {
+  padding: 0;
+}
 
 .reveal .slides section > h2 {
   font:
@@ -136,6 +140,9 @@ used by the technical diagrams
 .reveal .breadcrumb a:hover {
   color: var(--ink);
 }
+.reveal .breadcrumb .more {
+  color: var(--muted);
+}
 
 .reveal .source {
   position: absolute;
@@ -157,19 +164,54 @@ used by the technical diagrams
   margin: 0 8px;
   color: var(--line);
 }
+.deck-footer {
+  position: fixed;
+  bottom: 16px;
+  left: 60px;
+  right: 25px;
+  z-index: 8;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  pointer-events: none;
+}
+.deck-footer-hint {
+  color: var(--muted);
+  font: 12px/1.3 "Segoe UI", Arial, sans-serif;
+  white-space: nowrap;
+}
+.deck-down-hint {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 100px);
+  color: var(--lime);
+  font: 600 18px/1.3 "Segoe UI", Arial, sans-serif;
+}
+.deck-down-hint[hidden] {
+  display: none;
+}
+.deck-down-hint kbd {
+  padding: 1px 8px 3px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: var(--panel);
+  font: 24px/1 "Segoe UI", Arial, sans-serif;
+}
 
 /* ---- Deck controls ---- */
 
 .deck-counter {
-  position: fixed;
-  bottom: 16px;
-  right: 25px;
-  z-index: 8;
   font:
     13px "Space Mono",
     monospace;
   color: var(--muted);
-  pointer-events: none;
+  text-align: right;
+  white-space: nowrap;
 }
 .reveal .controls {
   color: var(--lime);
@@ -214,7 +256,7 @@ used by the technical diagrams
 }
 
 @media print {
-  .deck-counter {
+  .deck-footer {
     display: none !important;
   }
   .reveal .slides section {
@@ -358,6 +400,12 @@ used by the technical diagrams
   font-size: 23px;
   line-height: 1.35;
 }
+.reveal .content .callout.warning {
+  border-left-color: var(--orange);
+}
+.reveal .content .callout.warning strong {
+  color: var(--orange);
+}
 .reveal .content .pill {
   display: inline-block;
   padding: 9px 14px;
@@ -492,6 +540,81 @@ used by the technical diagrams
 .reveal .content table td:first-child {
   color: var(--lime);
 }
+
+/* CS setup/security/implementation: flat rows in the existing slide frame. */
+.reveal .cs-detail .content {
+  gap: 18px;
+}
+.reveal .cs-detail .cs-intro {
+  font-size: 25px;
+  line-height: 1.35;
+  margin: 0;
+}
+.reveal .cs-detail .cs-table {
+  font-size: 23px;
+  table-layout: fixed;
+}
+.reveal .cs-detail .cs-table th,
+.reveal .cs-detail .cs-table td {
+  vertical-align: top;
+  padding: 13px 16px;
+  line-height: 1.25;
+}
+.reveal .cs-detail .cs-table th:first-child,
+.reveal .cs-detail .cs-table td:first-child {
+  width: 25%;
+  padding-left: 0;
+}
+.reveal .cs-detail .cs-flow {
+  list-style: none;
+  counter-reset: cs-stage;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.reveal .cs-detail .cs-flow li {
+  counter-increment: cs-stage;
+  display: grid;
+  grid-template-columns: 38px 240px 1fr;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 23px;
+  line-height: 1.25;
+}
+.reveal .cs-detail .cs-flow li::before {
+  content: counter(cs-stage, decimal-leading-zero);
+  color: var(--teal);
+  font: 18px "Space Mono", monospace;
+}
+.reveal .cs-detail .cs-flow b {
+  color: var(--lime);
+  font-weight: 600;
+}
+.reveal .cs-detail .cs-equation {
+  color: var(--teal);
+  font-size: 29px;
+  line-height: 1.6;
+  padding: 14px 0;
+}
+.reveal .cs-detail .cs-caption {
+  font-size: 22px;
+  color: var(--muted);
+  margin: 0;
+}
+.reveal .cs-detail .cs-phase-cols {
+  align-items: start;
+  font-size: 24px;
+  gap: 50px;
+}
+.reveal .cs-detail .cs-phase-cols > div {
+  border-top: 3px solid var(--teal);
+  padding-top: 20px;
+}
+.reveal .cs-detail .cs-phase-cols > div + div {
+  border-color: var(--orange);
+}
 .reveal .content .screenshot-layout {
   display: grid;
   grid-template-columns: 1fr 255px;
@@ -569,7 +692,10 @@ used by the technical diagrams
   width: 260px;
 }
 .reveal .content .control-row button {
-  font: 18px "Segoe UI";
+  font:
+    18px "Segoe UI",
+    Arial,
+    sans-serif;
   padding: 10px 17px;
   color: var(--ink);
   background: var(--panel);
@@ -620,7 +746,7 @@ used by the technical diagrams
 }
 .reveal .content .agenda {
   display: grid;
-  gap: 14px;
+  gap: 9px;
 }
 .reveal .content .agenda-row {
   display: grid;
@@ -629,7 +755,7 @@ used by the technical diagrams
   border-radius: 9px;
   grid-template-columns: 60px 330px 1fr;
   gap: 20px;
-  padding: 17px 22px;
+  padding: 10px 22px;
 }
 .reveal .content .agenda-row strong {
   font-size: 25px;
@@ -665,8 +791,18 @@ used by the technical diagrams
   font-size: 21px;
   margin: 5px 0;
 }
-#mounting .diagram {
-  max-height: 325px;
+#first-session .card {
+  padding: 20px 24px;
+}
+#first-session .card .n {
+  margin-bottom: 10px;
+}
+#first-session .card h3 {
+  margin-bottom: 8px;
+}
+#first-session .card p {
+  font-size: 22px;
+  margin: 0;
 }
 .reveal .content .agenda-row .stage-number {
   font: 20px "Space Mono";
@@ -675,9 +811,6 @@ used by the technical diagrams
 .reveal .content .agenda-row .stage-detail {
   font-size: 22px;
   color: var(--muted);
-}
-#rtt-turnaround .diagram {
-  max-height: 375px;
 }
 .reveal .content small {
   display: inline;
@@ -814,6 +947,176 @@ width keeps the zoomed block centred. */
   color: var(--teal);
 }
 
+/* ---- Initiator and reflector: the diagram, the link prerequisite, the roles ---- */
+
+#initiator-reflector .diagram {
+  max-height: 190px;
+}
+#initiator-reflector .layer {
+  padding: 16px 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+#initiator-reflector .layer .n {
+  display: block;
+  margin-bottom: 6px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--muted);
+}
+#initiator-reflector .layer p {
+  margin: 0;
+  font-size: 23px;
+}
+#initiator-reflector .layer.link {
+  border: 2px solid var(--lime);
+}
+#initiator-reflector .layer.link .n {
+  color: var(--lime);
+}
+#initiator-reflector .layer.cs {
+  border-color: var(--teal);
+}
+#initiator-reflector .layer.cs .n {
+  color: var(--teal);
+}
+#initiator-reflector .layer.host p {
+  color: var(--muted);
+}
+#initiator-reflector .pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ---- Connection establishment and connection events: diagram + parameter strip ---- */
+
+.reveal .acl-steps .params {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: 18px;
+}
+.reveal .acl-steps .params > div {
+  padding-top: 8px;
+  border-top: 3px solid var(--teal);
+  font-size: 19px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.reveal .acl-steps .params b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 21px;
+  color: var(--ink);
+}
+.reveal .acl-steps .params > .enc {
+  border-color: var(--lime);
+}
+/* Six items: two rows of three, the name inline. */
+.reveal .acl-steps .params.rows {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 12px;
+}
+.reveal .acl-steps .params.rows b {
+  display: inline;
+  margin: 0 4px 0 0;
+  font-size: 19px;
+}
+/* Legend under a diagram: a swatch that matches each box, then the term. */
+.reveal .acl-steps .legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 32px;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.reveal .acl-steps .legend > div {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 12px;
+  align-items: start;
+}
+.reveal .acl-steps .legend .sw {
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 5px;
+}
+.reveal .acl-steps .legend b {
+  margin-right: 4px;
+  color: var(--ink);
+}
+.reveal .acl-steps .sw.proc {
+  border: 2px dashed var(--lime);
+  background: rgb(220 245 138 / 0.05);
+}
+.reveal .acl-steps .sw.event {
+  border: 2px solid var(--teal);
+  background: rgb(101 228 208 / 0.08);
+}
+.reveal .acl-steps .sw.sub {
+  border: 2px solid var(--lime);
+  background: rgb(220 245 138 / 0.18);
+}
+.reveal .acl-steps .sw.m0 {
+  border: 2px solid var(--muted);
+  background: var(--panel);
+}
+.reveal .acl-steps .sw.main {
+  border: 2px solid var(--teal);
+  background: var(--panel);
+}
+.reveal .acl-steps .sw.subm {
+  border: 2px solid var(--orange);
+  background: var(--panel);
+}
+.reveal .acl-steps .sw.acl,
+.reveal .acl-steps .sw.dir {
+  height: 14px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, var(--teal) 0 45%, transparent 45% 55%, var(--orange) 55%);
+}
+#connection-events .diagram {
+  max-height: 318px;
+}
+.reveal .acl-steps .groups {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.reveal .acl-steps .group {
+  padding-top: 8px;
+  border-top: 3px solid var(--teal);
+}
+.reveal .acl-steps .group.after {
+  border-color: var(--lime);
+}
+.reveal .acl-steps .group .n {
+  display: block;
+  margin-bottom: 6px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--teal);
+}
+.reveal .acl-steps .group.after .n {
+  color: var(--lime);
+}
+.reveal .acl-steps .group ul {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.reveal .acl-steps .group b {
+  color: var(--ink);
+}
+
 /* ---- ACL link, timing and data sizes ---- */
 
 .reveal .acl-events .lead,
@@ -822,7 +1125,6 @@ width keeps the zoomed block centred. */
   margin: 0 0 0.3em;
 }
 
-.reveal .acl-link .diagram,
 .reveal .acl-sizes .diagram {
   display: block;
   width: 100%;
@@ -830,7 +1132,6 @@ width keeps the zoomed block centred. */
   margin: 0 auto;
 }
 
-.reveal .acl-link .takeaway,
 .reveal .acl-events .takeaway,
 .reveal .acl-sizes .takeaway {
   font-size: 0.66em;
@@ -839,11 +1140,6 @@ width keeps the zoomed block centred. */
 .reveal .acl-sizes .takeaway {
   margin-top: 0.7em;
 }
-.reveal .acl-link .role-note {
-  font-size: 0.5em;
-  margin: 0;
-}
-
 .reveal .acl-events .units,
 .reveal .acl-sizes .stats {
   display: grid;
@@ -878,121 +1174,6 @@ width keeps the zoomed block centred. */
 }
 .reveal .acl-sizes .stats .big {
   font-size: 1.9em;
-}
-
-/* ---- ACL connection events and negotiation ---- */
-
-.reveal .acl-event-basics .lead,
-.reveal .acl-negotiation .lead {
-  font-size: 0.62em;
-  margin: 0 0 0.22em;
-}
-
-.reveal .acl-event-basics .event-flow {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin: 0 auto;
-}
-.reveal .acl-event-basics .event-terms {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.45em;
-  margin: 0.12em 0 0;
-  text-align: left;
-}
-.reveal .acl-event-basics .event-terms p {
-  margin: 0;
-  padding: 0.2em 0.3em;
-  border-top: 3px solid var(--line);
-  font-size: 0.48em;
-  line-height: 1.2;
-}
-.reveal .acl-event-basics .event-terms strong {
-  color: var(--teal);
-}
-
-.reveal .acl-negotiation .negotiation-cards {
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.94fr) minmax(0, 0.94fr);
-  gap: 0.42em;
-  align-items: stretch;
-  min-width: 0;
-  text-align: left;
-}
-.reveal .acl-negotiation .negotiation-card {
-  min-width: 0;
-  padding: 0.32em 0.38em;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-}
-.reveal .acl-negotiation .negotiation-card h3 {
-  margin: 0;
-  font-size: 0.52em;
-  line-height: 1.12;
-  color: var(--teal);
-}
-.reveal .acl-negotiation .card-kicker {
-  margin: 0.05em 0 0.22em;
-  font-size: 0.42em;
-  color: var(--muted);
-}
-.reveal .acl-negotiation .exchange {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) auto minmax(0, 1.6fr);
-  gap: 0.18em;
-  align-items: center;
-  min-height: 1.55em;
-  padding: 0.12em 0;
-  border-top: 1px solid var(--line);
-}
-.reveal .acl-negotiation .role,
-.reveal .acl-negotiation .arrow,
-.reveal .acl-negotiation .payload {
-  font-size: 0.42em;
-  line-height: 1.12;
-}
-.reveal .acl-negotiation .role {
-  color: var(--teal);
-  font-weight: 700;
-}
-.reveal .acl-negotiation .role.peripheral,
-.reveal .acl-negotiation .arrow.peripheral {
-  color: var(--orange);
-}
-.reveal .acl-negotiation .arrow {
-  font-size: 0.54em;
-  font-weight: 700;
-}
-.reveal .acl-negotiation .payload,
-.reveal .acl-negotiation .payload code {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.reveal .acl-negotiation .payload small {
-  display: block;
-  font-size: 0.9em;
-  color: var(--muted);
-}
-.reveal .acl-negotiation .card-detail {
-  margin: 0.2em 0 0;
-  font-size: 0.42em;
-  line-height: 1.2;
-}
-.reveal .acl-negotiation .limit-note {
-  margin: 0.24em 0 0.12em;
-  padding: 0.22em 0.4em;
-  background: #183e42;
-  border-left: 4px solid var(--teal);
-  border-radius: 0 9px 9px 0;
-  font-size: 0.46em;
-  line-height: 1.2;
-  color: var(--ink);
-}
-.reveal .acl-negotiation .role-note {
-  font-size: 0.42em;
-  margin: 0;
 }
 
 /* ---- What is Channel Sounding ---- */
@@ -1106,6 +1287,61 @@ width keeps the zoomed block centred. */
   color: var(--teal);
 }
 
+/* One slide per technique, below bt-localization: diagram, facts, limits.
+ * ranging-security uses the same layout; indoors-last-metres shares the facts list. */
+.reveal .modality .cols {
+  grid-template-columns: 1.15fr 1fr;
+  align-items: start;
+}
+.reveal .modality .diagram {
+  max-height: 270px;
+}
+.reveal .modality .facts,
+#indoors-last-metres .facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 18px;
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.3;
+}
+.reveal .modality .facts dt,
+#indoors-last-metres .facts dt {
+  padding-top: 4px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--teal);
+}
+.reveal .modality .facts dd,
+#indoors-last-metres .facts dd {
+  margin: 0;
+}
+.reveal .modality .limits {
+  padding: 16px 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.reveal .modality .limits .n {
+  display: block;
+  margin-bottom: 8px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--orange);
+}
+.reveal .modality .limits ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 36px;
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
 /* ---- Basics of Channel Sounding ---- */
 
 .reveal .cs-basics svg {
@@ -1115,6 +1351,10 @@ width keeps the zoomed block centred. */
 }
 .reveal .cs-basics svg.plots {
   height: 340px;
+}
+/* KaTeX draws \sqrt with an inline SVG sized by its own rule; keep the figure rule off it. */
+.reveal .cs-basics .katex svg {
+  height: inherit;
 }
 .reveal .cs-basics .columns {
   grid-template-columns: 1.15fr 1fr;
@@ -1168,6 +1408,133 @@ width keeps the zoomed block centred. */
 .reveal .cs-basics .facts p {
   margin: 0;
 }
+/* mode-1-timestamps: the step diagram beside the RTT equations. */
+#mode-1-timestamps .rtt-cols {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+#mode-1-timestamps .rtt-eqs p {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+#mode-1-timestamps .rtt-eqs .note {
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* pbr-, rtt- and cal-requirements: four requirement cards, two by two. */
+#pbr-requirements .reqs,
+#rtt-requirements .reqs,
+#cal-requirements .reqs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+#pbr-requirements .card,
+#rtt-requirements .card,
+#cal-requirements .card {
+  padding: 16px 24px;
+}
+#pbr-requirements .card .n,
+#rtt-requirements .card .n,
+#cal-requirements .card .n {
+  margin-bottom: 6px;
+}
+#pbr-requirements .card h3,
+#rtt-requirements .card h3,
+#cal-requirements .card h3 {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+#pbr-requirements .card p,
+#rtt-requirements .card p,
+#cal-requirements .card p {
+  margin: 0;
+  font-size: 21px;
+}
+
+/* rtt-timing-errors: a formula lead, the error table and the takeaway. */
+.reveal .rtt-errors .lead {
+  margin: 0 0 0.5em;
+  font-size: 0.8em;
+}
+.reveal .rtt-errors table td:nth-child(n + 2) {
+  white-space: nowrap;
+}
+.reveal .rtt-errors .takeaway {
+  margin-top: 0.8em;
+  font-size: 0.7em;
+}
+
+/* try-frequency-offset: two sliders and two presets on one row. */
+#try-frequency-offset .control-row {
+  gap: 14px;
+  white-space: nowrap;
+}
+#try-frequency-offset .control-row input[type="range"] {
+  width: 190px;
+}
+
+/* freq-calibration: what an offset breaks, beside the two-radio picture. */
+#freq-calibration .breaks h3 {
+  margin-bottom: 10px;
+}
+#freq-calibration .breaks p {
+  margin: 0 0 14px;
+  font-size: 21px;
+  color: var(--muted);
+}
+#freq-calibration .breaks b {
+  color: var(--ink);
+}
+
+/* ffo-fae: the two definitions side by side. */
+#ffo-fae .defs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+#ffo-fae .card {
+  padding: 18px 24px;
+}
+#ffo-fae .card .n {
+  margin-bottom: 8px;
+}
+#ffo-fae .card h3 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+#ffo-fae .card p {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+#ffo-fae .card .eq {
+  font-size: 19px;
+  color: var(--ink);
+}
+#ffo-fae .relation {
+  padding: 10px 18px;
+  background: var(--panel);
+  border: 1px solid var(--lime);
+  border-radius: 16px;
+  font-size: 18px;
+  line-height: 1.4;
+  text-align: center;
+}
+#ffo-fae .card svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 96px;
+}
+
+/* many-tones: the first box holds the two-line derivation. */
+#many-tones .facts {
+  grid-template-columns: 1.6fr 1fr 1fr;
+}
 .reveal .cs-basics .note {
   display: block;
   color: var(--muted);
@@ -1195,4 +1562,48 @@ width keeps the zoomed block centred. */
   margin-top: 0.2em;
   font-size: 0.52em;
   color: var(--muted);
+}
+
+/* ras-ipt: the two-way diagram, then RAS and IPT side by side. */
+#ras-ipt .diagram {
+  max-height: 184px;
+}
+#ras-ipt .answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+#ras-ipt .answers > div {
+  padding: 14px 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--orange);
+  border-radius: 14px;
+}
+#ras-ipt .answers > .ipt {
+  border-top-color: var(--teal);
+}
+#ras-ipt .answers .n {
+  display: block;
+  margin-bottom: 4px;
+  font:
+    15px "Space Mono",
+    monospace;
+  color: var(--orange);
+}
+#ras-ipt .answers .ipt .n {
+  color: var(--teal);
+}
+#ras-ipt .answers p {
+  margin: 8px 0 0;
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+#ras-ipt .answers b {
+  color: var(--ink);
+  font-weight: 600;
+}
+#ras-ipt .answers .nowrap {
+  white-space: nowrap;
 }
