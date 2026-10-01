@@ -578,6 +578,32 @@ class AppGuiTests(unittest.TestCase):
         finally:
             window.close()
 
+    def test_confirmed_start_drops_previous_session_error_from_status_bar(self):
+        window = MainWindow(simulate=True)
+        try:
+            with patch.object(SyncDialog, 'exec', lambda dialog: dialog.choose('apply')):
+                window.connect_port('Simulator', 921600)
+                self.app.processEvents()
+            client_status = window.port_status.text()
+            self.assertIn('Firmware', client_status)
+            window.scan_peers()
+            window.connect_selected_peer()
+            interruption = 'Client operation interrupted: ERROR, reason CS_CONFIG_FAILED, error -EIO (-5)'
+            window.error(interruption)
+            self.assertEqual(window.port_status.text(), interruption)
+            self.assertEqual(window.message_label.text(), interruption)
+
+            window.start()
+            self.app.processEvents()
+
+            self.assertEqual(window.session.state, 'RUNNING')
+            self.assertEqual(window.port_status.text(), client_status)
+            self.assertEqual(window.message_label.text(), '')
+            window.session.stop()
+            window._session_saved = True
+        finally:
+            window.close()
+
     def test_hostless_toggle_only_closes_the_port(self):
         """Hostless CS has no command channel, so the toggle closes the port (§7.8)."""
         window = MainWindow(simulate=True)

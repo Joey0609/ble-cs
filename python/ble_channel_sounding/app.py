@@ -572,12 +572,16 @@ class MainWindow(W.QMainWindow):
         # mode is applied only after START is confirmed.
         self.results.set_measurement_mode(None)
 
+    @staticmethod
+    def client_status_text(info):
+        return (f"Firmware 0x{info.firmware_version:08x} · state {info.client_state} · "
+                f"configuration {'held' if info.config_valid else 'empty'} · "
+                f"Connected board supports {info.num_antennas_supported} "
+                f"{'antenna' if info.num_antennas_supported == 1 else 'antennas'}")
+
     def client_info(self, info):
         self.port_view.clear_rejected(getattr(self, "port_name", None))
-        self.port_status.setText(f"Firmware 0x{info.firmware_version:08x} · state {info.client_state} · "
-                                     f"configuration {'held' if info.config_valid else 'empty'} · "
-                                     f"Connected board supports {info.num_antennas_supported} "
-                                     f"{'antenna' if info.num_antennas_supported == 1 else 'antennas'}")
+        self.port_status.setText(self.client_status_text(info))
         self.general_view.set_supported_modes(info.supported_modes)
         if info.config_valid:
             self.select_role(OperationMode(info.operation_mode))
@@ -979,6 +983,12 @@ class MainWindow(W.QMainWindow):
 
     def history_started(self, history):
         """A confirmed START or hostless Connect opened a new session history."""
+        # An error stays in the status bar until something replaces it; the previous session's must not
+        # outlive that session. A timed message (the saved run configuration) expires on its own.
+        if not self.message_timer.isActive():
+            self.message_label.clear()
+        if self.session.info is not None:
+            self.port_status.setText(self.client_status_text(self.session.info))
         self._session_started_at = datetime.now()
         self._session_saved = False
         self._save_offered = False
