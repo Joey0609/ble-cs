@@ -468,7 +468,11 @@ class ResultsWidget(W.QWidget):
         if any(page is self.tabs.currentWidget() and not visible for page, visible in pages):
             self.tabs.setCurrentWidget(self.estimates_page)
         for page, visible in pages:
-            self.tabs.setTabVisible(self.tabs.indexOf(page), visible)
+            index = self.tabs.indexOf(page)
+            # An unchanged setTabVisible() cancels the relayout Qt deferred for a hidden tab bar,
+            # which leaves a gap where a tab was hidden.
+            if self.tabs.isTabVisible(index) != visible:
+                self.tabs.setTabVisible(index, visible)
         self.update_result_controls()
         for name, visible in (("RTT mean", has_rtt), ("RTT median", has_rtt),
                               ("PBR slope (raw)", has_pbr),

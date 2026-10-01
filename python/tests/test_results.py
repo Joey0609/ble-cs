@@ -606,6 +606,24 @@ class ResultsGuiTests(unittest.TestCase):
         app.processEvents()
         window.close()
 
+    def test_mode_change_while_hidden_leaves_no_tab_gap(self):
+        # START selects the mode while the Results view is still hidden behind the configuration view.
+        from PyQt6.QtWidgets import QApplication
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        app = QApplication.instance() or QApplication([])
+        window = ResultsWidget()
+        window.show()
+        app.processEvents()
+        window.hide()
+        window.set_measurement_mode(1)
+        window.show()
+        app.processEvents()
+        bar = window.tabs.tabBar()
+        mode0 = bar.tabRect(window.tabs.indexOf(window.mode0_page))
+        rtt = bar.tabRect(window.tabs.indexOf(window.rtt_page))
+        self.assertEqual(rtt.left(), mode0.right() + 1)
+        window.close()
+
     def test_unchanged_mode_keeps_tab_and_estimates(self):
         # MainWindow.edited passes the mode on every configuration edit.
         from PyQt6.QtWidgets import QApplication
