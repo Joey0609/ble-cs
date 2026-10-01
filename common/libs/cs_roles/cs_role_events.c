@@ -251,8 +251,11 @@ void cs_role_stream_hci(const struct bt_conn_le_cs_subevent_result *result,
 	size_t offset = 0U;
 	bool complete = true;
 
+	/* No antenna paths is valid: the controller reports 0 without phase
+	 * measurement (mode 1 only).
+	 */
 	if (id > CS_CONFIG_ID_MAX || !(atomic_get(&cs_role_data.layouts) & BIT(id)) ||
-	    paths < 1U || paths > CS_STEP_MAX_ANTENNA_PATHS) {
+	    paths > CS_STEP_MAX_ANTENNA_PATHS) {
 		return;
 	}
 	cfg = (struct cs_subevent_parse_cfg){

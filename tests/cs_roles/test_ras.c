@@ -122,8 +122,12 @@ static void test_header_mapping(void) {
 	assert(header.abort_step == CS_RAS_ABORT_STEP_NONE && header.abort_step == 0xFFU);
 
 	assert(cs_ras_map_subevent(4U, 0x01U, 0U, 0U, &fields, &header) == -EINVAL);
-	assert(cs_ras_map_subevent(0U, 0x00U, 0U, 0U, &fields, &header) == -EINVAL);
-	assert(cs_ras_map_subevent(0U, 0xF0U, 0U, 0U, &fields, &header) == -EINVAL);
+	assert(cs_ras_map_subevent(0U, 0x01U, 0U, 0U, NULL, &header) == -EINVAL);
+	/* No phase measurement (mode 1 only): no antenna paths. */
+	assert(cs_ras_map_subevent(0U, 0x00U, 0U, 0U, &fields, &header) == 0);
+	assert(header.num_antenna_paths == 0U);
+	assert(cs_ras_map_subevent(0U, 0xF0U, 0U, 0U, &fields, &header) == 0);
+	assert(header.num_antenna_paths == 0U);
 }
 
 int main(void) {

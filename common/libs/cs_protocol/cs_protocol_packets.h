@@ -1487,7 +1487,7 @@ struct cs_protocol_cs_initiator_subevent_result_frame_t {
 	uint8_t procedure_abort_reason;
 	/** One of @ref cs_protocol_cs_subevent_abort_reason_t. */
 	uint8_t subevent_abort_reason;
-	/** Antenna paths used for tones, 1..4. */
+	/** Antenna paths used for tones, 1..4; 0 without phase measurement (mode 1 only). */
 	uint8_t num_antenna_paths;
 	/** Number of step records in @c step_data. */
 	uint8_t num_steps_reported;
@@ -1527,7 +1527,7 @@ struct cs_protocol_cs_reflector_subevent_result_frame_t {
 	uint8_t procedure_abort_reason;
 	/** One of @ref cs_protocol_cs_subevent_abort_reason_t. */
 	uint8_t subevent_abort_reason;
-	/** Antenna paths used for tones, 1..4. */
+	/** Antenna paths used for tones, 1..4; 0 without phase measurement (mode 1 only). */
 	uint8_t num_antenna_paths;
 	/** Number of step records in @c step_data. */
 	uint8_t num_steps_reported;

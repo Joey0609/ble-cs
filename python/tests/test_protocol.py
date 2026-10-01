@@ -192,6 +192,20 @@ class PacketTests(unittest.TestCase):
         self.assertEqual(len(encoded), 12 + 15 + 22 + 8)
         self.assertEqual(decode_packet(Frame.from_bytes(encoded)), packet)
 
+    def test_subevent_without_antenna_paths_round_trips(self) -> None:
+        # Mode 1 only: the controller reports no antenna paths, and no step has tones.
+        step = CsStep(mode=1, channel=17, flags=0x05, aa_quality=0, bit_errors=0, rssi=-40, antenna=1,
+                      nadm=0, measured_freq_offset=0, time_difference=-12, pct1_i=0, pct1_q=0, pct2_i=0,
+                      pct2_q=0, antenna_permutation_index=0)
+        packet = CsInitiatorSubeventResultPacket(
+            config_id=1, start_acl_conn_event=2, procedure_counter=3, frequency_compensation=4,
+            reference_power_level=-5, procedure_done_status=0, subevent_done_status=0,
+            procedure_abort_reason=0, subevent_abort_reason=0, num_antenna_paths=0, abort_step=0xFF,
+            steps=(step, step))
+        decoded = decode_packet(Frame.from_bytes(packet.to_bytes()))
+        self.assertEqual(decoded, packet)
+        self.assertEqual(decoded.num_antenna_paths, 0)
+
     def test_subevent_rejects_step_count_mismatch(self) -> None:
         payload = CsInitiatorSubeventResultPacket.STRUCT.pack(
             0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0xFF

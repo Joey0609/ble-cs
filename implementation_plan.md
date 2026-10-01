@@ -2236,6 +2236,13 @@ steps.
       "Build with `CONF_FILE` set, and the antennas disappear" subsection under Build and
       verify, with the boot lines to check and the `.config` grep.
 
+12. **Mode 1 only: subevents with no antenna paths (§18)**
+    - [x] `cs_utils` and `cs_roles` accept `num_antenna_paths` 0 for steps without tones, and
+      still reject it on a Mode 2 or 3 step (2026-10-01). Native tests extended; `cs_client`
+      built.
+    - [x] Verify on hardware: a Mode 1 only run works with the fix (2026-10-01, run by the
+      user; the earlier `RAS_DATA_LOST` on every procedure is gone).
+
 ## 11. Future work
 
 Left out of the current work (2026-09-18). Not scheduled: an item moves back into a section and
@@ -2777,3 +2784,35 @@ Done 2026-09-25: Preferred peer antenna is four check boxes (ANT1–ANT4, bits 0
 CS view and in `ble_channel_sounding_planner`, not a 0–15 number box. The mask shows beside them, with a warning while
 fewer boxes are checked than the peer's side of the antenna configuration needs. Bits above 3 in a
 loaded plan are kept and shown in the warning colour, so validation still reports them.
+
+## 18. Mode 1 only reports no antenna paths (found and fixed 2026-10-01)
+
+A Mode 1 only run reported `RAS_DATA_LOST` for every procedure. Nothing was lost on the link.
+Without phase measurement the controller reports `num_antenna_paths` 0 in every subevent result
+(HCI: "ignored because phase measurement does not occur"; NCS commit `66e76007db` says the same of
+`n_ap` "in the case of RTT only"), and the RAS responder copies that into the ranging header as an
+empty `antenna_paths_mask`. `cs_utils` and `cs_roles` treated 0 as invalid in five places:
+
+- `ras_ranging_header()` in `cs_role_initiator.c` stopped the RAS parser before the first subevent,
+  so `stream_procedure()` returned `-EBADMSG` and the procedure was reported lost.
+- `cs_role_stream_hci()` in `cs_role_events.c` returned without a report, so the local subevents
+  were dropped as well. Only the RAS loss was visible on the host.
+- `cs_step_decode()`, `cs_subevent_parse()` and `cs_ras_map_subevent()` rejected it with `-EINVAL`.
+
+**Fix.** 0 to 4 antenna paths are accepted. A step that carries tones (Mode 2 or 3) still needs at
+least one and fails `cs_step_decode()` with `-EINVAL`, which ends the subevent there as incomplete.
+The subevent header reports the 0 as it is; nothing is clamped to 1 as the NCS sample does. No wire
+format, protocol version or CRC change: the field was already a byte, and its documented range in
+`cs_protocol_packets.h` is now "1..4; 0 without phase measurement". Python needed no change:
+`ResultStore`, RTT pairing and the Results and Session views take a zero-path subevent as they are
+(checked with a synthetic Mode 1 procedure), and `test_protocol.py` now pins the round trip.
+
+Tests: `tests/cs_roles` covers the empty mask in `cs_ras_map_subevent()`, a RAS procedure with an
+empty mask being streamed instead of lost, zero-path Mode 0/1 subevents through both streaming
+passes and the record parser, and a Mode 2 step on a zero-path subevent being refused. Each new
+case fails against the previous code. Native tests and the Python suite pass; `cs_client` builds.
+
+No Mode 1 recording existed to check the diagnosis against beforehand, so the cause rested on the
+code path and the NCS commit. Confirmed on hardware the same day (§10 item 12): the user ran Mode 1
+only with the fixed initiator image and it works. The reflector image needs no reflash for this:
+its RAS responder is NCS code and was already sending the data.

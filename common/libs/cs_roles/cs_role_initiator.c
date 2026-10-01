@@ -455,8 +455,11 @@ static bool ras_ranging_header(struct ras_ranging_header *header, void *user_dat
 	ctx->config_id = id;
 	ctx->antenna_paths_mask = header->antenna_paths_mask;
 	ctx->paths = cs_ras_antenna_paths(header->antenna_paths_mask);
+	/* An empty mask is valid: the reflector's controller reports no antenna
+	 * paths without phase measurement (mode 1 only).
+	 */
 	if (id > CS_CONFIG_ID_MAX || !(atomic_get(&cs_role_data.layouts) & BIT(id)) ||
-	    ctx->paths < 1U || ctx->paths > CS_STEP_MAX_ANTENNA_PATHS) {
+	    ctx->paths > CS_STEP_MAX_ANTENNA_PATHS) {
 		return false;
 	}
 	ctx->cfg = (struct cs_subevent_parse_cfg){

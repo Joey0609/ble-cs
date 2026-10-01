@@ -447,8 +447,7 @@ int cs_step_decode(const struct bt_le_cs_subevent_step *step,
 	size_t record_size;
 	int err;
 
-	if (step == NULL || !cfg_valid(cfg) || num_antenna_paths < 1U ||
-	    num_antenna_paths > CS_STEP_MAX_ANTENNA_PATHS) {
+	if (step == NULL || !cfg_valid(cfg) || num_antenna_paths > CS_STEP_MAX_ANTENNA_PATHS) {
 		return -EINVAL;
 	}
 	err = type_resolve(step->mode, cfg, &type);
@@ -456,6 +455,12 @@ int cs_step_decode(const struct bt_le_cs_subevent_step *step,
 		return err;
 	}
 	num_tones = type_num_tones(type, num_antenna_paths);
+	/* The controller reports no antenna paths when no step measures phase
+	 * (mode 1 only); a step with tones needs at least one.
+	 */
+	if (num_tones != 0U && num_antenna_paths < 1U) {
+		return -EINVAL;
+	}
 	if (step->data_len != type_hci_len(type, num_tones) || (step->data_len && step->data == NULL)) {
 		return -EBADMSG;
 	}
@@ -525,11 +530,10 @@ int cs_subevent_parse(const struct bt_conn_le_cs_subevent_result *result,
 	if (result == NULL || buf == NULL || buf_size < sizeof(subevent) || !cfg_valid(cfg)) {
 		return -EINVAL;
 	}
-	/* Antenna paths only constrain the tone-bearing modes, but the report
-	 * applies to every step in the subevent, so validate it up front.
+	/* Zero is valid: no phase measurement (mode 1 only). The tone-bearing
+	 * steps are checked against it one by one in subevent_validate().
 	 */
-	if (result->header.num_antenna_paths < 1U ||
-	    result->header.num_antenna_paths > CS_STEP_MAX_ANTENNA_PATHS) {
+	if (result->header.num_antenna_paths > CS_STEP_MAX_ANTENNA_PATHS) {
 		return -EINVAL;
 	}
 	steps = result->step_data_buf;

@@ -35,6 +35,7 @@ static uint16_t completed_procedures;
 /* The procedures_complete event arrived before this many state events. */
 static size_t complete_before_state;
 static size_t streamed_subevents;
+static uint8_t streamed_antenna_paths;
 
 void cs_role_events_init(const struct cs_role_callbacks *new_callbacks) {
 	ARG_UNUSED(new_callbacks);
@@ -80,9 +81,9 @@ void cs_role_stream_hci(const struct bt_conn_le_cs_subevent_result *result,
 }
 
 int cs_role_stream_begin(const struct cs_subevent *header, uint16_t num_tones) {
-	ARG_UNUSED(header);
 	ARG_UNUSED(num_tones);
 	streamed_subevents++;
+	streamed_antenna_paths = header->num_antenna_paths;
 	return 0;
 }
 
@@ -123,6 +124,7 @@ static void reset(void) {
 	test_t_pm_status = 0U;
 	test_rrsp_alloc_result = 0;
 	test_ras_data_cb = NULL;
+	test_ras_antenna_paths_mask = 0x01U;
 	test_cmds_clear();
 	test_conn.refs = 0;
 	test_now_ms = 0;
@@ -805,6 +807,17 @@ static void test_late_ras_data(void) {
 	assert(ras_lost_count == 2U && ras_lost_counter == 20 && ras_lost_error == -ENOENT);
 }
 
+static void test_ras_without_antenna_paths(void) {
+	/* Mode 1 only: the reflector reports no antenna paths, and its data is streamed. */
+	reset();
+	link_up();
+	run_initiator();
+	test_ras_antenna_paths_mask = 0x00U;
+	local_procedure_done(3);
+	test_ras_data_cb(&test_conn, cs_ras_ranging_counter(3), 0);
+	assert(ras_lost_count == 0U && streamed_subevents == 1U && streamed_antenna_paths == 0U);
+}
+
 static void test_finite_count(void) {
 	/* The controller ends the run: COMPLETE after the last RAS data. */
 	reset();
@@ -1021,6 +1034,7 @@ int main(void) {
 	test_setup_timeout();
 	test_stop_ras();
 	test_late_ras_data();
+	test_ras_without_antenna_paths();
 	test_finite_count();
 	test_reflector_peer_disable();
 	test_link_lost();

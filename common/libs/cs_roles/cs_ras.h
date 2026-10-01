@@ -86,7 +86,10 @@ struct cs_ras_local_action cs_ras_local_subevent(struct cs_ras_tracker *tracker,
 int cs_ras_match(struct cs_ras_tracker *tracker, uint16_t ranging_counter,
                  uint16_t *procedure_counter);
 
-/** @brief Antenna paths reported by a ranging header mask: bits 0 to 3 set. */
+/** @brief Antenna paths reported by a ranging header mask: bits 0 to 3 set.
+ *
+ * 0 for a procedure without phase measurement (mode 1 only).
+ */
 uint8_t cs_ras_antenna_paths(uint8_t antenna_paths_mask);
 
 /** RAS subevent header fields, unpacked from their bit fields. */
@@ -124,7 +127,7 @@ struct cs_ras_subevent_header {
  * the HCI values, so they are copied. RAS carries no abort step.
  *
  * @retval 0 Mapped.
- * @retval -EINVAL Configuration ID above 3 or no antenna path in the mask.
+ * @retval -EINVAL NULL argument or configuration ID above 3.
  */
 int cs_ras_map_subevent(uint8_t config_id, uint8_t antenna_paths_mask, uint16_t procedure_counter,
                         uint16_t subevent_id, const struct cs_ras_subevent_fields *fields,

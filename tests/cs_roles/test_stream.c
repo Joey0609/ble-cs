@@ -143,6 +143,14 @@ int main(void) {
 					compared++;
 				}
 			}
+			/* No antenna paths: a procedure without phase measurement (mode 1 only). */
+			test_subevent_init(&se, 0, (uint16_t)(1000U + compared),
+			                   (uint32_t)(compared * 31U + 1U));
+			for (int i = 0; i < 6; i++) {
+				test_add_step(&se, (uint8_t)(i % 2), roles[r], rtt_types[t], 0U);
+			}
+			assert(compare(&se, roles[r], rtt_types[t]) == 6U);
+			compared++;
 		}
 	}
 

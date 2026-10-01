@@ -211,6 +211,9 @@ static void test_stream_two_pass(void) {
 	static const enum bt_conn_le_cs_rtt_type rtt_types[] = {
 		BT_CONN_LE_CS_RTT_TYPE_AA_ONLY, BT_CONN_LE_CS_RTT_TYPE_32_BIT_SOUNDING,
 		BT_CONN_LE_CS_RTT_TYPE_96_BIT_SOUNDING, BT_CONN_LE_CS_RTT_TYPE_32_BIT_RANDOM};
+	static const struct cs_subevent_parse_cfg no_paths_cfg = {
+		.role = BT_CONN_LE_CS_ROLE_INITIATOR, .rtt_type = BT_CONN_LE_CS_RTT_TYPE_AA_ONLY};
+	static uint8_t no_paths_record[CS_SUBEVENT_BUF_SIZE(2)];
 	static struct test_subevent se;
 
 	reset();
@@ -218,10 +221,11 @@ static void test_stream_two_pass(void) {
 	for (size_t r = 0; r < ARRAY_SIZE(roles); r++) {
 		for (size_t t = 0; t < ARRAY_SIZE(rtt_types); t++) {
 			cs_role_data.rtt_types[1] = (uint8_t)rtt_types[t];
-			for (uint8_t paths = 1; paths <= CS_STEP_MAX_ANTENNA_PATHS; paths++) {
+			/* No antenna paths: a procedure without phase measurement (mode 1 only). */
+			for (uint8_t paths = 0; paths <= CS_STEP_MAX_ANTENNA_PATHS; paths++) {
 				test_subevent_init(&se, paths, (uint16_t)(r * 100U + t * 10U + paths),
 				                   (uint32_t)(paths + 7U * t));
-				for (uint8_t mode = 0; mode <= 3U; mode++) {
+				for (uint8_t mode = 0; mode <= (paths ? 3U : 1U); mode++) {
 					for (int repeat = 0; repeat < 3; repeat++) {
 						test_add_step(&se, mode, roles[r], rtt_types[t], 0U);
 					}
@@ -242,6 +246,17 @@ static void test_stream_two_pass(void) {
 	assert(begin_count == 1U && begun.num_steps == 1U && step_count == 1U);
 	assert(begun.size == sizeof(struct cs_subevent) + step_bytes);
 	assert(end_count == 1U && !end_complete);
+
+	/* So does a step with tones when the subevent reports no antenna paths. */
+	test_subevent_init(&se, 0, 1, 3);
+	test_add_step(&se, 1, BT_CONN_LE_CS_ROLE_INITIATOR, BT_CONN_LE_CS_RTT_TYPE_AA_ONLY, 0U);
+	test_add_step(&se, 2, BT_CONN_LE_CS_ROLE_INITIATOR, BT_CONN_LE_CS_RTT_TYPE_AA_ONLY, 0U);
+	begin_count = step_count = step_bytes = end_count = 0U;
+	cs_role_stream_hci(&se.result, BT_CONN_LE_CS_ROLE_INITIATOR);
+	assert(begin_count == 1U && begun.num_steps == 1U && step_count == 1U);
+	assert(begun.num_antenna_paths == 0U && end_count == 1U && !end_complete);
+	assert(cs_subevent_parse(&se.result, &no_paths_cfg, no_paths_record,
+	                         sizeof(no_paths_record)) == -EINVAL);
 
 	/* A refused begin skips the steps; the end is still called. */
 	test_subevent_init(&se, 1, 2, 4);

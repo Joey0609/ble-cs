@@ -93,6 +93,9 @@ One flash unblocks all of these; none of them can run on the hostless pair.
   congestion with many nearby advertisers, and retry after a failure.
 - [x] Test a single-antenna `cs_client` against a multi-antenna peer (4 paths), and that
   selections beyond the local antennas are rejected at `SET_*_CONFIG`.
+- [x] Mode 1 only after the zero-antenna-path fix (2026-10-01, §18, §10 item 12): works on
+  hardware, without the `RAS_DATA_LOST` on every procedure. `cs_hostless_initiator` carries
+  the same fix from its next build.
 - [ ] Exercise Radio Test RX and RX-sweep `RADIO_TEST_STATS` (baseline, periodic, final)
   against a known transmitter, and verify uart30 as the DK's second virtual COM port with
   hardware flow control at 921600 baud.

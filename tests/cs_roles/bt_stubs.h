@@ -54,6 +54,8 @@ extern uint8_t test_disable_config_id;
 extern uint8_t test_t_pm_us;
 extern uint8_t test_t_pm_status;
 extern bt_ras_rreq_ranging_data_received_t test_ras_data_cb;
+/* Antenna paths mask of the ranging header the RAS parser stub delivers. */
+extern uint8_t test_ras_antenna_paths_mask;
 /* bt_ras_rrsp_alloc() result when test_cmd_err is 0; -EALREADY models automatic allocation. */
 extern int test_rrsp_alloc_result;
 extern uint16_t test_att_mtu;

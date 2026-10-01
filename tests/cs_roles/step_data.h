@@ -32,7 +32,7 @@ static inline bool test_sounding(enum bt_conn_le_cs_rtt_type rtt_type) {
 
 /* Antenna path permutations for @p paths antenna paths (Core 6.0, Vol 6, Part H, 4.7.5). */
 static inline uint8_t test_permutations(uint8_t paths) {
-	static const uint8_t count[] = {0, 1, 2, 6, 24};
+	static const uint8_t count[] = {1, 1, 2, 6, 24};
 
 	return count[paths];
 }

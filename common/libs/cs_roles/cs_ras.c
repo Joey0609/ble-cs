@@ -63,7 +63,8 @@ int cs_ras_map_subevent(uint8_t config_id, uint8_t antenna_paths_mask, uint16_t 
                         struct cs_ras_subevent_header *header) {
 	uint8_t paths = cs_ras_antenna_paths(antenna_paths_mask);
 
-	if (fields == NULL || header == NULL || config_id > CONFIG_ID_MAX || paths == 0U) {
+	/* An empty mask is valid: no phase measurement (mode 1 only). */
+	if (fields == NULL || header == NULL || config_id > CONFIG_ID_MAX) {
 		return -EINVAL;
 	}
 	*header = (struct cs_ras_subevent_header){

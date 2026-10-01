@@ -23,6 +23,7 @@ int test_cmd_err[CMD_COUNT];
 struct bt_le_cs_create_config_params test_created;
 uint8_t test_disable_config_id;
 bt_ras_rreq_ranging_data_received_t test_ras_data_cb;
+uint8_t test_ras_antenna_paths_mask = 0x01U;
 int test_rrsp_alloc_result;
 uint16_t test_att_mtu = 23U;
 
@@ -325,14 +326,14 @@ int bt_ras_rreq_realtime_rd_unsubscribe(struct bt_conn *conn) {
 	return command(CMD_RREQ_UNSUBSCRIBE);
 }
 
-/* One subevent without steps for the first antenna path: enough for a procedure to be streamed. */
+/* One subevent without steps: enough for a procedure to be streamed. */
 void bt_ras_rreq_rd_subevent_data_parse(struct net_buf_simple *peer_ranging_data_buf,
                                         struct net_buf_simple *local_step_data_buf,
                                         enum bt_conn_le_cs_role cs_role,
                                         bt_ras_rreq_ranging_header_cb_t ranging_header_cb,
                                         bt_ras_rreq_subevent_header_cb_t subevent_header_cb,
                                         bt_ras_rreq_step_data_cb_t step_data_cb, void *user_data) {
-	struct ras_ranging_header ranging = {.antenna_paths_mask = 0x01};
+	struct ras_ranging_header ranging = {.antenna_paths_mask = test_ras_antenna_paths_mask};
 	struct ras_subevent_header subevent = {0};
 
 	ARG_UNUSED(local_step_data_buf);

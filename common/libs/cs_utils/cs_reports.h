@@ -214,7 +214,9 @@ struct cs_subevent {
 	uint8_t role;
 	/** RTT type, one of @c bt_conn_le_cs_rtt_type, as given to the parser. */
 	uint8_t rtt_type;
-	/** Antenna paths used during the phase measurement stage. */
+	/** Antenna paths used during the phase measurement stage, 1 to 4;
+	 *  0 without phase measurement (mode 1 only).
+	 */
 	uint8_t num_antenna_paths;
 	/** Reference power level in dBm, or @ref CS_SUBEVENT_REF_POWER_LEVEL_NOT_AVAILABLE. */
 	int8_t reference_power_level;
@@ -595,8 +597,9 @@ uint64_t cs_subevent_timestamp_us(void);
  *                     @ref CS_SUBEVENT_BUF_SIZE to make @c -ENOMEM impossible.
  * @retval 0 The subevent and every reported step were written.
  * @retval -EINVAL NULL argument, @p buf_size too small for the subevent
- *                 header, an invalid role, RTT type or antenna path count, or
- *                 an antenna permutation the SDK rejects. Nothing is written.
+ *                 header, an invalid role or RTT type, an antenna path count
+ *                 above 4 or 0 with a mode 2 or 3 step, or an antenna
+ *                 permutation the SDK rejects. Nothing is written.
  * @retval -EBADMSG Truncated framing, or a step whose length does not match
  *                  the layout @p cfg selects. Nothing is written.
  * @retval -ENOTSUP A step mode outside the 0 to 3 range. Nothing is written.
@@ -647,13 +650,15 @@ uint8_t cs_step_num_tones(uint8_t mode, uint8_t num_antenna_paths);
  *
  * @param[in] step Step entry, from cs_step_data_read() or the RAS parser.
  * @param[in] cfg Role and RTT type of the endpoint that measured the step.
- * @param[in] num_antenna_paths Antenna paths of the subevent, 1 to 4.
+ * @param[in] num_antenna_paths Antenna paths of the subevent: 1 to 4, or 0
+ *                              without phase measurement (mode 1 only).
  * @param[in] index Step index written into the record header.
  * @param[out] dst Destination, or NULL to validate only.
  * @param[in] size Capacity of @p dst.
  * @return Record size in bytes (also with @p dst NULL).
- * @retval -EINVAL NULL @p step, invalid @p cfg or antenna path count, or an
- *                 antenna permutation the SDK rejects.
+ * @retval -EINVAL NULL @p step, invalid @p cfg, an antenna path count above 4
+ *                 or 0 on a mode 2 or 3 step, or an antenna permutation the
+ *                 SDK rejects.
  * @retval -EBADMSG Length does not match the layout @p cfg selects.
  * @retval -ENOTSUP Step mode outside 0 to 3.
  * @retval -ENOMEM @p size is smaller than the record; nothing written.
