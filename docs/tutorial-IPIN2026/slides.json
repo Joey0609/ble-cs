@@ -189,6 +189,12 @@
         "R02-references-spec",
         "R03-references-platform"
       ]
+    },
+    {
+      "title": "Contact",
+      "slides": [
+        "33-contact"
+      ]
     }
   ]
 }
