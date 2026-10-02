@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: MIT */
 /* nRF54L15 Tag CS reflector on cs_roles: planner (or TEST_*) configuration ->
  * unique name -> advertise -> reflector role, restarted by cs_roles after a
- * lost link. Output is log messages only (RTT).
+ * lost link. Output is log messages (RTT) and LED 1: blue while connected,
+ * green while CS procedures run.
  */
 #include <app_log/app_log.h>
 #include <cs_generated_config/cs_generated_config.h>
@@ -11,6 +12,8 @@
 #include <errno.h>
 #include <string.h>
 #include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/conn.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log_ctrl.h>
 #include <zephyr/sys/atomic.h>
@@ -62,6 +65,70 @@ static const char *const tone_antenna_names[] = {
 	"A1:B1", "A2:B1", "A3:B1", "A4:B1", "A1:B2", "A1:B3", "A1:B4", "A2:B2",
 };
 
+enum status_led {
+	STATUS_LED_CONNECTED,
+	STATUS_LED_CS,
+};
+
+/* Two channels of the RGB LED 1, with polarity supplied by devicetree; both
+ * lit read as cyan. The red channel is left unconfigured (off).
+ */
+static const struct gpio_dt_spec status_leds[] = {
+	[STATUS_LED_CONNECTED] = GPIO_DT_SPEC_GET(DT_NODELABEL(led1_blue), gpios),
+	[STATUS_LED_CS] = GPIO_DT_SPEC_GET(DT_NODELABEL(led1_green), gpios),
+};
+static const char *const status_led_names[] = {
+	[STATUS_LED_CONNECTED] = "blue",
+	[STATUS_LED_CS] = "green",
+};
+static bool status_led_ready[ARRAY_SIZE(status_leds)];
+static atomic_t link_connected;
+
+static void status_leds_init(void) {
+	for (size_t i = 0; i < ARRAY_SIZE(status_leds); i++) {
+		int err = gpio_is_ready_dt(&status_leds[i])
+		                  ? gpio_pin_configure_dt(&status_leds[i], GPIO_OUTPUT_INACTIVE)
+		                  : -ENODEV;
+
+		status_led_ready[i] = err == 0;
+		if (err) {
+			APP_LOG_WRN("LED 1 %s init failed: %d", status_led_names[i], err);
+		}
+	}
+}
+
+static void status_led_set(enum status_led led, bool on) {
+	if (status_led_ready[led]) {
+		int err = gpio_pin_set_dt(&status_leds[led], on);
+
+		if (err) {
+			APP_LOG_WRN("LED 1 %s update failed: %d", status_led_names[led], err);
+		}
+	}
+}
+
+static void on_connected(struct bt_conn *conn, uint8_t err) {
+	ARG_UNUSED(conn);
+	if (!err) {
+		atomic_set(&link_connected, 1);
+		status_led_set(STATUS_LED_CONNECTED, true);
+	}
+}
+
+static void on_disconnected(struct bt_conn *conn, uint8_t reason) {
+	ARG_UNUSED(conn);
+	ARG_UNUSED(reason);
+	/* A setup failure can disconnect without a LINK_LOST role event. */
+	atomic_clear(&link_connected);
+	status_led_set(STATUS_LED_CONNECTED, false);
+	status_led_set(STATUS_LED_CS, false);
+}
+
+BT_CONN_CB_DEFINE(status_led_callbacks) = {
+	.connected = on_connected,
+	.disconnected = on_disconnected,
+};
+
 static const char *const state_names[] = {
 	[CS_ROLE_STATE_SCANNING] = "scanning",
 	[CS_ROLE_STATE_ADVERTISING] = "advertising",
@@ -85,6 +152,18 @@ static void on_state(enum cs_role_state state, enum cs_role_failure_stage failur
 		            failure, stop_reason, hci_status, error);
 	} else {
 		APP_LOG_INF("State %s", name);
+	}
+	switch (state) {
+	case CS_ROLE_STATE_RUNNING:
+		/* The role thread can report this after the link has gone. */
+		status_led_set(STATUS_LED_CS, atomic_get(&link_connected) != 0);
+		break;
+	case CS_ROLE_STATE_STOPPED:
+	case CS_ROLE_STATE_ERROR:
+		status_led_set(STATUS_LED_CS, false);
+		break;
+	default:
+		break;
 	}
 	if (state == CS_ROLE_STATE_LINK_CONNECTED) {
 		link_failures = 0U;
@@ -250,6 +329,7 @@ int main(void) {
 	int err;
 
 	apply_log_config();
+	status_leds_init();
 	APP_LOG_INF("nRF54L15 Tag CS reflector: %d antennas",
 	            CONFIG_BT_CTLR_SDC_CS_NUM_ANTENNAS);
 

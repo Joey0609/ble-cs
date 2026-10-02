@@ -18,6 +18,11 @@ cold-reboots rather than going silent, since it has no button to recover it.
 Logs use RTT through an external SWD probe; the Tag has no native USB. Ranging
 data is delivered to the initiator over RAS.
 
+The RGB LED 1 shows the state: blue is on while connected, and green is on
+while CS procedures are running (both lit read as cyan). Green turns off when
+the procedures stop or the role reports an error; both turn off when the link
+is lost or disconnected. The red channel and LED 2 are not used.
+
 ## Board and antenna switch
 
 The wiring follows the installed NCS v3.4.1 Tag board definition and
@@ -116,6 +121,7 @@ the name).
 | Extended Feature Set | Enabled, so the reflector can take part in IPT |
 | Ranging data | RAS responder (RRSP), one connection, one procedure buffer, up to 4 antenna paths |
 | ATT MTU / ACL buffers | 498 / 502 bytes, as in the NCS `ras_reflector` sample |
+| Status LED | LED 1 blue (P2.09) while connected, LED 1 green (P2.10) while CS procedures run; both off without a link |
 | Logs | `app_log` console on RTT, deferred; output is dropped when no viewer keeps up. Level from the planner export (`cs_generated_config_log()`), info without one. Counters every `CONFIG_CS_REFLECTOR_TAG_STATS_INTERVAL_S` seconds (default 5) |
 
 ### `TEST_*` values
