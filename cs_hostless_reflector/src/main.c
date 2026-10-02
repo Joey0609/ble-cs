@@ -17,6 +17,11 @@ APP_LOG_MODULE(cs_hostless_reflector);
 
 static struct cs_reflector_config config;
 
+/* Base name without spaces, then the identity address as 12 uppercase hex digits. */
+#define NAME_ADDR_LEN (2U * sizeof(((bt_addr_t *)0)->val))
+BUILD_ASSERT(sizeof(CONFIG_BT_DEVICE_NAME) - 1U + NAME_ADDR_LEN <= CONFIG_BT_DEVICE_NAME_MAX,
+             "CONFIG_BT_DEVICE_NAME leaves no room for the address");
+
 enum status_led {
 	STATUS_LED_CONNECTION,
 	STATUS_LED_CS,
@@ -43,7 +48,8 @@ static void status_leds_init(void) {
 	}
 }
 
-static void status_led_set(enum status_led led, bool on) {
+static void status_led_set(enum status_led led,
+                           bool on) {
 	if (status_led_ready[led]) {
 		int err = gpio_pin_set_dt(&status_leds[led], on);
 
@@ -53,7 +59,8 @@ static void status_led_set(enum status_led led, bool on) {
 	}
 }
 
-static void on_connected(struct bt_conn *conn, uint8_t err) {
+static void on_connected(struct bt_conn *conn,
+                         uint8_t err) {
 	ARG_UNUSED(conn);
 	if (!err) {
 		atomic_set(&link_connected, 1);
@@ -61,7 +68,8 @@ static void on_connected(struct bt_conn *conn, uint8_t err) {
 	}
 }
 
-static void on_disconnected(struct bt_conn *conn, uint8_t reason) {
+static void on_disconnected(struct bt_conn *conn,
+                            uint8_t reason) {
 	ARG_UNUSED(conn);
 	ARG_UNUSED(reason);
 	/* A setup failure can disconnect without a LINK_LOST role event. */
@@ -114,8 +122,11 @@ static const char *const state_names[] = {
 	[CS_ROLE_STATE_ERROR] = "error",
 };
 
-static void on_state(enum cs_role_state state, enum cs_role_failure_stage failure,
-                     enum cs_role_stop_reason stop_reason, uint8_t hci_status, int error) {
+static void on_state(enum cs_role_state state,
+                     enum cs_role_failure_stage failure,
+                     enum cs_role_stop_reason stop_reason,
+                     uint8_t hci_status,
+                     int error) {
 	const char *name = state < ARRAY_SIZE(state_names) ? state_names[state] : "?";
 
 	switch (state) {
@@ -136,8 +147,12 @@ static void on_state(enum cs_role_state state, enum cs_role_failure_stage failur
 	}
 
 	if (state == CS_ROLE_STATE_ERROR || state == CS_ROLE_STATE_LINK_LOST || error) {
-		APP_LOG_WRN("State %s: failure %u, stop reason %u, HCI status 0x%02x, error %d", name,
-		            failure, stop_reason, hci_status, error);
+		APP_LOG_WRN("State %s: failure %u, stop reason %u, HCI status 0x%02x, error %d",
+		            name,
+		            failure,
+		            stop_reason,
+		            hci_status,
+		            error);
 	} else {
 		APP_LOG_INF("State %s", name);
 	}
@@ -149,16 +164,23 @@ static void on_state(enum cs_role_state state, enum cs_role_failure_stage failur
 
 static void on_configuration(const struct cs_config_complete *record) {
 	APP_LOG_INF("CS configuration %u from the initiator: status 0x%02x, mode 0x%02x, RTT type %u",
-	            record->config_id, record->status, record->mode, record->rtt_type);
+	            record->config_id,
+	            record->status,
+	            record->mode,
+	            record->rtt_type);
 }
 
 static void on_procedure(const struct cs_procedure_enable_complete *record) {
-	APP_LOG_INF("Procedures %s: status 0x%02x, interval %u, count %u", record->state ? "on" : "off",
-	            record->status, record->procedure_interval, record->procedure_count);
+	APP_LOG_INF("Procedures %s: status 0x%02x, interval %u, count %u",
+	            record->state ? "on" : "off",
+	            record->status,
+	            record->procedure_interval,
+	            record->procedure_count);
 }
 
 /* Bluetooth context: count only; returning nonzero skips decoding the steps. */
-static int on_subevent_begin(const struct cs_subevent *header, uint16_t num_tones) {
+static int on_subevent_begin(const struct cs_subevent *header,
+                             uint16_t num_tones) {
 	ARG_UNUSED(num_tones);
 	atomic_inc(&subevents);
 	atomic_add(&steps, header->num_steps);
@@ -186,13 +208,16 @@ static const struct cs_role_callbacks callbacks = {
 };
 
 static void log_counters(struct k_work *work);
-static K_WORK_DELAYABLE_DEFINE(counters_work, log_counters);
+static K_WORK_DELAYABLE_DEFINE(counters_work,
+                               log_counters);
 
 static void log_counters(struct k_work *work) {
 	ARG_UNUSED(work);
 	APP_LOG_INF("Procedures %ld, subevents %ld (aborted %ld, partial %ld), steps %ld",
-	            (long)atomic_get(&procedures), (long)atomic_get(&subevents),
-	            (long)atomic_get(&aborted_subevents), (long)atomic_get(&partial_subevents),
+	            (long)atomic_get(&procedures),
+	            (long)atomic_get(&subevents),
+	            (long)atomic_get(&aborted_subevents),
+	            (long)atomic_get(&partial_subevents),
 	            (long)atomic_get(&steps));
 	(void)k_work_schedule(&counters_work, K_SECONDS(CONFIG_CS_HOSTLESS_STATS_INTERVAL_S));
 }
@@ -208,6 +233,43 @@ static void apply_log_config(void) {
 	if (err && err != -ENOENT) {
 		APP_LOG_WRN("Planner log levels rejected (%d): defaults kept", err);
 	}
+}
+
+static int set_unique_name(const char *base) {
+	static const char hex[] = "0123456789ABCDEF";
+	char name[CONFIG_BT_DEVICE_NAME_MAX + 1];
+	bt_addr_le_t addr;
+	size_t count = 1U;
+	size_t len = 0U;
+
+	bt_id_get(&addr, &count);
+	if (count == 0U) {
+		APP_LOG_ERR("No Bluetooth identity address");
+		return -ENODATA;
+	}
+	for (; *base != '\0'; base++) {
+		if (*base == ' ') {
+			continue;
+		}
+		if (len == CONFIG_BT_DEVICE_NAME_MAX - NAME_ADDR_LEN) {
+			APP_LOG_ERR("Device name too long: at most %u bytes without spaces",
+			            (unsigned int)(CONFIG_BT_DEVICE_NAME_MAX - NAME_ADDR_LEN));
+			return -EINVAL;
+		}
+		name[len++] = *base;
+	}
+	for (size_t i = sizeof(addr.a.val); i > 0U; i--) {
+		name[len++] = hex[addr.a.val[i - 1U] >> 4];
+		name[len++] = hex[addr.a.val[i - 1U] & 0x0F];
+	}
+	name[len] = '\0';
+
+	int err = bt_set_name(name);
+
+	if (err) {
+		APP_LOG_ERR("Device name \"%s\" not applied: %d", name, err);
+	}
+	return err;
 }
 
 int main(void) {
@@ -235,11 +297,8 @@ int main(void) {
 		return 0;
 	}
 	name = cs_generated_config_device_name();
-	if (name) {
-		err = bt_set_name(name);
-		if (err) {
-			APP_LOG_WRN("Device name not applied: %d", err);
-		}
+	if (set_unique_name(name ? name : CONFIG_BT_DEVICE_NAME)) {
+		return 0;
 	}
 	err = cs_role_init(&callbacks);
 	if (!err) {

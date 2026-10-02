@@ -20,8 +20,15 @@ reflector configuration with the Tag's procedure parameters (`TEST_*` in
 `cs_reflector_tag/src/test_cfg.c`) for one local antenna: A1:B1, 2M PHY,
 6-60 ms subevents, procedures of at most 6.25 ms every 1-10 ACL events. A
 generated configuration that a setter rejects is
-logged and the application halts with no radio activity. A generated device
-name is applied before advertising.
+logged and the application halts with no radio activity.
+
+The advertised name uses the planner's device name, or `CSReflector`
+without an export name, with spaces removed and the Bluetooth identity address
+appended as 12 uppercase hex digits, for example
+`CSReflectorC3A1B2D4E5F6`. With the 32-byte name limit, the base name
+may contain at most 20 UTF-8 bytes after removing spaces. An overlong Kconfig
+name fails the build; an overlong planner name or a failure to set the unique
+name is logged and halts the application before advertising.
 
 The reflector is always the GAP peripheral. Connection parameters are chosen by
 the initiator (GAP central).
