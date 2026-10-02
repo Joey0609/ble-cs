@@ -2,6 +2,10 @@
 #include <zephyr/dt-bindings/gpio/gpio.h>
 
 / {
+	aliases {
+		led1 = &led2_blue;
+	};
+
 	cs_antenna_switch: cs-antenna-config {
 		compatible = "nordic,bt-cs-antenna-switch";
 		status = "okay";
@@ -10,6 +14,10 @@
 		            <&gpio1 10 GPIO_ACTIVE_HIGH>;
 		multiplexing-mode = <0>;
 	};
+};
+
+&led2_blue {
+	status = "okay";
 };
 
 /* Give the controller exclusive ownership instead of fixing ANT1 at boot. */

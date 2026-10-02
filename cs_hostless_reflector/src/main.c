@@ -4,6 +4,8 @@
  */
 #include <errno.h>
 #include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/conn.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/sys/atomic.h>
 
@@ -14,6 +16,64 @@
 APP_LOG_MODULE(cs_hostless_reflector);
 
 static struct cs_reflector_config config;
+
+enum status_led {
+	STATUS_LED_CONNECTION,
+	STATUS_LED_CS,
+};
+
+/* Board LED 1 and LED 2, with polarity supplied by devicetree. */
+static const struct gpio_dt_spec status_leds[] = {
+	[STATUS_LED_CONNECTION] = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios),
+	[STATUS_LED_CS] = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios),
+};
+static bool status_led_ready[ARRAY_SIZE(status_leds)];
+static atomic_t link_connected;
+
+static void status_leds_init(void) {
+	for (size_t i = 0; i < ARRAY_SIZE(status_leds); i++) {
+		int err = gpio_is_ready_dt(&status_leds[i])
+		                  ? gpio_pin_configure_dt(&status_leds[i], GPIO_OUTPUT_INACTIVE)
+		                  : -ENODEV;
+
+		status_led_ready[i] = err == 0;
+		if (err) {
+			APP_LOG_WRN("LED %u init failed: %d", (unsigned int)i + 1, err);
+		}
+	}
+}
+
+static void status_led_set(enum status_led led, bool on) {
+	if (status_led_ready[led]) {
+		int err = gpio_pin_set_dt(&status_leds[led], on);
+
+		if (err) {
+			APP_LOG_WRN("LED %u update failed: %d", (unsigned int)led + 1, err);
+		}
+	}
+}
+
+static void on_connected(struct bt_conn *conn, uint8_t err) {
+	ARG_UNUSED(conn);
+	if (!err) {
+		atomic_set(&link_connected, 1);
+		status_led_set(STATUS_LED_CONNECTION, true);
+	}
+}
+
+static void on_disconnected(struct bt_conn *conn, uint8_t reason) {
+	ARG_UNUSED(conn);
+	ARG_UNUSED(reason);
+	/* A setup failure can disconnect without a LINK_LOST role event. */
+	atomic_clear(&link_connected);
+	status_led_set(STATUS_LED_CONNECTION, false);
+	status_led_set(STATUS_LED_CS, false);
+}
+
+BT_CONN_CB_DEFINE(status_led_callbacks) = {
+	.connected = on_connected,
+	.disconnected = on_disconnected,
+};
 
 static atomic_t procedures;
 static atomic_t subevents;
@@ -57,6 +117,23 @@ static const char *const state_names[] = {
 static void on_state(enum cs_role_state state, enum cs_role_failure_stage failure,
                      enum cs_role_stop_reason stop_reason, uint8_t hci_status, int error) {
 	const char *name = state < ARRAY_SIZE(state_names) ? state_names[state] : "?";
+
+	switch (state) {
+	case CS_ROLE_STATE_RUNNING:
+		status_led_set(STATUS_LED_CS, atomic_get(&link_connected) != 0);
+		break;
+	case CS_ROLE_STATE_STOPPED:
+	case CS_ROLE_STATE_ERROR:
+		status_led_set(STATUS_LED_CS, false);
+		break;
+	case CS_ROLE_STATE_ADVERTISING:
+	case CS_ROLE_STATE_LINK_LOST:
+	case CS_ROLE_STATE_LINK_DISCONNECTED:
+		status_led_set(STATUS_LED_CS, false);
+		break;
+	default:
+		break;
+	}
 
 	if (state == CS_ROLE_STATE_ERROR || state == CS_ROLE_STATE_LINK_LOST || error) {
 		APP_LOG_WRN("State %s: failure %u, stop reason %u, HCI status 0x%02x, error %d", name,
@@ -138,6 +215,7 @@ int main(void) {
 	int err;
 
 	apply_log_config();
+	status_leds_init();
 	err = cs_generated_config_reflector(&config);
 	if (err == -ENOENT) {
 		APP_LOG_WRN("No planner configuration linked: applying hostless application defaults");

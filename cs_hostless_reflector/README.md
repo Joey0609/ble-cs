@@ -64,6 +64,11 @@ link.
 When the initiator stops the procedures the reflector logs `stopped` (stop
 reason peer) and waits for the next run on the same link.
 
+LED 1 is on while connected. LED 2 is on while CS procedures are running and
+turns off when they stop or the role reports an error. Both LEDs start off and
+turn off when the link is lost or disconnected. On the Tag, the blue channels
+of LED 1 and LED 2 are used.
+
 ## Status
 
 Builds for all three boards. Run on hardware on the nRF54L15 DK with
