@@ -43,3 +43,23 @@ add_custom_target(copy_compile_commands ALL
         DEPENDS zephyr_final
         COMMENT "Copying compile_commands.json for clangd"
 )
+
+# Export after HEX generation, including builds with no source changes. The
+# radio test build (-DFILE_SUFFIX=radio_test) gets its own file name.
+if(CONFIG_BUILD_OUTPUT_HEX)
+    set(CS_HEX_EXPORT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../bin")
+    set(CS_HEX_EXPORT_NAME "${PROJECT_NAME}")
+    if(FILE_SUFFIX)
+        string(APPEND CS_HEX_EXPORT_NAME "_${FILE_SUFFIX}")
+    endif()
+    set(CS_HEX_EXPORT_FILE "${CS_HEX_EXPORT_DIR}/${CS_HEX_EXPORT_NAME}_${BOARD}.hex")
+    add_custom_target(cs_export_hex ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CS_HEX_EXPORT_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${BYPRODUCT_KERNEL_HEX_NAME}" "${CS_HEX_EXPORT_FILE}"
+        DEPENDS "${BYPRODUCT_KERNEL_HEX_NAME}"
+        COMMENT "Exporting firmware HEX to ${CS_HEX_EXPORT_FILE}"
+        VERBATIM
+    )
+    add_dependencies(cs_export_hex ${logical_target_for_zephyr_elf})
+endif()

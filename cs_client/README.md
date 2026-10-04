@@ -44,6 +44,21 @@ it, the test keeps running and the next `CONNECT` attaches to it.
 | `Kconfig` | Sources `common/libs/Kconfig`; `RADIO_TEST_RX_TIMEOUT` for the NCS radio test driver |
 | `VERSION` | Reported as `firmware_version` = `APPVERSION` (`0xMMmmpp00`, e.g. 0.1.0 = `0x00010000`) |
 
+## Firmware images
+
+Each build exports its HEX image to `BLE_CS/bin/` at the workspace root (`../bin/`
+from `cs_client/`), creating the directory if needed. The two builds have separate
+files, so a radio test build does not replace the Bluetooth image:
+
+| Build | Firmware image (relative to workspace root) |
+| --- | --- |
+| Bluetooth | `bin/cs_client_nrf54lm20dk.hex` |
+| Radio test | `bin/cs_client_radio_test_nrf54lm20dk.hex` |
+
+The export runs on every build, including one with no source changes: the image is
+copied again, so its timestamp is that of the last build and a deleted image is
+recreated. It needs `CONFIG_BUILD_OUTPUT_HEX=y`, the default for this board.
+
 ## Sources
 
 | File | Responsibility |

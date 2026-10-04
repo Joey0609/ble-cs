@@ -189,6 +189,15 @@ The CMake output names the linked export (`Planner configuration: ...`). The
 `-DCS_CONFIG_SOURCE=` or build pristine to return to `config/` or the `TEST_*`
 values.
 
+### Firmware image
+
+Each build exports its HEX image to `bin/cs_reflector_tag_nrf54l15tag.hex` at the
+workspace root (`../bin/` from `cs_reflector_tag/`), creating the directory if
+needed. The export runs on every build, including one with no source changes: the
+image is copied again, so its timestamp is that of the last build and a deleted
+image is recreated. It needs `CONFIG_BUILD_OUTPUT_HEX=y`, the default for this
+board.
+
 ### Build with `CONF_FILE` set, and the antennas disappear
 
 `boards/nrf54l15tag_nrf54l15_cpuapp.conf` is what selects two antennas, four

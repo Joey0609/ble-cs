@@ -26,3 +26,18 @@ if(CS_CONFIG_SOURCE)
     message(STATUS "Planner configuration: ${CS_CONFIG_SOURCE_ABS}")
     target_sources(app PRIVATE "${CS_CONFIG_SOURCE_ABS}")
 endif()
+
+# Export after HEX generation, including builds with no source changes.
+if(CONFIG_BUILD_OUTPUT_HEX)
+    set(CS_HEX_EXPORT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../bin")
+    set(CS_HEX_EXPORT_FILE "${CS_HEX_EXPORT_DIR}/${PROJECT_NAME}_${BOARD}.hex")
+    add_custom_target(cs_export_hex ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CS_HEX_EXPORT_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${BYPRODUCT_KERNEL_HEX_NAME}" "${CS_HEX_EXPORT_FILE}"
+        DEPENDS "${BYPRODUCT_KERNEL_HEX_NAME}"
+        COMMENT "Exporting firmware HEX to ${CS_HEX_EXPORT_FILE}"
+        VERBATIM
+    )
+    add_dependencies(cs_export_hex ${logical_target_for_zephyr_elf})
+endif()

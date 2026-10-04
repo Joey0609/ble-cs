@@ -53,6 +53,25 @@ The image contains the Ranging Service responder only
 (`CONFIG_APP_CS_ROLES_REFLECTOR`, `CONFIG_BT_CTLR_SDC_CS_ROLE_REFLECTOR_ONLY`),
 with automatic RRSP instance allocation.
 
+## Firmware images
+
+After building, find the firmware HEX images in `BLE_CS/bin/` at the workspace
+root, one directory above this application (`../bin/` from
+`cs_hostless_reflector/`). Each build automatically creates the directory if
+needed and exports the image for the selected board:
+
+| Board | Firmware image (relative to workspace root) |
+| --- | --- |
+| nRF54LM20 DK | `bin/cs_hostless_reflector_nrf54lm20dk.hex` |
+| nRF54L15 DK | `bin/cs_hostless_reflector_nrf54l15dk.hex` |
+| nRF54L15 Tag | `bin/cs_hostless_reflector_nrf54l15tag.hex` |
+
+Builds for the same board update its image; different boards have separate
+files. The export also runs on builds with no source changes: the image is copied
+again, so its timestamp is that of the last build and a deleted image is
+recreated. Export works with and without sysbuild when
+`CONFIG_BUILD_OUTPUT_HEX=y`. Only images for boards you have built are exported.
+
 ## Log output
 
 The log (`common/libs/app_log`) goes to the console: the debug UART on the DKs, RTT on
