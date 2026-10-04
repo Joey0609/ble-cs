@@ -545,6 +545,73 @@ used by the technical diagrams
   width: 140px;
   height: 120px;
 }
+/* Feedback: a scannable invitation beside the live, scrollable form. */
+.reveal .content.feedback-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+}
+.reveal .feedback-invite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.reveal .feedback-invite p {
+  margin: 0;
+}
+.reveal .feedback-intro {
+  font-size: 25px;
+}
+.reveal .feedback-invite .feedback-qr {
+  display: block;
+  width: 260px;
+  height: 260px;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 10px;
+  background: #fff;
+  border-radius: 12px;
+}
+.reveal .feedback-link {
+  font-size: 25px;
+  line-height: 1.35;
+}
+.reveal .feedback-form-panel {
+  min-width: 0;
+}
+.reveal .feedback-form-frame {
+  display: block;
+  /* Enlarge Google Forms' fixed-width content within the wider panel. */
+  zoom: 1.15;
+  width: 100%;
+  height: calc(442px / 1.15);
+  max-width: none;
+  max-height: none;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+}
+.reveal .feedback-print-message {
+  display: none;
+}
+.reveal .feedback-form-hint {
+  margin: 12px 0 0;
+}
+@media print {
+  .reveal .feedback-form-frame,
+  .reveal .feedback-form-hint {
+    display: none;
+  }
+  .reveal .feedback-print-message {
+    display: block;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+}
+
 .reveal .content .subtitle {
   font: 29px Outfit;
   margin: 22px 0 !important;

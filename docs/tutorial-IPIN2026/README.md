@@ -40,7 +40,10 @@ skip opening the browser. Without Node.js, `python3 -m http.server 8000 -d docs`
 from the repository root serves the same local path.
 
 The counter at the bottom right shows the current slide's number, e.g.
-`14 / 33`. The contact slide closes the main deck before the reference appendix.
+`14 / 34`. Contact is followed by the feedback slide (`#/feedback`), then the
+reference appendix. The feedback slide includes the Google Form, a direct link
+and a local QR image so participants can respond on their own devices. Allow
+three to four minutes for feedback; the embedded form needs internet access.
 
 Keys: `S` opens the speaker view with notes and a pacing timer, `O` or `Esc`
 the overview, `F` full screen. On a slide with hidden answers, `↓` reveals the

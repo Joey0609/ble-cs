@@ -188,6 +188,12 @@
       ]
     },
     {
+      "title": "Feedback",
+      "slides": [
+        "34-feedback"
+      ]
+    },
+    {
       "title": "Reference",
       "appendix": true,
       "slides": [
