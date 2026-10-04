@@ -11,7 +11,8 @@ from ble_channel_sounding.protocol.packets import (PeripheralPatternsPacket, Pac
                                 CsConfigurationPacket, CsCapabilitiesPacket, CsReflectorSubeventResultPacket,
                                 RasDataLostPacket, PeerDataPacket, OperationModePacket, ApplyConfigPacket,
                                 ConnectionParametersPacket,
-                                CloseSessionPacket, GetConfigPacket)
+                                CloseSessionPacket, GetConfigPacket, StopPacket, ScanStartPacket,
+                                ScanResultPacket)
 from ble_channel_sounding.protocol.packets import LogConfigPacket, LogMessagePacket
 from ble_channel_sounding.protocol.frame import Frame
 from ble_channel_sounding.session_history import SessionHistory
@@ -36,6 +37,60 @@ class SessionTests(unittest.TestCase):
         self.session = ClientSession(clock=lambda: self.now, emit=lambda *event: self.events.append(event))
         self.session.set_host_config(config())
         self.session.connect(self.sim.transport)
+
+    def test_scan_restart_waits_for_stop_response_and_clears_old_results(self):
+        s = self.session
+        s.apply()
+        s.scan()
+        sent = []
+        original = self.sim.handle
+
+        def defer_stop(packet):
+            sent.append(packet.PACKET_TYPE)
+            if not isinstance(packet, StopPacket):
+                original(packet)
+
+        self.sim.handle = defer_stop
+        s.scan()
+        self.assertEqual(sent, [PacketType.STOP])
+        self.assertIsInstance(s.pending[0], StopPacket)
+        # Firmware reports the cancelled discovery before acknowledging STOP.
+        self.sim.set_state(ClientState.LINK_DISCONNECTED)
+        self.assertIsInstance(s.pending[0], StopPacket)
+        self.assertIsInstance(s.queue[0], ScanStartPacket)
+        with self.assertRaises(ValueError):
+            s.scan()
+        # A scan report already in transit must not remain in the fresh list.
+        s.receive(ScanResultPacket(1, b'654321', -50, 3, 6, b'CS-Old'.ljust(254, b'\0')))
+        self.sim.response(StopPacket())
+        self.assertEqual(sent, [PacketType.STOP, PacketType.SCAN_START])
+        self.assertNotIn((1, b'654321'), s.peers)
+        self.assertEqual(len(s.peers), 3)
+        self.assertEqual(s.link_state, ClientState.SCANNING)
+        self.assertTrue(s.connect_confirmed)
+        self.assertIsNone(s.pending)
+        self.assertFalse(s.queue)
+
+    def test_scan_restart_does_not_start_if_stop_is_rejected(self):
+        s = self.session
+        s.apply()
+        s.scan()
+        original = self.sim.handle
+        sent = []
+
+        def reject_stop(packet):
+            sent.append(packet.PACKET_TYPE)
+            if isinstance(packet, StopPacket):
+                self.sim.response(packet, ProtocolStatus.REJECTED)
+            else:
+                original(packet)
+
+        self.sim.handle = reject_stop
+        s.scan()
+        self.assertEqual(sent, [PacketType.STOP])
+        self.assertEqual(s.link_state, ClientState.SCANNING)
+        self.assertIsNone(s.pending)
+        self.assertFalse(s.queue)
 
     def test_apply_start_stop_and_reapply_sequence(self):
         s = self.session

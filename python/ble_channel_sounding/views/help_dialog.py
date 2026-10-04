@@ -291,8 +291,8 @@ HELP_PAGES = (
           connected peer is disconnected first, after confirmation.</td></tr>
           <tr><td><b>Synchronise</b></td><td>Compares host and client configuration and lets you get the
           client's or apply the host's.</td></tr>
-          <tr><td><b>Scan</b></td><td>Searches for advertising peers and fills the peer list. A new scan clears
-          the list.</td></tr>
+          <tr><td><b>Scan</b></td><td>Searches for advertising peers and fills the peer list. Scanning continues
+          when matching devices are found. Click again to restart the scan and clear the list.</td></tr>
           <tr><td><b>Connect peer</b></td><td>Connects the peer selected in the list, scanning first if nothing is
           listed. Becomes <b>Disconnect peer</b> while linked.</td></tr>
           <tr><td><b>Start session</b></td><td>Starts CS procedures and a new session.</td></tr>

@@ -324,6 +324,8 @@ class ClientSession:
         if self.info and len(wire) > self.info.max_frame_size:
             self.fail("Command exceeds client maximum frame size")
             return
+        if isinstance(packet, ScanStartPacket):
+            self.peers.clear()
         self.pending = (packet, self.clock() + TIMEOUTS[packet.PACKET_TYPE])
         self.emit("packet_sent", packet)
         self._record_history(packet, direction="sent")
@@ -395,10 +397,13 @@ class ClientSession:
 
     def scan(self):
         self._discovery_ready(0)
+        # Firmware rejects SCAN_START during an active scan. Wait for STOP's
+        # acknowledgement before starting fresh, without closing the session.
         if self.link_state == ClientState.SCANNING:
-            raise ValueError("Scanning is already active")
+            self.queue.append(StopPacket())
         self.peers.clear()
-        self._send(ScanStartPacket())
+        self.queue.append(ScanStartPacket())
+        self._next()
 
     def visible_peers(self, show_all=False):
         """Scan results to list: peers whose name starts with an applied prefix, or all.
@@ -643,9 +648,13 @@ class ClientSession:
                     self._finish_run("client state: " + ClientState(packet.state).name)
                     link_ended_run = True
                 # A spontaneous link-loss report supersedes an outstanding
-                # command.  Preserve the normal LINK_DISCONNECT transaction
-                # so an apply sequence can continue after its response.
-                if self.pending and not isinstance(self.pending[0], LinkDisconnectPacket):
+                # command. Preserve LINK_DISCONNECT and a discovery STOP so
+                # queued commands can continue after their response.
+                expected_disconnect = self.pending and (
+                    isinstance(self.pending[0], LinkDisconnectPacket) or
+                    (isinstance(self.pending[0], StopPacket) and
+                     packet.state == ClientState.LINK_DISCONNECTED))
+                if self.pending and not expected_disconnect:
                     self.pending = None
                     self.queue.clear()
                     self.applying = None

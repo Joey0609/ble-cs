@@ -349,7 +349,7 @@ class MainWindow(W.QMainWindow):
         self.radio_view.set_log(self.general_view.log_config())
         self.cs_view.configuration_changed.connect(self.edited)
         self.radio_view.configuration_changed.connect(self.edited)
-        self.qt.packet_sent.connect(lambda packet: self.results.add_packet(packet, direction="sent"))
+        self.qt.packet_sent.connect(self.packet_sent)
         self.qt.packet_received.connect(self.packet_received)
         self.qt.session_started.connect(self.clear_session_reports)
         self.qt.session_started.connect(self.peer_console_session_started)
@@ -850,9 +850,14 @@ class MainWindow(W.QMainWindow):
             self.update_controls()
             return
         active = self.session.link_state in LINK_ACTIVE
-        if active and not disconnect_confirmed and W.QMessageBox.question(self, "Apply configuration?",
-                "Applying disconnects the Bluetooth link. Continue?") != W.QMessageBox.StandardButton.Yes:
-            return
+        if active and not disconnect_confirmed:
+            message = {
+                ClientState.SCANNING: "Applying stops the active scan. Continue?",
+                ClientState.ADVERTISING: "Applying stops Bluetooth advertising. Continue?",
+                ClientState.LINK_CONNECTING: "Applying cancels the Bluetooth connection attempt. Continue?",
+            }.get(self.session.link_state, "Applying disconnects the Bluetooth link. Continue?")
+            if W.QMessageBox.question(self, "Apply configuration?", message) != W.QMessageBox.StandardButton.Yes:
+                return
         try:
             self.session.apply(allow_interrupt=active)
         except (ValueError, OSError, TypeError) as error:
@@ -1251,6 +1256,13 @@ class MainWindow(W.QMainWindow):
             transport.close()
         self.peer_console_view.set_opened(False)
 
+    def packet_sent(self, packet):
+        self.results.add_packet(packet, direction="sent")
+        if packet.PACKET_TYPE == PacketType.SCAN_START:
+            # Clear again at the actual restart, after STOP is acknowledged,
+            # including any old scan reports received while STOP was pending.
+            self.refresh_peers(replace=True)
+
     def packet_received(self, packet):
         # Do not put unsolicited hosted frames into the Results/history view
         # while CONNECT is still awaiting its response.  Hostless CS has no
@@ -1265,10 +1277,9 @@ class MainWindow(W.QMainWindow):
             if (visible and not self._scan_guidance_announced and
                     self.session.link_state == ClientState.SCANNING):
                 self._scan_guidance_announced = True
-                message = "A matching device was found. Connect to it before starting."
+                message = "Matching devices found. Scanning continues; select a peer to connect or press Scan to restart."
                 self.show_message(message,
                                   10000, level=INFO)
-                self.show_alert("Peer found", message)
         if isinstance(packet, ClientStatePacket) and self._peer_connect_attempt is not None:
             if packet.state in PEER_LINKED_STATES:
                 self._peer_connect_attempt = None
@@ -1389,8 +1400,9 @@ class MainWindow(W.QMainWindow):
             elif label == "Stop session":
                 enabled &= core.state == "RUNNING" or core.link_state in (ClientState.SCANNING, ClientState.ADVERTISING, ClientState.LINK_CONNECTING)
             elif label == "Scan":
-                enabled = (discovery_ready and inactive and role == 0 and
-                           core.link_state != ClientState.SCANNING)
+                enabled = discovery_ready and inactive and role == 0
+                button.setToolTip("Restart scanning and clear the peer list" if core.link_state == ClientState.SCANNING
+                                  else "Scan for nearby peers matching the configured name prefixes")
             elif label == "Connect peer":
                 self.run_bar.set_peer_connection_state(peer_connected)
                 if peer_connected:

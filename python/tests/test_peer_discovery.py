@@ -118,12 +118,48 @@ class PeerDiscoveryTests(unittest.TestCase):
             window.session.connect_peer((1, b'123456'))
         window.scan_peers()
         with self.assertRaises(ValueError):
-            window.session.scan()
-        with self.assertRaises(ValueError):
             window.session.advertise()
         report = ClientStatePacket(ClientState.ERROR, 0, RejectReason.SECURITY_FAILED, 5, -13)
         self.assertIn('SECURITY_FAILED', interruption_text(report))
         self.assertIn('0x05', interruption_text(report))
+
+    def test_scan_continues_and_toolbar_can_restart_before_connecting(self):
+        window = self.window()
+        scan = window.run_bar.buttons['Scan']
+        with patch.object(window, 'show_alert') as alert:
+            scan.click()
+            self.app.processEvents()
+            self.assertEqual(window.session.link_state, ClientState.SCANNING)
+            self.assertEqual(window.peers_view.peers.count(), 2)
+            self.assertFalse(hasattr(window.simulator, 'selected_peer'))
+            self.assertTrue(scan.isEnabled())
+            alert.assert_not_called()
+
+            # Another matching device can arrive after the initial matches.
+            window.simulator.send(peer(address=b'654321', name='CS-Late'))
+            self.assertEqual(window.peers_view.peers.count(), 3)
+            self.assertEqual(window.session.link_state, ClientState.SCANNING)
+            original = window.simulator.handle
+            with patch.object(window.simulator, 'handle',
+                              side_effect=lambda packet: None if isinstance(packet, StopPacket) else original(packet)):
+                scan.click()
+                self.app.processEvents()
+                self.assertFalse(scan.isEnabled())
+                window.simulator.send(peer(address=b'654321', name='CS-Late'))
+                self.assertEqual(window.peers_view.peers.count(), 1)
+                original(StopPacket())
+                self.app.processEvents()
+            self.assertEqual(window.peers_view.peers.count(), 2)
+            self.assertNotIn((1, b'654321'), window.session.peers)
+            self.assertEqual(window.session.link_state, ClientState.SCANNING)
+            self.assertTrue(scan.isEnabled())
+            self.assertIsNone(window.session.pending)
+            self.assertFalse(window.session.queue)
+            alert.assert_not_called()
+
+        window.connect_selected_peer()
+        self.assertEqual(window.session.link_state, ClientState.LINK_CONNECTED)
+        self.assertFalse(scan.isEnabled())
 
     def test_peripheral_advertising(self):
         window = self.window()

@@ -72,9 +72,11 @@ completed configuration and procedure enable complete reports next to the
 requested configuration, and lists settings a controller does not support.
 For a GAP central, **Scan** and **Connect peer** are in the top toolbar next to the session controls.
 Connect peer starts a scan when one is not active and changes to **Disconnect peer** when linked.
+Scanning continues after matching devices appear. Before connecting, click **Scan** again to
+restart discovery and clear the peer list.
 Start session is enabled only when the configuration is synced, a matching peer has been scanned,
 and the peer is connected; its tooltip explains the missing step. Scan and connection attempts
-show an alert with the next action to take.
+show guidance with the next action to take.
 Connection parameters, including the negotiated ATT MTU, are reported by the client whenever a
 link's parameters are set; only a GAP central asks for the ACL values, so for a peripheral the request
 column reads "not requested". The MTU is informational because the host does not request it, but it is shown as a connection
