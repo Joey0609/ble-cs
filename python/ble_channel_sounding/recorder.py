@@ -9,6 +9,7 @@ import threading
 import time
 import h5py
 import numpy as np
+from . import __version__
 from .protocol.frame import Frame
 from .protocol.packets import (decode_packet, CsSubeventResultPacket, CsReflectorSubeventResultPacket,
                                 LogMessagePacket, CommandResponsePacket, ClientStatePacket, RasDataLostPacket,
@@ -149,7 +150,7 @@ class RunRecorder:
             with h5py.File(self.path, "x") as file:
                 self.created_file = True
                 file.attrs.update(format_version=1, created=datetime.now(timezone.utc).isoformat(),
-                                  app_version="0.1.0", source=self.source, partial=self.partial,
+                                  app_version=__version__, source=self.source, partial=self.partial,
                                   history_truncated=self.history_truncated,
                                   close_reason="unclosed", description=self.description,
                                   description_updated="",

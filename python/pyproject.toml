@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ble-channel-sounding"
-version = "0.1.0"
+version = "0.1.1"
 description = "Host application for BLE Channel Sounding clients: configuration, results, FAE and run recording"
 readme = "ble_channel_sounding/GETTING_STARTED.md"
 license = "MIT"
