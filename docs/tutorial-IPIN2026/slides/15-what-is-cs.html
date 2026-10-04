@@ -98,13 +98,13 @@
                   marker-end="url(#cs-ah-mut)"/>
             <text x="248" y="370" font-size="13" fill="#afc8cb" text-anchor="end">frequency f</text>
             <text x="28" y="248" font-size="13" fill="#afc8cb">phase &#966;</text>
-            <line x1="30" y1="340" x2="236" y2="258" stroke="#65e4d0" stroke-width="2.5"/>
+            <line x1="30" y1="258" x2="236" y2="340" stroke="#65e4d0" stroke-width="2.5"/>
             <g fill="#65e4d0">
-              <circle cx="50" cy="332" r="3.5"/><circle cx="84" cy="318.5" r="3.5"/>
-              <circle cx="118" cy="305" r="3.5"/><circle cx="152" cy="291.5" r="3.5"/>
-              <circle cx="186" cy="278" r="3.5"/><circle cx="220" cy="264.5" r="3.5"/>
+              <circle cx="50" cy="266.0" r="3.5"/><circle cx="84" cy="279.5" r="3.5"/>
+              <circle cx="118" cy="293.0" r="3.5"/><circle cx="152" cy="306.5" r="3.5"/>
+              <circle cx="186" cy="320.0" r="3.5"/><circle cx="220" cy="333.5" r="3.5"/>
             </g>
-            <text x="150" y="330" font-size="14" fill="#65e4d0">slope &#8733; d</text>
+            <text x="130" y="276" font-size="14" fill="#65e4d0">slope &#8733; &#8722;d</text>
 
             <!-- RTT panel -->
             <text x="300" y="226" font-weight="700" fill="#f5f5ed">RTT</text>
@@ -144,8 +144,8 @@
     attacker cannot predict them.
 
     PBR: each side measures the phase of the other's tone. The combined
-    round-trip phase grows linearly with frequency, with slope
-    4&pi;d/c, so the slope across channels gives the distance. With 1 MHz
+    round-trip phase falls linearly with frequency, with slope
+    &minus;4&pi;d/c, so the slope across channels gives the distance. With 1 MHz
     spacing the result repeats every 150 m.
 
     RTT: the initiator times a packet's round trip and subtracts the

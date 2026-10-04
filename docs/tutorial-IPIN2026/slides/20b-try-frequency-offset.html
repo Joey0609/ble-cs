@@ -18,8 +18,8 @@
       <div class="interactive-output" id="cal-output"></div>
     </div>
     <p class="small muted">
-      Ideal model: |Δd| = c·|ε|·Δt / 2, the same for phase and for time. Read ε as whatever is left
-      after calibration.
+      Ideal model: Δd = −c·ε·Δt / 2, the same for phase and for time; the chart shows its size.
+      A fast reflector (ε &gt; 0) reads short. Read ε as whatever is left after calibration.
     </p>
   </div>
   <div class="source"></div>
@@ -28,7 +28,9 @@
       One formula covers both methods: the range bias is c times the frequency offset times the time
       between the two observations, over two. For phase-based ranging that time is the gap between
       the initiator's and the reflector's tones; for round-trip timing it is the reflector's
-      turnaround. Start at 12 ppm on the tone gap: about 12 cm.
+      turnaround. The chart shows the size of the bias; its sign follows epsilon: a reflector
+      that runs fast makes both methods read short, a slow one long. Start at 12 ppm on the tone
+      gap: about 12 cm.
       Switch to the turnaround: the same offset now costs about 32 cm. Then pull the offset down to
       1 ppm: the bias falls to about 1 cm and 2.6 cm. That is the argument for calibration: the
       crystals cannot be made perfect, so the offset has to be measured and removed until what is

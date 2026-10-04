@@ -48,7 +48,7 @@
       </div>
       <div>
       <svg viewBox="0 0 420 260" role="img"
-         aria-label="Two-way phase of one tone versus distance: a sawtooth that repeats every 6.1 centimetres">
+         aria-label="Two-way phase of one tone versus distance: a falling sawtooth that repeats every 6.1 centimetres">
         <defs>
         <marker id="bas1-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
         <marker id="bas1-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
@@ -58,16 +58,16 @@
         <line x1="60" y1="210" x2="400" y2="210" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
         <line x1="60" y1="210" x2="60" y2="30" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
         <text x="400" y="244" font-size="14" fill="#afc8cb" text-anchor="end">distance d</text>
-        <text transform="translate(24,130) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">phase lag mod 2&#960;</text>
-        <line x1="55" y1="50.0" x2="60" y2="50.0" stroke="#afc8cb"/><text x="52" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">2&#960;</text><line x1="60.0" y1="210" x2="60.0" y2="215" stroke="#afc8cb"/><text x="60.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">0 cm</text><line x1="188.0" y1="210" x2="188.0" y2="215" stroke="#afc8cb"/><text x="188.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">10 cm</text><line x1="316.0" y1="210" x2="316.0" y2="215" stroke="#afc8cb"/><text x="316.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">20 cm</text>
-        <path d="M60.0,210 L138.6,50.0 M138.6,210 L217.3,50.0 M217.3,210 L295.9,50.0 M295.9,210 L374.5,50.0 M374.5,210 L380.0,198.9" fill="none" stroke="#65e4d0" stroke-width="2.5"/>
+        <text transform="translate(24,130) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">phase &#920; mod 2&#960;</text>
+        <line x1="55" y1="50.0" x2="60" y2="50.0" stroke="#afc8cb"/><text x="52" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">0</text><line x1="55" y1="210.0" x2="60" y2="210.0" stroke="#afc8cb"/><text x="52" y="214.0" font-size="13" fill="#afc8cb" text-anchor="end">&#8722;2&#960;</text><line x1="60.0" y1="210" x2="60.0" y2="215" stroke="#afc8cb"/><text x="60.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">0 cm</text><line x1="188.0" y1="210" x2="188.0" y2="215" stroke="#afc8cb"/><text x="188.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">10 cm</text><line x1="316.0" y1="210" x2="316.0" y2="215" stroke="#afc8cb"/><text x="316.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">20 cm</text>
+        <path d="M60.0,50.0 L138.6,210 M138.6,50.0 L217.3,210 M217.3,50.0 L295.9,210 M295.9,50.0 L374.5,210 M374.5,50.0 L380.0,61.1" fill="none" stroke="#65e4d0" stroke-width="2.5"/>
         <line x1="60.0" y1="44" x2="138.6" y2="44" stroke="#ffb17a" stroke-width="1.5"
               marker-start="url(#bas1-ref)" marker-end="url(#bas1-ref)"/>
         <text x="146.6" y="48" font-size="15" fill="#ffb17a">&#955;/2 &#8776; 6.1 cm</text>
         </g>
       </svg>
         <ul>
-          <li>A travelling wave: phase advances \( 2\pi \) per wavelength, \( \lambda = c/f \approx 12.3 \) cm</li>
+          <li>The tone arrives late: its phase lags \( 2\pi \) per wavelength, \( \lambda \approx 12.3 \) cm, hence the minus sign</li>
           <li>No start or end marker: the receiver sees phase, not arrival time</li>
           <li>Precise, but the two-way phase repeats every \( \lambda/2 \approx 6.1 \) cm</li>
           <li>One tone cannot tell 1.00&nbsp;m from 1.06&nbsp;m</li>
@@ -86,11 +86,13 @@
     Now the two-way measurement. The initiator sends an unmodulated tone
     and the reflector measures its phase against its own oscillator; then
     the roles swap. Nothing is timed here: an unmodulated tone has no edge
-    to timestamp, so each side only measures a phase. That phase is the
-    phase accumulated over the distance, 2 pi d over lambda, plus the unknown
-    phase difference between the two oscillators, with opposite signs.
-    Adding the two measurements cancels the oscillator term and leaves the
-    round-trip phase, 4 pi d over lambda. Solving for the distance with
+    to timestamp, so each side only measures a phase. The tone arrives d
+    over c late, so that phase lags: it is minus 2 pi d over lambda, plus the
+    unknown phase difference between the two oscillators, which enters the
+    two measurements with opposite signs. Adding the two measurements cancels
+    the oscillator term and leaves the round-trip phase, Theta = minus 4 pi d
+    over lambda. Theta is negative and falls as the distance grows, as the
+    plot on the right shows. Solving for the distance with
     lambda = c / f gives d = minus c over 4 pi times Theta over f, plus any whole
     number of c over 2 f. Keep Theta over f in view: the next slide replaces
     it with the slope of Theta across frequency.

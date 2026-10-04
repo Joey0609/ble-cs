@@ -64,7 +64,7 @@
       <div><b>Measure</b>The initiator estimates the reflector's FFO from its tone in the opening steps, with the reflector's FAE taken out</div>
       <div><b>Align</b>For the rest of the subevent, both transmit at f<sub>E</sub>: the initiator moves to the reflector's offset</div>
       <div><b>Correct</b>Round-trip times are divided by 1 + FFO; phases are measured at the shared frequency</div>
-      <div><b>Report</b>The initiator reports the offset it used, in 0.01 ppm, with every subevent</div>
+      <div><b>Report</b>The initiator reports the signed offset it used, in 0.01 ppm, with every subevent</div>
     </div>
   </div>
   <div class="source">
@@ -88,12 +88,14 @@
       answers with a CS_SYNC followed by a tone. The initiator measures the frequency of that tone
       and turns it into the reflector's FFO, after taking out the reflector's FAE from the table it
       received before ranging started. The FFO of the first step sets the shared frequency for the
-      rest of the subevent, f E equals f0 times one plus ten to the minus six FFO E: every later
+      rest of the subevent, f E equals f0 times one plus ten to the minus six FFO E. The FFO is
+      signed, positive when the reflector runs fast, and f E then lies above the nominal channel. Every later
       step, from both radios, is transmitted there, tones within 10 kHz and CS_SYNC packets within
       20 kHz. In practice the initiator moves its transmitter to the reflector's offset. The same
       estimate corrects round-trip times, which are divided by one plus the FFO, and because the
       phases are now measured at one shared frequency, the phase drift between the two tones is
-      removed. The initiator reports the offset it used for each subevent, in steps of 0.01 ppm,
+      removed. What stays in the phases is only the error of that estimate, a fraction of a ppm
+      with a sign that changes from subevent to subevent, not the offset itself. The initiator reports the offset it used for each subevent, in steps of 0.01 ppm,
       so the host can see it. The figure shows two opening steps; a subevent may open with one to
       three. It is illustrative, not to scale.
     </p>

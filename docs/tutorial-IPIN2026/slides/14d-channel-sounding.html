@@ -29,18 +29,18 @@
         <!-- Phase per channel: wraps, slope ∝ distance -->
         <text x="60" y="108" font-size="16" fill="#65e4d0">phase φ(f): the slope gives the distance</text>
         <g fill="#65e4d0">
-          <circle cx="70" cy="178.1" r="4" /><circle cx="90" cy="170.7" r="4" />
-          <circle cx="110" cy="163.3" r="4" /><circle cx="130" cy="155.9" r="4" />
-          <circle cx="150" cy="148.5" r="4" /><circle cx="170" cy="141.0" r="4" />
-          <circle cx="190" cy="133.6" r="4" /><circle cx="210" cy="126.2" r="4" />
-          <circle cx="230" cy="180.8" r="4" /><circle cx="250" cy="173.4" r="4" />
-          <circle cx="270" cy="166.0" r="4" /><circle cx="290" cy="158.6" r="4" />
-          <circle cx="310" cy="151.2" r="4" /><circle cx="330" cy="143.8" r="4" />
-          <circle cx="350" cy="136.4" r="4" /><circle cx="370" cy="129.0" r="4" />
-          <circle cx="390" cy="121.6" r="4" /><circle cx="410" cy="176.2" r="4" />
-          <circle cx="430" cy="168.8" r="4" /><circle cx="450" cy="161.4" r="4" />
-          <circle cx="470" cy="154.0" r="4" /><circle cx="490" cy="146.6" r="4" />
-          <circle cx="510" cy="139.2" r="4" /><circle cx="530" cy="131.8" r="4" />
+          <circle cx="70" cy="124.3" r="4" /><circle cx="90" cy="131.7" r="4" />
+          <circle cx="110" cy="139.1" r="4" /><circle cx="130" cy="146.5" r="4" />
+          <circle cx="150" cy="153.9" r="4" /><circle cx="170" cy="161.4" r="4" />
+          <circle cx="190" cy="168.8" r="4" /><circle cx="210" cy="176.2" r="4" />
+          <circle cx="230" cy="121.6" r="4" /><circle cx="250" cy="129.0" r="4" />
+          <circle cx="270" cy="136.4" r="4" /><circle cx="290" cy="143.8" r="4" />
+          <circle cx="310" cy="151.2" r="4" /><circle cx="330" cy="158.6" r="4" />
+          <circle cx="350" cy="166.0" r="4" /><circle cx="370" cy="173.4" r="4" />
+          <circle cx="390" cy="180.8" r="4" /><circle cx="410" cy="126.2" r="4" />
+          <circle cx="430" cy="133.6" r="4" /><circle cx="450" cy="141.0" r="4" />
+          <circle cx="470" cy="148.4" r="4" /><circle cx="490" cy="155.8" r="4" />
+          <circle cx="510" cy="163.2" r="4" /><circle cx="530" cy="170.6" r="4" />
         </g>
         <!-- Amplitude per channel: fading across frequency -->
         <text x="60" y="204" font-size="16" fill="#dcf58a">amplitude |A(f)|: quality, multipath</text>
@@ -105,7 +105,7 @@
       Channel Sounding, added in Bluetooth 6.0, measures distance between two devices and combines
       the observables of the earlier techniques. Both ends transmit, over a connection as in Find
       Me. The round-trip time of packets gives a coarse distance with no ambiguity. The phase of
-      tones exchanged on many channels, up to 72 of them 1 MHz apart, changes linearly with
+      tones exchanged on many channels, up to 72 of them 1 MHz apart, falls linearly with
       frequency; the slope gives a fine distance, and the two-way exchange cancels the unknown
       oscillator phases. The amplitude of each tone comes with the same measurement and shows signal
       quality and fading from multipath. The plot is a sketch, not a measurement. This slide is only

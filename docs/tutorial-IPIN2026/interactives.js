@@ -17,7 +17,7 @@ function updatePBR(){
   for(let ch=2;ch<=76;ch++){if([23,24,25].includes(ch))continue;const hz=(2402+ch)*1e6,p=-TAU*hz*d/C,ep=-TAU*hz*(d+4)/C,re=Math.cos(p)+(echo?.42*Math.cos(ep):0),im=Math.sin(p)+(echo?.42*Math.sin(ep):0);f.push(hz);phase.push(Math.atan2(2*re*im,re*re-im*im));}
   const un=unwrap(phase),estimate=-C*fit(f,un)/(4*Math.PI);let data=wrapped?phase:un.map(v=>v-un[0]);let lo=wrapped?-Math.PI:Math.min(...data)-.3,hi=wrapped?Math.PI:Math.max(...data)+.3;
   const x=v=>75+(v-2404e6)/(74e6)*900,y=v=>235-(v-lo)/(hi-lo)*190;
-  let out=txt(78,22,wrapped?'Wrapped two-way phase (rad)':'Unwrapped phase change (rad)');
+  let out=txt(78,22,wrapped?'Wrapped two-way phase Θ (rad)':'Unwrapped Θ, change from the first channel (rad)');
   for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4;out+=lin(75,y(v),975,y(v))+txt(12,y(v)+5,v.toFixed(1));}
   for(const mhz of [2404,2424,2444,2464,2478])out+=lin(x(mhz*1e6),45,x(mhz*1e6),235)+txt(x(mhz*1e6)-22,263,mhz.toString());
   out+=txt(460,287,'Frequency (MHz)');let path='';
@@ -31,7 +31,7 @@ function updatePBR(){
 function updateCal(){
   const eps=+$('cal-eps').value,dt=+$('cal-dt').value,bias=(e,t)=>C*e*1e-6*t*1e-6/2,ymax=2;
   const x=v=>75+v/50*900,y=v=>235-v/ymax*190;
-  let out=txt(78,22,'Range bias (m)');
+  let out=txt(78,22,'Range bias |Δd| (m)');
   for(let i=0;i<=4;i++){const v=ymax*i/4;out+=lin(75,y(v),975,y(v))+txt(22,y(v)+5,v.toFixed(1));}
   for(const p of [0,10,20,30,40,50])out+=lin(x(p),45,x(p),235)+txt(x(p)-10,263,p.toString());
   out+=txt(420,287,'Frequency offset ε (ppm)');

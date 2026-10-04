@@ -17,7 +17,7 @@
         </div>
         <div class="card">
           <span class="n">03</span>
-          <p>Check tone quality, correction choice and range profile shape.</p>
+          <p>Check tone quality, correction choice and sign, and range profile shape.</p>
         </div>
       </div>
     </div>
@@ -30,7 +30,16 @@
       The screenshot is from the actual Results widget with synthetic test packets, not RF
       measurements. The four plots show amplitude, wrapped phase, unwrapped phase and the IFFT
       magnitude range profile. Both the slope and IFFT use the same selected path, tone quality
-      filter and phase correction choice. The IFFT places measured complex products on a 1 MHz
+      filter and phase correction choice. The app plots the phase of the product, Theta, so the
+      unwrapped line falls with frequency, as on the fundamentals slides. The sign selector sets the direction of the frequency correction. Sign plus subtracts
+      2 pi epsilon f delta t from each product's phase: the direction for an offset that is still
+      in the phases, with a positive offset meaning the reflector runs fast, as the FFO definition
+      says. This simulated data set leaves the whole offset in: plus 12.34 ppm over an 81
+      microsecond tone gap is 15 cm, and the correction moves 2.85 m to 3.00 m. A real controller
+      has already retuned by the compensation it reports, so there the raw line is the reference.
+      Removing the full offset again shifts the range by c epsilon delta t over 2, up or down with
+      the sign selector, and which of the two then looks closer depends on the other biases, not
+      on the offset. The IFFT places measured complex products on a 1 MHz
       frequency grid and leaves missing channels empty. Zero padding locates the displayed peak more
       smoothly but does not improve physical range resolution. A strong peak may include multipath,
       so compare it with the phase slope, RTT and a known-distance reference before interpreting it

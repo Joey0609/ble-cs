@@ -41,9 +41,10 @@
       </svg>
       <div class="breaks">
         <h3>What an offset breaks</h3>
-        <p><b>Phase</b> keeps turning between the two tones<br />\( |\Delta d| = c\,|\varepsilon|\,\Delta t/2 \)</p>
-        <p><b>Intervals</b> are timed on the reflector's own clock<br />\( |\Delta d| = c\,|\varepsilon|\,T/2 \)</p>
+        <p><b>Phase</b> keeps turning between the two tones<br />\( \Delta d = -c\,\varepsilon\,\Delta t/2 \)</p>
+        <p><b>Intervals</b> are timed on the reflector's own clock<br />\( \Delta d = -c\,\varepsilon\,T/2 \)</p>
         <p><b>Tones</b> land \( \varepsilon f_0 \) away from their channel</p>
+        <p><b>Sign</b>: \( \varepsilon &gt; 0 \) is a fast reflector, and both ranges read short</p>
       </div>
     </div>
     <div class="callout">
@@ -65,12 +66,16 @@
       Both ranging methods assumed that the two radios share one frequency and one time base. They
       do not. Each radio derives its carrier from its own crystal, and every crystal is off by some
       parts per million: the initiator sits at f0 times one plus epsilon I, the reflector at f0
-      times one plus epsilon R. What matters is the relative offset, epsilon, the difference of the
-      two. The specification allows up to 50 ppm, which at 2.44 GHz is 122 kHz. That offset breaks
-      three things we relied on. Phase: the two tone measurements are tens of microseconds apart,
-      and an offset keeps rotating the phase in between, a bias of c times epsilon times delta t
-      over two. Time: the reflector times its turnaround on its own
-      clock, which runs fast or slow by epsilon, the same form with the turnaround T, as on the
+      times one plus epsilon R. What matters is the relative offset, epsilon, the reflector's
+      minus the initiator's, so a positive epsilon means the reflector runs fast.
+      The specification allows up to 50 ppm, which at 2.44 GHz is 122 kHz. That offset breaks
+      three things we relied on. Phase: the reflector measures the initiator's tone first, and the
+      initiator measures the reflector's tone tens of microseconds later. In between, the two oscillators drift apart by
+      2 pi epsilon f delta t, which adds to the two-way phase and works against the propagation
+      lag: a bias of minus c times epsilon times delta t over two, so with a fast reflector the
+      range reads short. Time: the reflector times its turnaround on its own
+      clock; a fast clock counts that interval long, too much is subtracted, and the range again
+      reads short: the same form with the turnaround T, as on the
       round-trip slides. Tones: every tone lands epsilon f0 away from the channel the receiver is
       tuned to. So the calibration problem, stated formally: estimate epsilon in every subevent,
       well below 1 ppm, and remove it before any phase or time is used. The numbers: 1 ppm left
