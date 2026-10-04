@@ -1,38 +1,63 @@
-<section data-timing="15">
-  <h2>Now turn the theory into evidence</h2>
+<section data-timing="60">
+  <h2>Workshop devices and example configurations</h2>
   <div class="content">
+    <p class="small">
+      Load an example with <strong>Open…</strong> in <strong>Configuration</strong>. Explore its schedule:
+      connection, procedures, subevents and steps.<br />
+      Apply the config, then <strong>Scan</strong>. Check the found devices and match Tags and Reflectors to the IDs below.
+    </p>
     <div class="cols">
       <div>
-        <p class="lead">
-          Explain the exchange.<br />Inspect the observations.<br /><strong
-            >Challenge the estimate.</strong
-          >
-        </p>
-        <p class="subtitle">Next: run your first controlled ranging experiment.</p>
-        <p class="small">
-          <a href="https://www.crowdsupply.com/sensera-technologies/senswear-wearable-dev-kit"
-            >Follow SensWear on Crowd Supply ↗</a
-          >
-        </p>
+        <h3>Tags <span class="small muted">(CSTag…)</span></h3>
+        <table aria-label="Tag Bluetooth addresses">
+          <thead><tr><th scope="col">ID</th><th scope="col">Bluetooth address</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="mono">ED:E1:EB:09:8E:EE</td></tr>
+            <tr><td>2</td><td class="mono">E4:68:EB:35:D6:D2</td></tr>
+            <tr><td>3</td><td class="mono">F0:16:4D:1F:A7:5A</td></tr>
+            <tr><td>4</td><td class="mono">DD:C1:CF:DF:A6:83</td></tr>
+            <tr><td>5</td><td class="mono">E9:20:EE:42:34:71</td></tr>
+          </tbody>
+        </table>
       </div>
       <div>
-        <div class="photo-frame cover-photo">
-          <img src="images/workshop-synthetic-photo.png" alt="AI-generated, realistic image of three fictional students examining a Bluetooth development board" />
-        </div>
+        <h3>Reflectors <span class="small muted">(CSReflector…)</span></h3>
+        <table aria-label="Reflector Bluetooth addresses">
+          <thead><tr><th scope="col">ID</th><th scope="col">Bluetooth address</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="mono">E9:39:E4:E5:28:D6</td></tr>
+            <tr><td>2</td><td class="mono">DC:FC:CF:33:33:E5</td></tr>
+            <tr><td>3</td><td class="mono">EB:3C:98:32:94:A2</td></tr>
+            <tr><td>4</td><td class="mono">C5:9F:76:93:E4:07</td></tr>
+            <tr><td>5</td><td class="mono">EF:EA:84:45:27:DD</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-  <div class="source">
-    <a href="sources.html#assets" target="_blank" rel="noopener">Synthetic workshop image · asset notes</a>
+    <p class="small muted">
+      Names append the Bluetooth address without colons:
+      <span class="mono">CSTagEDE1EB098EEE</span> is Tag 1.
+    </p>
   </div>
   <aside class="notes">
     <p>
-      Reconnect the title to today's workflow: a ring track depends on ranges whose meaning and
-      failure modes we understand. The next activity is a controlled pairwise ranging experiment.
-      Invite one final clarification about the theoretical model, then move to teams and equipment.
-      The workshop image is AI-generated to look photographic. Its students are fictional; this is
-      not a photograph of real people or of this IPIN event.
-      Supplementary explanations and setup references follow; use them as needed.
+      In the Configuration view, press Open to browse the examples presented directly by
+      the file dialog and load a configuration.
+      Before applying it, walk through the generated schedule: the connection timeline,
+      procedures, events and subevents, individual steps, and channel sequence. Relate each
+      component to the loaded settings and distinguish the illustrative controller values
+      from the requested configuration.
+    </p>
+    <p>
+      Apply the configuration, then press Scan to discover peers. Inspect the found devices'
+      names and Bluetooth addresses. Match each discovered Tag or Reflector to its assigned
+      ID using the appropriate table, then select your assigned peer before connecting. Tags
+      advertise as CSTag followed by their address without colons. The other reflectors advertise
+      as CSReflector followed by their address without colons. For example, CSTagEDE1EB098EEE
+      matches ED:E1:EB:09:8E:EE, which is Tag 1 in the table. Scan results continue to arrive
+      until participants explicitly connect to their selected peer or stop scanning.
+      These addresses come from the workshop device screenshots.
+      Then run a controlled pairwise ranging experiment and inspect the observations.
     </p>
   </aside>
 </section>

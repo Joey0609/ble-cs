@@ -182,18 +182,18 @@
       ]
     },
     {
+      "title": "Contact",
+      "slides": [
+        "33-contact"
+      ]
+    },
+    {
       "title": "Reference",
       "appendix": true,
       "slides": [
         "R01-stalled-run",
         "R02-references-spec",
         "R03-references-platform"
-      ]
-    },
-    {
-      "title": "Contact",
-      "slides": [
-        "33-contact"
       ]
     }
   ]

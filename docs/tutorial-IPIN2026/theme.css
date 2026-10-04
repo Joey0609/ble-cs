@@ -615,6 +615,14 @@ used by the technical diagrams
   color: var(--lime);
 }
 
+#theory-to-evidence .content table td {
+  padding: 11px 18px;
+}
+
+#theory-to-evidence .content table td.mono {
+  white-space: nowrap;
+}
+
 /* CS setup/security/implementation: flat rows in the existing slide frame. */
 .reveal .cs-detail .content {
   gap: 18px;
