@@ -1,12 +1,12 @@
 <section class="modality" data-timing="75">
-  <h2>Direction Finding: bearings from antenna arrays</h2>
+  <h2>测向：由天线阵列确定方向</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 270"
         role="img"
-        aria-label="Three fixed locators with antenna arrays each measure a bearing to a broadcasting tag; the bearings intersect at the tag"
+        aria-label="三个带有天线阵列的固定定位器，每个定位器测量广播标签的方位；轴承在标签处相交"
       >
         <rect x="20" y="10" width="520" height="252" rx="12" fill="#12363d" />
         <!-- Bearings from each locator to the tag -->
@@ -33,33 +33,33 @@
           <circle cx="262" cy="244" r="4" /><circle cx="274" cy="244" r="4" />
           <circle cx="286" cy="244" r="4" /><circle cx="298" cy="244" r="4" />
         </g>
-        <text x="246" y="250" font-size="15" fill="#f5f5ed" text-anchor="end">locator: antenna array</text>
+        <text x="246" y="250" font-size="15" fill="#f5f5ed" text-anchor="end">定位器：天线阵列</text>
         <!-- Tag, broadcasting -->
         <g fill="none" stroke="#dcf58a" stroke-width="2">
           <circle cx="330" cy="145" r="20" opacity="0.6" />
           <circle cx="330" cy="145" r="30" opacity="0.3" />
         </g>
         <circle cx="330" cy="145" r="11" fill="#dcf58a" />
-        <text x="352" y="198" font-size="15" fill="#f5f5ed">tag: advertises + tone</text>
+        <text x="352" y="198" font-size="15" fill="#f5f5ed">标签： 广播+单音信号</text>
       </svg>
       <dl class="facts">
-        <dt>SINCE</dt>
-        <dd>Bluetooth 5.1 (2019)</dd>
-        <dt>SIGNAL</dt>
-        <dd>The tag appends a Constant Tone Extension (CTE) to its packets</dd>
-        <dt>MEASURE</dt>
-        <dd>Each locator samples in-phase and quadrature (I/Q) across its antennas; the phase step gives angle θ</dd>
-        <dt>RESULT</dt>
-        <dd>Angle of arrival: one bearing per locator; two or more intersect at the tag</dd>
+        <dt>引入时间</dt>
+        <dd>蓝牙 5.1 (2019)</dd>
+        <dt>信号</dt>
+        <dd>该标签将恒定单音信号扩展（CTE）附加到其数据包中</dd>
+        <dt>测量</dt>
+        <dd>每个定位器通过其天线进行同相与正交 (I/Q) 采样；相位差给出角度 θ</dd>
+        <dt>测得的值结果</dt>
+        <dd>到达角：每个定位器一个方位；两个或多个在标签处相交</dd>
       </dl>
     </div>
     <div class="limits">
-      <span class="n">LIMITATIONS</span>
+      <span class="n">限制</span>
       <ul>
-        <li>Needs fixed locators, each with an array, RF switch and calibration</li>
-        <li>An angle is not a range: one locator gives a line, not a point</li>
-        <li>Reflections bias the angle; 1° is 17&nbsp;cm at 10&nbsp;m</li>
-        <li>Array layout and polarization must be known and stable</li>
+        <li>需要固定定位器，每个定位器都有一个阵列、射频开关和校准</li>
+        <li>角度不等于距离：单个定位器只确定方向线，不能确定位置点</li>
+        <li>反射使角度发生偏差； 1° 为 17 cm（10 m 处）</li>
+        <li>阵列布局和偏振必须已知且稳定</li>
       </ul>
     </div>
   </div>
@@ -68,27 +68,16 @@
       href="https://www.bluetooth.com/learn-about-bluetooth/feature-enhancements/direction-finding/"
       target="_blank"
       rel="noopener"
-      >Bluetooth SIG · Direction Finding</a
+      >蓝牙技术联盟（SIG）·测向</a
     ><span class="sep">|</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/developer/RDF_Technical_Overview.pdf"
       target="_blank"
       rel="noopener"
-      >Direction Finding technical overview</a
+      >测向技术概述</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Direction Finding, added in Bluetooth 5.1, moves from amplitude to phase. The tag broadcasts
-      packets with a Constant Tone Extension, a stretch of unmodulated tone. Each fixed locator
-      switches across the antennas of its array while sampling I/Q; the phase step between
-      neighbouring antennas depends on the angle of arrival. Each locator therefore gives a bearing,
-      a line, and two or more bearings intersect at the tag. That is angle of arrival, AoA; in angle
-      of departure, AoD, the array transmits and the phone computes its own direction, which needs
-      the array layout. The cost is infrastructure: arrays, RF switches, mounting and calibration.
-      Reflections bias the angle, and a fixed angle error grows into a larger position error with
-      distance: 1 degree is about 17 cm at 10 m. The angle comes from phase across space; Channel
-      Sounding uses phase across frequency.
-    </p>
+    <p> 蓝牙 5.1 中添加的测向功能从幅度移动到相位。该标签广播带有恒定单音信号扩展的数据包，即一段未调制的单音信号。每个固定定位器在采样 I/Q 时切换其阵列的天线；相邻天线之间的相位差取决于到达角。因此，每个定位器都会给出一个方位角、一条线以及两个或多个方位角在标签处相交。即到达角，AoA；在出发角（AoD）中，阵列传输并且手机计算自己的方向，这需要阵列布局。成本在于基础设施：阵列、射频开关、安装和校准。反射会使角度产生偏差，固定的角度误差会随着距离的增加而变成更大的位置误差：在 10 m 处，1 度约为 17 cm。该角度来自空间上的相位； 信道探测使用跨频率相位。 </p>
   </aside>
 </section>

@@ -1,19 +1,19 @@
 <section data-timing="90">
-  <h2>Two quantities: FFO and FAE</h2>
+  <h2>区分 FFO 与 FAE</h2>
   <div class="content">
     <div class="defs">
       <div class="card">
-        <span class="n">FFO · FRACTIONAL FREQUENCY OFFSET</span>
-        <h3>How far a tone is off, in ppm</h3>
+        <span class="n">FFO · 相对频偏</span>
+        <h3>单音信号的偏离程度（以 ppm 为单位）</h3>
         <p class="eq">\( \mathrm{FFO}[k] = 10^{6}\,\dfrac{f[k] - f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])}{f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])} \)</p>
-        <p>The measured frequency f[k] of step k&rsquo;s tone against where it should be, as a fraction of the carrier. Measured on every mode-0 step; |FFO| &lt; 50&nbsp;parts per million (ppm).</p>
-        <p><b>Sign:</b> FFO &gt; 0 means the tone is high: the reflector runs fast against the initiator.</p>
+        <p>步骤 k 的单音信号的测量频率 f[k] 相对于它应该在的位置，作为载波的一部分。在每个模式 0 步骤中测量； |FFO| &lt; 50 ppm (ppm)。</p>
+        <p><b>符号约定：</b> FFO &gt; 0 表示单音频率偏高：反射端相对于发起端运行得更快。</p>
       </div>
       <div class="card">
-        <span class="n">FAE · FREQUENCY ACTUATION ERROR</span>
-        <h3>How far a radio misses a channel</h3>
-        <p>A frequency synthesizer turns the crystal reference into each channel frequency with finite resolution, so on channel k it realizes f<sub>0</sub>[k](1&nbsp;+&nbsp;10<sup>&minus;6</sup>&middot;FAE[k]): a small, repeatable miss, in parts per million.</p>
-        <svg viewBox="0 0 520 120" role="img" aria-label="Illustrative per-channel FAE values across 72 channels, a repeatable pattern between about minus 2 and plus 2 ppm">
+        <span class="n">FAE·频率合成误差</span>
+        <h3>频率合成器偏离标称信道频率多少</h3>
+        <p>频率合成器将晶体参考转换为具有有限分辨率的每个信道频率，因此在信道 k 上实现 f<sub>0</sub>[k](1 + 10<sup>−6</sup>·FAE[k])：微小且可重复的合成误差，以百万分之几为单位。</p>
+        <svg viewBox="0 0 520 120" role="img" aria-label="72 个通道的示例性每通道 FAE 值，可重复模式介于约负 2 和正 2 ppm 之间">
           <line x1="36" y1="70" x2="506" y2="70" stroke="#afc8cb" stroke-width="1.5" />
           <g fill="#ffb17a">
           <rect x="40.0" y="70.0" width="4.4" height="25.2" />
@@ -89,53 +89,21 @@
           <rect x="488.0" y="70.0" width="4.4" height="12.0" />
           <rect x="494.4" y="50.8" width="4.4" height="19.2" />
           </g>
-          <text x="36" y="116" font-size="14" fill="#afc8cb">72 channels · one FAE each · retrieved when required</text>
-          <text x="506" y="20" font-size="13" fill="#afc8cb" text-anchor="end">illustrative</text>
+          <text x="36" y="116" font-size="14" fill="#afc8cb">72 个信道·每个信道一个 FAE·在需要时检索</text>
+          <text x="506" y="20" font-size="13" fill="#afc8cb" text-anchor="end">示意数据</text>
         </svg>
       </div>
     </div>
-    <div class="relation">
-      The reflector&rsquo;s tone carries its FAE and the crystal offset ε:
-      \( f[k] \approx f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])\,(1 + \varepsilon) \),
-      so \( \mathrm{FFO}[k] \approx 10^{6}\,\varepsilon \): ε in ppm, with the FAE taken out.
-    </div>
-    <div class="callout">
-      FFO measures ε, which changes with every crystal and temperature, so it is measured every
-      subevent; FAE is a radio property, retrieved as a table only when needed (see slide 23b).
-    </div>
+    <div class="relation"> 反射端的单音信号携带其 FAE 和晶体偏移 ε: \( f[k] \approx f_0[k]\,(1 + 10^{-6}\,\mathrm{FAE}[k])\,(1 + \varepsilon) \)，因此 \( \mathrm{FFO}[k] \approx 10^{6}\,\varepsilon \): ε 单位为 ppm，已扣除 FAE。 </div>
+    <div class="callout"> FFO测量ε，它随晶振差异和温度变化，所以它是每个子事件测量的； FAE 是一种无线设备属性，仅在需要时以表格形式检索（参见幻灯片 23b）。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part A, §3.5.1 (fractional frequency offset)</a
+      >核心·第 6 卷，A 部分，§3.5.1（相对频偏）</a
     >
   </div>
-  <aside class="notes">
-    <p>
-      Two quantities, and they are easy to confuse. The fractional frequency offset, FFO, is an
-      observation: how far the frequency of a tone is from where it should be, divided by the
-      carrier and expressed in parts per million. The specification defines it for each mode-0
-      step k: the measured frequency f of k, minus the nominal channel frequency corrected by the
-      FAE, over that corrected frequency, times ten to the six. It must stay below 50 ppm, and
-      the initiator reports the value it used in steps of 0.01 ppm. The frequency actuation error,
-      FAE, is a property of the reflector's radio. Its local oscillator is synthesized: a
-      phase-locked loop or a numerically controlled oscillator turns the crystal into each channel
-      frequency, but with finite resolution, the divider ratios or the frequency steps it can make.
-      On some channels the frequency it actually realizes misses the nominal one by a small,
-      repeatable amount. Because it is repeatable, the reflector can publish it as a table, one
-      value per channel, 72 in all, between minus 4 and plus 3.97 ppm. If No_FAE is 0 and no table is already known, the initiator retrieves that
-      table before ranging starts and takes it out of every FFO it measures, so a synthesizer
-      quirk is not mistaken for crystal offset. A radio that realizes every channel exactly has an
-      FAE of zero; a peer declaring No_FAE = 1 must not be sent a table request. So how do the two relate to epsilon, the relative crystal offset of the
-      previous slide? The initiator measures the reflector's tone on its own clock, with its own
-      synthesizer error already compensated. The tone then arrives at f0 times one plus the FAE in
-      ppm, times one plus epsilon: the synthesizer's miss, scaled by the crystal offset. Put that
-      into the definition and the FAE cancels: FFO is epsilon, in parts per million, to first
-      order. Positive means the reflector's crystal runs fast against the initiator's. FAE is the
-      part of the offset that is not the crystal, which is why it has to be removed before the
-      FFO is used as epsilon. The bar chart is an illustration, not a real table.
-    </p>
-  </aside>
+  <aside class="notes"><p>FFO 与 FAE 容易混淆。相对频偏 FFO 是观测量：单音测得频率相对其应有频率的偏差，除以载频并用 ppm 表示。模式 0 步骤 k 的定义为：测得 f[k] 减去已用 FAE 修正的标称频率，再除以该修正频率并乘 10⁶。其绝对值必须小于 50 ppm，发起端以 0.01 ppm 的步进上报采用的值。</p><p>频率合成误差 FAE 是反射端硬件属性。锁相环或数控振荡器用晶振参考合成各信道频率，但分频比或调频步长有限，使某些信道的实际合成频率产生微小、可重复的偏差。反射端可用表格公布这一特性，共 72 项，每项约在 −4 至 +3.97 ppm。若 No_FAE = 0 且没有已知表，发起端应在测距前读取，并从 FFO 估计中扣除，使合成器误差不被误认作晶振差。若各信道均准确，FAE 为零；对声明 No_FAE = 1 的设备不得发送表请求。</p><p>与上一页 ε 的关系是：发起端以自身时钟测量反射端单音，且自身合成误差已补偿；收到频率约为 f₀(1+FAE·10⁻⁶)(1+ε)。代入定义后 FAE 抵消，得到 FFO ≈ 10⁶ε。正值表示反射端晶振偏快。FAE 是频偏中不属于晶振差的部分，所以在把 FFO 当作 ε 使用前必须处理。柱状图仅作示意，不是实测误差表。</p></aside>
 </section>

@@ -1,7 +1,7 @@
 <section data-timing="120">
-  <h2>Indoors, a position is solved from ranges</h2>
+  <h2>室内位置由多组距离观测求解</h2>
   <div class="content">
-    <svg class="diagram" style="max-height: 320px" viewBox="0 0 1000 370" role="img" aria-label="Floor plan with four anchors; range lines run from each anchor to the mobile node, which sits inside an uncertainty ellipse">
+    <svg class="diagram" style="max-height: 320px" viewBox="0 0 1000 370" role="img" aria-label="四个基站的平面图； 距离线从每个基站延伸到位于不确定性椭圆内的移动节点">
       <defs>
         <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
           <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
@@ -219,31 +219,13 @@
       />
       <g fill="#f5f5ed" stroke="#12363d" stroke-width="6" paint-order="stroke">
         <text x="495" y="118" font-size="26" text-anchor="middle">SensWear</text>
-        <text x="495" y="143" font-size="18" text-anchor="middle">mobile node</text>
+        <text x="495" y="143" font-size="18" text-anchor="middle">移动节点</text>
       </g>
     </svg>
-    <p class="lead">
-      A useful answer is more than a dot: <strong>where, when, and how certain?</strong>
+    <p class="lead"> 有用的定位结果不只是一个点： <strong>位置在哪里？对应什么时间？可信程度如何？</strong>
     </p>
-    <div class="callout">
-      Range changes a signal's <strong>amplitude, phase and delay</strong>. Each can be turned
-      into a range.
-    </div>
+    <div class="callout"> 距离改变信号的 <strong>幅度、相位和延迟</strong>；这些特征都可用于估计距离。 </div>
   </div>
   <div class="source"></div>
-  <aside class="notes">
-    <p>
-      Each anchor has a known position in a local coordinate frame and measures a range to the
-      node; the position is solved from those ranges. The measured ranges carry error, so the
-      estimate is a region, drawn as the uncertainty ellipse. A useful answer also needs an update
-      rate and that uncertainty, not only a dot. Where does a range come from? Distance changes
-      three properties of the radio signal between the two devices: its amplitude, which weakens
-      with distance; its carrier phase, which turns one full cycle for every wavelength travelled,
-      about 12 cm at 2.4 GHz; and its delay, about 3.3 ns for every metre. Any of the three can
-      be turned into a range: signal strength, phase and time of flight are the three families we
-      will meet. The next slide shows why indoors none of them is as simple as it looks. Avoid
-      claiming that every application needs centimetres or that one technology always wins. The
-      floor plan is a conceptual illustration, not a measured deployment.
-    </p>
-  </aside>
+  <aside class="notes"><p>每个基站在局部坐标系中的位置已知，并测量到移动节点的距离，再由多组距离求解位置。距离观测存在误差，因此估计结果对应一个区域，图中用不确定性椭圆表示。有用的定位结果还应报告更新率和不确定性。距离从何而来？设备间距离影响无线信号的三种特征：幅度随距离总体减弱；载波相位每传播一个波长变化一周，在 2.4 GHz 附近波长约 12 cm；传播时延约为每米 3.3 ns。信号强度、相位和传播时间分别对应三类测距方法。下一页解释室内环境为何使这些关系复杂。不要声称所有应用都需厘米级精度，也不要声称某项技术在所有场景中胜出。平面图为概念示意，不是实测部署。</p></aside>
 </section>

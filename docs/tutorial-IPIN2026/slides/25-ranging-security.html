@@ -1,12 +1,12 @@
 <section class="modality" data-timing="120">
-  <h2>Why ranging needs security: distance opens doors</h2>
+  <h2>测距安全：距离可以决定是否开锁</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 270"
         role="img"
-        aria-label="A relay attack: the owner's phone, the car key, is indoors far from the car. One attacker's relay waits near the car, another near the phone, and they forward the radio traffic between them over any distance. The car sees a valid key and unlocks, although the key is far outside its unlock zone."
+        aria-label="中继攻击：车主的手机、车钥匙在远离汽车的室内。一个攻击者的中继器在汽车附近等待，另一个攻击者的中继器在电话附近等待，他们在任意距离之间转发无线设备流量。汽车检测到有效钥匙并解锁，尽管钥匙远远超出其解锁区域。"
       >
         <defs>
           <marker id="rs-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto-start-reverse">
@@ -19,27 +19,25 @@
           <line x1="70" y1="38" x2="70" y2="50" />
           <line x1="483" y1="38" x2="483" y2="50" />
         </g>
-        <text x="276" y="30" font-size="14" fill="#afc8cb" text-anchor="middle">
-          real distance: far outside the unlock zone
-        </text>
+        <text x="276" y="30" font-size="14" fill="#afc8cb" text-anchor="middle"> 实际距离：解锁区域外较远 </text>
         <!-- Car and its unlock zone -->
         <circle cx="70" cy="160" r="56" fill="none" stroke="#dcf58a" stroke-width="2" stroke-dasharray="6 5" />
-        <text x="70" y="94" font-size="14" fill="#dcf58a" text-anchor="middle">unlock zone</text>
+        <text x="70" y="94" font-size="14" fill="#dcf58a" text-anchor="middle">解锁区域</text>
         <g fill="#12363d" stroke="#65e4d0" stroke-width="3">
           <path d="M38 152 L54 130 L90 130 L104 152" />
           <rect x="22" y="152" width="96" height="28" rx="8" />
           <circle cx="44" cy="182" r="9" fill="#09242b" />
           <circle cx="96" cy="182" r="9" fill="#09242b" />
         </g>
-        <text x="70" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">car</text>
-        <text x="14" y="258" font-size="14" fill="#ffb17a">unlocks: the key looks near</text>
+        <text x="70" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">汽车</text>
+        <text x="14" y="258" font-size="14" fill="#ffb17a">解锁：钥匙看起来很近</text>
         <!-- Owner's phone, the key, indoors -->
         <rect x="424" y="112" width="118" height="100" fill="#12363d" stroke="#afc8cb" stroke-width="3" />
         <path d="M418 112 L483 72 L548 112" fill="none" stroke="#afc8cb" stroke-width="3" />
         <rect x="467" y="130" width="32" height="58" rx="6" fill="#09242b" stroke="#65e4d0" stroke-width="3" />
         <line x1="477" y1="178" x2="489" y2="178" stroke="#65e4d0" stroke-width="2" />
-        <text x="483" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">owner's phone</text>
-        <text x="483" y="258" font-size="14" fill="#afc8cb" text-anchor="middle">the key, far away</text>
+        <text x="483" y="238" font-size="16" fill="#f5f5ed" text-anchor="middle">用户手机</text>
+        <text x="483" y="258" font-size="14" fill="#afc8cb" text-anchor="middle">远处的钥匙</text>
         <!-- Two relays, one attacker -->
         <g fill="#463a34" stroke="#ffb17a" stroke-width="3">
           <rect x="168" y="136" width="56" height="42" rx="8" />
@@ -54,17 +52,17 @@
           <circle cx="368" cy="117" r="3.5" />
         </g>
         <g font-size="15" fill="#f5f5ed" text-anchor="middle">
-          <text x="196" y="162">relay</text>
-          <text x="368" y="162">relay</text>
+          <text x="196" y="162">中继器</text>
+          <text x="368" y="162">中继器</text>
         </g>
         <g font-size="14" fill="#ffb17a" text-anchor="middle">
-          <text x="196" y="200">attacker</text>
-          <text x="368" y="200">attacker</text>
+          <text x="196" y="200">攻击者</text>
+          <text x="368" y="200">攻击者</text>
         </g>
         <!-- The relay link: any distance, packets unchanged -->
         <line x1="226" y1="157" x2="338" y2="157" stroke="#ffb17a" stroke-width="2.5" stroke-dasharray="8 6" />
-        <text x="282" y="146" font-size="14" fill="#ffb17a" text-anchor="middle">relay link</text>
-        <text x="282" y="178" font-size="14" fill="#afc8cb" text-anchor="middle">any distance</text>
+        <text x="282" y="146" font-size="14" fill="#ffb17a" text-anchor="middle">中继链路</text>
+        <text x="282" y="178" font-size="14" fill="#afc8cb" text-anchor="middle">任何距离</text>
         <!-- Radio links at each end -->
         <g stroke="#65e4d0" stroke-width="2.5" marker-start="url(#rs-arrow)" marker-end="url(#rs-arrow)">
           <line x1="126" y1="157" x2="164" y2="157" />
@@ -72,71 +70,43 @@
         </g>
       </svg>
       <dl class="facts">
-        <dt>ACCESS</dt>
-        <dd>Car keys, smart locks and door badges open when the key is near: the range decides who gets in.</dd>
-        <dt>CRYPTO</dt>
-        <dd>Pairing and encryption prove who is talking, not where. A relay forwards the encrypted packets unchanged.</dd>
-        <dt>SHOWN</dt>
-        <dd>Keyless cars relayed over 50&nbsp;m (2011); BLE phone keys and smart locks (2022), adding only 8&nbsp;ms.</dd>
-        <dt>GOAL</dt>
-        <dd>The attacker wants far to look near: a distance-reduction attack.</dd>
+        <dt>访问控制</dt>
+        <dd>当钥匙靠近时，汽车钥匙、智能锁和门禁卡就会打开：距离决定谁可以进入。</dd>
+        <dt>加密</dt>
+        <dd>配对和加密可以证明是谁在说话，而不是在哪里说话。中继转发加密的数据包不变。</dd>
+        <dt>已有案例</dt>
+        <dd>无钥匙汽车中继距离超过 50 m (2011)； BLE 手机钥匙和智能锁（2022 年），仅增加 8 毫秒。</dd>
+        <dt>攻击目标</dt>
+        <dd>攻击者想远看近：距离减少攻击。</dd>
       </dl>
     </div>
     <div class="limits">
-      <span class="n">WHAT AN ATTACKER EXPLOITS</span>
+      <span class="n">攻击者利用什么</span>
       <ul>
-        <li>Signal strength: amplify it, and far looks near</li>
-        <li>A connection: relay it, encryption intact</li>
-        <li>Phase: periodic, so a relay can hide its delay</li>
-        <li>Predictable packets: answer them before they arrive</li>
+        <li>信号强度：放大，远看近</li>
+        <li>连接：中继，加密完好</li>
+        <li>相位：周期性的，因此中继器可以隐藏其延迟</li>
+        <li>可预测的数据包：在数据到达之前回答它们</li>
       </ul>
     </div>
   </div>
   <div class="source">
     <a href="https://eprint.iacr.org/2010/332" target="_blank" rel="noopener"
-      >Francillon, Danev, Čapkun · NDSS 2011</a
+      >弗兰西永、丹尼夫、查普昆 · NDSS 2011</a
     ><span class="sep">·</span
     ><a
       href="https://www.nccgroup.com/research/technical-advisory-ble-proximity-authentication-vulnerable-to-relay-attacks/"
       target="_blank"
       rel="noopener"
-      >NCC Group · BLE relay advisory, 2022</a
+      >NCC 集团 · BLE 中继器咨询，2022 年</a
     ><span class="sep">·</span
     ><a href="https://eprint.iacr.org/2017/591" target="_blank" rel="noopener"
-      >Ólafsdóttir, Ranganathan, Čapkun · CHES 2017</a
+      >Ólafsdóttir、Ranganathan、Čapkun · CHES 2017</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Before the mechanisms, ask why a ranging standard needs security at all. Many applications
-      that motivate Channel Sounding act on the distance: a car unlocks when its digital key is
-      within a metre or two, a smart lock opens when the phone reaches the door, a laptop stays
-      unlocked while the watch is near. The distance is then an access decision, and an attacker
-      gains from one kind of error: making a far key look near, a distance-reduction attack.
-      Ordinary link security does not help. Pairing, authentication and encryption prove who is at
-      the other end of the link, not where it is. The figure shows the relay attack: one relay
-      waits near the car, another near the owner, who is indoors and far away. They forward the
-      radio traffic, over any distance and without decrypting it, so every cryptographic check
-      passes.
-    </p>
-    <p>
-      This is not hypothetical. Francillon, Danev and Čapkun relayed the passive keyless entry
-      systems of 10 car models from 8 manufacturers in 2011, with the key up to 50 m away. In 2022
-      NCC Group relayed Bluetooth LE at the link layer, adding as little as 8 ms of round-trip
-      latency, unlocked and operated a Tesla Model 3 and Model Y with a phone key, and opened smart
-      locks; their recommendation was secure time-of-flight ranging. Signal strength is no defence,
-      because an amplifier makes a far signal strong. Phase alone is not either: it is periodic, so a
-      relay can shift each tone to hide its delay, and Ólafsdóttir, Ranganathan and Čapkun made a multi-carrier phase-ranging system
-      report under 3 m with the devices more than 50 m apart.
-    </p>
-    <p>
-      What physics does give is a bound on time: no relay beats the speed of light, so a relay can
-      only add delay, provided the attacker cannot predict a packet and answer early. That is the
-      requirement Channel Sounding takes on: timing evidence that a relay can only lengthen, and
-      exchanges that nobody outside the link can predict. The next slide shows how. Keep
-      the claim precise: the protection depends on the configuration and on how the application
-      uses the attack indicators, and the incidents illustrate the attack class, not the current
-      state of any product.
-    </p>
+    <p> 在了解机制之前，先问一下为什么测距标准需要安全性。许多激发信道探测的应用程序都会对距离起作用：当数字钥匙在一两米之内时，汽车就会解锁；当手机到达门口时，智能锁就会打开；当手表靠近时，笔记本电脑会保持解锁状态。那么距离就是一个访问决策，攻击者可以从一种错误中获益：使远键看起来很近，这是一种距离缩短攻击。普通的链接安全没有帮助。配对、身份验证和加密可以证明谁在链接的另一端，而不是在哪里。图中显示了中继攻击：一个中继在汽车附近等待，另一个中继在车主附近等待，而车主在室内且很远。它们在任意距离内转发无线设备流量且无需解密，因此每次加密检查都会通过。 </p>
+    <p> 这不是假设。 Francillon、Danev和Čapkun于2011年中继了8家制造商的10种车型的无钥匙进入系统，钥匙距离可达50 m。 2022年，NCC集团在链路层中继蓝牙LE，增加了低至8毫秒的往返延迟，用手机钥匙解锁和操作特斯拉Model 3和Model Y，并打开智能锁；他们的建议是安全传播时间测距。信号强度并不能防御，因为放大器会使远处的信号变得更强。单独的相位也不是：它是周期性的，因此中继可以移动每个单音信号以隐藏其延迟，Ólafsdóttir、Ranganathan 和 Čapkun 制作了 3 m 以下的多载波相位测距系统报告，设备相距超过 50 m。 </p>
+    <p> 物理学确实给出了时间的界限：没有任何中继能够超过光速，因此中继只能增加延迟，前提是攻击者无法预测数据包并提前答复。这就是信道探测的要求：中继只能延长的时间证据，以及链路之外的任何人都无法预测的交换。下一张幻灯片展示了具体方法。保持声明准确：保护取决于配置以及应用程序如何使用攻击指标，并且事件说明了攻击类别，而不是任何产品的当前状态。 </p>
   </aside>
 </section>

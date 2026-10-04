@@ -1,32 +1,21 @@
 <section data-timing="120">
-  <h2>A range is a constraint. A track is a history.</h2>
+  <h2>距离提供约束，轨迹记录运动历史</h2>
   <div class="content">
     <div class="stepstrip">
-      <div class="stepbox">Range<small>one pair → distance</small></div>
+      <div class="stepbox">距离<small>一对 → 距离</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Position<small>several constraints → x, y</small></div>
+      <div class="stepbox">位置<small>几个约束 → x, y</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Track<small>positions + time → motion</small></div>
+      <div class="stepbox">轨迹<small>位置+时间→运动</small></div>
     </div>
     <div class="cols">
       <div><div class="formula small">rᵢ ≈ ‖p − aᵢ‖</div></div>
       <div>
-        <p class="lead">Every stage adds assumptions:<br /><em>radio → geometry → dynamics</em></p>
+        <p class="lead">每个阶段都会添加假设：<br /><em>无线设备→几何→动力学</em></p>
       </div>
     </div>
-    <div class="callout">
-      A smooth track can still be wrong. Keep the observations and their quality.
-    </div>
+    <div class="callout"> 平滑的轨迹也可能有误。应保留原始观测及其质量信息。 </div>
   </div>
   <div class="source"></div>
-  <aside class="notes">
-    <p>
-      Define an anchor as a node whose position is known in a shared coordinate frame. A single
-      distance draws a circle in two dimensions, or a sphere in three. Several ranges constrain a
-      point; repeated estimates plus a motion model form a track. Introduce a_i for anchor position
-      and p for the target. Explain that the radio does not directly return a floor coordinate.
-      Calibration, height, geometry and time alignment must be handled beyond the Bluetooth
-      procedure. We will return to that chain after understanding the radio.
-    </p>
-  </aside>
+  <aside class="notes"><p>基站是在共同坐标系中坐标已知的节点。单一距离在二维中约束为圆，在三维中约束为球面；多个距离共同约束位置点。连续位置估计结合运动模型形成轨迹。a_i 表示基站坐标，p 表示目标位置。无线设备不直接给出楼层坐标；除蓝牙测距过程外，还要处理校准、高度、几何布局和时间对齐。理解无线测量后，再回到这条定位处理链。</p></aside>
 </section>

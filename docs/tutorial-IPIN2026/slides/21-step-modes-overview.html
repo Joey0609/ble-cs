@@ -1,33 +1,33 @@
 <section data-timing="60">
-  <h2>Four step modes, four clear purposes</h2>
+  <h2>四种步骤模式及其作用</h2>
   <div class="content">
     <table>
       <thead>
         <tr>
-          <th>Mode</th>
-          <th>What happens</th>
-          <th>What it contributes</th>
+          <th>模式</th>
+          <th>会发生什么</th>
+          <th>它有什么贡献</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>0</td>
-          <td>Synchronization + frequency measurement</td>
-          <td>Frequency offset, used by RTT and PBR</td>
+          <td>同步+频率测量</td>
+          <td>频率偏移，由 RTT 和 PBR 使用</td>
         </tr>
         <tr>
           <td>1</td>
-          <td>Timed CS_SYNC packet exchange</td>
+          <td>定时CS_SYNC数据包交换</td>
           <td>RTT</td>
         </tr>
         <tr>
           <td>2</td>
-          <td>Tone exchange on antenna paths</td>
+          <td>天线路径上的单音信号交换</td>
           <td>PBR</td>
         </tr>
         <tr>
           <td>3</td>
-          <td>CS_SYNC + tones within one step</td>
+          <td>CS_SYNC + 一步骤内的单音信号</td>
           <td>RTT + PBR</td>
         </tr>
       </tbody>
@@ -38,19 +38,11 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Bluetooth Core 6.0 · Vol 6, Part H</a
+      >蓝牙核心 6.0·第 6 卷，H 部分</a
     ><span class="sep">·</span
-    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    ><a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Present the four mode numbers as a map for the following slides. These are modes of individual
-      steps inside a procedure, not four unrelated applications. Mode zero supplies calibration
-      information rather than an independent distance estimate, and both methods need it: the offset
-      sets the shared frequency for the tones and rescales the reflector's clock for the round trip. Mode one is packet timing. Mode two
-      is tone phase. Mode three contains both types of activity. A procedure contains a Mode-0
-      prefix and ranging steps; supported modes and combinations still have to be checked against
-      controller capabilities.
-    </p>
+    <p> 将四个模式编号作为以下幻灯片的地图呈现。这些是测距过程中的各个步骤的模式，而不是四个不相关的应用程序。模式零提供校准信息而不是独立的距离估计，并且两种方法都需要它：偏移设置单音信号的共享频率并重新调整往返的反射端时钟。方式一是数据包计时。模式二是单音信号相位。模式三包含两种类型的活动。测距过程包含 Mode-0 前缀和测距步骤；仍然需要根据控制器功能检查支持的模式和组合。 </p>
   </aside>
 </section>

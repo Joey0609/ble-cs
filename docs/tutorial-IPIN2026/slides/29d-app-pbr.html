@@ -1,50 +1,31 @@
 <section data-timing="105">
-  <h2>Inspect PBR phase and IFFT range</h2>
+  <h2>检查 PBR 相位与 IFFT 距离谱</h2>
   <div class="content">
     <div class="screenshot-layout">
       <div class="screenshot-frame">
-        <img src="images/app-pbr.png" alt="PBR results with amplitude, wrapped phase, unwrapped phase and IFFT range profile" />
+        <img src="images/app-pbr.png" alt="PBR 结果包括幅度、折叠相位、解缠相位和 IFFT 距离谱" />
       </div>
       <div class="screen-notes">
-        <span class="badge">OUR APP · SIMULATED DATA</span>
+        <span class="badge">桌面应用 · 模拟数据</span>
         <div class="card">
           <span class="n">01</span>
-          <p>Select one procedure and antenna path.</p>
+          <p>选择一个测距过程和天线路径。</p>
         </div>
         <div class="card">
           <span class="n">02</span>
-          <p>Compare unwrapped phase slope with the IFFT peak.</p>
+          <p>将解缠相位斜率与 IFFT 峰值进行比较。</p>
         </div>
         <div class="card">
           <span class="n">03</span>
-          <p>Check tone quality, correction choice and sign, and range profile shape.</p>
+          <p>检查单音信号质量、校正选择和符号以及距离谱形状。</p>
         </div>
       </div>
     </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      The screenshot is from the actual Results widget with synthetic test packets, not RF
-      measurements. The four plots show amplitude, wrapped phase, unwrapped phase and the IFFT
-      magnitude range profile. Both the slope and IFFT use the same selected path, tone quality
-      filter and phase correction choice. The app plots the phase of the product, Theta, so the
-      unwrapped line falls with frequency, as on the fundamentals slides. The sign selector sets the direction of the frequency correction. Sign plus subtracts
-      2 pi epsilon f delta t from each product's phase: the direction for an offset that is still
-      in the phases, with a positive offset meaning the reflector runs fast, as the FFO definition
-      says. This simulated data set leaves the whole offset in: plus 12.34 ppm over an 81
-      microsecond tone gap is 15 cm, and the correction moves 2.85 m to 3.00 m. A real controller
-      has already retuned by the compensation it reports, so there the raw line is the reference.
-      Removing the full offset again shifts the range by c epsilon delta t over 2, up or down with
-      the sign selector, and which of the two then looks closer depends on the other biases, not
-      on the offset. The IFFT places measured complex products on a 1 MHz
-      frequency grid and leaves missing channels empty. Zero padding locates the displayed peak more
-      smoothly but does not improve physical range resolution. A strong peak may include multipath,
-      so compare it with the phase slope, RTT and a known-distance reference before interpreting it
-      as the direct path. The synthetic example lacks a reported compensation value; that overlay
-      coincides with raw data in this screenshot.
-    </p>
+    <p> 屏幕截图来自带有综合测试数据包的实际结果小部件，而不是 RF 测量。这四幅图显示了幅度、折叠相位、解缠相位和 IFFT 幅度距离谱。斜率和 IFFT 都使用相同的选定路径、单音信号质量滤波器和相位校正选择。该应用程序绘制了产品的相位 Theta，因此展开的线随频率下降，如基本面幻灯片所示。符号选择器设置频率校正的方向。 符号约定 plus 从每个产品的相位中减去 2 pi epsilon f delta t：仍在相位中的偏移量的方向，正偏移量意味着反射端运行得很快，正如 FFO 定义所述。该模拟数据集使整个偏移量为：在 81 微秒单音间隔内加上 12.34 ppm，间隙为 15 cm，校正移动 2.85 m 至 3.00 m。真实的控制器已经通过其报告的补偿进行了重新调整，因此原始线是参考。再次删除完整的偏移量会将距离通过符号选择器向上或向下移动 2 倍的 c epsilon delta t，然后两者中的哪一个看起来更接近取决于其他偏差，而不是偏移量。 IFFT 将测量的复杂产品放在 1 MHz 频率网格上，并将缺失的信道留空。零填充可以更平滑地定位显示的峰值，但不会提高物理距离分辨率。强峰值可能包括多径，因此在将其解释为直达路径之前，请将其与相位斜率、RTT 和已知距离参考进行比较。合成示例缺少报告的补偿值；该叠加层与此屏幕截图中的原始数据一致。 </p>
   </aside>
 </section>

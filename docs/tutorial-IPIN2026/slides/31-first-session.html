@@ -1,54 +1,38 @@
 <section data-timing="105">
-  <h2>Set up your boards and start ranging</h2>
+  <h2>连接开发板并开始测距</h2>
   <div class="content">
     <div class="grid3">
       <div class="card">
-        <span class="n">CLIENT · CS INITIATOR</span>
+        <span class="n">客户端 · CS 发起端</span>
         <h3>nRF54LM20 DK</h3>
-        <p>USB to your computer; the app controls CS through it.</p>
+        <p>USB 连接到您的计算机；应用程序通过它控制CS。</p>
       </div>
       <div class="card">
-        <span class="n">REFLECTOR · OPTION 1</span>
+        <span class="n">反射端·选项 1</span>
         <h3>nRF54L15 DK</h3>
-        <p>One antenna. Bluetooth peer; no app cable.</p>
+        <p>一根天线。蓝牙对端，无需与电脑连接数据线。</p>
       </div>
       <div class="card">
-        <span class="n">REFLECTOR · OPTION 2</span>
-        <h3>nRF54L15 Tag</h3>
-        <p>Two switched antennas. Bluetooth peer; no app cable.</p>
+        <span class="n">反射端·选项 2</span>
+        <h3>nRF54L15 标签</h3>
+        <p>两个切换天线。蓝牙对端，无需与电脑连接数据线。</p>
       </div>
     </div>
     <div class="stepstrip">
-      <div class="stepbox">1 · Connect<small>client port or Simulator</small></div>
+      <div class="stepbox">1·连接<small>客户端端口或模拟器</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">2 · Apply<small>validate + synchronize</small></div>
+      <div class="stepbox">2 · 应用配置<small>验证+同步</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">3 · Link<small>scan → connect peer</small></div>
+      <div class="stepbox">3·链接<small>扫描 → 连接对端</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">4 · Start<small>inspect → record</small></div>
+      <div class="stepbox">4·开始<small>检查→记录</small></div>
     </div>
-    <p class="small muted">
-      Boards are preprogrammed. No board?
-      <span class="mono">ble-channel-sounding --simulate</span> runs the same steps.
-    </p>
+    <p class="small muted"> 电路板已预先编程。没有开发板？ <span class="mono">ble-channel-sounding --simulate</span> 运行相同的步骤。 </p>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Start with the boards at the station. The nRF54LM20 DK is the client and the CS initiator; it
-      connects to the computer over its native USB CDC ACM port, not the debug UART. The reflector
-      is a separate Bluetooth device with no cable to the app: either the nRF54L15 DK, with one CS
-      antenna, or the nRF54L15 Tag, whose two antennas are switched by an RF switch so that CS can
-      measure more than one antenna path. The boards are preprogrammed; participants only need the
-      desktop app and a USB data cable. Then walk through the actual toolbar sequence. Select the
-      client port, connect, apply the host configuration or synchronize with the client, scan for
-      the intended peer, connect it and start the session. Start remains unavailable until the
-      required configuration and peer state are ready; the tooltip explains the missing step. Stop
-      retains the Bluetooth link for another run, while changing applied configuration may require
-      disconnecting it. In simulator mode the same controls operate the built-in simulated protocol
-      client. The detailed board/build commands are in the repository&#x27;s Getting Started guide.
-    </p>
+    <p> 从车站的标牌开始。 nRF54LM20 DK为客户端，CS发起端；它通过其本机 USB CDC ACM 端口（而不是调试 UART）连接到计算机。反射端是一个独立的蓝牙设备，没有电缆连接到应用程序：要么是带有一根 CS 天线的 nRF54L15 DK，要么是 nRF54L15 标签，其两根天线由 RF 开关切换，以便 CS 可以测量多个天线路径。电路板已预先编程；参与者只需要桌面应用程序和USB数据线。然后逐步完成实际的工具栏序列。选择客户端端口、连接、应用主机配置或与客户端同步、扫描目标对端、连接它并启动会话。在所需的配置和对等状态准备就绪之前，启动保持不可用；工具提示解释了缺少的步骤。停止会保留蓝牙链接以供另一次运行，而更改应用的配置可能需要断开连接。在模拟器模式下，相同的控件操作内置的模拟协议客户端。详细的板/构建命令位于存储库的入门指南中。 </p>
   </aside>
 </section>

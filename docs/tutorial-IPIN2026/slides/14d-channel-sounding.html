@@ -1,12 +1,12 @@
 <section class="modality" data-timing="75">
-  <h2>Channel Sounding: delay, phase and amplitude together</h2>
+  <h2>信道探测：结合时延、相位与幅度</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 280"
         role="img"
-        aria-label="An initiator and a reflector exchange signals both ways; across many channels they measure the round-trip delay, the phase of each tone and its amplitude"
+        aria-label="发起端和反射端双向交换信号；他们测量多个通道的往返延迟、每个单音信号的相位及其幅度"
       >
         <defs>
           <marker id="cs-arrow-i" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -18,16 +18,14 @@
         </defs>
         <!-- Two-way exchange: delay -->
         <rect x="20" y="10" width="120" height="48" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
-        <text x="80" y="40" font-size="17" fill="#f5f5ed" text-anchor="middle">initiator</text>
+        <text x="80" y="40" font-size="17" fill="#f5f5ed" text-anchor="middle">发起端</text>
         <rect x="420" y="10" width="120" height="48" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
-        <text x="480" y="40" font-size="17" fill="#f5f5ed" text-anchor="middle">reflector</text>
+        <text x="480" y="40" font-size="17" fill="#f5f5ed" text-anchor="middle">反射端</text>
         <line x1="148" y1="24" x2="410" y2="24" stroke="#65e4d0" stroke-width="2.5" marker-end="url(#cs-arrow-i)" />
         <line x1="412" y1="44" x2="150" y2="44" stroke="#ffb17a" stroke-width="2.5" marker-end="url(#cs-arrow-r)" />
-        <text x="280" y="80" font-size="16" fill="#f5f5ed" text-anchor="middle">
-          delay τ: round-trip time of packets
-        </text>
+        <text x="280" y="80" font-size="16" fill="#f5f5ed" text-anchor="middle"> 延迟τ：数据包的往返时间 </text>
         <!-- Phase per channel: wraps, slope ∝ distance -->
-        <text x="60" y="108" font-size="16" fill="#65e4d0">phase φ(f): the slope gives the distance</text>
+        <text x="60" y="108" font-size="16" fill="#65e4d0">相位 φ(f)：斜率给出距离</text>
         <g fill="#65e4d0">
           <circle cx="70" cy="124.3" r="4" /><circle cx="90" cy="131.7" r="4" />
           <circle cx="110" cy="139.1" r="4" /><circle cx="130" cy="146.5" r="4" />
@@ -43,7 +41,7 @@
           <circle cx="510" cy="163.2" r="4" /><circle cx="530" cy="170.6" r="4" />
         </g>
         <!-- Amplitude per channel: fading across frequency -->
-        <text x="60" y="204" font-size="16" fill="#dcf58a">amplitude |A(f)|: quality, multipath</text>
+        <text x="60" y="204" font-size="16" fill="#dcf58a">幅度|A(f)|：质量，多径</text>
         <g fill="#dcf58a" opacity="0.85">
           <rect x="65" y="213.8" width="10" height="38.2" /><rect x="85" y="217.8" width="10" height="34.2" />
           <rect x="105" y="223.0" width="10" height="29.0" /><rect x="125" y="228.5" width="10" height="23.5" />
@@ -59,30 +57,28 @@
           <rect x="505" y="236.8" width="10" height="15.2" /><rect x="525" y="233.6" width="10" height="18.4" />
         </g>
         <line x1="56" y1="254" x2="544" y2="254" stroke="#afc8cb" stroke-width="2" />
-        <text x="544" y="274" font-size="15" fill="#afc8cb" text-anchor="end">
-          f: up to 72 channels, 1 MHz apart
-        </text>
+        <text x="544" y="274" font-size="15" fill="#afc8cb" text-anchor="end"> f：最多 72 个信道，间隔 1 MHz </text>
       </svg>
       <dl class="facts">
-        <dt>SINCE</dt>
-        <dd>Bluetooth 6.0 (2024)</dd>
-        <dt>LINK</dt>
-        <dd>A connection again: initiator and reflector both transmit</dd>
-        <dt>DELAY</dt>
-        <dd>Packet round-trip time: a coarse, unambiguous distance</dd>
-        <dt>PHASE</dt>
-        <dd>Tone phase across channels: a fine distance</dd>
-        <dt>AMPLITUDE</dt>
-        <dd>Tone strength per channel: quality and multipath hints</dd>
+        <dt>引入时间</dt>
+        <dd>蓝牙 6.0 (2024)</dd>
+        <dt>连接方式</dt>
+        <dd>再次连接：发起端和反射端均传输</dd>
+        <dt>时延</dt>
+        <dd>数据包往返时间：粗略的、明确的距离</dd>
+        <dt>相位</dt>
+        <dd>跨信道的单音信号相位：精细距离</dd>
+        <dt>幅度</dt>
+        <dd>每个信道的单音信号强度：质量和多径提示</dd>
       </dl>
     </div>
     <div class="limits">
-      <span class="n">STILL TO HANDLE</span>
+      <span class="n">仍有待处理</span>
       <ul>
-        <li>Both ends need a controller with Channel Sounding</li>
-        <li>Multipath still biases the distance</li>
-        <li>Each procedure costs airtime: rate against channels</li>
-        <li>The radio gives observations; an estimator gives the distance</li>
+        <li>两端都需要一个带有信道探测的控制器</li>
+        <li>多径仍然会影响距离</li>
+        <li>每次测距都占用空口时间：需权衡更新率与信道数</li>
+        <li>无线设备提供观察结果；估计器给出距离</li>
       </ul>
     </div>
   </div>
@@ -91,27 +87,16 @@
       href="https://www.bluetooth.com/channel-sounding-tech-overview/"
       target="_blank"
       rel="noopener"
-      >Bluetooth SIG · technical overview</a
+      >蓝牙技术联盟（SIG）·技术概述</a
     ><span class="sep">|</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Core 6.0 · Channel Sounding</a
+      >Core 6.0·信道探测</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Channel Sounding, added in Bluetooth 6.0, measures distance between two devices and combines
-      the observables of the earlier techniques. Both ends transmit, over a connection as in Find
-      Me. The round-trip time of packets gives a coarse distance with no ambiguity. The phase of
-      tones exchanged on many channels, up to 72 of them 1 MHz apart, falls linearly with
-      frequency; the slope gives a fine distance, and the two-way exchange cancels the unknown
-      oscillator phases. The amplitude of each tone comes with the same measurement and shows signal
-      quality and fading from multipath. The plot is a sketch, not a measurement. This slide is only
-      a preview: later slides explain time and phase in detail, and what the connection decides.
-      Keep the callout from later in mind: the radio supplies observations, the estimator supplies
-      the distance.
-    </p>
+    <p> 蓝牙 6.0 中添加的信道探测可测量两个设备之间的距离，并结合早期技术的观测结果。两端通过“查找我”中的连接进行传输。数据包的往返时间给出了没有歧义的粗略距离。在许多信道上交换的单音信号的相位，其中最多 72 个信道相距 1 MHz，随频率线性下降；斜率给出了一个精确的距离，双向交换消除了未知的振荡器相位。每个单音信号的幅度具有相同的测量结果，并显示信号质量和多径衰落。该图是草图，而不是测量结果。这张幻灯片只是预览：后面的幻灯片详细解释了时间和阶段，以及连接决定的内容。请记住稍后的标注：无线设备提供观测结果，估算器提供距离。 </p>
   </aside>
 </section>

@@ -1,15 +1,15 @@
 <section class="cs-detail" data-timing="105">
-  <h2>Frequency actuation error (FAE) retrieval</h2>
+  <h2>获取频率合成误差表（FAE）</h2>
   <div class="content">
-<p class="cs-intro">Check the reflector’s <em>No_FAE</em> (“no frequency actuation error”) capability before requesting its table.</p><table class="cs-table"><thead><tr><th scope="col">Condition</th><th scope="col">Initiator action</th></tr></thead><tbody>
-<tr><td>No_FAE = 1</td><td>FAE is zero on every permitted CS channel. Do not send LL_CS_FAE_REQ.</td></tr>
-<tr><td>No_FAE = 0<br>table known</td><td>Supply the known reflector table to the controller; no new air exchange is needed.</td></tr>
-<tr><td>No_FAE = 0<br>table unknown</td><td>Request LL_CS_FAE_REQ → receive LL_CS_FAE_RSP before starting CS.</td></tr>
-</tbody></table><div class="callout">The 72-entry table describes the reflector’s per-channel actuation error. Mode 0 still measures the changing frequency offset in every subevent.</div>
+<p class="cs-intro">检查反射端 <em>No_FAE</em> （“无频率合成误差”）在请求其表之前的能力。</p><table class="cs-table"><thead><tr><th scope="col">条件</th><th scope="col">发起端行动</th></tr></thead><tbody>
+<tr><td>No_FAE = 1</td><td>每个允许的 CS 信道上的 FAE 为零。不要发送 LL_CS_FAE_REQ。</td></tr>
+<tr><td>No_FAE = 0<br>表已知</td><td>向控制器提供已知的反射端表；不需要新的空口交互。</td></tr>
+<tr><td>No_FAE = 0<br>表未知</td><td>请求 LL_CS_FAE_REQ → 在启动 CS 之前接收 LL_CS_FAE_RSP。</td></tr>
+</tbody></table><div class="callout">72 条目表描述了反射端的各信道频率合成误差。模式0仍然测量每个子事件中变化的频率偏移。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.29; §2.4.2.52</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.0·第 6 卷，B 部分，§5.1.29； §2.4.2.52</a></div>
   <aside class="notes">
-    <p>The request is conditional on No_FAE being zero and the table not already being known. The specification prohibits requesting a table from a peer that declares No_FAE = 1. A potential initiator requests the table of its potential reflector, independently of their Central/Peripheral roles. If CS roles reverse, use the new reflector’s information. The table is calibration information, not a value negotiated to a compromise. It must be known before the procedure; it is not retrieved in every subevent. Each subevent’s mode-0 measurement still supplies the current relative frequency estimate. Manage cached information for the correct peer and calibration.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.29; §2.4.2.52</a>.</p>
+    <p>该请求的条件是 No_FAE 为零并且该表尚不知道。该规范禁止从声明 No_FAE = 1 的对等方请求表。潜在的发起端请求其潜在的反射端的表，与它们的中心设备/外围设备角色无关。如果 CS 角色颠倒，则使用新的反射端信息。该表是校准信息，而不是协商妥协的值。必须在测距过程之前知道；它并不是在每个子事件中都能检索到。每个子事件的mode-0测量仍然提供当前的相对频率估计。管理正确对端和校准的缓存信息。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">核心 6.0·第 6 卷，B 部分，§5.1.29； §2.4.2.52</a>.</p>
   </aside>
 </section>

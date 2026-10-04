@@ -1,16 +1,16 @@
 <section class="cs-detail" data-timing="105">
-  <h2>What the peers agree before ranging</h2>
+  <h2>测距前双方需要协商哪些参数？</h2>
   <div class="content">
-<table class="cs-table"><thead><tr><th scope="col">Exchange</th><th scope="col">Information shared or selected</th></tr></thead><tbody>
-<tr><td>Capabilities</td><td>Roles; optional mode 3; RTT types/precision; synchronization packet radio modes; antenna/path limits; timing and frequency-error support.</td></tr>
-<tr><td>CS configuration</td><td>Config_ID and CS roles; main/sub mode; main-run bounds and repetition; mode-0 count; RTT type and synchronization packet radio mode.</td></tr>
-<tr><td>Channels and step timing</td><td>Channel map, repetitions and selection algorithm #3b/#3c; interlude, frequency-change and phase-measurement times within support.</td></tr>
-<tr><td>Procedure start</td><td>Antenna configuration and procedure schedule: offset, subevents, events, duration, repeat interval and count.</td></tr>
-</tbody></table><div class="callout">Capabilities describe what is possible. Configuration fixes the measurement. Start parameters place it in time.</div>
+<table class="cs-table"><thead><tr><th scope="col">交互阶段</th><th scope="col">共享或选择的信息</th></tr></thead><tbody>
+<tr><td>能力</td><td>角色；可选模式3； RTT 类型与精度；同步包物理层模式；天线/路径限制；定时和频率误差支持。</td></tr>
+<tr><td>CS配置</td><td>Config_ID和CS角色；主/子模式；主模式步骤数上下限与重复数；模式 0计数； RTT 类型与同步包物理层模式。</td></tr>
+<tr><td>信道和步骤时序</td><td>信道映射、重复和选择算法#3b/#3c；支持范围内的收发间隔、频率切换和相位测量时长。</td></tr>
+<tr><td>测距过程开始</td><td>天线配置和测距过程表：偏移、子事件、事件、持续时间、重复间隔和计数。</td></tr>
+</tbody></table><div class="callout">能力决定支持范围，配置确定测量方法，启动参数确定时间安排。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §2.4.2.43–49; §5.1.24–26</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.0·第 6 卷，B 部分，§2.4.2.43–49； §5.1.24–26</a></div>
   <aside class="notes">
-    <p>The capabilities procedure uses LL_CS_CAPABILITIES_REQ/RSP; known capabilities may be supplied or cached. LL_CS_CONFIG_REQ/RSP creates or updates the configuration, identified by Config_ID; an unsupported proposal may be rejected. The actual step timings are carried in the configuration and constrained by peer support. The host API exposes requested limits and local defaults, while the controller resolves on-air parameters. Antenna switch timing is capability information; the antenna configuration used for the procedure is selected in the start exchange. ACL interval, LL data length and ATT MTU are separate negotiations, covered in slide 26.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §2.4.2.43–49; §5.1.24–26</a>.</p>
+    <p>能力测距过程使用LL_CS_CAPABILITIES_REQ/RSP；可以提供或缓存已知的能力。 LL_CS_CONFIG_REQ/RSP 创建或更新配置，由 Config_ID 标识；不受支持的提案可能会被拒绝。实际的步骤时间在配置中进行，并受到对端设备支持的约束。主机 API 公开请求的限制和本地默认值，而控制器则解析播出参数。天线切换时序是能力信息；用于测距过程的天线配置在开始交换时选择。 ACL 间隔、LL 数据长度和 ATT MTU 是单独协商的，在幻灯片 26 中介绍。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">核心 6.0·第 6 卷，B 部分，§2.4.2.43–49； §5.1.24–26</a>.</p>
   </aside>
 </section>

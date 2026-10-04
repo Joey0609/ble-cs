@@ -1,46 +1,29 @@
 <section data-timing="45">
-  <h2>What the app does</h2>
+  <h2>桌面应用的功能</h2>
   <div class="content">
     <div class="stepstrip">
-      <div class="stepbox">Plan<small>configuration + timing</small></div>
+      <div class="stepbox">规划<small>配置+时序</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Run<small>USB client ↔ BLE peer</small></div>
+      <div class="stepbox">运行<small>USB 客户端 ↔ BLE 对等端</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Inspect<small>RTT, PBR slope + IFFT range</small></div>
+      <div class="stepbox">检查<small>RTT、PBR 斜率 + IFFT 距离</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Replay<small>session history + recordings</small></div>
+      <div class="stepbox">回放<small>会话历史 + 录制数据</small></div>
     </div>
     <div class="cols">
       <div>
-        <p class="lead">
-          The desktop app controls a <strong>pairwise CS experiment</strong> and shows what each controller reported.
-        </p>
+        <p class="lead"> 桌面应用程序控制 <strong>双设备 CS 测距实验</strong> 并显示每个控制器报告的内容。 </p>
       </div>
       <div>
-        <p class="lead">
-          Its Results view compares timing, phase slope and IFFT peak estimates across procedures.
-        </p>
+        <p class="lead"> 其结果视图比较了整个测距过程的时序、相位斜率和 IFFT 峰值估计。 </p>
       </div>
     </div>
-    <p class="small muted">Press ↓ for Plan, Run, Inspect and Replay; press → to continue to the lab.</p>
+    <p class="small muted">按 ↓ 查看规划、运行、检查与回放；按 → 进入实验。</p>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Name the application: ble-channel-sounding, the Python/PyQt6 desktop host in the supplied
-      ble-cs repository. Its purpose is to connect the theory to a visible experiment with
-      configuration, controller feedback, raw data and replay. In the documented hosted setup, a
-      native-USB nRF54LM20 DK runs cs_client and connects to a reflector. The controllers schedule
-      and time the RF exchanges; the host PC only configures them and analyses what they report,
-      so the app never times the radio. The Results view now
-      includes an IFFT range profile of the complex PBR products and IFFT peak distances beside
-      phase-slope and RTT estimates. Radio Test is disabled in this deployment. The simulator
-      exercises the workflow without proving RF accuracy. Press down for the four parts of the app:
-      planning, running, inspection and replay. Inspection takes three slides so participants can
-      see controller feedback, PBR with IFFT and the estimate comparison. Press right to continue
-      to the lab question.
-    </p>
+    <p> 将应用程序命名为：ble-channel-sounding，即提供的 ble-cs 存储库中的 Python/PyQt6 桌面主机。其目的是将理论与具有配置、控制器反馈、原始数据和回放的可见实验联系起来。在记录的托管设置中，本机 USB nRF54LM20 DK 运行 cs_client 并连接到反射端。控制器安排射频交换的时间；主机 PC 仅配置它们并分析它们报告的内容，因此应用程序永远不会对无线设备进行计时。结果视图现在除了相位斜率和 RTT 估计之外，还包括复杂 PBR 产品的 IFFT 距离谱和 IFFT 峰值距离。在此部署中禁用无线设备测试。模拟器在不证明射频精度的情况下执行工作流程。按下该应用程序的四个部分：计划、运行、检查和重播。检查需要三张幻灯片，以便参与者可以看到控制器反馈、带有 IFFT 的 PBR 以及估计比较。按向右继续实验室问题。 </p>
   </aside>
 </section>

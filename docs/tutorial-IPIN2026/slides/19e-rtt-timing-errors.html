@@ -1,36 +1,23 @@
 <section class="rtt-errors" data-timing="90">
-  <h2>Small timing errors become large range errors</h2>
+  <h2>微小时间误差产生显著距离误差</h2>
   <div class="body">
-    <p class="lead">\( |\Delta d| = \dfrac{c}{2}\,\Delta T \): every nanosecond of round-trip error is 15&nbsp;cm</p>
+    <p class="lead">\( |\Delta d| = \dfrac{c}{2}\,\Delta T \)：每 1 ns 往返测时误差约对应 15 cm 距离误差</p>
     <table>
       <thead>
-        <tr><th>Source</th><th>Timing error</th><th>Range error</th></tr>
+        <tr><th>来源</th><th>计时错误</th><th>距离误差</th></tr>
       </thead>
       <tbody>
-        <tr><td>Round-trip timing error</td><td>1&nbsp;ns</td><td>15&nbsp;cm</td></tr>
-        <tr><td>Clock-rate offset, 12&nbsp;ppm over a 176&nbsp;&micro;s turnaround</td><td>2.1&nbsp;ns</td><td>32&nbsp;cm</td></tr>
-        <tr><td>Uncalibrated transmit and receive chain delay</td><td>10&nbsp;ns</td><td>1.5&nbsp;m</td></tr>
+        <tr><td>往返时序错误</td><td>1纳秒</td><td>15厘米</td></tr>
+        <tr><td>时钟速率偏移，在 176 µs 收发周转时间内为 12 ppm</td><td>2.1纳秒</td><td>32厘米</td></tr>
+        <tr><td>未校准的发送和接收收发链路延迟</td><td>10纳秒</td><td>1.5 m</td></tr>
       </tbody>
     </table>
-    <p class="takeaway">A clock-rate offset stretches the reflector&rsquo;s interval as it rotates a phase:
-      \( |\Delta d| \approx c\,|\varepsilon|\,T/2 \), the same form as for phase-based ranging</p>
+    <p class="takeaway">时钟速率偏移会在旋转一个相位时拉伸反射端的间隔：\( |\Delta d| \approx c\,|\varepsilon|\,T/2 \)，与基于相位的测距的形式相同</p>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Every error in time becomes an error in range at half the speed of light: one nanosecond of
-      round-trip error is 15 cm. Two system effects dominate. The first is the clock rate: the
-      reflector measures its interval, about 176 microseconds for a mode-1 step on LE 2M with the
-      planner's 145 microsecond T_IP1, on its own crystal. A 12 ppm offset stretches that interval
-      by 2.1 ns, which is 32 cm. The form is c times epsilon times the time between the two
-      observations, over two, and the same offset biases phase-based ranging in the same way, as
-      the calibration section shows; the initiator removes it by dividing by one plus the fractional frequency offset measured in mode
-      0. The second is the hardware: the transmit and receive chains add delay between the antenna
-      and the point where the timestamp is taken. The specification requires devices to compensate
-      it, but any residual shows up as a constant bias; 10 ns uncalibrated is 1.5 m, so calibrate
-      on a known distance. The numbers are illustrative magnitudes, not measurements.
-    </p>
+    <p> 每个时间误差都会成为光速一半时的距离误差：一纳秒的往返误差为 15 厘米。两种系统效应占主导地位。第一个是时钟速率：反射端在其自己的晶体上测量其间隔，对于 LE 2M 上的模式 1 步骤大约为 176 微秒，规划器为 145 微秒 T_IP1。 12 ppm 的偏移将该间隔延长 2.1 ns，即 32 cm。形式是 c 乘以 epsilon 乘以两次观测之间的时间，超过两次，并且相同的偏移量以相同的方式偏置基于相位的测距，如校准部分所示；发起端通过除以一加上在模式 0 中测量的小数频率偏移来消除它。第二个是硬件：发送和接收链增加了天线和获取时间戳的点之间的延迟。该规范要求设备对其进行补偿，但任何残留都会显示为恒定偏差；未校准的 10 ns 为 1.5 m，因此请在已知距离上进行校准。这些数字只是说明性的大小，而不是测量值。 </p>
   </aside>
 </section>

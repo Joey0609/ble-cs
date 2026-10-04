@@ -1,8 +1,8 @@
 {
-  "header": "SensWear / IPIN 2026",
+  "header": "SensWear / IPIN 2026 中文教程",
   "sections": [
     {
-      "title": "Opening",
+      "title": "开场",
       "slides": [
         "01-title",
         "02-goal",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "title": "SensWear",
+      "title": "SensWear 平台",
       "slides": [
         "05-senswear-platform",
         "06-senswear-roles",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "title": "Localization & ranging",
+      "title": "定位与测距",
       "slides": [
         "08-indoors-last-metres",
         "09-location-changes-action",
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "title": "LE link",
+      "title": "低功耗蓝牙链路",
       "slides": [
         "15-what-is-cs",
         {
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "title": "Measurement principles",
+      "title": "测量原理",
       "slides": [
         "17-two-radios-distance",
         {
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "title": "CS procedure",
+      "title": "CS 测距过程",
       "slides": [
         {
           "slide": "21-step-modes-overview",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "title": "Security",
+      "title": "安全机制",
       "slides": [
         {
           "slide": "25-ranging-security",
@@ -144,7 +144,7 @@
       ]
     },
     {
-      "title": "In practice",
+      "title": "实际实现",
       "slides": [
         {
           "slide": "26-practical-implementation",
@@ -162,7 +162,7 @@
       ]
     },
     {
-      "title": "Hands-on",
+      "title": "动手实践",
       "slides": [
         "28-install-check",
         {
@@ -182,19 +182,19 @@
       ]
     },
     {
-      "title": "Contact",
+      "title": "联系方式",
       "slides": [
         "33-contact"
       ]
     },
     {
-      "title": "Feedback",
+      "title": "教程反馈",
       "slides": [
         "34-feedback"
       ]
     },
     {
-      "title": "Reference",
+      "title": "参考资料",
       "appendix": true,
       "slides": [
         "R01-stalled-run",

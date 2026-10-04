@@ -1,12 +1,12 @@
 <section data-timing="90">
-  <h2>The last few metres are often indoors</h2>
+  <h2>最后几米的定位，往往发生在室内</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 600 340"
         role="img"
-        aria-label="A satellite gives a person outdoors both time and position; its signals stop at the roof of a building, so the person inside knows the time but not the room"
+        aria-label="卫星为户外的人提供时间和位置；它的信号停止在建筑物的屋顶，因此里面的人知道时间但不知道房间"
       >
         <!-- Satellite -->
         <g transform="rotate(-20 110 52)">
@@ -16,7 +16,7 @@
           <line x1="88" y1="52" x2="94" y2="52" stroke="#65e4d0" stroke-width="2.5" />
           <line x1="126" y1="52" x2="132" y2="52" stroke="#65e4d0" stroke-width="2.5" />
         </g>
-        <text x="110" y="112" font-size="18" fill="#afc8cb" text-anchor="middle">satellites</text>
+        <text x="110" y="112" font-size="18" fill="#afc8cb" text-anchor="middle">卫星</text>
         <!-- Signals: one reaches the outdoor user, two stop at the roof -->
         <g stroke="#65e4d0" stroke-width="2.5" stroke-dasharray="8 6" fill="none">
           <line x1="104" y1="122" x2="80" y2="262" />
@@ -31,7 +31,7 @@
         <line x1="20" y1="310" x2="580" y2="310" stroke="#31535a" stroke-width="3" />
         <!-- Outdoor user: GNSS gives time and position -->
         <circle cx="80" cy="282" r="14" fill="#dcf58a" />
-        <text x="80" y="336" font-size="18" fill="#f5f5ed" text-anchor="middle">when + where</text>
+        <text x="80" y="336" font-size="18" fill="#f5f5ed" text-anchor="middle">何时 + 何处</text>
         <!-- Building with rooms: the indoor user keeps the time, not the position -->
         <rect x="250" y="160" width="300" height="150" fill="#12363d" stroke="#afc8cb" stroke-width="3" />
         <path d="M250 160 L400 110 L550 160" fill="none" stroke="#afc8cb" stroke-width="3" />
@@ -42,52 +42,23 @@
         </g>
         <circle cx="400" cy="272" r="14" fill="none" stroke="#dcf58a" stroke-width="3" />
         <text x="400" y="279" font-size="20" fill="#dcf58a" text-anchor="middle">?</text>
-        <text x="400" y="336" font-size="18" fill="#f5f5ed" text-anchor="middle">
-          when, but which room?
-        </text>
+        <text x="400" y="336" font-size="18" fill="#f5f5ed" text-anchor="middle"> 时间已知，但在哪个房间？ </text>
       </svg>
       <dl class="facts">
-        <dt>WHEN + WHERE</dt>
-        <dd>
-          Every phenomenon happens at a time and a place. Sensing, actuation and applications all
-          need both, explicitly or implicitly.
-        </dd>
-        <dt>OUTDOORS</dt>
-        <dd>Satellite navigation gives both position and time under open sky: a good starting point.</dd>
-        <dt>INDOORS</dt>
-        <dd>
-          Satellite signals stop at the roof, yet we spend <strong>87%</strong> of our time in
-          buildings (US survey).
-        </dd>
+        <dt>时间+地点</dt>
+        <dd> 每一种现象都发生在特定的时间和地点。传感、驱动和应用都需要两者，无论是显式的还是隐式的。 </dd>
+        <dt>室外</dt>
+        <dd>卫星导航可以在开阔的天空下提供位置和时间：一个很好的起点。</dd>
+        <dt>室内</dt>
+        <dd> 屋顶会遮挡卫星信号，而我们有 <strong>87%</strong> 的时间在建筑物内度过（美国调查）。 </dd>
       </dl>
     </div>
-    <div class="callout">
-      Indoors the clock still works, but the position does not: each building needs its own
-      answer.
-    </div>
+    <div class="callout"> 室内仍可获取时间，却难以依靠卫星定位；每栋建筑都需要适合自己的定位方案。 </div>
   </div>
   <div class="source">
     <a href="https://pubmed.ncbi.nlm.nih.gov/11477521/" target="_blank" rel="noopener"
-      >Klepeis et al., NHAPS, J. Expo. Anal. Environ. Epidemiol. 2001</a
+      >Klepeis 等，NHAPS 调查，《暴露分析与环境流行病学杂志》，2001 年</a
     >
   </div>
-  <aside class="notes">
-    <p>
-      Open the section with a show of hands: who has tried positioning inside a lab, hospital,
-      warehouse or campus? Then start from first principles: every phenomenon we observe, from the
-      weather to a fall or a meeting, happens at a time and a place, so a sensor reading is only
-      useful with both. The same holds for acting on the world and for the applications on top: a
-      light switched in the wrong room, or an alert at the wrong time, is wrong even if the rest is
-      right. Sometimes the need is explicit, a coordinate and a timestamp; often it is implicit, as
-      in "the device near me, now". Outdoors, GNSS gives position and time together almost anywhere
-      under open sky, which makes it the natural starting point. Indoors the clock still works, from
-      the network, but satellite signals are weak and blocked by roofs and walls, so the position is
-      lost exactly where people spend most of the day: the US EPA National Human Activity Pattern
-      Survey (9,386 respondents, 1992 to 1994) found 87% of time in enclosed buildings and about 6%
-      in vehicles. Other countries and years differ, so use the number as an order of magnitude, not
-      a constant. Indoor questions are also finer: which room, which shelf, which side of a door.
-      There is no single indoor system, so each building brings its own infrastructure. The next
-      slide asks when a location is worth having.
-    </p>
-  </aside>
+  <aside class="notes"><p>先请听众举手：谁曾尝试在实验室、医院、仓库或校园内定位？再从基本需求讲起：天气、跌倒、会议等任何现象都发生在特定时间和地点，因此传感器读数需要同时具有这两类信息。执行动作和上层应用也一样：灯开在错误房间，或告警发生在错误时间，即使其他部分正确也没有用。有时需求明确表现为坐标和时间戳，有时只是“此刻离我最近的设备”。室外开阔天空下，全球导航卫星系统可同时提供位置与时间，因此是自然的起点。室内仍可从网络获得时间，但屋顶与墙壁遮挡卫星信号，定位却恰好在日常活动最集中的地方失效。美国环境保护署的全国人类活动模式调查在 1992—1994 年调查了 9386 人，发现约 87% 的时间在封闭建筑内、约 6% 在车辆内。其他国家和年份可能不同，应把比例理解为量级参考。室内问题更细：哪个房间、哪个货架、门的哪一侧。没有适用于所有建筑的单一室内定位系统，各建筑通常需要自己的基础设施。下一页讨论定位何时值得投入。</p></aside>
 </section>

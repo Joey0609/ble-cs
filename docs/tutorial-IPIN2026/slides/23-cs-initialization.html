@@ -1,17 +1,17 @@
 <section class="cs-detail" data-timing="120">
-  <h2>CS procedure initialization</h2>
+  <h2>CS 测距过程的初始化</h2>
   <div class="content">
-<p class="cs-intro">The ACL link carries setup; the controllers then execute the agreed CS schedule.</p><ol class="cs-flow">
-<li><b>Capabilities</b><span>Find the shared roles, modes, radio options, antenna limits and supported step timings.</span></li>
-<li><b>Reflector calibration</b><span>Use zero frequency actuation error (FAE), a known table, or retrieve the table when required.</span></li>
-<li><b>Configuration</b><span>Agree a configuration identifier (Config_ID), measurement modes, sequence rules, channels and step timing.</span></li>
-<li><b>CS security</b><span>Exchange seed material over the encrypted data link and initialize the shared random generator.</span></li>
-<li><b>Procedure start</b><span>Agree the schedule; the Central sends the final start parameters.</span></li>
-</ol><div class="callout">Before the first step: configuration and FAE known, CS security ready, start timing agreed.</div>
+<p class="cs-intro">ACL 链路承载初始化交互；然后控制器执行商定的 CS 计划。</p><ol class="cs-flow">
+<li><b>能力</b><span>查找共享角色、模式、无线设备选项、天线限制和支持的步骤时序。</span></li>
+<li><b>反射端校准</b><span>使用零频率合成误差 (FAE)、已知表，或在需要时检索该表。</span></li>
+<li><b>配置</b><span>商定配置标识符（Config_ID）、测量模式、顺序规则、信道和步骤时序。</span></li>
+<li><b>CS 安全初始化</b><span>通过加密数据链路交换种子材料并初始化共享随机生成器。</span></li>
+<li><b>测距过程开始</b><span>同意调度；中心设备发送最终的启动参数。</span></li>
+</ol><div class="callout">之前第一个步骤：配置和FAE已知，CS安全准备好，启动时序商定。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.23–29</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.0 · 第 6 卷，B 部分，§5.1.23–29</a></div>
   <aside class="notes">
-    <p>This is a dependency overview, not a mandatory total ordering of every setup operation. Capabilities must be known before configuration; CS Security Start requires an encrypted ACL. The initiator needs the reflector FAE information before CS starts. Setup exchanges need not repeat before every procedure: an accepted configuration and known capabilities can be reused, and repeated procedures advance the DRBG state. Central/Peripheral are ACL roles; Initiator/Reflector are selected per CS configuration. Either device can request CS start; the Central supplies the final indication. Read controller completion events rather than treating a successful host command submission as completed negotiation.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.23–29</a>.</p>
+    <p>这是依赖关系概述，而不是每个设置操作的强制总排序。配置前必须了解能力； CS Security Start 需要加密的 ACL。发起端在CS启动之前需要反射端FAE信息。设置交换不需要在每个测距过程之前重复：可以重复使用可接受的配置和已知功能，并且重复的测距过程推进 DRBG 状态。 中心设备/外围设备为ACL角色； 发起端/反射端根据 CS 配置进行选择。任一设备都可以请求 CS 启动；中心设备提供最终指示。读取控制器完成事件，而不是将成功的主机命令提交视为已完成的协商。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">核心 6.0 · 第 6 卷，B 部分，§5.1.23–29</a>.</p>
   </aside>
 </section>

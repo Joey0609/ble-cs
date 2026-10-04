@@ -1,5 +1,7 @@
 # IPIN 2026 Tutorial Slides
 
+中文版说明见 [README.zh-CN.md](README.zh-CN.md)。正文、备注、图示、交互与导航均已翻译；英文缩写提供全称与中文释义。
+
 *SensWear · From Channel Sounding to Ring Tracks*: a [reveal.js](https://revealjs.com/)
 deck with one HTML file per slide. `deck.js` fetches the files listed in
 `slides.json` and joins them into the deck before reveal.js starts.
@@ -34,7 +36,7 @@ This starts `serve.js` (Node.js 18+, nothing to install) at
 <http://localhost:8023/tutorial-IPIN2026/> and opens it in the default browser.
 It serves the parent `docs/` folder for local previews. The published project
 page serves this presentation at
-<https://sens-wear.github.io/ble-cs/ipin2026-tutorial/>. Use
+<https://joey0609.github.io/ble-cs/ipin2026-tutorial/>. Use
 `npm start -- --port 8080` for another port, or `npm start -- --no-open` to
 skip opening the browser. Without Node.js, `python3 -m http.server 8000 -d docs`
 from the repository root serves the same local path.
@@ -61,7 +63,7 @@ it. To enable it for the repository and publish:
 3. Open **Actions → Publish tutorial presentation → Run workflow** and select
    `main`.
 4. When the run succeeds, open
-   <https://sens-wear.github.io/ble-cs/ipin2026-tutorial/>. The
+   <https://joey0609.github.io/ble-cs/ipin2026-tutorial/>. The
    deployment URL is also shown in the workflow run's `github-pages` environment.
 
 ## Adding a slide

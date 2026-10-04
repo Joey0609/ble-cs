@@ -1,17 +1,17 @@
 <section class="cs-detail" data-timing="105">
-  <h2>Procedure start: the final schedule</h2>
+  <h2>启动测距过程：确定最终时序</h2>
   <div class="content">
 <ol class="cs-flow">
-<li><b>LL_CS_REQ</b><span>Either peer proposes a Config_ID and permissible start/scheduling parameters.</span></li>
-<li><b>LL_CS_RSP</b><span>When the Central requests, the Peripheral returns an acceptable response.</span></li>
-<li><b>LL_CS_IND</b><span>The Central finalizes the schedule, also when the Peripheral originated the request.</span></li>
-</ol><table class="cs-table"><thead><tr><th scope="col">Start anchor</th><th scope="col">Inside a procedure</th><th scope="col">Across procedures</th></tr></thead><tbody>
-<tr><td>connEventCount<br>+ offset after its ACL anchor</td><td>Subevent length/interval/count<br>CS event interval; duration limit</td><td>Procedure interval and count<br>0 count: repeat until stopped</td></tr>
-</tbody></table><div class="callout">Both peers derive the steps locally from the configuration and shared random generator; no per-step timetable is transmitted.</div>
+<li><b>LL_CS_REQ</b><span>任一对等方提出 Config_ID 和允许的启动/调度参数。</span></li>
+<li><b>LL_CS_RSP</b><span>当中心设备请求时，外围设备返回可接受的响应。</span></li>
+<li><b>LL_CS_IND</b><span>中心设备最终确定调度，也在外围设备发起请求时确定。</span></li>
+</ol><table class="cs-table"><thead><tr><th scope="col">启动时间锚点</th><th scope="col">在测距过程中</th><th scope="col">跨测距过程</th></tr></thead><tbody>
+<tr><td>connEventCount<br>+ ACL 后的偏移量 时间锚点</td><td>子事件长度/间隔/计数<br>CS事件间隔；持续时间限制</td><td>测距过程间隔和计数<br>0 次：重复直到停止</td></tr>
+</tbody></table><div class="callout">双方都根据配置与共享随机数发生器在本地生成步骤；不传送每个步骤的时间表。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §5.1.26</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.0·第 6 卷，B 部分，§5.1.26</a></div>
   <aside class="notes">
-    <p>For a Central-originated start the sequence is request, response, indication. For a Peripheral-originated start the Central can answer with the final indication. A rejection is also possible. The connEventCount and offset establish a common starting instant; the CS event and procedure intervals use ACL connection intervals, while subevent interval uses 625 microsecond units. Configuration parameters are not all renegotiated at this stage. Normal ACL activity continues subject to scheduling; control and result traffic therefore require airtime alongside CS. A procedure-start completion reports the values actually selected.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §5.1.26</a>.</p>
+    <p>对于中心设备发起的启动，顺序是请求、响应、指示。对于外围设备发起的启动，中心设备可以用最终指示进行应答。拒绝也是可能的。 connEventCount 和偏移建立共同的启动时刻； CS事件和测距过程间隔采用ACL连接间隔，子事件间隔采用625微秒单位。在此阶段，配置参数并未全部重新协商。正常的 ACL 活动继续受调度约束；因此，控制和结果流量需要与CS一起的空口占用时间。测距过程开始完成报告实际选择的值。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">核心 6.0·第 6 卷，B 部分，§5.1.26</a>.</p>
   </aside>
 </section>

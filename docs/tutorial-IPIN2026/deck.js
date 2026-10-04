@@ -7,6 +7,18 @@ const deck = document.querySelector('.reveal .slides');
 const counter = document.getElementById('deck-counter');
 const downMarker = document.querySelector('.deck-down-hint');
 
+function showChineseHelp() {
+  let dialog = document.querySelector('.shortcut-dialog');
+  if (!dialog) {
+    dialog = document.createElement('dialog');
+    dialog.className = 'terminology-dialog shortcut-dialog';
+    dialog.innerHTML = '<button class="terminology-close" type="button">关闭</button><h2>演示快捷键</h2><p>← / →：上一页／下一页主讲内容</p><p>↓ / ↑：查看下钻讲解，或显示／隐藏答案</p><p>空格：顺序浏览内容</p><p>S：讲者视图与备注</p><p>O 或 Esc：页面总览</p><p>F：全屏</p><p>F1 或 ?：本说明</p><p>点击应用截图可放大；点击放大图或按 Esc 关闭。</p><p>页脚“缩写全称与中文”可查看英文全称和中文解释。</p>';
+    dialog.querySelector('button').onclick = () => dialog.close();
+    document.body.append(dialog);
+  }
+  if (!dialog.open) dialog.showModal();
+}
+
 const slideId = (file) => file.replace(/^R?\d+[a-z]?-/, '');
 
 // A slides.json entry is a file, or {"slide": file, "down": [files]} for a
@@ -38,7 +50,7 @@ function header(label, sections, current) {
   const div = document.createElement('div');
   div.className = 'eyebrow';
   div.innerHTML = `<span>${label}</span>`
-    + `<nav class="breadcrumb" aria-label="Tutorial progress"><ol>${items.join('')}</ol></nav>`;
+    + `<nav class="breadcrumb" aria-label="教程进度"><ol>${items.join('')}</ol></nav>`;
   return div;
 }
 
@@ -116,6 +128,10 @@ try {
   }
 
   // The demos look up their controls by id, so they load after the slides.
+  const { translateScreenshots } = await import('./screenshot-translations.js');
+  await translateScreenshots(deck);
+  const { explainAbbreviations } = await import('./terminology.js');
+  explainAbbreviations(deck);
   await import('./interactives.js');
   // Keep arrow keys and space inside the demo controls.
   deck.querySelectorAll('input, button, select').forEach((control) => {
@@ -142,6 +158,8 @@ try {
     // ← and → always change slide, so ↓ and ↑ alone reveal and hide
     // fragments such as quiz answers. Shift jumps to the first or last slide.
     keyboard: {
+      112: showChineseHelp,
+      191: showChineseHelp,
       37: (event) => (event.shiftKey ? Reveal.slide(0) : Reveal.left({ skipFragments: true })),
       39: (event) => (event.shiftKey
         ? Reveal.slide(Reveal.getHorizontalSlides().length - 1)
@@ -153,11 +171,11 @@ try {
 } catch (error) {
   deck.innerHTML = `
     <section>
-      <h2>Could not load the slides</h2>
+      <h2>演示稿加载失败</h2>
       <div class="content">
         <p>${error.message}</p>
-        <p>Serve this folder over HTTP; <code>file://</code> pages cannot fetch
-        the slide files. See README.md.</p>
+        <p>请通过 HTTP 服务器打开本目录；<code>file://</code> 页面无法加载
+        幻灯片文件。请参阅 README.md。</p>
       </div>
     </section>`;
   Reveal.initialize({ width: 1280, height: 720, center: false });

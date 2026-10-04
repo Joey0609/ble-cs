@@ -1,11 +1,11 @@
 <section class="cs-detail" data-timing="120">
-  <h2>Returning the reflector's measurements</h2>
+  <h2>传回反射端的测量结果</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 184"
       role="img"
-      aria-label="Initiator and reflector exchange tones and packets in each CS step, so each keeps half of every measurement: the initiator its phase and ToA minus ToD, the reflector its phase and ToD minus ToA. A dashed arrow returns the reflector's half to the initiator through RAS, a GATT service on the ACL link"
+      aria-label="每个CS步骤中发起端和反射端交换单音信号和数据包，因此每个测量各保留一半：发起端其相位和ToA减去ToD，反射端其相位和ToD减去ToA。虚线箭头通过 RAS（ACL 链路上的 GATT 服务）将反射端的一半返回到发起端"
     >
       <defs>
         <marker id="ras-ini" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -17,41 +17,41 @@
       </defs>
       <!-- Same boxes as initiator-reflector: initiator teal, reflector orange -->
       <rect x="2" y="4" width="286" height="176" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
-      <text x="145" y="44" font-size="27" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
-      <text x="145" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">measures the reflector's signals</text>
-      <text x="145" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · initiator phase</text>
-      <text x="145" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT · ToA<tspan baseline-shift="sub" font-size="15">I</tspan> − ToD<tspan baseline-shift="sub" font-size="15">I</tspan></text>
+      <text x="145" y="44" font-size="27" font-weight="700" fill="#65e4d0" text-anchor="middle">发起端</text>
+      <text x="145" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">测量反射端的信号</text>
+      <text x="145" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · 发起端相位</text>
+      <text x="145" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT·ToA<tspan baseline-shift="sub" font-size="15">I</tspan> - ToD<tspan baseline-shift="sub" font-size="15">I</tspan></text>
       <rect x="872" y="4" width="286" height="176" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
-      <text x="1015" y="44" font-size="27" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
-      <text x="1015" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">measures the initiator's signals</text>
-      <text x="1015" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · reflector phase</text>
-      <text x="1015" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT · ToD<tspan baseline-shift="sub" font-size="15">R</tspan> − ToA<tspan baseline-shift="sub" font-size="15">R</tspan></text>
+      <text x="1015" y="44" font-size="27" font-weight="700" fill="#ffb17a" text-anchor="middle">反射端</text>
+      <text x="1015" y="72" font-size="16" fill="#afc8cb" text-anchor="middle">测量发起端的信号</text>
+      <text x="1015" y="114" font-size="21" fill="#f5f5ed" text-anchor="middle">PBR · 反射端相位</text>
+      <text x="1015" y="150" font-size="21" fill="#f5f5ed" text-anchor="middle">RTT·ToD<tspan baseline-shift="sub" font-size="15">R</tspan> - ToA<tspan baseline-shift="sub" font-size="15">R</tspan></text>
       <line x1="306" y1="30" x2="852" y2="30" stroke="#65e4d0" stroke-width="3" marker-end="url(#ras-ini)" />
       <line x1="854" y1="56" x2="308" y2="56" stroke="#ffb17a" stroke-width="3" marker-end="url(#ras-ref)" />
-      <text x="580" y="86" font-size="17" fill="#afc8cb" text-anchor="middle">CS step: tones and packets both ways</text>
+      <text x="580" y="86" font-size="17" fill="#afc8cb" text-anchor="middle">CS步骤：单音信号和数据包双向</text>
       <line x1="854" y1="140" x2="308" y2="140" stroke="#ffb17a" stroke-width="2.5" stroke-dasharray="9 7" marker-end="url(#ras-ref)" />
-      <text x="580" y="128" font-size="19" font-weight="700" fill="#ffb17a" text-anchor="middle">Ranging Service (RAS): reflector data</text>
-      <text x="580" y="166" font-size="17" fill="#afc8cb" text-anchor="middle">Data-service notifications in ACL connection events</text>
+      <text x="580" y="128" font-size="19" font-weight="700" fill="#ffb17a" text-anchor="middle">测距服务（RAS）：反射端数据</text>
+      <text x="580" y="166" font-size="17" fill="#afc8cb" text-anchor="middle">ACL 连接事件中的数据服务通知</text>
     </svg>
     <div class="answers">
       <div class="ras">
-        <span class="n">ONE ANSWER · RANGING SERVICE (RAS)</span>
-        <p>A <b>Generic Attribute Profile (GATT) service</b> returns the reflector's results as they arrive or when requested. The initiator matches them to its own steps by ranging counter.</p>
-        <p>GATT runs <b>over the ACL link</b>, whose anchors also time the CS events. Result traffic gets only the airtime CS leaves: <b>schedule the two together</b>.</p>
+        <span class="n">结果传输方案 · 测距服务（RAS）</span>
+        <p>A <b>通用属性配置 (GATT) 服务</b> 当反射端的结果到达或请求时返回它们。发起端通过测距计数器将它们与自己的步骤相匹配。</p>
+        <p>GATT 运行 <b>通过 ACL 链接</b>，其基站还负责CS 事件的计时。结果传输只能使用CS 留出的空口时间： <b>需统一调度两者</b>.</p>
       </div>
       <div class="ipt">
-        <span class="n">FOR PBR · INLINE PHASE CORRECTION TERM TRANSFER (IPT)</span>
-        <p>The reflector turns its reply tone by the phase it just measured, so the initiator’s own phase is already the two-way phase, 2θ<sub>ch</sub>.</p>
-        <p>A phase-slope range then needs <b>no reflector measurements</b>. RTT still needs the reflector’s <span class="nowrap">ToD − ToA</span>. Optional, Core&nbsp;6.3.</p>
+        <span class="n">用于 PBR · 内联相位校正项传输（IPT）</span>
+        <p>反射端按刚测得的相位调整回复单音信号，因此发起端自己的相位已经是双向相位，2θ<sub>ch</sub>.</p>
+        <p>此时基于相位斜率测距 <b>无需反射端的相位数据</b>。 RTT 仍然需要反射端 <span class="nowrap">ToD-ToA</span>。可选，核心 6.3。</p>
       </div>
     </div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">Bluetooth Ranging Service 1.0</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.3 · Vol 6, Part B, §4.5.18.1</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html" target="_blank" rel="noopener">Vol 1, Part A, §9.2</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">蓝牙测距服务1.0</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.3 · 第 6 卷，B 部分，§4.5.18.1</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html" target="_blank" rel="noopener">第 1 卷，A 部分，§9.2</a></div>
   <aside class="notes">
-    <p>Start with the motivation. Every CS step is two-way, so every observable is split between the two radios. For phase-based ranging, the reflector measures the initiator's tone and the initiator measures the reflector's tone; each phase carries the unknown oscillator offset with opposite sign, and only their combination gives the two-way channel phase. For round-trip timing, the initiator's ToA minus ToD includes the reflector's turnaround, which only the reflector measured. Until both halves reach one ranging entity there is no distance, however well the radio exchange went. In this project the initiator collects both and forwards them to the desktop app.</p>
-    <p>The Ranging Service is one standard answer. The reflector is normally the RAS Server and the initiator the RAS Client; these GATT roles are independent of Central and Peripheral. RAS carries the reflector controller's subevent results: in real-time mode as notifications or indications while results become available, in on-demand mode stored per procedure and requested through the RAS Control Point. Segments are reassembled and matched to the initiator's own results by ranging counter and step order. This project subscribes to real-time data.</p>
-    <p>RAS is GATT, so it travels as ATT PDUs over L2CAP in ACL connection events. CS events are offset from the anchors of that same ACL connection: the offset is at least 500 µs and less than one connection interval, and a CS event may extend beyond the interval. One radio does both, so result traffic can use only the ACL airtime that the CS schedule leaves; if a procedure's results have not drained before the next one, results are delayed or lost. Slides 26d and 26e size this.</p>
-    <p>For phase-based ranging there is a second answer. With Inline PCT Transfer, optional from Core 6.3, the reflector applies the phase it measured on the initiator's tone to its own outgoing carrier. The oscillator term then cancels in the air, and the initiator's measured phase is already twice the channel phase. A phase-slope distance needs no reflector measurements; the reflector's PCT keeps only its amplitude, with Q equal to zero. IPT does nothing for RTT, so a mode-1 or mode-3 timing estimate still needs the reflector's data. In the app, Reflector data None requires IPT: the initiator runs without RAS, and RTT is shown as unavailable. Below (↓): RAS delivery step by step, the IPT phase relation, and its tradeoffs.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">Bluetooth Ranging Service 1.0</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html">Core 6.3 · Vol 6, Part B, §4.5.18.1; §2.4.2.47 (LL_CS_REQ Offset_Min, Offset_Max)</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html">Vol 1, Part A, §9.2</a>; Vol 6, Part A, §6.5. Repository: docs/Bluetooth_CS_Inline_Phase_Transfer.tex; python/README.md, Reflector data and IPT.</p>
+    <p>从动机开始。每个 CS 步骤都是双向的，因此每个可观察量都在两个无线设备之间分配。对于相位测距，反射端测量发起端的单音信号，发起端测量反射端的单音信号；每个相位都带有符号相反的未知振荡器偏移，并且只有它们的组合才能给出双向信道相位。对于往返时序，发起端的ToA减去ToD包括反射端的收发周转，只有反射端测量。无论无线设备交换进行得多么顺利，只有把双方观测汇集到同一处理端后，才能计算距离。在这个项目中，发起端收集两者并将它们转发到桌面应用程序。</p>
+    <p>测距服务是标准答案之一。反射端通常是 RAS 服务器，发起端是 RAS 客户端；这些 GATT 角色独立于中心设备和外围设备。 RAS 携带反射端控制器的子事件结果：在实时模式下，当结果可用时作为通知或指示；在按需模式下，按测距过程存储并通过 RAS 控制点请求。通过测距计数器和步骤顺序将片段重新组合并与发起端自己的结果相匹配。该项目订阅实时数据。</p>
+    <p>RAS 是 GATT，因此它在 ACL 连接事件中作为 ATT PDU 通过 L2CAP 传输。 CS 事件相对同一 ACL 连接的时间锚点偏移启动：偏移至少为 500 µs，且小于一个连接间隔，并且 CS 事件可能会超出该间隔。同一个无线模块负责这两项任务，因此结果流量只能使用 CS 时间表留下的 ACL 空口占用时间；如果测距过程的结果在下一个测距过程之前尚未传完，则结果会延迟或丢失。幻灯片 26d 和 26e 调整了此大小。</p>
+    <p>对于基于相位的测距还有第二个答案。通过 内联相位校正项传输（IPT）（Core 6.3 中的可选选项），反射端将其在发起端的单音信号上测量的相位应用于其自己的传出载波。然后振荡器项在空中抵消，发起端的测量相位已经是信道相位的两倍。相位斜率距离不需要反射端测量；反射端的PCT仅保持其幅度，Q等于0。 IPT 对 RTT 没有任何作用，因此模式 1 或模式 3 时序估计仍然需要反射端的数据。在应用程序中，反射端 数据选“无” 需要 IPT：发起端在没有 RAS 的情况下运行，并且 RTT 显示为不可用。下图（↓）：RAS 交付步骤、IPT 阶段关系及其权衡。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">蓝牙测距服务1.0</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/low-energy-controller/link-layer-specification.html">核心 6.3·第 6 卷，B 部分，§4.5.18.1； §2.4.2.47（LL_CS_REQ 偏移_最小、偏移_最大）</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core_v6.3/out/en/architecture,-change-history,-and-conventions/architecture.html">第 1 卷，A 部分，§9.2</a>;第 6 卷，A 部分，§6.5。存储库：docs/Bluetooth_CS_Inline_Phase_Transfer.tex； python/README.md，反射端数据和IPT。</p>
   </aside>
 </section>

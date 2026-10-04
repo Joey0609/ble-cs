@@ -1,9 +1,9 @@
 <section data-timing="105">
-  <h2>Indoors, the shortest path may be the hardest to see</h2>
+  <h2>室内最短路径，可能最难识别</h2>
   <div class="content">
     <div class="cols">
       <div>
-        <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="An anchor and a node with an obstacle between them: the dashed direct path runs through the obstacle, a longer path reflects off the wall above it">
+        <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="基站和节点之间有障碍物：虚线直接路径穿过障碍物，较长的路径从其上方的墙壁反射">
           <defs>
             <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
               <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
@@ -39,41 +39,21 @@
             stroke-dasharray="8 9"
           />
           <path d="M150 210L500 65L850 210" fill="none" stroke="#ffb17a" stroke-width="5" />
-          <text x="150" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">anchor</text>
-          <text x="850" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">node</text>
-          <text x="580" y="245" font-size="22" fill="#afc8cb" text-anchor="start">direct path</text>
-          <text x="448" y="295" font-size="22" fill="#f5f5ed" text-anchor="start">obstacle</text>
-          <text x="615" y="100" font-size="22" fill="#f5f5ed" text-anchor="start">
-            reflected path
-          </text>
+          <text x="150" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">基站</text>
+          <text x="850" y="265" font-size="22" fill="#f5f5ed" text-anchor="middle">节点</text>
+          <text x="580" y="245" font-size="22" fill="#afc8cb" text-anchor="start">直达路径</text>
+          <text x="448" y="295" font-size="22" fill="#f5f5ed" text-anchor="start">障碍物</text>
+          <text x="615" y="100" font-size="22" fill="#f5f5ed" text-anchor="start"> 反射路径 </text>
         </svg>
       </div>
       <div>
-        <p class="lead"><strong>Multipath</strong><br />Signals add as complex waves.</p>
-        <p class="lead"><strong>No line of sight</strong><br />The direct path is blocked or weak.</p>
+        <p class="lead"><strong>多径传播</strong><br />各路径信号以复数形式叠加。</p>
+        <p class="lead"><strong>非视距遮挡</strong><br />直达路径被阻塞或较弱。</p>
       </div>
     </div>
     <div class="callout warning">
-      <strong>Warning:</strong> amplitude, phase and delay give the range only along one path. A
-      reflection biases all three, and a stable bias survives averaging.
-    </div>
+      <strong>注意：</strong> 幅度、相位和延迟仅给出沿一条路径的距离。反射对所有三个都产生偏差，并且稳定的偏差在平均后仍然存在。 </div>
   </div>
   <div class="source"></div>
-  <aside class="notes">
-    <p>
-      The previous slide read a range from the signal's amplitude, phase or delay. Each of those
-      follows distance only when the signal takes one path. Indoors it does not: point to the direct
-      path and the longer path reflected off the wall. The receiver sees the sum of every
-      path as complex waves. Amplitude: the copies add or cancel, so the strength fades deeply
-      over a few centimetres of movement or a small change of frequency. Phase: the phase of the
-      sum is not the phase of the direct path, so it can curve with frequency rather than follow
-      a single line. Delay: the direct path arrives first, but a later and stronger reflection can
-      hide it. When the direct path is blocked or weak, by a wall or a body, a longer path
-      dominates and produces a persistent range bias. Averaging helps random noise but does not
-      necessarily correct that bias. Changing the frequency, the antenna or the position changes
-      how the paths add, which helps against fading, but it does not remove a bias every
-      measurement shares. The most useful teaching experiment is to change one condition, such
-      as orientation or an obstacle, and compare the raw evidence before and after.
-    </p>
-  </aside>
+  <aside class="notes"><p>上一页介绍用幅度、相位或时延测距，这些特征只有在单路径传播时才与距离呈简单关系。室内存在直达路径和更长的墙面反射路径；接收信号是各路径复数波形的叠加。幅度可能相长或相消，因此移动几厘米或频率略变就可能产生深衰落。合成信号的相位并非直达路径相位，它随频率可能出现弯曲。直达路径最先到达，但随后到达的强反射可能掩盖它。墙壁或人体遮挡直达路径后，更长路径可能占主导，形成持续距离偏差。平均能减小随机噪声，却不保证消除这类偏差。改变频率、天线或位置会改变多径叠加方式，有助于缓解衰落，但不能消除所有观测共有的偏差。教学实验宜只改变一个条件，例如方向或障碍物，比较改变前后的原始测量依据。</p></aside>
 </section>

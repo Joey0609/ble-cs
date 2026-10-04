@@ -1,57 +1,46 @@
 <section data-timing="105">
-  <h2>Compare the range estimates</h2>
+  <h2>比较不同方法的距离估计</h2>
   <div class="content">
     <div class="stepstrip">
-      <div class="stepbox">Match<small>procedure · step · channel</small></div>
+      <div class="stepbox">匹配<small>测距过程·步骤·信道</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Filter<small>validity · tone / packet quality</small></div>
+      <div class="stepbox">筛选<small>有效性·单音信号/数据包质量</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Estimate<small>one path · correct units</small></div>
+      <div class="stepbox">估计<small>一条路径·正确的单位</small></div>
       <span class="arrow">→</span>
-      <div class="stepbox">Check<small>residuals · spread · reference</small></div>
+      <div class="stepbox">检查<small>残差·分布·参考</small></div>
     </div>
     <table>
       <thead>
         <tr>
-          <th>In the app</th>
-          <th>Interpretation</th>
+          <th>在应用程序中</th>
+          <th>含义</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>PBR slope: raw / corrected</td>
-          <td>Distance from the phase trend across channels</td>
+          <td>PBR 斜率：原始/校正</td>
+          <td>由跨信道相位趋势估计的距离</td>
         </tr>
         <tr>
-          <td>PBR IFFT peak: raw / corrected</td>
-          <td>Peak in the complex-product range profile</td>
+          <td>PBR IFFT 峰值：原始/校正</td>
+          <td>复数乘积距离谱中的峰值</td>
         </tr>
         <tr>
-          <td>RTT mean / median</td>
-          <td>Summary of accepted paired timing observations</td>
+          <td>RTT 平均值/中值</td>
+          <td>对有效配对时间观测做统计</td>
         </tr>
         <tr>
-          <td>Counts, flags, frequency offsets</td>
-          <td>Context needed to judge the estimate</td>
+          <td>计数、标志、频率偏移</td>
+          <td>判断估计所需的上下文</td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Describe what the repository actually implements. Pairing uses configuration ID, start ACL
-      event and procedure counter; steps are paired in their common order and mismatched channels
-      are discarded. The selected antenna path and quality filter affect both PBR estimates. The
-      IFFT uses the corrected complex products on their 1 MHz channel grid; missing channels are
-      left empty. Zero padding samples the profile more finely without improving physical resolution.
-      RTT uses
-      paired time differences, validity and packet-quality information; its mean and median
-      summarize accepted steps. A low spread does not eliminate calibration bias. Check controller
-      reports and missing or incomplete procedures. This is a transparent educational pipeline, not
-      a claim that a simple fit or the largest IFFT peak identifies the first path in multipath.
-    </p>
+    <p> 描述存储库实际实现的内容。配对使用配置ID、启动ACL事件和测距过程计数器； 步骤按其共同顺序配对，不匹配的信道将被丢弃。所选的天线路径和质量过滤器会影响 PBR 估计。 IFFT 在其 1 MHz 信道网格上使用校正后的复数乘积；缺失的信道留空。零填充可以更精细地对轮廓进行采样，而不会提高物理分辨率。 RTT使用配对时间差、有效性和数据包质量信息；其平均值和中位数总结了可接受的步骤。低价差并不能消除校准偏差。检查控制器报告以及缺失或不完整的测距过程。这是一个透明的教育管道，而不是声称简单拟合或最大 IFFT 峰值识别多径中的首径。 </p>
   </aside>
 </section>

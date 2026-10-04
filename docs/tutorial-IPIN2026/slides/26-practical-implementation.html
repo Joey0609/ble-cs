@@ -1,16 +1,16 @@
 <section class="cs-detail" data-timing="120">
-  <h2>Practical implementation: four decisions</h2>
+  <h2>实际实现中的四项关键选择</h2>
   <div class="content">
-<p class="cs-intro">A CS configuration that works on paper still has to fit the link, the controllers and the application.</p><ol class="cs-flow">
-<li><b>Step budget</b><span>Mode-0 steps, subevents, spacing and the controllers' step timings add up to one time budget. More measurements mean more radio time and more energy.</span></li>
-<li><b>Result message size</b><span>The Attribute Protocol maximum transmission unit (ATT MTU) makes a procedure's result take 39 notifications by default or 2 at 498.</span></li>
-<li><b>ACL interval</b><span>Sets what fits in the schedule: CS events and RAS results share its events, so the interval decides how a procedure is split and how often it can run.</span></li>
-<li><b>Security</b><span>Set by the use case: the required CS security level follows from what a wrong distance would cost.</span></li>
-</ol><div class="callout">Build the time budget from the step up, then check it against the use case.</div>
+<p class="cs-intro">纸面上有效的 CS 配置仍然必须适合链路、控制器和应用程序。</p><ol class="cs-flow">
+<li><b>步骤预算</b><span>模式0步骤、子事件、间距和控制器的步骤时序加起来为1个时间预算。更多的测量意味着更多的无线收发时间和更多的能量。</span></li>
+<li><b>结果消息大小</b><span>属性协议最大传输单元 (ATT MTU) 使测距过程的结果默认采用 39 个通知，或者在 498 时采用 2 个通知。</span></li>
+<li><b>ACL间隔</b><span>设置适合时间表的内容：CS 事件和 RAS 结果共享其事件，因此间隔决定测距过程的分割方式及其运行频率。</span></li>
+<li><b>安全机制</b><span>由用例设置：所需的 CS 安全级别取决于错误距离造成的后果。</span></li>
+</ol><div class="callout">从步骤开始建立时间预算，然后根据用例进行检查。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part B, §4.5.18; §5.1.26</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">Planner model and lab runs</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html" target="_blank" rel="noopener">核心 6.0·第 6 卷，B 部分，§4.5.18； §5.1.26</a><span class="sep">·</span><a href="sources.html#application" target="_blank" rel="noopener">规划器模型和实验室运行</a></div>
   <aside class="notes">
-    <p>This stack turns the previous sections into four decisions an implementer has to make, and builds them from the smallest unit up. First, the step budget: the step timings both controllers support, mode-0 steps, subevents and their spacing all spend the same time, and every added measurement is radio time, which is energy. Second, the ATT MTU, exchanged once after the connection is set up: it decides how many notifications, and so how much ACL airtime, the reflector's RAS results need. Third, the ACL connection interval: CS events are anchored to ACL events, and on our controller each must end within one interval, so once the procedure and its results are known, the interval decides how the procedure is split into CS events and how often procedures can repeat. Fourth, security: the CS security level is chosen per use case, because each use case loses something different when a distance is wrong.</p>
-    <p>The numbers on the following slides come from the host application's planner model with the step timings our nRF54 pair selected, and from lab runs recorded in implementation_plan.md. They are examples for one controller pair, not general limits. Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">Core 6.0 · Vol 6, Part B, §4.5.18; §5.1.26</a>. <a href="sources.html#application">Planner model and lab runs</a>.</p>
+    <p>该堆栈将前面的部分转化为实现者必须做出的四个决策，并从最小的单元开始构建它们。首先，步骤预算：两个控制器都支持的步骤计时，模式0步骤、子事件及其间距都花费相同的时间，并且每增加一个测量都是无线收发时间，即能量。其次，ATT MTU，连接建立后交换一次：它决定有多少个通知，因此需要多少ACL空口占用时间，以及反射端的RAS结果需要多少。第三，ACL 连接间隔：CS 事件锚定于 ACL 事件，并且在我们的控制器上每个事件都必须在一个间隔内结束，因此一旦知道了测距过程及其结果，该间隔就决定了测距过程如何拆分为 CS 事件以及测距过程重复的频率。第四，安全性：CS安全级别是根据用例选择的，因为当距离错误时，每个用例都会失去不同的东西。</p>
+    <p>以下幻灯片上的数字来自主机应用程序的规划器模型以及我们选择的 nRF54 对的步骤时序，以及来自implementation_plan.md 中记录的实验室运行。它们是一对控制器的示例，而不是一般限制。资料来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html">核心 6.0·第 6 卷，B 部分，§4.5.18； §5.1.26</a>. <a href="sources.html#application">规划器模型和实验室运行</a>.</p>
   </aside>
 </section>

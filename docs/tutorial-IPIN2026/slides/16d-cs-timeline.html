@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="105">
-  <h2>The CS box is a subevent; CS events start at anchors</h2>
+  <h2>CS 的层级：时间锚点、事件与子事件</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 306"
       role="img"
-      aria-label="ACL events at anchors m to m+3. A CS procedure box holds two CS event boxes, which hold the subevents: each starts an offset after one ACL anchor, one event interval apart, and holds two subevents a subevent interval apart. The next procedure starts one procedure interval after the first."
+      aria-label="基站 m 到 m+3 处的 ACL 事件。一个 CS 测距过程盒包含两个 CS 事件盒，它们保存子事件：每个事件盒在一个 ACL 时间关联点之后开始偏移，相隔一个事件间隔，并保存两个相隔 1 个子事件间隔的子事件。下一个测距过程在第一个测距过程之后开始一个测距过程间隔。"
     >
       <defs>
         <marker id="cst-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -18,7 +18,7 @@
         <line x1="180" y1="18" x2="180" y2="30" />
         <line x1="900" y1="18" x2="900" y2="30" />
       </g>
-      <text x="540" y="16" font-size="15" fill="#dcf58a" text-anchor="middle">procedure interval</text>
+      <text x="540" y="16" font-size="15" fill="#dcf58a" text-anchor="middle">测距过程间隔</text>
       <!-- Lanes -->
       <text x="20" y="56" font-size="19" font-weight="700" fill="#afc8cb">ACL</text>
       <text x="20" y="170" font-size="19" font-weight="700" fill="#dcf58a">CS</text>
@@ -42,8 +42,8 @@
         <rect x="934" y="72" width="180" height="134" rx="10" />
       </g>
       <g font-size="14" font-weight="700" fill="#dcf58a">
-        <text x="224" y="90">CS procedure</text>
-        <text x="944" y="90">next procedure</text>
+        <text x="224" y="90">CS测距过程</text>
+        <text x="944" y="90">下一个测距过程</text>
       </g>
       <g fill="#65e4d0" fill-opacity="0.08" stroke="#65e4d0" stroke-width="2">
         <rect x="222" y="98" width="164" height="100" rx="8" />
@@ -51,9 +51,9 @@
         <rect x="942" y="98" width="164" height="100" rx="8" />
       </g>
       <g font-size="13" fill="#65e4d0">
-        <text x="230" y="114">CS event</text>
-        <text x="470" y="114">CS event</text>
-        <text x="950" y="114">CS event</text>
+        <text x="230" y="114">CS 事件</text>
+        <text x="470" y="114">CS 事件</text>
+        <text x="950" y="114">CS 事件</text>
       </g>
       <!-- Subevents: the CS boxes -->
       <g fill="#dcf58a" fill-opacity="0.18" stroke="#dcf58a" stroke-width="2">
@@ -66,13 +66,13 @@
       </g>
       <!-- Offset and subevent interval, below the boxes -->
       <line x1="180" y1="234" x2="224" y2="234" stroke="#dcf58a" stroke-width="1.5" marker-end="url(#cst-arrow)" />
-      <text x="202" y="226" font-size="13" fill="#dcf58a" text-anchor="middle">offset</text>
+      <text x="202" y="226" font-size="13" fill="#dcf58a" text-anchor="middle">偏移</text>
       <g stroke="#dcf58a" stroke-width="1.5">
         <line x1="468" y1="234" x2="558" y2="234" />
         <line x1="468" y1="228" x2="468" y2="240" />
         <line x1="558" y1="228" x2="558" y2="240" />
       </g>
-      <text x="513" y="226" font-size="13" fill="#dcf58a" text-anchor="middle">subevent interval</text>
+      <text x="513" y="226" font-size="13" fill="#dcf58a" text-anchor="middle">子事件区间</text>
       <!-- Time axis with ACL anchors -->
       <line x1="150" y1="250" x2="1150" y2="250" stroke="#afc8cb" stroke-width="2" />
       <g stroke="#dcf58a" stroke-width="2.5">
@@ -82,7 +82,7 @@
         <line x1="900" y1="242" x2="900" y2="258" />
       </g>
       <g font-size="14" fill="#f5f5ed" text-anchor="middle">
-        <text x="180" y="274">anchor m</text>
+        <text x="180" y="274">时间锚点 m</text>
         <text x="420" y="274">m+1</text>
         <text x="660" y="274">m+2</text>
         <text x="900" y="274">m+3</text>
@@ -92,24 +92,24 @@
         <line x1="180" y1="284" x2="180" y2="296" />
         <line x1="420" y1="284" x2="420" y2="296" />
       </g>
-      <text x="300" y="286" font-size="13" fill="#65e4d0" text-anchor="middle">event interval</text>
+      <text x="300" y="286" font-size="13" fill="#65e4d0" text-anchor="middle">事件间隔</text>
     </svg>
     <div class="legend">
       <div>
         <span class="sw proc"></span>
-        <span><b>CS procedure</b> one ranging measurement; repeats every procedure interval</span>
+        <span><b>CS测距过程</b> 一次测距测量；重复每个测距过程间隔</span>
       </div>
       <div>
         <span class="sw event"></span>
-        <span><b>CS event</b> starts an offset after one ACL anchor; the next, an event interval later</span>
+        <span><b>CS 事件</b> 相对 ACL 时间锚点偏移启动；下一 CS 事件再相隔一个事件间隔</span>
       </div>
       <div>
         <span class="sw sub"></span>
-        <span><b>Subevent</b> the CS box; the next one a subevent interval later, not at an anchor</span>
+        <span><b>子事件</b> 图中的 CS 时间块；下一子事件按子事件间隔启动，不必位于时间锚点</span>
       </div>
       <div>
         <span class="sw acl"></span>
-        <span><b>ACL event</b> at every anchor: Central, then Peripheral</span>
+        <span><b>ACL 事件</b> 每个时间锚点都有 ACL 事件：中心设备先发送，外围设备随后回复</span>
       </div>
     </div>
   </div>
@@ -118,24 +118,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part B, §4.5.18 (CS procedures and subevents)</a
+      >核心·第 6 卷，B 部分，§4.5.18（CS 测距过程和子事件）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Zoom into the CS box of the previous slide. What we drew there is a CS subevent, the block of
-      time in which the two radios run CS steps. Subevents are grouped into CS events, and CS events
-      into a CS procedure, one ranging measurement. The anchoring rule answers the obvious question:
-      each CS event is tied to one ACL anchor, and its first subevent starts the offset after that
-      anchor. The other subevents of the same event are not tied to anchors; each starts one
-      subevent interval after the start of the previous one. The next CS event starts at another ACL
-      anchor, one event interval later, so a procedure with several events spans several ACL
-      anchors, as here with two events of two subevents each. Procedures repeat one procedure
-      interval apart, counted in connection intervals. The specification allows up to 32 subevents
-      in a procedure, and events and subevents may even run past the connection interval. What
-      happens inside a subevent, its steps, is the next slide. The timeline is illustrative; the
-      simplest setup is one event with one subevent, which is the box on the previous slide. The ACL
-      events keep running at every anchor.
-    </p>
+    <p> 放大上一张幻灯片的 CS 框。我们在那里画的是一个 CS 子事件，两个无线设备运行 CS 步骤的时间块。子事件分为 CS 事件，CS 事件分为 CS 测距过程，即一个测距测量。锚定规则回答了一个显而易见的问题：每个 CS 事件都与一个 ACL 时间锚点相关联，并且其第一个子事件在该时间锚点之后开始偏移。同一事件的其他子事件不与基站绑定；每个子事件间隔在前一个子事件间隔开始后开始。下一个 CS 事件在另一个 ACL 时间锚点开始，一个事件间隔之后，因此具有多个事件的测距过程跨越多个 ACL 基站，就像这里有两个事件，每个事件有两个子事件。程序间隔重复一个测距过程间隔，计入连接间隔。该规范允许在一次测距过程中最多有 32 个子事件，并且事件和子事件甚至可能超过连接间隔。下一张幻灯片是子事件内部发生的事情及其步骤。时间表是说明性的；最简单的设置是一个事件有一个子事件，即上一张幻灯片上的框。 ACL 活动在每个基站继续运行。 </p>
   </aside>
 </section>

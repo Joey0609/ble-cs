@@ -1,39 +1,25 @@
 <section data-timing="120">
-  <h2>Location becomes valuable when it changes an action</h2>
+  <h2>位置改变决策时，定位才有价值</h2>
   <div class="content">
     <div class="grid3">
       <div class="card">
-        <span class="n">01 · FIND</span>
-        <h3>Shared assets</h3>
-        <p>Which room? Which shelf? How long to retrieve it?</p>
+        <span class="n">01 · 寻找</span>
+        <h3>共享资产</h3>
+        <p>哪个房间？哪个架子？多久可以取回？</p>
       </div>
       <div class="card">
-        <span class="n">02 · INTERACT</span>
-        <h3>People + machines</h3>
-        <p>Who is nearby? Where should the system respond?</p>
+        <span class="n">02 · 互动</span>
+        <h3>人+机器</h3>
+        <p>谁在附近？系统应该在哪里响应？</p>
       </div>
       <div class="card">
-        <span class="n">03 · UNDERSTAND</span>
-        <h3>Movement over time</h3>
-        <p>Which path? Which transition? Where did confidence fall?</p>
+        <span class="n">03 · 理解运动</span>
+        <h3>随时间变化的运动</h3>
+        <p>经过哪条路径？发生了什么区域切换？哪里的定位置信度下降？</p>
       </div>
     </div>
-    <div class="callout">
-      Choose the decision first. Then choose the required accuracy, latency and coverage.
-    </div>
+    <div class="callout"> 先明确定位要支持的决策，再确定精度、延迟与覆盖范围。 </div>
   </div>
   <div class="source"></div>
-  <aside class="notes">
-    <p>
-      Start with a concrete scene: someone looking for shared lab equipment, a robot trying to
-      rendezvous with a person, or a participant following an indoor route. The building creates a
-      different propagation environment from open sky. Use the three examples to show why tracking
-      is an engineering requirement, not merely an attractive visualization. For asset retrieval,
-      room-level location may be sufficient; for a spatial interaction, delay and consistency can
-      matter more. A track supports analysis of route and dwell, but location data about people
-      should be collected with clear purpose and consent. Ask the audience to name the error or
-      delay that would change a decision in their own application. This makes later tradeoffs in
-      airtime, filtering and geometry tangible.
-    </p>
-  </aside>
+  <aside class="notes"><p>用具体场景引入：寻找共享实验设备、机器人与人员会合，或参与者沿室内路线行走。建筑中的传播环境与开阔室外不同。这三个例子说明，轨迹跟踪是一项工程需求，而不只是好看的可视化。找设备可能只需房间级位置；空间交互中，延迟和结果一致性可能更重要。轨迹可支持路线与停留分析，但采集人员位置数据应有明确目的并获得同意。请听众说出自己应用中，什么误差或延迟会改变决策，从而使后续空口时间、滤波和几何布局的权衡更具体。</p></aside>
 </section>

@@ -1,54 +1,39 @@
 <section data-timing="60">
-  <h2>What frequency calibration requires</h2>
+  <h2>频率校准的必要条件</h2>
   <div class="content">
     <div class="reqs">
       <div class="card">
-        <span class="n">01 · FRESH MEASUREMENT</span>
-        <h3>Measure again every subevent</h3>
-        <p>One to three mode-0 steps open every subevent: the offset drifts with temperature and time.</p>
+        <span class="n">01 · 重新测量</span>
+        <h3>再次测量每个子事件</h3>
+        <p>一到三模式 0步骤打开每个子事件：偏移量随温度和时间漂移。</p>
       </div>
       <div class="card">
-        <span class="n">02 · KNOWN FAE</span>
-        <h3>The reflector&rsquo;s table first</h3>
-        <p>The initiator reads the FAE table before ranging starts, or uses a cached copy.</p>
+        <span class="n">02·已知的FAE</span>
+        <h3>先获取反射端误差表</h3>
+        <p>发起端在测距启动之前读取FAE表，或者使用缓存的副本。</p>
       </div>
       <div class="card">
-        <span class="n">03 · STABLE CRYSTAL</span>
-        <h3>An offset that holds still</h3>
-        <p>Within a subevent, the mode-0 estimates must agree to 1&nbsp;ppm, and |FFO| must stay below 50&nbsp;ppm.</p>
+        <span class="n">03 · 稳定的晶体</span>
+        <h3>子事件内保持稳定的频偏</h3>
+        <p>在子事件中，模式 0 估计值必须相互差异不超过 1 ppm，并且 |FFO|必须保持在 50 ppm 以下。</p>
       </div>
       <div class="card">
-        <span class="n">04 · SHARED FREQUENCY</span>
-        <h3>Both radios at f<sub>E</sub></h3>
-        <p>Every later step is sent at the shared frequency: tones within 10&nbsp;kHz, CS_SYNC within 20&nbsp;kHz.</p>
+        <span class="n">04·共享频率</span>
+        <h3>两台无线设备均在 f<sub>E</sub></h3>
+        <p>之后的每个步骤都以共享频率发送：10 kHz 内的单音信号，20 kHz 内的 CS_SYNC。</p>
       </div>
     </div>
-    <div class="callout">
-      Frequency calibration does not remove chain delays or hardware phase offsets: those need their
-      own calibration.
-    </div>
+    <div class="callout"> 频率校准不会消除收发链路延迟或硬件相位偏移：这些需要它们自己的校准。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part A, §3.5</a
+      >核心·第 6 卷，A 部分，§3.5</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Four conditions make frequency calibration work, all from the specification. It must be
-      fresh: the crystals drift with temperature and time, so every subevent opens with one to
-      three mode-0 steps instead of reusing an old value. The FAE must be known: the initiator
-      reads the reflector's table before ranging starts, or uses a copy it cached from an earlier
-      connection. The crystal must be stable: within one subevent the mode-0 estimates must agree
-      to within 1 ppm of the first, and the offset must stay below 50 ppm. And the frequency must
-      be shared: every later step is transmitted at the shared frequency, tones within 10 kHz and
-      CS_SYNC packets within 20 kHz of it. What frequency calibration does not fix: the fixed
-      delays in each radio's transmit and receive chains, and the fixed phase offsets of its
-      hardware and antenna paths. Those are separate calibrations, done once per device or on a
-      known distance, and they matter as much, as the round-trip error slide showed.
-    </p>
+    <p> 频率校准工作的四个条件均来自规范。它必须是新鲜的：晶体会随着温度和时间而漂移，因此每个子事件都会以一到三个模式 0步骤开始，而不是重复使用旧值。 FAE 必须是已知的：发起端在测距开始之前读取反射端的表，或者使用它从早期连接缓存的副本。晶体必须稳定：在一个子事件内，模式 0 估计必须与第一个子事件一致在 1 ppm 以内，并且偏移必须保持在 50 ppm 以下。并且频率必须共享：以后的每个步骤都以共享频率传输，单音信号在10 kHz以内，CS_SYNC数据包在20 kHz以内。频率校准无法解决的问题：每个无线设备发射和接收链中的固定延迟，以及其硬件和天线路径的固定相位偏移。这些是单独的校准，每个设备或在已知距离上完成一次，并且它们同样重要，正如往返误差幻灯片所示。 </p>
   </aside>
 </section>

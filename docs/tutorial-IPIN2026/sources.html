@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SensWear IPIN 2026 · sources and preparation notes</title>
+    <title>SensWear IPIN 2026 · 来源和准备说明</title>
     <style>
       body {
         font:
@@ -49,216 +49,108 @@
     </style>
   </head>
   <body>
-    <h1>SensWear · From Channel Sounding to Ring Tracks</h1>
-    <p>Source and asset notes. Prepared 27 September 2026. <a href="index.html">Presentation</a></p>
-    <h2>Scope</h2>
-    <p>
-      The presentation contains 49 main slides with 90 minutes of allocated delivery time, including
-      prediction pauses and app demonstrations, plus six optional appendix slides. The conference
-      page describes a 180-minute event; this deck covers its theoretical first part and introduces
-      the practical second part. It is a teaching artifact, not a report of a newly measured
-      localization experiment.
-    </p>
-    <h2>Primary public references</h2>
+    <h1>SensWear · 从信道探测到智能戒指运动轨迹</h1>
+    <p>本稿包含 34 页主讲内容、55 页下钻讲解和 3 页参考附录，共 92 页。会议教程总长 180 分钟；本稿讲解测距原理并引出后续实践。交互示例与应用截图中的数据为模拟数据，不代表新测得的射频性能。中文版保留原作者、来源、品牌与软件标识。</p>
+    <p>原稿制作于 2026 年 9 月 27 日；中文版本于 2026 年 10 月 4 日校订。<a href="index.html">返回演示稿</a>。英文应用截图保留原始图像与数值，并以可编辑文字层提供中文标注。</p><h2>主要公共参考资料</h2>
     <ul>
       <li>
         <a
           href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
-          >Bluetooth Core Specification 6.0, Volume 6, Part H — Channel Sounding</a
-        >. Baseline protocol reference. The deck's mode diagrams are original simplified teaching
-        diagrams.
-      </li>
+          >蓝牙核心规范 6.0，第 6 卷，H 部分 — 信道探测</a
+        >。基线协议参考。本演示稿的模式图是原始的简化教学图。 </li>
       <li>
         <a
           href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
-          >Bluetooth Core Specification 6.0, Volume 6, Part A — Physical Layer</a
-        >. RF channel arrangement, phase measurement and antenna-switching context.
-      </li>
+          >蓝牙核心规范 6.0，第 6 卷，A 部分 — 物理层</a
+        >。 RF 信道布置、相位测量和天线切换环境。 </li>
       <li>
         <a
           href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
-          >Bluetooth Core Specification 6.0, Volume 6, Part B — Link Layer</a
-        >. Control and scheduling context.
-      </li>
+          >蓝牙核心规范 6.0，第 6 卷，B 部分 — 链路层</a
+        >。控制和调度上下文。 </li>
       <li>
         <a href="https://www.bluetooth.com/channel-sounding-tech-overview/"
-          >Bluetooth SIG — Channel Sounding technical overview</a
-        >. Terminology and conceptual cross-checks. The local application provides the detailed
-        implementation basis.
-      </li>
+          >蓝牙 SIG — 信道探测技术概述</a
+        >。术语和概念交叉检查。本地应用提供了详细的实施依据。 </li>
       <li>
-        <a href="https://www.nordicsemi.com/Products/nRF54L15">Nordic Semiconductor — nRF54L15</a>.
-        Product identity and Bluetooth Channel Sounding support.
-      </li>
+        <a href="https://www.nordicsemi.com/Products/nRF54L15">Nordic 半导体 — nRF54L15</a>。产品标识和蓝牙信道探测支持。 </li>
       <li>
-        <a href="https://sens-wear.com/">SensWear platform</a>. Open-source, modular and
-        form-factor-agnostic platform positioning.
-      </li>
+        <a href="https://sens-wear.com/">SensWear平台</a>。开源、模块化和外形无关的平台定位。 </li>
       <li>
         <a href="https://www.crowdsupply.com/sensera-technologies/senswear-wearable-dev-kit"
-          >SensWear Wearable Dev Kit — Crowd Supply</a
-        >. Exact QR destination. The page was marked Coming Soon on the preparation date; it says
-        source publication is planned before launch. The slides do not promise an availability date,
-        price or shipment.
-      </li>
+          >SensWear 可穿戴开发套件 — 众筹</a
+        >。确切的二维码目的地。该页面在准备日期上标记为“即将推出”；它说源发布计划在发布前进行。这些幻灯片不承诺供货日期、价格或发货。 </li>
       <li>
-        <a href="https://ipin-conference.org/2026/prog_tutorial01.html">IPIN 2026 — Tutorial 01</a>.
-        Event title, tutors, overall scope and 180-minute duration.
-      </li>
+        <a href="https://ipin-conference.org/2026/prog_tutorial01.html">IPIN 2026 — 教程 01</a>。活动名称、讲师、总体范围和 180 分钟持续时间。 </li>
     </ul>
-    <h2 id="application">Local application inspected</h2>
-    <p>
-      The user-supplied <b>ble-cs</b> repository beside the requested presentation folder was
-      inspected read-only. Relevant files are listed relative to that repository so these notes
-      remain portable.
-    </p>
+    <h2 id="application">本地应用程序已检查</h2>
+    <p> 用户提供的 <b>ble-cs</b> 对演示稿所在项目的代码进行了只读检查。下列路径均以仓库根目录为基准，便于在其他环境中使用。 </p>
     <table>
       <tr>
-        <th>Source</th>
-        <th>What it establishes</th>
+        <th>来源</th>
+        <th>资料能够支持的结论</th>
       </tr>
       <tr>
         <td>
           <code>README.md</code>, <code>AGENTS.md</code>, <code>docs/GETTING_STARTED.md</code>
         </td>
-        <td>
-          Hosted and hostless flows, board distinctions, supported deployment and documented
-          NCS/toolchain baseline.
-        </td>
+        <td> 有主机与无主机运行流程、开发板差异、支持的部署方式，以及已记录的 SDK 和工具链版本基线。 </td>
       </tr>
       <tr>
         <td><code>python/ble_channel_sounding/README.md</code></td>
-        <td>
-          Configuration, controller comparison, result views, simulator behavior, recording and
-          replay; Radio Test disabled.
-        </td>
+        <td> 配置管理、控制器参数对比、结果视图、模拟器、录制与回放；无线测试功能已禁用。 </td>
       </tr>
       <tr>
         <td><code>python/ble_channel_sounding/planner/README.md</code></td>
-        <td>
-          Five timing/channel views; sent settings versus illustrative values; example PRNG distinct
-          from the CS DRBG.
-        </td>
+        <td> 五种时序与信道视图；区分实际发送的参数和示例值；演示用伪随机数发生器与 CS 安全随机数发生器不同。 </td>
       </tr>
       <tr>
         <td><code>python/ble_channel_sounding/planner/model.py</code></td>
-        <td>
-          Six mode combinations, chronological step segments, guard/switching/extension time and
-          later IPT handling.
-        </td>
+        <td> 六种模式组合、按时间排列的步骤片段、保护时间、天线切换和扩展时隙，以及后续加入的 IPT 处理。 </td>
       </tr>
       <tr>
         <td>
-          <code>python/ble_channel_sounding/planner/model.py</code>,
-          <code>implementation_plan.md</code> §3.3, §8.5, §15
-        </td>
-        <td>
-          Practical-implementation numbers: schedule, RAS transfer size and airtime, and the lab
-          runs on an nRF54LM20 DK initiator with an nRF54L15 reflector (selected step timings,
-          steps per subevent against T_PM, RAS data lost with one ACL event between procedures, a
-          refused CS event, a rejected sounding-sequence RTT type).
-        </td>
+          <code>python/ble_channel_sounding/planner/model.py</code>, <code>implementation_plan.md</code> §3.3, §8.5, §15 </td>
+        <td> 实际实现部分的数值依据包括调度模型、RAS 数据量与空口占用，以及 nRF54LM20 DK 发起端与 nRF54L15 反射端的实验记录：双方选定的步骤时序、T_PM 对每个子事件步骤数的影响、过程间仅留一个 ACL 事件时的 RAS 丢失，以及被控制器拒绝的 CS 事件和探测序列 RTT 类型。 </td>
       </tr>
       <tr>
-        <td><code>python/ble_channel_sounding/results.py</code>,
-          <code>python/ble_channel_sounding/pbr_ifft.py</code></td>
-        <td>
-          Procedure and step pairing, channel/path validation, complex PBR products, phase
-          corrections, slope sign, RTT units and the IFFT range profile.
-        </td>
+        <td><code>python/ble_channel_sounding/results.py</code>, <code>python/ble_channel_sounding/pbr_ifft.py</code></td>
+        <td> 过程与步骤配对、信道和天线路径校验、PBR 复数乘积、相位校正、斜率符号、RTT 单位，以及 IFFT 距离谱。 </td>
       </tr>
       <tr>
         <td>
-          <code>python/ble_channel_sounding/app.py</code>, <code>views/cs_view.py</code>,
-          <code>views/results_view.py</code>
+          <code>python/ble_channel_sounding/app.py</code>, <code>views/cs_view.py</code>, <code>views/results_view.py</code>
         </td>
-        <td>Actual UI flow, analysis views, session controls and real screenshots.</td>
+        <td>实际界面流程、分析视图、会话控制与真实应用截图。</td>
       </tr>
       <tr>
         <td>
           <code>python/ble_channel_sounding/protocol/packets.py</code>, <code>python/tests/test_app_gui.py</code>
         </td>
-        <td>Connection-report decoding and demonstrated simulator workflow used for capture.</td>
+        <td>连接报告解码，以及生成截图时使用的模拟器流程。</td>
       </tr>
     </table>
-    <p>
-      The inspected repository's main hosted client uses an nRF54LM20 DK. It documents nRF54L15 DK
-      and Tag reflector routes. It does not establish a fully validated SensWear wearable board
-      port, multi-anchor orchestration, complete floor-track UI or prepared multilateration
-      notebooks. The deck presents those as the system objective and subsequent exercise, while
-      accurately describing the available pairwise app.
-    </p>
-    <h2>Screenshot provenance</h2>
-    <p>
-      The four <code>images/app-*.png</code> screenshots were rendered from the supplied PyQt6
-      application's normal widgets. Planner images contain illustrative configurations. Controller
-      and session images use the built-in simulator; the PBR image uses synthetic packets from
-      <code>python/tests/test_results.py</code> to show the current four-plot Results view, including
-      the IFFT range profile. These are not measured RF captures or evidence of distance accuracy.
-    </p>
-    <p>
-      An isolated capture script needed an explicit base-class dispatch for
-      <code>ConnectionParametersPacket.from_frame</code> because the inspected slotted dataclass's
-      zero-argument <code>super()</code> failed under the capture environment. The small
-      runtime-only workaround preserved normal packet decoding and the legacy branch. It did not
-      alter source files, observations or estimator behavior. The source application was left
-      unchanged.
-    </p>
-    <h2>Original mathematical demonstrations</h2>
+    <p> 已检查项目的主机控制客户端使用 nRF54LM20 DK，文档也记录了 nRF54L15 DK 与 Tag 反射端方案。现有材料不能证明 SensWear 可穿戴板移植、多基站协同、完整楼层轨迹界面或多边测量教学笔记本已完成验证。演示稿将这些内容作为系统目标与后续练习，并据实介绍当前可用的双设备测距应用。 </p>
+    <h2>应用截图的来源</h2>
+    <p> 这四张 <code>images/app-*.png</code> 截图由所提供 PyQt6 应用的正常界面组件渲染。规划器截图使用示例配置；控制器和会话截图使用内置模拟器；PBR 截图使用以下来源的合成数据包： <code>python/tests/test_results.py</code> ，展示当前结果视图的四幅图，包括 IFFT 距离谱。这些截图并非实测射频数据，也不能作为测距精度的证据。 </p>
+    <p> 独立的截图脚本需要对以下方法显式调用基类实现： <code>ConnectionParametersPacket.from_frame</code> ，原因是所检查的带槽数据类中，无参数的 <code>super()</code> 在截图环境中执行失败。该临时运行补丁保留了正常数据包解码和旧版分支，没有修改源码、观测值或估计器行为；原应用源码保持不变。 </p>
+    <h2>本稿编写的数学演示</h2>
     <ul>
       <li>
-        <b>RTT:</b> elapsed initiator time equals chosen reflector turnaround plus 2d/c. The display
-        subtracts turnaround and computes the corrected round trip.
-      </li>
+        <b>RTT:</b> 发起端测得的总时长等于反射端收发周转时间加 2d/c。显示时扣除周转时间，计算校正后的往返传播时间。 </li>
       <li>
-        <b>PBR:</b> a reciprocal single-path complex channel, optionally with an echo of relative
-        amplitude 0.42 and 4 m excess path. The squared complex channel models the two-way product;
-        sorted phases are unwrapped and fitted with a straight line. This is an illustrative model,
-        without noise, RF calibration or hardware validation.
-      </li>
+        <b>PBR:</b> 使用互易单径复数信道，可选加入相对幅度为 0.42、额外路径长度为 4 m 的回波。复数信道平方用于模拟双向测量乘积；按频率排序后对相位解缠并做直线拟合。此模型仅用于讲解，不包含噪声、射频校准或硬件验证。 </li>
       <li>
-        <b>Geometry:</b> a 12 m × 8 m floor plane and fixed target at (6, 4) m. The local covariance
-        is σ²(JᵀJ)⁻¹ for independent unbiased range noise with σ = 0.25 m. Ellipse axes are
-        one-standard-deviation principal axes, drawn to room scale; no empirical confidence
-        guarantee is asserted.
-      </li>
+        <b>Geometry:</b> 使用 12 m × 8 m 的楼层平面和位于 (6, 4) m 的固定目标。假设距离噪声独立、无偏，σ = 0.25 m，局部协方差为 σ²(JᵀJ)⁻¹。椭圆主轴表示一个标准差，并按房间比例绘制；不声称具有实测验证的置信度。 </li>
     </ul>
-    <h2 id="assets">Assets and licenses</h2>
-    <p>
-      The opening and contact slides use the Aalto University School of Engineering,
-      SensWear and Nordic Semiconductor logos supplied for this presentation. The original
-      WebP and SVG artwork is preserved in <code>images/aalto-school-of-engineering-logo.webp</code>,
-      <code>images/senswear-logo.svg</code> and <code>images/nordic-semiconductor-logo.svg</code>.
-    </p>
-    <p>
-      Slide 6 uses our Crowd Supply full sensor kit photograph,
-      <code>images/full-sensor-kit.jpg</code>. The logo comes from the IPIN2026 assets, and the
-      ring-on-finger image comes from our product-photo library. Slide 32 uses
-      <code>images/workshop-synthetic-photo.png</code>, a photorealistic AI-generated image of
-      fictional students, not a photograph of real people or of the IPIN 2026 event. Its electronics
-      are illustrative and do not document a specific hardware setup.
-    </p>
-    <p>
-      Reveal.js 5.2.1 and KaTeX 0.16.22 (both MIT) are loaded from the jsDelivr CDN, and the Outfit
-      and Space Mono fonts (SIL Open Font License) from Google Fonts. The QR codes are generated
-      locally from their verified destination URLs: the campaign page, the PyPI package and the
-      online version of this deck. Slide diagrams, text and demonstrations were authored for this
-      deck.
-    </p>
-    <p>
-      Presentation workflow guidance: Kassis, T., Agarwal, V., He, Y., Patel, D., &amp; Brueckner,
-      A. M. (2026).
-      <a href="https://arxiv.org/abs/2609.00065"
-        >Scientific Agent Skills: A Library of Procedural Knowledge for Research Agents</a
-      >. arXiv:2609.00065. The author record was checked during preparation. This credit concerns
-      the preparation workflow, not the Bluetooth research.
-    </p>
-    <h2>Final preparation</h2>
-    <p>
-      Recheck campaign status, smoke-test the exact workshop hardware and prepare the second-part
-      datasets/notebooks before delivery. Presenter notes and the source record make the assumptions
-      explicit. Slide content and images are in the repository; reveal.js, KaTeX and the fonts come
-      from CDNs, so the presentation needs an internet connection.
-    </p>
+    <h2 id="assets">素材与许可</h2>
+    <p> 开场与联系页使用所提供的阿尔托大学工程学院、SensWear 和 Nordic Semiconductor 标志。原始 WebP 和 SVG 图稿保存在 <code>images/aalto-school-of-engineering-logo.webp</code>, <code>images/senswear-logo.svg</code> and <code>images/nordic-semiconductor-logo.svg</code>. </p>
+    <p> 平台介绍页使用 Crowd Supply 上的完整传感器套件照片： <code>images/full-sensor-kit.jpg</code>。标志来自 IPIN2026 素材，佩戴戒指的照片来自产品照片库。实践部分使用 <code>images/workshop-synthetic-photo.png</code>，这是一幅由人工智能生成的虚构学生写实图，并非真实人物或 IPIN 2026 现场照片。图中电子器件仅用于示意，不记录特定硬件配置。 </p>
+    <p> Reveal.js 5.2.1 和 KaTeX 0.16.22（均采用 MIT 许可）从 jsDelivr 内容分发网络加载；Outfit 与 Space Mono 字体（SIL 开放字体许可）从 Google Fonts 加载。二维码在本地生成，分别指向已核对的众筹页、PyPI 软件包页和在线演示稿。图示、文本和交互演示均为本稿编写。 </p>
+    <p> 演示稿编制流程参考：Kassis、Agarwal、He、Patel 与 Brueckner（2026）。 <a href="https://arxiv.org/abs/2609.00065"
+        >《科研智能体技能：研究智能体的流程知识库》</a
+      >。arXiv:2609.00065。编制时已核对作者信息。该引用用于说明制作流程，并非蓝牙研究的技术依据。 </p>
+    <h2>授课前的准备</h2>
+    <p> 授课前需重新确认众筹状态，对实际使用的硬件做基本运行检查，并准备第二部分的数据集和教学笔记本。讲者备注与来源记录明确列出了假设。页面内容和图片保存在仓库中；Reveal.js、KaTeX 和字体通过内容分发网络加载，因此演示稿需要联网。 </p>
   </body>
 </html>

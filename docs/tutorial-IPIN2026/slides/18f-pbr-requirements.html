@@ -1,66 +1,45 @@
 <section data-timing="75">
-  <h2>What phase-based ranging requires</h2>
+  <h2>相位测距的必要条件</h2>
   <div class="content">
     <div class="reqs">
       <div class="card">
-        <span class="n">01 · TWO-WAY PHASE</span>
-        <h3>Both directions, one channel</h3>
-        <p>Initiator to reflector, then back, within one step. Each radio keeps its oscillator phase-continuous, so &phi;<sub>I</sub> and &phi;<sub>R</sub> cancel.</p>
+        <span class="n">01 · 双向相</span>
+        <h3>两个方向、同一信道</h3>
+        <p>发起端到反射端，然后返回，一步之内。每个无线设备都保持其振荡器相位连续，因此 φ<sub>I</sub> 和 φ<sub>R</sub> 相互抵消。</p>
       </div>
       <div class="card">
-        <span class="n">02 · PHASE EXCHANGE</span>
-        <h3>Both phases in one place</h3>
-        <p>The reflector reports its phases over the ACL link, or folds them into its reply tone (inline PCT transfer, Core&nbsp;6.3).</p>
+        <span class="n">02·相位交换</span>
+        <h3>汇集双方的相位观测</h3>
+        <p>反射端通过 ACL 链接上报其相位，或将它们折叠到其回复单音信号中（内联 PCT 传输，Core 6.3）。</p>
       </div>
       <div class="card">
-        <span class="n">03 · FREQUENCY</span>
-        <h3>A known frequency offset</h3>
-        <p>Both tune to the same channel; mode 0 measures what is left between their oscillators, or it becomes range bias.</p>
+        <span class="n">03·频率</span>
+        <h3>已知频率偏移</h3>
+        <p>两者都调到同一信道；模式0测量它们的振荡器之间剩余的量，或者它变成距离偏差。</p>
       </div>
       <div class="card">
-        <span class="n">04 · TIMING</span>
-        <h3>A shared step schedule</h3>
-        <p>Both know, to the microsecond, when to send and when to listen, how far apart the two tones are, and which antenna path each tone uses.</p>
+        <span class="n">04 · 时机</span>
+        <h3>共享步骤时间表</h3>
+        <p>两者都知道，精确到微秒，何时发送、何时收听，两个单音信号相距多远，以及每个单音信号使用哪个天线路径。</p>
       </div>
     </div>
-    <div class="callout">
-      Also assumed: a channel that stays still during the step, and calibrated hardware phase offsets.
-    </div>
+    <div class="callout"> 还假设：在步骤期间保持静止的信道，以及校准的硬件相位偏移。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part H (CS)</a
+      >核心·第 6 卷，H 部分（CS）</a
     ><span class="sep">·</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Vol 6, Part A (radio, inline PCT transfer from 6.3)</a
+      >第 6 卷，A 部分（无线设备，从 6.3 开始内联 PCT 传输）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      The one-tone equation hides four requirements. First, two-way phase: the tone goes both ways
-      on the same channel within one step, and each radio must keep its local oscillator phase-
-      continuous between its transmission and its reception, or correct for it; the specification
-      states this directly. Only then do the two oscillator phases cancel. Second, the two phases
-      must meet. Normally the reflector reports its measured phase, as a phase correction term per
-      step and antenna path, and the initiator combines it with its own; in this project that report
-      travels over the ACL link through the Ranging Service. Core 6.3 adds inline PCT transfer: the
-      reflector turns its reply tone by the phase it measured, so the initiator directly sees the
-      doubled channel phase. Third, frequency: both radios tune to the same channel, but their
-      oscillators still differ slightly; mode-0 steps measure that residual offset, because any
-      offset left over rotates the phase between the two tones and becomes a range bias; the
-      calibration section puts a number on it. Fourth, timing: both radios must follow the same step schedule to the
-      microsecond, knowing when to transmit and when to listen, and the time between the two tones
-      must be known to correct the frequency error; with several antennas, both must also follow the
-      same antenna path order, or phases from different paths mix. Underneath all four: the channel must not change
-      during the step, so no fast motion, and the hardware phase offsets of each radio must be
-      calibrated. This slide closes phase-based ranging: it collects what the previous slides
-      needed.
-    </p>
+    <p> 单音信号方程隐藏了四个要求。首先，双向相位：单音信号在一个步骤内在同一信道上双向传输，并且每个无线设备必须在其发送和接收之间保持其本地振荡器相位连续，或者对其进行校正；规范直接说明了这一点。只有这样两个振荡器相位才会抵消。其次，两个阶段必须一致。通常，反射端报告其测量的相位，作为每个步骤和天线路径的相位校正项，并且发起端将其与自己的相结合；在此项目中，报告通过测距服务在 ACL 链路上传输。 Core 6.3 增加了内联 PCT 传输：反射端将其回复单音信号转换为它测量的相位，因此发起端直接看到双倍的信道相位。第三，频率：两种无线设备都调谐到相同的信道，但它们的振荡器仍然略有不同； mode-0步骤测量剩余偏移量，因为任何剩余的偏移量都会旋转两个单音信号之间的相位并成为距离偏差；校准部分在上面放了一个数字。第四，计时：两个无线设备必须遵循相同的步骤时间表到微秒，知道何时发射和何时收听，并且必须知道两个单音信号之间的时间以纠正频率误差；对于多个天线，两个天线也必须遵循相同的天线路径顺序，或者来自不同路径的相位混合。在所有四个之下：信道在步骤期间不得更改，因此不能快速移动，并且必须校准每个无线设备的硬件相位偏移。这张幻灯片关闭了基于相位的测距：它收集了之前幻灯片所需的内容。 </p>
   </aside>
 </section>

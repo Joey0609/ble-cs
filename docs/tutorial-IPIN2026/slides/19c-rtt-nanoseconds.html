@@ -1,18 +1,17 @@
 <section data-timing="105">
-  <h2>Try it: RTT is a nanosecond problem</h2>
+  <h2>交互演示：纳秒级误差如何影响距离</h2>
   <div class="content">
     <div class="cols">
       <div>
         <div class="interactive" id="rtt-demo">
           <div class="control-row">
             <label
-              >True distance
-              <input id="rtt-distance" type="range" min="1" max="20" step="1" value="3"
+              >真实距离 <input id="rtt-distance" type="range" min="1" max="20" step="1" value="3"
             /></label>
           </div>
           <div class="control-row">
             <label
-              >Turnaround <input id="rtt-turn" type="range" min="20" max="100" step="10" value="40"
+              >周转时间 <input id="rtt-turn" type="range" min="20" max="100" step="10" value="40"
             /></label>
           </div>
           <div id="rtt-values" class="equations"></div>
@@ -20,27 +19,16 @@
       </div>
       <div>
         <p class="lead">
-          <span class="metric">6.67 ns</span><br />round-trip flight time per metre
-        </p>
-        <p class="">
-          A 1 ns round-trip timing error<br />means about <strong>15 cm</strong> range error.
-        </p>
-        <p class="small muted">Ideal model · c = 299,792,458 m/s</p>
+          <span class="metric">6.67纳秒</span><br />每米往返传播时间 </p>
+        <p class=""> 1 ns 往返时序误差<br />意思是关于 <strong>15厘米</strong> 距离误差。 </p>
+        <p class="small muted">理想模型·c = 299,792,458 m/s</p>
       </div>
     </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Interactive prediction: increase the turnaround while holding the distance fixed. The
-      initiator&#x27;s total elapsed time increases, but the corrected propagation time and range
-      stay fixed. Then increase distance and observe the much smaller nanosecond change. At three
-      metres, round-trip flight time is about 20.01 ns. A one-nanosecond error after subtraction
-      creates about 0.15 m of range error. The application decodes time_difference in 0.5 ns units;
-      quantization is not a promise of corresponding accuracy. Use exact c internally and rounded
-      display values. This demonstration is a mathematical model, not captured hardware timing.
-    </p>
+    <p> 互动预测：在保持距离固定的情况下增加收发周转。发起端的总经过时间增加，但校正的传播时间和距离保持不变。然后增加距离并观察更小的纳秒变化。在三米处，往返传播时间约为 20.01 纳秒。相减后一纳秒的误差会产生约 0.15 m 的距离误差。应用程序以 0.5 ns 为单位解码 time_difference；量化并不保证相应的准确性。内部使用精确的 c 和四舍五入的显示值。该演示是一个数学模型，而不是捕获的硬件时序。 </p>
   </aside>
 </section>

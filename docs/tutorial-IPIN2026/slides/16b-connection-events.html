@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="105">
-  <h2>On the established link: connection events, then encryption</h2>
+  <h2>连接建立后：连接事件与链路加密</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 -40 1160 340"
       role="img"
-      aria-label="Timeline after CONNECT_IND: pairing and encryption start run in the first connection events, and every later packet is encrypted; the first packet falls in a transmit window and sets the first anchor; a connection event starts at every anchor, one connection interval apart, each on its own data channel; in each event the Central transmits first and the Peripheral replies, within an event budget; the rest of the interval is free; in one event the Peripheral skips its reply"
+      aria-label="CONNECT_IND之后的时间轴：配对和加密在第一个连接事件中开始运行，并且后面的每个数据包都被加密；第一数据包落入发送窗口并设置第一基站；连接事件从每个基站开始，每个基站之间有一个连接间隔，每个基站都有自己的数据通道；在每个事件中，中心设备首先传输，外围设备在事件预算内进行回复；其余时间免费；在一种情况下，外围设备会跳过其回复"
     >
       <defs>
         <marker id="cev-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -18,12 +18,12 @@
         <line x1="264" y1="-18" x2="264" y2="-6" />
         <line x1="636" y1="-18" x2="636" y2="-6" />
       </g>
-      <text x="450" y="-24" font-size="15" fill="#65e4d0" text-anchor="middle">pairing, then Link Layer encryption</text>
+      <text x="450" y="-24" font-size="15" fill="#65e4d0" text-anchor="middle">配对，然后链路层加密</text>
       <line x1="724" y1="-12" x2="1136" y2="-12" stroke="#dcf58a" stroke-width="3" marker-end="url(#cev-arrow)" />
-      <text x="930" y="-24" font-size="15" fill="#dcf58a" text-anchor="middle">encrypted: every packet from here on</text>
+      <text x="930" y="-24" font-size="15" fill="#dcf58a" text-anchor="middle">加密：从现在开始的每个数据包</text>
       <!-- Lanes -->
-      <text x="20" y="117" font-size="21" font-weight="700" fill="#65e4d0">Central</text>
-      <text x="20" y="197" font-size="21" font-weight="700" fill="#ffb17a">Peripheral</text>
+      <text x="20" y="117" font-size="21" font-weight="700" fill="#65e4d0">中心设备</text>
+      <text x="20" y="197" font-size="21" font-weight="700" fill="#ffb17a">外围设备</text>
       <g stroke="#31535a" stroke-width="2">
         <line x1="150" y1="110" x2="1140" y2="110" />
         <line x1="150" y1="190" x2="1140" y2="190" />
@@ -36,7 +36,7 @@
         <line x1="238" y1="60" x2="238" y2="72" />
         <line x1="308" y1="60" x2="308" y2="72" />
       </g>
-      <text x="273" y="52" font-size="14" fill="#afc8cb" text-anchor="middle">transmit window</text>
+      <text x="273" y="52" font-size="14" fill="#afc8cb" text-anchor="middle">发送窗口</text>
       <!-- Event budgets -->
       <g fill="#65e4d0" fill-opacity="0.07" stroke="#65e4d0" stroke-width="1.5" stroke-dasharray="6 5">
         <rect x="264" y="88" width="142" height="120" rx="6" />
@@ -44,7 +44,7 @@
         <rect x="724" y="88" width="142" height="120" rx="6" />
         <rect x="954" y="88" width="142" height="120" rx="6" />
       </g>
-      <text x="565" y="80" font-size="15" fill="#65e4d0" text-anchor="middle">event budget</text>
+      <text x="565" y="80" font-size="15" fill="#65e4d0" text-anchor="middle">事件时间预算</text>
       <!-- Packets: the Central opens each event, the Peripheral replies -->
       <g fill="#65e4d0">
         <rect x="270" y="99" width="26" height="22" rx="3" />
@@ -60,12 +60,12 @@
         <rect x="764" y="179" width="26" height="22" rx="3" />
       </g>
       <rect x="994" y="179" width="26" height="22" rx="3" fill="none" stroke="#ffb17a" stroke-width="1.5" stroke-dasharray="4 3" />
-      <text x="1030" y="236" font-size="14" fill="#ffb17a" text-anchor="middle">may skip: latency</text>
+      <text x="1030" y="236" font-size="14" fill="#ffb17a" text-anchor="middle">可以跳过：延迟</text>
       <!-- Free time between events -->
       <g font-size="14" fill="#afc8cb" text-anchor="middle">
-        <text x="450" y="155">free</text>
-        <text x="680" y="155">free</text>
-        <text x="910" y="155">free</text>
+        <text x="450" y="155">空闲</text>
+        <text x="680" y="155">空闲</text>
+        <text x="910" y="155">空闲</text>
       </g>
       <!-- Time axis, anchors and the interval -->
       <line x1="150" y1="258" x2="1140" y2="258" stroke="#afc8cb" stroke-width="2" />
@@ -76,26 +76,26 @@
         <line x1="960" y1="248" x2="960" y2="268" />
       </g>
       <g font-size="14" fill="#f5f5ed" text-anchor="middle">
-        <text x="335" y="288">event n · ch 12</text>
-        <text x="565" y="288">event n+1 · ch 34</text>
-        <text x="795" y="288">event n+2 · ch 7</text>
-        <text x="1025" y="288">event n+3 · ch 25</text>
+        <text x="335" y="288">事件 n · 信道 12</text>
+        <text x="565" y="288">事件 n+1 · 信道 34</text>
+        <text x="795" y="288">事件 n+2 · 信道 7</text>
+        <text x="1025" y="288">事件 n+3 · 信道 25</text>
       </g>
       <line x1="270" y1="240" x2="500" y2="240" stroke="#dcf58a" stroke-width="1.5" />
       <g stroke="#dcf58a" stroke-width="1.5">
         <line x1="270" y1="235" x2="270" y2="245" />
         <line x1="500" y1="235" x2="500" y2="245" />
       </g>
-      <text x="385" y="231" font-size="15" fill="#dcf58a" text-anchor="middle">connection interval</text>
-      <text x="1140" y="250" font-size="14" fill="#afc8cb" text-anchor="end">time</text>
+      <text x="385" y="231" font-size="15" fill="#dcf58a" text-anchor="middle">连接间隔</text>
+      <text x="1140" y="250" font-size="14" fill="#afc8cb" text-anchor="end">时间</text>
     </svg>
     <div class="params rows">
-      <div><b>Connection interval</b> anchor to anchor, one event each</div>
-      <div><b>Channel map</b> the data channel of each event</div>
-      <div><b>Peripheral latency</b> events the Peripheral may skip</div>
-      <div><b>Supervision timeout</b> silence before the link is lost</div>
-      <div><b>Event budget</b> reserved per event, not negotiated</div>
-      <div class="enc"><b>Encryption</b> key from pairing, switched on by the LL</div>
+      <div><b>连接间隔</b> 相邻时间锚点之间的间隔，每个锚点对应一个事件</div>
+      <div><b>信道映射</b> 每个事件的数据信道</div>
+      <div><b>外围设备延迟</b> 外围设备可能跳过的事件</div>
+      <div><b>连接监视超时</b> 无有效数据包的最长允许时长</div>
+      <div><b>事件时间预算</b> 控制器为每个事件预留的时间，不经双方协商</div>
+      <div class="enc"><b>Encryption</b> 使用配对密钥，由链路层启用</div>
     </div>
   </div>
   <div class="source">
@@ -103,29 +103,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core 6.0 · Vol 6, Part B (Link Layer)</a
+      >Core 6.0·第 6 卷，B 部分（链路层）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      The parameters from CONNECT_IND turn the link into a fixed rhythm. The Central sends its first
-      packet inside the transmit window; that packet sets the first anchor point. From then on a
-      connection event starts at every anchor, one connection interval apart, and the event counter
-      goes up by one each time. In each event the Central transmits first and the Peripheral replies
-      a fixed inter-frame space later; if either side has more data they keep alternating, as in
-      event n+1. Each event uses one data channel, chosen from the channel map by the hopping
-      algorithm. The event budget is how long a controller reserves for an event; it is a local
-      scheduling choice, not negotiated, and an event with little data ends early. The rest of the
-      interval is free for other radio activity, and that is where Channel Sounding will go.
-      Peripheral latency lets the Peripheral skip events when it has nothing to send, as in event
-      n+3, without moving the anchors. The supervision timeout ends the link if no valid packet
-      arrives for that long. These events also carry the link's own control traffic, and the first
-      thing that matters for CS is security. If the devices are not bonded yet, they pair through
-      the Security Manager, which runs over the link like any other data. The Central then starts
-      Link Layer encryption with LL_ENC_REQ and LL_ENC_RSP, followed by LL_START_ENC_REQ and
-      LL_START_ENC_RSP, using the key from pairing or from an earlier bond. From then on every
-      packet on the link is encrypted, and only then may CS security start: Channel Sounding needs
-      this encrypted link. The figure is illustrative; the channel numbers are examples.
-    </p>
+    <p> CONNECT_IND 中的参数将链接变成固定节奏。中心设备在传输窗口内发送其第一个数据包；该数据包设置了第一个锚点。从此每个基站开始一次连接事件，间隔一个连接距离，事件计数器每次加一。在每种情况下，中心设备先发送，外围设备随后回复固定的帧间间隔；如果任何一方有更多数据，它们就会保持交替，如事件 n+1 所示。每个事件使用一个数据信道，该数据信道是通过跳频算法从信道映射中选择的。事件预算是控制器为事件预留的时间；这是本地调度选择，未经协商，数据很少的事件会提前结束。剩余的时间间隔可用于其他无线设备活动，这就是信道探测将进行的地方。 外围设备延迟允许外围设备在没有要发送的内容时跳过事件（如事件 n+3 中），而无需移动基站。如果在这么长的时间内没有有效的数据包到达，则监督超时会结束链接。这些事件还携带链路自身的控制流量，对于CS来说，首先重要的是安全性。如果设备尚未绑定，它们将通过安全管理器进行配对，安全管理器像任何其他数据一样在链路上运行。然后，中心设备使用来自配对或先前绑定的密钥，开始使用 LL_ENC_REQ 和 LL_ENC_RSP 进行序列层加密，然后是 LL_START_ENC_REQ 和 LL_START_ENC_RSP。从此链路上的每个数据包都被加密，CS安全才开始：探测需要这个加密链路。该图是说明性的；信道号是示例。 </p>
   </aside>
 </section>

@@ -1,12 +1,12 @@
 <section class="modality" data-timing="60">
-  <h2>Find Me: presence, on request</h2>
+  <h2>查找设备：按需确认设备是否在附近</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 270"
         role="img"
-        aria-label="A phone connects to a tag and writes an alert level; the tag beeps; the distance between them stays unknown"
+        aria-label="手机连接到标签并写入警报级别；标签发出蜂鸣声；他们之间的距离仍然未知"
       >
         <defs>
           <marker id="fm-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -16,13 +16,13 @@
         <!-- Phone -->
         <rect x="40" y="40" width="80" height="140" rx="14" fill="#12363d" stroke="#65e4d0" stroke-width="3" />
         <rect x="56" y="118" width="48" height="26" rx="6" fill="#65e4d0" />
-        <text x="80" y="136" font-size="14" fill="#09242b" text-anchor="middle">find</text>
-        <text x="80" y="208" font-size="17" fill="#f5f5ed" text-anchor="middle">phone</text>
-        <text x="80" y="228" font-size="14" fill="#afc8cb" text-anchor="middle">Find Me Locator</text>
+        <text x="80" y="136" font-size="14" fill="#09242b" text-anchor="middle">查找</text>
+        <text x="80" y="208" font-size="17" fill="#f5f5ed" text-anchor="middle">手机</text>
+        <text x="80" y="228" font-size="14" fill="#afc8cb" text-anchor="middle">查找端</text>
         <!-- Tag -->
         <rect x="400" y="78" width="64" height="64" rx="14" fill="#463a34" stroke="#ffb17a" stroke-width="3" />
-        <text x="432" y="208" font-size="17" fill="#f5f5ed" text-anchor="middle">tag</text>
-        <text x="432" y="228" font-size="14" fill="#afc8cb" text-anchor="middle">Find Me Target</text>
+        <text x="432" y="208" font-size="17" fill="#f5f5ed" text-anchor="middle">标签</text>
+        <text x="432" y="228" font-size="14" fill="#afc8cb" text-anchor="middle">被查找设备</text>
         <g fill="none" stroke="#ffb17a" stroke-width="3" stroke-linecap="round">
           <path d="M478 94 q10 16 0 32" />
           <path d="M492 84 q18 26 0 52" />
@@ -33,58 +33,46 @@
           <line x1="128" y1="80" x2="390" y2="80" />
           <line x1="128" y1="130" x2="390" y2="130" />
         </g>
-        <text x="258" y="70" font-size="16" fill="#f5f5ed" text-anchor="middle">1 · connect</text>
-        <text x="258" y="120" font-size="16" fill="#f5f5ed" text-anchor="middle">
-          2 · write Alert Level = High
-        </text>
+        <text x="258" y="70" font-size="16" fill="#f5f5ed" text-anchor="middle">1·连接</text>
+        <text x="258" y="120" font-size="16" fill="#f5f5ed" text-anchor="middle"> 2·写入警报级别=高 </text>
         <!-- Distance: not measured -->
         <line x1="128" y1="170" x2="390" y2="170" stroke="#afc8cb" stroke-width="2" stroke-dasharray="6 6" />
         <rect x="222" y="156" width="72" height="28" fill="#09242b" />
         <text x="258" y="177" font-size="20" fill="#dcf58a" text-anchor="middle">d = ?</text>
       </svg>
       <dl class="facts">
-        <dt>SINCE</dt>
-        <dd>Bluetooth 4.0 LE, Find Me Profile (2011)</dd>
-        <dt>LINK</dt>
-        <dd>A connection: the phone connects to the tag</dd>
-        <dt>TRIGGER</dt>
-        <dd>The user taps &ldquo;find&rdquo;; the phone writes to the tag&rsquo;s Immediate Alert Service</dd>
-        <dt>RESULT</dt>
-        <dd>The tag beeps; the person walks to the sound</dd>
+        <dt>引入时间</dt>
+        <dd>蓝牙 4.0 LE，设备查找规范（2011）</dd>
+        <dt>连接方式</dt>
+        <dd>建立连接：手机连接标签</dd>
+        <dt>触发方式</dt>
+        <dd>用户点击“查找”；手机写入标签的即时告警服务</dd>
+        <dt>测得的值结果</dt>
+        <dd>标签鸣叫，用户循声寻找</dd>
       </dl>
     </div>
     <div class="limits">
-      <span class="n">LIMITATIONS</span>
+      <span class="n">限制</span>
       <ul>
-        <li>No range, direction or position: presence only</li>
-        <li>The person does the localization, by ear</li>
-        <li>Only on request, and only within connection range</li>
-        <li>No continuous estimate, so no track or record</li>
+        <li>不测距离、方向或坐标，仅确认设备在连接范围内</li>
+        <li>定位由人根据声音完成</li>
+        <li>按用户请求运行，且仅限连接范围内</li>
+        <li>没有连续的估计，所以没有运动轨迹或记录</li>
       </ul>
     </div>
   </div>
   <div class="source">
     <a href="https://www.bluetooth.com/specifications/specs/find-me-profile-1-0/" target="_blank" rel="noopener"
-      >Bluetooth SIG · Find Me Profile 1.0</a
+      >蓝牙技术联盟（SIG）·设备查找规范 1.0</a
     ><span class="sep">|</span
     ><a
       href="https://www.bluetooth.com/specifications/specs/immediate-alert-service-1-0/"
       target="_blank"
       rel="noopener"
-      >Immediate Alert Service 1.0</a
+      >即时告警服务1.0</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Find Me is the first Bluetooth LE answer to &ldquo;where is it?&rdquo;, and it does not
-      measure anything. The phone, in the Find Me Locator role, connects to the tag, the Find Me
-      Target, when the user asks, and writes an Alert Level to the tag&rsquo;s Immediate Alert
-      Service. The tag beeps or blinks; the person does the localization by ear. There is no range,
-      direction or position, it works only within connection range and only while someone is
-      looking, and nothing is recorded. Do not confuse it with the crowd-sourced Find My and Find Hub
-      networks: there, other people&rsquo;s phones hear a tag&rsquo;s advertisements and report
-      their own GPS position. Keep one point for later: Find Me already runs over a connection, and
-      so does Channel Sounding.
-    </p>
+    <p> Find Me 是第一个针对“它在哪里？”的蓝牙 LE 答案，并且它不测量任何内容。当用户询问时，手机充当“查找我定位器”角色，连接到标签（“查找我目标”），并将警报级别写入标签的即时告警服务。标签发出蜂鸣声或闪烁；人们通过耳朵进行定位。没有距离、方向或位置，它仅在连接距离内起作用，并且仅在有人注视时起作用，并且不会记录任何内容。不要将其与众包的 Find My 和 Find Hub 网络混淆：在这些网络中，其他人的手机会听到标签的广播并报告自己的 GPS 位置。保留一点供以后使用：“Find Me”已经通过连接运行，信道探测也是如此。 </p>
   </aside>
 </section>

@@ -1,56 +1,41 @@
 <section data-timing="60">
-  <h2>Our route to the hands-on</h2>
+  <h2>教程路线与实践安排</h2>
   <div class="content">
     <div class="agenda">
       <div class="agenda-row">
         <span class="stage-number">01</span><strong>SensWear</strong
-        ><span class="stage-detail">What our platform can do</span>
+        ><span class="stage-detail">我们的平台能做什么</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">02</span><strong>Localization &amp; ranging</strong
-        ><span class="stage-detail">Positions from ranges: amplitude, angle, time, phase</span>
+        <span class="stage-number">02</span><strong>定位和测距</strong
+        ><span class="stage-detail">定位与测距依据：幅度、角度、时间、相位</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">03</span><strong>LE link</strong
-        ><span class="stage-detail">Bluetooth Low Energy (LE): the connection CS runs on</span>
+        <span class="stage-number">03</span><strong>LE 链路</strong
+        ><span class="stage-detail">低功耗蓝牙（LE）：承载 CS 的连接</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">04</span><strong>Measurement principles</strong
-        ><span class="stage-detail">Phase, round-trip time and frequency calibration</span>
+        <span class="stage-number">04</span><strong>测量原理</strong
+        ><span class="stage-detail">相位、往返时间和频率校准</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">05</span><strong>CS procedure</strong
-        ><span class="stage-detail">Steps, modes, scheduling and result delivery</span>
+        <span class="stage-number">05</span><strong>CS测距过程</strong
+        ><span class="stage-detail">步骤、模式、调度与结果传输</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">06</span><strong>Security</strong
-        ><span class="stage-detail">Why a distance needs protecting, and how CS does it</span>
+        <span class="stage-number">06</span><strong>安全机制</strong
+        ><span class="stage-detail">为什么距离需要保护，CS 如何做到这一点</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">07</span><strong>In practice</strong
-        ><span class="stage-detail">Budgets, link settings and tradeoffs</span>
+        <span class="stage-number">07</span><strong>在实践中</strong
+        ><span class="stage-detail">时间预算、链路设置与权衡</span>
       </div>
       <div class="agenda-row">
-        <span class="stage-number">08</span><strong>Hands-on</strong
-        ><span class="stage-detail">What the app shows; which parameter changes what</span>
+        <span class="stage-number">08</span><strong>动手实践</strong
+        ><span class="stage-detail">应用显示哪些结果，各参数影响什么</span>
       </div>
     </div>
   </div>
   <div class="source"></div>
-  <aside class="notes">
-    <p>
-      Eight parts, each feeding the hands-on. SensWear is the platform the radio lives on.
-      Localization and ranging places Channel Sounding among the four ways to get distance from a
-      radio. The LE link part introduces CS and the connection it needs: CS has no link of its own,
-      so the connection interval, PHY, data length and MTU decide when CS runs and how fast results
-      come back. Measurement principles covers what CS observes: the phase of tones, the round-trip
-      time of packets, and the frequency calibration both depend on. The CS procedure part organizes
-      those measurements into steps, subevents, events and procedures, sets them up, and delivers
-      the reflector's results. Security explains why a distance must be protected and how CS does
-      it. In practice turns all of this into the choices an implementer makes. The hands-on shows
-      how the app checks a range estimate, then changes one parameter at a time. Questions and
-      prediction pauses are included in the timings. The appendix is optional and outside the
-      90-minute total.
-    </p>
-  </aside>
+  <aside class="notes"><p>教程分为八部分，各部分都为实践作准备。SensWear 介绍无线模块所在的平台。定位与测距把信道探测放在幅度、角度、时间、相位等无线定位方法的背景中。低功耗蓝牙链路部分介绍 CS 及其所需连接：CS 没有独立的数据链路，因此连接间隔、物理层、数据长度和最大传输单元共同决定测量何时执行、结果多快返回。测量原理解释多频单音相位、数据包往返时间，以及两种方法共同依赖的频率校准。CS 测距过程部分将测量组织成步骤、子事件、事件和过程，介绍初始化及反射端结果传输。安全部分解释保护距离的原因与方法。实际实现部分把这些原理落实到参数选择。实践部分展示如何检查距离估计，并一次只改变一个参数。提问与预测环节已计入授课时间；附录为可选内容，不计入前 90 分钟。</p></aside>
 </section>

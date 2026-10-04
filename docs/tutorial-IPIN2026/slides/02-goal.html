@@ -1,40 +1,27 @@
 <section data-timing="60">
-  <h2>Goal: measure what each setting changes</h2>
+  <h2>目标：测量各项设置对测距结果的影响</h2>
   <div class="content">
     <div class="stepstrip">
-      <div class="stepbox">Laptop<small>ble-channel-sounding app</small></div>
+      <div class="stepbox">笔记本电脑<small>ble-channel-sounding 桌面应用</small></div>
       <span class="arrow">⇄</span>
-      <div class="stepbox">nRF54LM20 kit<small>cs_client · initiator</small></div>
+      <div class="stepbox">nRF54LM20 套件<small>cs_client·发起端</small></div>
       <span class="arrow">⇄</span>
-      <div class="stepbox">Reflector<small>nRF54L15 kit or nRF54L15 Tag</small></div>
+      <div class="stepbox">反射端<small>nRF54L15 套件或 nRF54L15 标签</small></div>
     </div>
     <div class="cols">
       <div>
-        <p class="lead">
-          Today we use two nRF54 boards to measure how
-          <strong>Channel Sounding (CS) settings</strong> change the ranging result.
-        </p>
-        <div class="callout">Change one parameter per run; keep distance and mounting fixed.</div>
+        <p class="lead"> 今天使用两块 nRF54 开发板，观察 <strong>信道探测（CS）设置如何</strong> 影响测距结果。 </p>
+        <div class="callout">每次实验只改变一个参数，保持设备距离和安装方式不变。</div>
       </div>
       <div>
         <div class="screenshot-frame" style="height: 300px">
-          <img src="images/app-pbr.png" alt="Screenshot of the actual CS Host application" />
+          <img src="images/app-pbr.png" alt="实际 CS Host 应用程序的屏幕截图" />
         </div>
       </div>
     </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
-  <aside class="notes">
-    <p>
-      State the goal before any theory, so every later section has a place to land. The kit is two
-      nRF54 boards and a laptop. The nRF54LM20 DK runs cs_client and talks to our desktop app over
-      native USB; it is the CS initiator and connects over Bluetooth to the reflector, an nRF54L15
-      DK or the two-antenna nRF54L15 Tag. The app sets the CS configuration, starts the session and
-      shows the raw steps and the estimates. The screenshot is simulated data from the same app.
-      Everything in the next sections explains one of the parameters we will change in the
-      hands-on, and what that change should do to the result.
-    </p>
-  </aside>
+  <aside class="notes"><p>先说明实验目标，让后续每部分理论都对应到实践。设备包括两块 nRF54 开发板和一台笔记本电脑。nRF54LM20 DK 运行 cs_client，通过芯片原生 USB 接口与桌面应用通信，担任 CS 发起端；它通过蓝牙连接 nRF54L15 DK 或双天线 nRF54L15 Tag 反射端。应用设置 CS 配置、启动会话，并显示原始步骤报告和距离估计。截图使用同一应用的模拟数据。后续章节分别解释实践中要改变的参数，以及这些改变预计会怎样影响结果。</p></aside>
 </section>

@@ -1,21 +1,19 @@
 <section data-timing="105">
-  <h2>Antenna diversity creates paths, not extra anchors</h2>
+  <h2>天线分集增加路径，不增加定位基站</h2>
   <div class="content">
     <div class="cols">
       <div>
-        <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="Teaching diagram">
+        <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="教学图">
           <defs>
             <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
               <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
             </marker>
           </defs>
           <rect x="65" y="100" width="240" height="140" rx="12" fill="#12363d" />
-          <text x="185" y="150" font-size="29" fill="#f5f5ed" text-anchor="middle">Initiator</text>
-          <text x="185" y="195" font-size="22" fill="#f5f5ed" text-anchor="middle">
-            one antenna
-          </text>
+          <text x="185" y="150" font-size="29" fill="#f5f5ed" text-anchor="middle">发起端</text>
+          <text x="185" y="195" font-size="22" fill="#f5f5ed" text-anchor="middle"> 一根天线 </text>
           <rect x="680" y="70" width="250" height="205" rx="12" fill="#12363d" />
-          <text x="805" y="112" font-size="29" fill="#f5f5ed" text-anchor="middle">Reflector</text>
+          <text x="805" y="112" font-size="29" fill="#f5f5ed" text-anchor="middle">反射端</text>
           <circle
             cx="725"
             cy="165"
@@ -52,42 +50,28 @@
             stroke-width="3"
             stroke-dasharray=""
           />
-          <text x="475" y="147" font-size="23" fill="#f5f5ed" text-anchor="start">path 1</text>
-          <text x="475" y="255" font-size="23" fill="#f5f5ed" text-anchor="start">path 2</text>
+          <text x="475" y="147" font-size="23" fill="#f5f5ed" text-anchor="start">路径1</text>
+          <text x="475" y="255" font-size="23" fill="#f5f5ed" text-anchor="start">路径2</text>
         </svg>
       </div>
       <div>
-        <p class="lead">Different orientation.<br />Different fading.<br />Different path bias.</p>
-        <p class="small">Compare paths before combining them.</p>
+        <p class="lead">方向不同。<br />衰落特性不同。<br />路径偏差不同。</p>
+        <p class="small">在组合路径之前比较它们。</p>
       </div>
     </div>
-    <div class="callout">
-      Two antennas on one board still share essentially one anchor location.
-    </div>
+    <div class="callout"> 一块板上的两根天线基本上仍然共享一个基站位置。 </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a
     ><span class="sep">·</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Bluetooth Core 6.0 · Vol 6, Part A</a
+      >蓝牙核心 6.0·第 6 卷，A 部分</a
     >
   </div>
   <aside class="notes">
-    <p>
-      A path is a transmit/receive antenna pairing. Multiple paths offer diversity against poor
-      orientation or fading, but do not automatically become independent surveyed anchors. The
-      specification permits several antenna arrangements subject to implementation capability. The
-      local repository includes an nRF54L15 Tag reflector with two switched antennas; do not assume
-      that this Nordic Tag has the same antenna arrangement as a SensWear board. On a worn ring, the
-      hand and body also change the RF environment. The order of the paths inside a step changes
-      from step to step through the antenna path permutation, and the report carries the
-      permutation index so the host can map each slot back to its path. With the wrong mapping,
-      phases from different paths mix and the slope fit returns a plausible but wrong distance,
-      with nothing to flag it. Keep path IDs in the dataset and test orientation, enclosure and
-      mounting effects empirically.
-    </p>
+    <p> 路径是发射/接收天线对。多条路径提供了针对不良方向或衰落的多样性，但不会自动成为独立的勘测基站。该规范允许多种天线布置，具体取决于实施能力。本地存储库包括一个带有两个切换天线的 nRF54L15 标签反射端；不要假设此 Nordic Tag 具有与 SensWear 板相同的天线布置。在磨损的戒指上，手和身体也会改变射频环境。步骤内的路径顺序通过天线路径排列从一个步骤变为另一个步骤，并且报告携带排列索引，以便主机可以将每个槽映射回其路径。如果映射错误，来自不同路径的相位会混合，斜率拟合会返回一个看似合理但错误的距离，没有任何标记。将路径 ID 保留在数据集中，并根据经验测试方向、外壳和安装效果。 </p>
   </aside>
 </section>

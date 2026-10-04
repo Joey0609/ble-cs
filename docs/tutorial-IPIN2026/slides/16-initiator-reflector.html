@@ -1,11 +1,11 @@
 <section data-timing="90">
-  <h2>The reflector is an active radio, not a mirror</h2>
+  <h2>反射端是主动收发设备</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="40 55 920 200"
       role="img"
-      aria-label="Initiator and reflector in a two-way exchange: the initiator starts each CS step, the reflector receives and transmits"
+      aria-label="发起端和反射端双向交互：发起端启动每个CS步骤，反射端接收和发送"
     >
       <defs>
         <marker id="ir-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -17,30 +17,27 @@
       </defs>
       <!-- Same boxes as what-is-cs: initiator teal, reflector orange -->
       <rect x="70" y="70" width="270" height="170" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
-      <text x="205" y="138" font-size="30" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
-      <text x="205" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">starts each CS step</text>
+      <text x="205" y="138" font-size="30" font-weight="700" fill="#65e4d0" text-anchor="middle">发起端</text>
+      <text x="205" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">启动每个 CS 步骤</text>
       <rect x="660" y="70" width="270" height="170" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
-      <text x="795" y="138" font-size="30" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
-      <text x="795" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">receives + transmits</text>
+      <text x="795" y="138" font-size="30" font-weight="700" fill="#ffb17a" text-anchor="middle">反射端</text>
+      <text x="795" y="178" font-size="22" fill="#afc8cb" text-anchor="middle">接收+发送</text>
       <line x1="365" y1="110" x2="635" y2="110" stroke="#65e4d0" stroke-width="3" marker-end="url(#ir-arrow)" />
       <line x1="635" y1="210" x2="365" y2="210" stroke="#ffb17a" stroke-width="3" marker-end="url(#ir-arrow-ref)" />
-      <text x="500" y="155" font-size="22" fill="#f5f5ed" text-anchor="middle">two-way exchange</text>
+      <text x="500" y="155" font-size="22" fill="#f5f5ed" text-anchor="middle">双向交换</text>
     </svg>
     <div class="layer link">
-      <span class="n">LINK LAYER · PREREQUISITE</span>
-      <p>
-        The two must share an encrypted Low Energy asynchronous connection (LE ACL): one is its
-        <b>Central</b>, the other its <b>Peripheral</b>.
-      </p>
+      <span class="n">链路层·先决条件</span>
+      <p> 双方必须共享一条已加密的低功耗蓝牙异步连接（LE ACL）：一端是 <b>中心设备</b>，另一端是 <b>外围设备</b>. </p>
     </div>
     <div class="pair">
       <div class="layer cs">
-        <span class="n">CS ROLES</span>
-        <p>Link Layer roles do not imply CS roles: the Central or the Peripheral can be the initiator.</p>
+        <span class="n">CS 角色</span>
+        <p>链路层角色不决定 CS 角色：中心设备或外围设备均可担任发起端。</p>
       </div>
       <div class="layer host">
-        <span class="n">HOST · APPLICATION ROLES</span>
-        <p>Advertising and data-service roles follow from connection setup and the application. CS does not depend on them.</p>
+        <span class="n">主机·应用程序角色</span>
+        <p>广播和数据服务角色取决于连接设置和应用程序。 CS 不依赖于他们。</p>
       </div>
     </div>
   </div>
@@ -49,32 +46,16 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Core 6.0 · Vol 6, Part H (CS)</a
+      >核心 6.0 · 第 6 卷，H 部分（CS）</a
     ><span class="sep">·</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Vol 6, Part B (Link Layer)</a
+      >第 6 卷 B 部分（链路层）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Start with the premise: the reflector is not a passive mirror. In every CS step it receives
-      the initiator's tone or packet, measures it and transmits its own; an ordinary wall reflection
-      is not the protocol reflector. Two active radios that must agree on every step's channel and
-      timing need a link, so the prerequisite follows: the two share an established, encrypted LE
-      ACL connection. In the Link Layer that connection has two roles: the Central sent the
-      connection request, the Peripheral advertised and accepted it. Encryption comes from pairing
-      or an earlier bond; a controller refuses to start CS security on an unencrypted link. The Link
-      Layer roles do not imply the CS roles: either the Central or the Peripheral can be the
-      initiator, so the reflector does not have to be connected by the initiator. The CS role is
-      chosen per CS configuration, in its Role field. The Link Layer roles still appear inside CS
-      setup, since the Central starts the CS security exchange, but they do not decide the CS roles. Above the Link Layer, GAP names follow from how the
-      connection was made, and GATT client and server come from the application; CS does not depend
-      on either. The connectionless GAP roles, Broadcaster and Observer, never connect and so cannot
-      run CS. We meet the GATT roles again with the Ranging Service. Below (↓), the connection step
-      by step.
-    </p>
+    <p> 首先有一个前提：反射端不是被动镜像。在每个CS步骤中，它接收发起端的单音信号或数据包，对其进行测量并发送自己的信号；普通的墙壁反射不是协议反射端。必须在每个步骤的信道和时序上达成一致的两个活动无线设备需要一个链接，因此先决条件如下：两者共享已建立的加密 LE ACL 连接。在链路层中，该连接有两个作用：中心设备发送连接请求，外围设备通告并接受连接请求。加密来自配对或早期的绑定；控制器拒绝在未加密的链路上启动 CS 安全。信道层角色并不隐含 CS 角色：中心设备或外围设备都可以是发起端，因此发起端不必连接反射端。 CS 角色是根据 CS 配置在其角色字段中选择的。由于中心设备启动 CS 安全交换，因此链路层角色仍然出现在 CS 设置中，但它们不决定 CS 角色。在链路层之上，GAP 名称来自于连接的方式，GATT 客户端和服务器来自于应用程序； CS 不依赖于任何一个。无连接 GAP 角色（广播者和观察者）从不连接，因此无法运行 CS。我们通过测距服务再次满足关贸总协定的角色。下图（↓），按步骤连接。 </p>
   </aside>
 </section>

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" font-family="Arial, Helvetica, sans-serif">
 <rect width="100%" height="100%" fill="#09242b"/>
 <text x="154" y="52" text-anchor="end" font-size="26" font-weight="bold" fill="#f5f5ed">7.5 ms</text>
-<text x="154" y="76" text-anchor="end" font-size="16" fill="#afc8cb">ACL interval</text>
+<text x="154" y="76" text-anchor="end" font-size="16" fill="#afc8cb">ACL间隔</text>
 <line x1="170.0" y1="18" x2="170.0" y2="82" stroke="#24454d" stroke-width="2"/>
 <rect x="170.0" y="22" width="6.2" height="18" fill="#86b8dc"/>
 <line x1="286.0" y1="18" x2="286.0" y2="82" stroke="#24454d" stroke-width="2"/>
@@ -175,9 +175,9 @@
 <line x1="185.5" y1="100" x2="649.5" y2="100" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="185.5" y1="94" x2="185.5" y2="106" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="649.5" y1="94" x2="649.5" y2="106" stroke="#f5f5ed" stroke-width="1.5"/>
-<text x="189.5" y="124" font-size="17" fill="#f5f5ed">procedure interval 4 × 7.5 ms = 30 ms · 33 procedures/s · 2 CS events, 2 RAS events</text>
+<text x="189.5" y="124" font-size="17" fill="#f5f5ed">过程间隔 4 × 7.5 ms = 30 ms · 每秒 33 次测距 · 2 个 CS 事件、2 个 RAS 传输事件</text>
 <text x="154" y="164" text-anchor="end" font-size="26" font-weight="bold" fill="#f5f5ed">15 ms</text>
-<text x="154" y="188" text-anchor="end" font-size="16" fill="#afc8cb">ACL interval</text>
+<text x="154" y="188" text-anchor="end" font-size="16" fill="#afc8cb">ACL间隔</text>
 <line x1="170.0" y1="130" x2="170.0" y2="194" stroke="#24454d" stroke-width="2"/>
 <rect x="170.0" y="134" width="6.2" height="18" fill="#86b8dc"/>
 <line x1="402.0" y1="130" x2="402.0" y2="194" stroke="#24454d" stroke-width="2"/>
@@ -339,9 +339,9 @@
 <line x1="185.5" y1="212" x2="649.5" y2="212" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="185.5" y1="206" x2="185.5" y2="218" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="649.5" y1="206" x2="649.5" y2="218" stroke="#f5f5ed" stroke-width="1.5"/>
-<text x="189.5" y="236" font-size="17" fill="#f5f5ed">procedure interval 2 × 15 ms = 30 ms · 33 procedures/s · 1 CS event, 1 RAS event</text>
+<text x="189.5" y="236" font-size="17" fill="#f5f5ed">过程间隔 2 × 15 ms = 30 ms · 每秒 33 次测距 · 1 个 CS 事件、1 个 RAS 传输事件</text>
 <text x="154" y="276" text-anchor="end" font-size="26" font-weight="bold" fill="#f5f5ed">30 ms</text>
-<text x="154" y="300" text-anchor="end" font-size="16" fill="#afc8cb">ACL interval</text>
+<text x="154" y="300" text-anchor="end" font-size="16" fill="#afc8cb">ACL间隔</text>
 <line x1="170.0" y1="242" x2="170.0" y2="306" stroke="#24454d" stroke-width="2"/>
 <rect x="170.0" y="246" width="6.2" height="18" fill="#86b8dc"/>
 <line x1="634.1" y1="242" x2="634.1" y2="306" stroke="#24454d" stroke-width="2"/>
@@ -445,7 +445,7 @@
 <line x1="185.5" y1="324" x2="1113.6" y2="324" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="185.5" y1="318" x2="185.5" y2="330" stroke="#f5f5ed" stroke-width="1.5"/>
 <line x1="1113.6" y1="318" x2="1113.6" y2="330" stroke="#f5f5ed" stroke-width="1.5"/>
-<text x="189.5" y="348" font-size="17" fill="#f5f5ed">procedure interval 2 × 30 ms = 60 ms · 17 procedures/s · 1 CS event, 1 RAS event</text>
+<text x="189.5" y="348" font-size="17" fill="#f5f5ed">过程间隔 2 × 30 ms = 60 ms · 每秒 17 次测距 · 1 个 CS 事件、1 个 RAS 传输事件</text>
 <line x1="170" y1="356" x2="1160" y2="356" stroke="#afc8cb"/>
 <line x1="170.0" y1="356" x2="170.0" y2="362" stroke="#afc8cb"/>
 <text x="170.0" y="382.0" text-anchor="middle" font-size="18" font-weight="normal" fill="#afc8cb">0</text>
@@ -463,14 +463,14 @@
 <text x="1098.1" y="382.0" text-anchor="middle" font-size="18" font-weight="normal" fill="#afc8cb">60</text>
 <text x="154" y="382" text-anchor="end" font-size="18" fill="#afc8cb">ms</text>
 <rect x="170" y="408" width="20" height="20" fill="#c5a3f2"/>
-<text x="198" y="425" font-size="18" fill="#f5f5ed">Mode 0</text>
+<text x="198" y="425" font-size="18" fill="#f5f5ed">模式0</text>
 <rect x="283.08" y="408" width="20" height="20" fill="#65e4d0"/>
-<text x="311.08" y="425" font-size="18" fill="#f5f5ed">Mode 2 (PBR)</text>
+<text x="311.08" y="425" font-size="18" fill="#f5f5ed">模式 2（PBR）</text>
 <rect x="451.24" y="408" width="20" height="20" fill="#86b8dc"/>
-<text x="479.24" y="425" font-size="18" fill="#f5f5ed">ACL event</text>
+<text x="479.24" y="425" font-size="18" fill="#f5f5ed">ACL 事件</text>
 <rect x="591.86" y="408" width="20" height="20" fill="#ffb17a"/>
-<text x="619.86" y="425" font-size="18" fill="#f5f5ed">ACL event carrying RAS data</text>
+<text x="619.86" y="425" font-size="18" fill="#f5f5ed">承载 RAS 数据的 ACL 事件</text>
 <rect x="897.72" y="408" width="20" height="20" fill="#65e4d0" opacity="0.45"/>
-<text x="925.72" y="425" font-size="18" fill="#f5f5ed">next procedure</text>
-<text x="170" y="452" font-size="16" fill="#afc8cb">To scale (planner): 72 channels, mode 2, our nRF54 step timings, RAS at MTU 498 on LE 1M; offset and ACL events illustrative.</text>
+<text x="925.72" y="425" font-size="18" fill="#f5f5ed">下一个测距过程</text>
+<text x="170" y="452" font-size="16" fill="#afc8cb">按规划器比例绘制：72 个信道、模式 2、实验选用的 nRF54 步骤时序，LE 1M 上以 MTU 498 传输 RAS；偏移与 ACL 事件仅作示意。</text>
 </svg>

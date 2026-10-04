@@ -1,12 +1,12 @@
 <section data-timing="90">
-  <h2>Fundamentals of frequency calibration: the problem</h2>
+  <h2>频率校准原理：频偏带来的问题</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 300"
         role="img"
-        aria-label="Two radios, each with its own crystal: the initiator at f0 times one plus epsilon I, the reflector at f0 times one plus epsilon R. A tone from the reflector arrives off the channel frequency by epsilon times f0."
+        aria-label="两个无线设备，每个都有自己的晶体：发起端在 f0 乘以 1 加 epsilon I，反射端在 f0 乘以 1 加 epsilon R。来自反射端的单音信号以 epsilon 乘以 f0 到达通道频率。"
       >
         <defs>
           <marker id="fc-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -14,9 +14,9 @@
           </marker>
         </defs>
         <rect x="10" y="40" width="170" height="130" rx="12" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
-        <text x="95" y="72" font-size="20" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
+        <text x="95" y="72" font-size="20" font-weight="700" fill="#65e4d0" text-anchor="middle">发起端</text>
         <rect x="380" y="40" width="170" height="130" rx="12" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
-        <text x="465" y="72" font-size="20" font-weight="700" fill="#ffb17a" text-anchor="middle">Reflector</text>
+        <text x="465" y="72" font-size="20" font-weight="700" fill="#ffb17a" text-anchor="middle">反射端</text>
         <!-- A crystal in each radio -->
         <g stroke="#f5f5ed" stroke-width="2" fill="none">
           <line x1="80" y1="92" x2="80" y2="122" />
@@ -32,54 +32,31 @@
         </g>
         <!-- The reflector's tone arrives off frequency -->
         <line x1="372" y1="105" x2="190" y2="105" stroke="#ffb17a" stroke-width="3" marker-end="url(#fc-arrow)" />
-        <text x="281" y="94" font-size="15" fill="#ffb17a" text-anchor="middle">tone</text>
-        <text x="281" y="128" font-size="15" fill="#f5f5ed" text-anchor="middle">arrives ε·f<tspan font-size="11" dy="4">0</tspan><tspan dy="-4"> off</tspan></text>
+        <text x="281" y="94" font-size="15" fill="#ffb17a" text-anchor="middle">单音</text>
+        <text x="281" y="128" font-size="15" fill="#f5f5ed" text-anchor="middle">到达ε·f<tspan font-size="11" dy="4">0</tspan><tspan dy="-4"> 偏差</tspan></text>
         <!-- The relative offset -->
         <text x="280" y="222" font-size="26" fill="#dcf58a" text-anchor="middle">ε = ε<tspan font-size="17" dy="6">R</tspan><tspan dy="-6"> − ε</tspan><tspan font-size="17" dy="6">I</tspan></text>
-        <text x="280" y="256" font-size="16" fill="#afc8cb" text-anchor="middle">tens of ppm per crystal; |ε| &lt; 50 ppm</text>
-        <text x="280" y="280" font-size="16" fill="#afc8cb" text-anchor="middle">50 ppm at 2.44 GHz is 122 kHz</text>
+        <text x="280" y="256" font-size="16" fill="#afc8cb" text-anchor="middle">每个晶体数十 ppm； |ε| &lt; 50 ppm</text>
+        <text x="280" y="280" font-size="16" fill="#afc8cb" text-anchor="middle">2.44 GHz 时 50 ppm 为 122 kHz</text>
       </svg>
       <div class="breaks">
-        <h3>What an offset breaks</h3>
-        <p><b>Phase</b> keeps turning between the two tones<br />\( \Delta d = -c\,\varepsilon\,\Delta t/2 \)</p>
-        <p><b>Intervals</b> are timed on the reflector's own clock<br />\( \Delta d = -c\,\varepsilon\,T/2 \)</p>
-        <p><b>Tones</b> land \( \varepsilon f_0 \) away from their channel</p>
-        <p><b>Sign</b>: \( \varepsilon &gt; 0 \) is a fast reflector, and both ranges read short</p>
+        <h3>频偏影响哪些测量？</h3>
+        <p><b>相位</b> 在两次单音测量之间持续旋转<br />\( \Delta d = -c\,\varepsilon\,\Delta t/2 \)</p>
+        <p><b>时间间隔</b> 根据反射端自己的时钟计时<br />\( \Delta d = -c\,\varepsilon\,T/2 \)</p>
+        <p><b>单音信号</b> 使 \( \varepsilon f_0 \) 远离他们的信道</p>
+        <p><b>符号约定</b>：\( \varepsilon &gt; 0 \) 是一个反射端晶振偏快，两种方法都会低估距离</p>
       </div>
     </div>
     <div class="callout">
-      <b>The problem:</b> estimate ε in every subevent, to well below 1&nbsp;ppm, and remove it before
-      any phase or time is used. 1&nbsp;ppm left over is 1&nbsp;cm for phase (Δt&nbsp;=&nbsp;69&nbsp;µs) and
-      2.6&nbsp;cm for time (T&nbsp;=&nbsp;176&nbsp;µs).
-    </div>
+      <b>问题：</b> 每个子事件都需估计 ε，将残余误差降至远低于 1 ppm，并在使用相位或时间观测前进行补偿。 残余 1 ppm 在相位测距中对应约 1 cm 偏差 (Δt = 69 µs)，往返测时中对应约 2.6 cm 偏差 (T = 176 µs)。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part A, §3.5 (frequency in Channel Sounding)</a
+      >核心·第 6 卷，A 部分，§3.5（信道探测中的频率）</a
     >
   </div>
-  <aside class="notes">
-    <p>
-      Both ranging methods assumed that the two radios share one frequency and one time base. They
-      do not. Each radio derives its carrier from its own crystal, and every crystal is off by some
-      parts per million: the initiator sits at f0 times one plus epsilon I, the reflector at f0
-      times one plus epsilon R. What matters is the relative offset, epsilon, the reflector's
-      minus the initiator's, so a positive epsilon means the reflector runs fast.
-      The specification allows up to 50 ppm, which at 2.44 GHz is 122 kHz. That offset breaks
-      three things we relied on. Phase: the reflector measures the initiator's tone first, and the
-      initiator measures the reflector's tone tens of microseconds later. In between, the two oscillators drift apart by
-      2 pi epsilon f delta t, which adds to the two-way phase and works against the propagation
-      lag: a bias of minus c times epsilon times delta t over two, so with a fast reflector the
-      range reads short. Time: the reflector times its turnaround on its own
-      clock; a fast clock counts that interval long, too much is subtracted, and the range again
-      reads short: the same form with the turnaround T, as on the
-      round-trip slides. Tones: every tone lands epsilon f0 away from the channel the receiver is
-      tuned to. So the calibration problem, stated formally: estimate epsilon in every subevent,
-      well below 1 ppm, and remove it before any phase or time is used. The numbers: 1 ppm left
-      over is 1 cm over a 69 microsecond tone gap and 2.6 cm over a 176 microsecond turnaround.
-    </p>
-  </aside>
+  <aside class="notes"><p>两种测距方法都依赖共同频率与时间尺度，但双方实际上由各自晶振产生载波。发起端为 f₀(1+ε_I)，反射端为 f₀(1+ε_R)；关键是相对频偏 ε = ε_R − ε_I，正值表示反射端晶振偏快。规范允许的相对偏差量级为 50 ppm，在 2.44 GHz 对应 122 kHz。</p><p>频偏影响三件事。相位方面，反射端先测量、发起端数十微秒后测量，期间产生额外相位 +2πεfΔt，抵消传播相位滞后，形成 −cεΔt/2 的距离偏差。测时方面，偏快的反射端时钟把周转间隔计得更长，相减时扣除过多，形成 −cεT/2 偏差。收发方面，单音频率相对接收端所调信道偏移 εf₀。因此每个子事件都要估计并补偿 ε，使残余远低于 1 ppm。残余 1 ppm 在 69 µs 单音间隔下约对应 1 cm 偏差，在 176 µs 周转间隔下约为 2.6 cm。</p></aside>
 </section>

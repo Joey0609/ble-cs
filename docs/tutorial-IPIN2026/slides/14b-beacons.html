@@ -1,12 +1,12 @@
 <section class="modality" data-timing="75">
-  <h2>Beacons: signal strength mapped to range</h2>
+  <h2>信标：由信号强度估算距离</h2>
   <div class="content">
     <div class="cols">
       <svg
         class="diagram"
         viewBox="0 0 560 270"
         role="img"
-        aria-label="RSSI against distance for a path-loss model; with plus or minus 6 dB of fading, a reading of minus 71 dBm fits any distance from 2 to 8 metres"
+        aria-label="路径损耗模型的 RSSI 与距离的关系；在正负 6 dB 衰落的情况下，负 71 dBm 的读数适合 2 至 8 米的任何距离"
       >
         <defs>
           <clipPath id="bc-plot">
@@ -36,8 +36,8 @@
           <text x="438" y="249">8</text>
           <text x="530" y="249">10</text>
         </g>
-        <text x="540" y="268" font-size="15" fill="#afc8cb" text-anchor="end">distance (m)</text>
-        <text x="10" y="20" font-size="15" fill="#afc8cb">signal strength (dBm)</text>
+        <text x="540" y="268" font-size="15" fill="#afc8cb" text-anchor="end">距离（米）</text>
+        <text x="10" y="20" font-size="15" fill="#afc8cb">信号强度（dBm）</text>
         <!-- Model and a ±6 dB band -->
         <g clip-path="url(#bc-plot)">
           <path
@@ -60,53 +60,41 @@
         </g>
         <line x1="162" y1="222" x2="438" y2="222" stroke="#ffb17a" stroke-width="5" />
         <text x="300" y="214" font-size="17" fill="#ffb17a" text-anchor="middle">2 m … 8 m</text>
-        <text x="78" y="172" font-size="16" fill="#dcf58a">−71 dBm</text>
-        <text x="420" y="118" font-size="15" fill="#65e4d0" text-anchor="middle">model ± 6 dB</text>
+        <text x="78" y="172" font-size="16" fill="#dcf58a">−71dBm</text>
+        <text x="420" y="118" font-size="15" fill="#65e4d0" text-anchor="middle">模型 ± 6 dB</text>
       </svg>
       <dl class="facts">
-        <dt>SINCE</dt>
-        <dd>Apple iBeacon (2013); also Eddystone, AltBeacon</dd>
-        <dt>LINK</dt>
-        <dd>None: the beacon advertises an identifier and its measured power at 1&nbsp;m</dd>
-        <dt>MODEL</dt>
-        <dd>Received signal strength indicator (RSSI) = P<sub>1m</sub> − 10·n·log<sub>10</sub>&nbsp;d, solved for d</dd>
-        <dt>RESULT</dt>
-        <dd>Zones (immediate, near, far), or a coarse position from several beacons</dd>
+        <dt>引入时间</dt>
+        <dd>苹果 iBeacon (2013)；还有 Eddystone、AltBeacon</dd>
+        <dt>连接方式</dt>
+        <dd>无：信标公布标识符及其在 1 m 处测量的功率</dd>
+        <dt>模型</dt>
+        <dd>接收信号强度指示器 (RSSI) = P<sub>1m</sub> − 10·n·log<sub>10</sub>d，求解 d</dd>
+        <dt>测得的值结果</dt>
+        <dd>邻近区域（紧邻、近、远），或由多个信标求粗略位置</dd>
       </dl>
     </div>
     <div class="limits">
-      <span class="n">LIMITATIONS</span>
+      <span class="n">限制</span>
       <ul>
-        <li>6 dB of error doubles or halves the range (n&nbsp;=&nbsp;2)</li>
-        <li>Fading, the body and orientation move RSSI by several dB</li>
-        <li>n and P<sub>1m</sub> change with the room and the receiver</li>
-        <li>The advertised identifier is public: easy to spoof or replay</li>
+        <li>6 dB 误差使距离加倍或减半 (n = 2)</li>
+        <li>衰落、身体和方向使 RSSI 移动几个 dB</li>
+        <li>n 和 P<sub>1m</sub> 随房间和接收器而变化</li>
+        <li>广播标识符公开，容易被伪造或重放</li>
       </ul>
     </div>
   </div>
   <div class="source">
-    <a href="https://developer.apple.com/ibeacon/" target="_blank" rel="noopener">Apple · iBeacon</a
+    <a href="https://developer.apple.com/ibeacon/" target="_blank" rel="noopener">苹果·iBeacon</a
     ><span class="sep">|</span
     ><a
       href="https://developer.apple.com/documentation/corelocation/determining-the-proximity-to-an-ibeacon-device"
       target="_blank"
       rel="noopener"
-      >Determining the proximity to an iBeacon device</a
+      >确定与 iBeacon 设备的接近程度</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Beacons are connectionless: a beacon advertises an identifier and a measured power, the RSSI a
-      receiver should see at 1 m. The receiver compares its RSSI with that value and solves a log-
-      distance path-loss model for the distance. The plot uses P1m = −59 dBm and n = 2, a teaching
-      example rather than a measurement. Because distance sits inside a logarithm, a dB error
-      becomes a multiplicative range error: with n = 2, 6 dB doubles or halves the distance, so a
-      reading of −71 dBm fits anything from 2 to 8 m. Fading, a hand or body between the devices,
-      antenna orientation and phone-to-phone RSSI calibration all move the reading by several dB.
-      That is why Core Location reports a proximity zone (immediate, near, far) with only a rough
-      accuracy estimate. Several beacons give a coarse position by trilateration or by
-      fingerprinting a site survey. The identifier is broadcast in the clear, so it can be copied or
-      replayed.
-    </p>
+    <p> 信标是无连接的：信标公布标识符和测量功率，以及接收器在 1 m 处应看到的 RSSI。接收器将其 RSSI 与该值进行比较，并求解该距离的对数距离路径损耗模型。该图使用 P1m = −59 dBm 和 n = 2，这是一个教学示例，而不是测量结果。由于距离位于对数范围内，因此 dB 误差会变成乘法距离误差：当 n = 2 时，6 dB 会使距离加倍或减半，因此 -71 dBm 的读数适合 2 到 8 m 之间的任何值。衰落、设备之间的手或身体、天线方向和电话到电话 RSSI 校准都会使读数移动几个 dB。这就是为什么核心位置仅报告邻近区域（近、近、远）的原因，并且仅提供粗略的准确度估计。多个信标通过三边测量或现场勘测指纹来提供粗略位置。标识符以明文形式广播，因此可以复制或重播。 </p>
   </aside>
 </section>

@@ -1,10 +1,10 @@
 <section class="cs-basics" data-timing="105">
-  <h2>Fundamentals of phase-based ranging: one tone</h2>
+  <h2>相位测距原理：单频单音信号</h2>
   <div class="body" style="zoom: 0.92">
     <div class="columns">
       <div>
       <svg viewBox="0 0 520 206" role="img"
-         aria-label="The initiator sends a tone, a travelling wave with wavelength lambda, and the reflector measures its phase; then the reflector sends a tone back and the initiator measures it">
+         aria-label="发起端发送单音信号，即波长为λ的行波，反射端测量其相位；然后反射端发回一个单音信号，发起端对其进行测量">
         <defs>
         <marker id="bas0-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
         <marker id="bas0-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
@@ -12,43 +12,42 @@
         </defs>
         <g font-family="inherit" font-size="17">
           <rect x="2" y="20" width="140" height="136" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2"/>
-          <text x="72" y="62" text-anchor="middle" font-weight="700" fill="#65e4d0">Initiator</text>
-          <text x="72" y="94" text-anchor="middle" font-size="14" fill="#afc8cb">oscillator phase</text>
-          <text x="72" y="120" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">&#981;<tspan font-size="11" dy="4">I</tspan></text>
+          <text x="72" y="62" text-anchor="middle" font-weight="700" fill="#65e4d0">发起端</text>
+          <text x="72" y="94" text-anchor="middle" font-size="14" fill="#afc8cb">振荡相位</text>
+          <text x="72" y="120" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">ϕ<tspan font-size="11" dy="4">I</tspan></text>
           <rect x="378" y="20" width="140" height="136" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2"/>
-          <text x="448" y="62" text-anchor="middle" font-weight="700" fill="#ffb17a">Reflector</text>
-          <text x="448" y="94" text-anchor="middle" font-size="14" fill="#afc8cb">oscillator phase</text>
-          <text x="448" y="120" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">&#981;<tspan font-size="11" dy="4">R</tspan></text>
+          <text x="448" y="62" text-anchor="middle" font-weight="700" fill="#ffb17a">反射端</text>
+          <text x="448" y="94" text-anchor="middle" font-size="14" fill="#afc8cb">振荡相位</text>
+          <text x="448" y="120" text-anchor="middle" font-size="16" font-style="italic" fill="#f5f5ed">ϕ<tspan font-size="11" dy="4">R</tspan></text>
 
           <!-- The tone travels as a wave: out, then back -->
           <path d="M152.0,58.0 L153.7,56.0 L155.3,54.0 L157.0,52.2 L158.7,50.6 L160.3,49.3 L162.0,48.2 L163.7,47.4 L165.3,47.1 L167.0,47.0 L168.7,47.4 L170.3,48.1 L172.0,49.1 L173.7,50.5 L175.3,52.1 L177.0,53.9 L178.7,55.8 L180.3,57.8 L182.0,59.8 L183.7,61.8 L185.3,63.6 L187.0,65.2 L188.7,66.6 L190.3,67.7 L192.0,68.5 L193.7,68.9 L195.3,69.0 L197.0,68.7 L198.7,68.0 L200.3,67.0 L202.0,65.7 L203.7,64.1 L205.3,62.3 L207.0,60.4 L208.7,58.4 L210.3,56.4 L212.0,54.4 L213.7,52.6 L215.3,50.9 L217.0,49.5 L218.7,48.4 L220.3,47.6 L222.0,47.1 L223.7,47.0 L225.3,47.3 L227.0,47.9 L228.7,48.9 L230.3,50.2 L232.0,51.7 L233.7,53.5 L235.3,55.4 L237.0,57.4 L238.7,59.4 L240.3,61.4 L242.0,63.2 L243.7,64.9 L245.3,66.4 L247.0,67.5 L248.7,68.4 L250.3,68.9 L252.0,69.0 L253.7,68.8 L255.3,68.2 L257.0,67.2 L258.7,66.0 L260.3,64.4 L262.0,62.7 L263.7,60.8 L265.3,58.8 L267.0,56.8 L268.7,54.8 L270.3,52.9 L272.0,51.2 L273.7,49.8 L275.3,48.6 L277.0,47.7 L278.7,47.2 L280.3,47.0 L282.0,47.2 L283.7,47.8 L285.3,48.7 L287.0,49.9 L288.7,51.4 L290.3,53.1 L292.0,55.0 L293.7,57.0 L295.3,59.0 L297.0,61.0 L298.7,62.9 L300.3,64.6 L302.0,66.1 L303.7,67.3 L305.3,68.2 L307.0,68.8 L308.7,69.0 L310.3,68.8 L312.0,68.3 L313.7,67.4 L315.3,66.2 L317.0,64.8 L318.7,63.1 L320.3,61.2 L322.0,59.2 L323.7,57.2 L325.3,55.2 L327.0,53.3 L328.7,51.6 L330.3,50.0 L332.0,48.8 L333.7,47.8 L335.3,47.2 L337.0,47.0 L338.7,47.1 L340.3,47.6 L342.0,48.5 L343.7,49.6 L345.3,51.1 L347.0,52.8 L348.7,54.6 L350.3,56.6 L352.0,58.6 L368,58.6" fill="none" stroke="#65e4d0" stroke-width="2.5" marker-end="url(#bas0-ini)"/>
-          <text x="260" y="36" text-anchor="middle" font-size="13.5" fill="#65e4d0">&#9312; tone at f &#8594; reflector measures &#952;<tspan font-size="11" dy="4">R</tspan></text>
+          <text x="260" y="36" text-anchor="middle" font-size="13.5" fill="#65e4d0">① f 处的单音信号 → 反射端测量 θ<tspan font-size="11" dy="4">R</tspan></text>
           <path d="M368.0,118.0 L366.3,116.0 L364.7,114.0 L363.0,112.2 L361.3,110.6 L359.7,109.3 L358.0,108.2 L356.3,107.4 L354.7,107.1 L353.0,107.0 L351.3,107.4 L349.7,108.1 L348.0,109.1 L346.3,110.5 L344.7,112.1 L343.0,113.9 L341.3,115.8 L339.7,117.8 L338.0,119.8 L336.3,121.8 L334.7,123.6 L333.0,125.2 L331.3,126.6 L329.7,127.7 L328.0,128.5 L326.3,128.9 L324.7,129.0 L323.0,128.7 L321.3,128.0 L319.7,127.0 L318.0,125.7 L316.3,124.1 L314.7,122.3 L313.0,120.4 L311.3,118.4 L309.7,116.4 L308.0,114.4 L306.3,112.6 L304.7,110.9 L303.0,109.5 L301.3,108.4 L299.7,107.6 L298.0,107.1 L296.3,107.0 L294.7,107.3 L293.0,107.9 L291.3,108.9 L289.7,110.2 L288.0,111.7 L286.3,113.5 L284.7,115.4 L283.0,117.4 L281.3,119.4 L279.7,121.4 L278.0,123.2 L276.3,124.9 L274.7,126.4 L273.0,127.5 L271.3,128.4 L269.7,128.9 L268.0,129.0 L266.3,128.8 L264.7,128.2 L263.0,127.2 L261.3,126.0 L259.7,124.4 L258.0,122.7 L256.3,120.8 L254.7,118.8 L253.0,116.8 L251.3,114.8 L249.7,112.9 L248.0,111.2 L246.3,109.8 L244.7,108.6 L243.0,107.7 L241.3,107.2 L239.7,107.0 L238.0,107.2 L236.3,107.8 L234.7,108.7 L233.0,109.9 L231.3,111.4 L229.7,113.1 L228.0,115.0 L226.3,117.0 L224.7,119.0 L223.0,121.0 L221.3,122.9 L219.7,124.6 L218.0,126.1 L216.3,127.3 L214.7,128.2 L213.0,128.8 L211.3,129.0 L209.7,128.8 L208.0,128.3 L206.3,127.4 L204.7,126.2 L203.0,124.8 L201.3,123.1 L199.7,121.2 L198.0,119.2 L196.3,117.2 L194.7,115.2 L193.0,113.3 L191.3,111.6 L189.7,110.0 L188.0,108.8 L186.3,107.8 L184.7,107.2 L183.0,107.0 L181.3,107.1 L179.7,107.6 L178.0,108.5 L176.3,109.6 L174.7,111.1 L173.0,112.8 L171.3,114.6 L169.7,116.6 L168.0,118.6 L152,118" fill="none" stroke="#ffb17a" stroke-width="2.5" marker-end="url(#bas0-ref)"/>
-          <text x="260" y="150" text-anchor="middle" font-size="13.5" fill="#ffb17a">&#9313; tone at f &#8594; initiator measures &#952;<tspan font-size="11" dy="4">I</tspan></text>
+          <text x="260" y="150" text-anchor="middle" font-size="13.5" fill="#ffb17a">② f 处的单音信号 → 发起端测量 θ<tspan font-size="11" dy="4">I</tspan></text>
           <g stroke="#dcf58a" stroke-width="1.5">
             <line x1="152" y1="82" x2="209" y2="82"/>
             <line x1="152" y1="77" x2="152" y2="87"/>
             <line x1="209" y1="77" x2="209" y2="87"/>
           </g>
-          <text x="216" y="87" font-size="13" fill="#dcf58a">one wavelength &#955; = c/f</text>
+          <text x="216" y="87" font-size="13" fill="#dcf58a">一个波长 λ = c/f</text>
 
           <line x1="72" y1="184" x2="448" y2="184" stroke="#afc8cb" stroke-width="1.5"
                 marker-start="url(#bas0-mut)" marker-end="url(#bas0-mut)"/>
           <rect x="200" y="172" width="120" height="24" fill="#09242b"/>
-          <text x="260" y="190" text-anchor="middle" font-size="16" fill="#f5f5ed">distance <tspan font-style="italic">d</tspan></text>
+          <text x="260" y="190" text-anchor="middle" font-size="16" fill="#f5f5ed">距离 <tspan font-style="italic">d</tspan></text>
         </g>
       </svg>
         <div class="eqs">
           <p>\( \theta_R = -2\pi\,\dfrac{d}{\lambda} + (\phi_I - \phi_R) \)</p>
           <p>\( \theta_I = -2\pi\,\dfrac{d}{\lambda} + (\phi_R - \phi_I) \)</p>
           <p>\( \Theta = \theta_I + \theta_R = -4\pi\,\dfrac{d}{\lambda} \pmod{2\pi}, \quad \lambda = \dfrac{c}{f} \)</p>
-          <p class="key">\( d = -\dfrac{c}{4\pi}\,\dfrac{\Theta}{f} + k\,\dfrac{c}{2f}, \quad k \in \mathbb{Z} \)
-            <span class="note">The oscillator phases cancel; one tone fixes d only up to a multiple of c/2f</span></p>
+          <p class="key">\( d = -\dfrac{c}{4\pi}\,\dfrac{\Theta}{f} + k\,\dfrac{c}{2f}, \quad k \in \mathbb{Z} \) <span class="note">振荡器初相抵消；单频测量只能确定 d 对 c/2f 取模后的值</span></p>
         </div>
       </div>
       <div>
       <svg viewBox="0 0 420 260" role="img"
-         aria-label="Two-way phase of one tone versus distance: a falling sawtooth that repeats every 6.1 centimetres">
+         aria-label="一个单音信号的双向相位与距离的关系：每 6.1 厘米重复一次的下落锯齿波">
         <defs>
         <marker id="bas1-mut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#afc8cb"/></marker>
         <marker id="bas1-ini" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#65e4d0"/></marker>
@@ -57,48 +56,24 @@
         <g font-family="inherit">
         <line x1="60" y1="210" x2="400" y2="210" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
         <line x1="60" y1="210" x2="60" y2="30" stroke="#afc8cb" stroke-width="1.5" marker-end="url(#bas1-mut)"/>
-        <text x="400" y="244" font-size="14" fill="#afc8cb" text-anchor="end">distance d</text>
-        <text transform="translate(24,130) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">phase &#920; mod 2&#960;</text>
-        <line x1="55" y1="50.0" x2="60" y2="50.0" stroke="#afc8cb"/><text x="52" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">0</text><line x1="55" y1="210.0" x2="60" y2="210.0" stroke="#afc8cb"/><text x="52" y="214.0" font-size="13" fill="#afc8cb" text-anchor="end">&#8722;2&#960;</text><line x1="60.0" y1="210" x2="60.0" y2="215" stroke="#afc8cb"/><text x="60.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">0 cm</text><line x1="188.0" y1="210" x2="188.0" y2="215" stroke="#afc8cb"/><text x="188.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">10 cm</text><line x1="316.0" y1="210" x2="316.0" y2="215" stroke="#afc8cb"/><text x="316.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">20 cm</text>
+        <text x="400" y="244" font-size="14" fill="#afc8cb" text-anchor="end">距离d</text>
+        <text transform="translate(24,130) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">相位 θ mod 2π</text>
+        <line x1="55" y1="50.0" x2="60" y2="50.0" stroke="#afc8cb"/><text x="52" y="54.0" font-size="13" fill="#afc8cb" text-anchor="end">0</text><line x1="55" y1="210.0" x2="60" y2="210.0" stroke="#afc8cb"/><text x="52" y="214.0" font-size="13" fill="#afc8cb" text-anchor="end">−2π</text><line x1="60.0" y1="210" x2="60.0" y2="215" stroke="#afc8cb"/><text x="60.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">0厘米</text><line x1="188.0" y1="210" x2="188.0" y2="215" stroke="#afc8cb"/><text x="188.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">10厘米</text><line x1="316.0" y1="210" x2="316.0" y2="215" stroke="#afc8cb"/><text x="316.0" y="229" font-size="13" fill="#afc8cb" text-anchor="middle">20厘米</text>
         <path d="M60.0,50.0 L138.6,210 M138.6,50.0 L217.3,210 M217.3,50.0 L295.9,210 M295.9,50.0 L374.5,210 M374.5,50.0 L380.0,61.1" fill="none" stroke="#65e4d0" stroke-width="2.5"/>
         <line x1="60.0" y1="44" x2="138.6" y2="44" stroke="#ffb17a" stroke-width="1.5"
               marker-start="url(#bas1-ref)" marker-end="url(#bas1-ref)"/>
-        <text x="146.6" y="48" font-size="15" fill="#ffb17a">&#955;/2 &#8776; 6.1 cm</text>
+        <text x="146.6" y="48" font-size="15" fill="#ffb17a">λ/2 ≈ 6.1 厘米</text>
         </g>
       </svg>
         <ul>
-          <li>The tone arrives late: its phase lags \( 2\pi \) per wavelength, \( \lambda \approx 12.3 \) cm, hence the minus sign</li>
-          <li>No start or end marker: the receiver sees phase, not arrival time</li>
-          <li>Precise, but the two-way phase repeats every \( \lambda/2 \approx 6.1 \) cm</li>
-          <li>One tone cannot tell 1.00&nbsp;m from 1.06&nbsp;m</li>
+          <li>单音信号延迟到达：每个波长其相位滞后 \( 2\pi \)，\( \lambda \approx 12.3 \) cm，因此有负号</li>
+          <li>无开始或结束标记：接收器看到相位，而不是到达时间</li>
+          <li>精确，但双向相位每 \( \lambda/2 \approx 6.1 \) 厘米重复一次</li>
+          <li>一个单音信号无法区分 1.00 m 和 1.06 m</li>
         </ul>
       </div>
     </div>
-    <p class="takeaway">One tone: fine but ambiguous &rarr; measure on many frequencies</p>
+    <p class="takeaway">单频相位测量精细，却存在距离模糊 → 改用多频测量</p>
   </div>
-  <aside class="notes">
-    Start with the wave itself. A tone at frequency f travels as a wave; one
-    cycle spans one wavelength, lambda = c / f, about 12.3 cm at 2.44 GHz,
-    and phase says where in the cycle the wave is when it arrives: it advances
-    2 pi for every wavelength of distance. The receiver compares that phase
-    with its own oscillator.
-
-    Now the two-way measurement. The initiator sends an unmodulated tone
-    and the reflector measures its phase against its own oscillator; then
-    the roles swap. Nothing is timed here: an unmodulated tone has no edge
-    to timestamp, so each side only measures a phase. The tone arrives d
-    over c late, so that phase lags: it is minus 2 pi d over lambda, plus the
-    unknown phase difference between the two oscillators, which enters the
-    two measurements with opposite signs. Adding the two measurements cancels
-    the oscillator term and leaves the round-trip phase, Theta = minus 4 pi d
-    over lambda. Theta is negative and falls as the distance grows, as the
-    plot on the right shows. Solving for the distance with
-    lambda = c / f gives d = minus c over 4 pi times Theta over f, plus any whole
-    number of c over 2 f. Keep Theta over f in view: the next slide replaces
-    it with the slope of Theta across frequency.
-
-    The catch: phase is only known modulo 2 pi, so a single tone gives the
-    distance only modulo half a wavelength, about 6 cm at 2.4 GHz.
-    Below (&darr;): the same two-way exchange on many frequencies.
-  </aside>
+  <aside class="notes"><p>先解释波本身。频率 f 的单音信号以波传播，每个周期对应一个波长 λ = c/f，在 2.44 GHz 时约为 12.3 cm。相位描述波到达时处于周期中的位置，接收端用自己的振荡器作为参考。双向测量中，发起端发送未调制单音，反射端测量其相位，然后反向交换。单音没有可标记的起止边沿，因此这里测的是相位而非到达时刻。传播延迟 d/c 对应相位滞后 −2πd/λ，再叠加双方未知初相差；初相差在两个方向符号相反，相加后消除，留下 Θ = −4πd/λ。Θ 随距离增大而下降。代入 λ = c/f，得到 d = −cΘ/(4πf) + k·c/(2f)。保留 Θ/f 的形式，下一页将其换成相位对频率的斜率。相位只在模 2π 意义下已知，因此单频测量存在半波长的距离模糊，2.4 GHz 附近约为 6 cm。按向下箭头查看多频测量。</p></aside>
 </section>

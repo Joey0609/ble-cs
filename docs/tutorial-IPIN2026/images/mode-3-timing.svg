@@ -43,8 +43,8 @@
 <line x1="1170.0" y1="320" x2="1170.0" y2="326" stroke="#afc8cb"/>
 <text x="1170.0" y="344.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">647</text>
 <line x1="130" y1="320" x2="1170" y2="320" stroke="#afc8cb"/>
-<text x="650.0" y="370.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">Time since step start (µs)</text>
-<text x="116" y="61.0" text-anchor="end" font-size="18" fill="#afc8cb">Initiator TX</text>
+<text x="650.0" y="370.0" text-anchor="middle" font-size="16" font-weight="normal" fill="#afc8cb">步骤开始后的时间（µs）</text>
+<text x="116" y="61.0" text-anchor="end" font-size="18" fill="#afc8cb">发起端发送</text>
 <rect x="130.0" y="30" width="41.8" height="50" fill="#ffb17a"/>
 <rect x="171.8" y="30" width="16.1" height="50" fill="#6f9199"/>
 <rect x="187.9" y="30" width="3.2" height="50" fill="#6f9199"/>
@@ -69,8 +69,8 @@
 <text x="324.5" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
 <text x="392.0" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
 <text x="459.5" y="98.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="493.3" y="116.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">Extension</text>
-<text x="116" y="166.0" text-anchor="end" font-size="18" fill="#afc8cb">Reflector TX</text>
+<text x="493.3" y="116.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">扩展</text>
+<text x="116" y="166.0" text-anchor="end" font-size="18" fill="#afc8cb">反射端发送</text>
 <rect x="766.5" y="135" width="3.2" height="50" fill="#6f9199"/>
 <rect x="769.8" y="135" width="64.3" height="50" fill="#ffb17a"/>
 <text x="801.9" y="165.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">P1</text>
@@ -96,14 +96,14 @@
 <text x="903.2" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
 <text x="970.7" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
 <text x="1038.2" y="203.0" text-anchor="middle" font-size="15" font-weight="normal" fill="#f5f5ed">T<tspan dy="4.5" font-size="10.8">SW</tspan></text>
-<text x="116" y="271.0" text-anchor="end" font-size="18" fill="#afc8cb">Timing</text>
+<text x="116" y="271.0" text-anchor="end" font-size="18" fill="#afc8cb">时序</text>
 <rect x="533.5" y="240" width="233.1" height="50" fill="#6f9199"/>
 <text x="650.0" y="270.7" text-anchor="middle" font-size="17" font-weight="bold" fill="#09242b">T<tspan dy="5.1" font-size="12.2">IP2</tspan></text>
 <rect x="130" y="392" width="18" height="18" fill="#ffb17a"/>
-<text x="156" y="407" font-size="16" fill="#f5f5ed">Transmission</text>
+<text x="156" y="407" font-size="16" fill="#f5f5ed">发送</text>
 <rect x="299.68" y="392" width="18" height="18" fill="#6f9199"/>
-<text x="325.68" y="407" font-size="16" fill="#f5f5ed">Guard, ramp-down, switch or interlude</text>
+<text x="325.68" y="407" font-size="16" fill="#f5f5ed">保护、功率下降、天线切换或收发间隔</text>
 <rect x="685.36" y="392" width="18" height="18" fill="#d9bd86"/>
-<text x="711.36" y="407" font-size="16" fill="#f5f5ed">Tone extension slot</text>
-<text x="130" y="434" font-size="15" fill="#afc8cb">Mode 3 step: 647 µs, drawn to scale. Planner defaults: LE 2M CS_SYNC, T_IP2 = 145 µs, T_SW = 2 µs, T_PM = 40 µs; 4 antenna paths (ACI 6).</text>
+<text x="711.36" y="407" font-size="16" fill="#f5f5ed">单音扩展时隙</text>
+<text x="130" y="434" font-size="15" fill="#afc8cb">模式 3：647 µs，按比例绘制。默认值：LE 2M CS_SYNC，T_IP2 = 145 µs，T_SW = 2 µs，T_PM = 40 µs；4 条天线路径（ACI 6）。</text>
 </svg>

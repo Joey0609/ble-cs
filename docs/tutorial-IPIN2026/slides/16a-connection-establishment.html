@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="90">
-  <h2>Connection establishment: advertise, connect, negotiate</h2>
+  <h2>建立连接：广播、连接与参数协商</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 288"
       role="img"
-      aria-label="An advertiser sends ADV_IND on the three advertising channels in each advertising event while a scanner listens; the scanner answers one ADV_IND with CONNECT_IND on the same channel; the advertiser becomes the Peripheral and the scanner the Central of one LE ACL connection"
+      aria-label="广告商在每个广告事件中的三个广告通道上发送 ADV_IND，同时扫描器监听；扫描仪在同一通道上应答一个 ADV_IND 和 CONNECT_IND；广告商成为一个 LE ACL 连接的外围设备，扫描仪成为中心设备"
     >
       <defs>
         <marker id="ce-arrow-c" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -16,10 +16,10 @@
         </marker>
       </defs>
       <!-- Lanes -->
-      <text x="20" y="106" font-size="21" font-weight="700" fill="#ffb17a">Advertiser</text>
-      <text x="20" y="128" font-size="15" fill="#afc8cb">becomes Peripheral</text>
-      <text x="20" y="216" font-size="21" font-weight="700" fill="#65e4d0">Scanner</text>
-      <text x="20" y="238" font-size="15" fill="#afc8cb">becomes Central</text>
+      <text x="20" y="106" font-size="21" font-weight="700" fill="#ffb17a">广播设备</text>
+      <text x="20" y="128" font-size="15" fill="#afc8cb">成为外围设备</text>
+      <text x="20" y="216" font-size="21" font-weight="700" fill="#65e4d0">扫描设备</text>
+      <text x="20" y="238" font-size="15" fill="#afc8cb">成为中心设备</text>
       <g stroke="#31535a" stroke-width="2">
         <line x1="180" y1="110" x2="690" y2="110" />
         <line x1="180" y1="220" x2="690" y2="220" />
@@ -39,49 +39,47 @@
         <text x="488" y="89">37</text>
         <text x="538" y="89">38</text>
       </g>
-      <text x="268" y="62" font-size="16" fill="#ffb17a" text-anchor="middle">ADV_IND, connectable</text>
+      <text x="268" y="62" font-size="16" fill="#ffb17a" text-anchor="middle">ADV_IND，可连接</text>
       <line x1="200" y1="148" x2="470" y2="148" stroke="#afc8cb" stroke-width="1.5" />
       <g stroke="#afc8cb" stroke-width="1.5">
         <line x1="200" y1="141" x2="200" y2="155" />
         <line x1="470" y1="141" x2="470" y2="155" />
       </g>
-      <text x="335" y="170" font-size="15" fill="#afc8cb" text-anchor="middle">advertising interval</text>
+      <text x="335" y="170" font-size="15" fill="#afc8cb" text-anchor="middle">广播间隔</text>
       <!-- Scanner listens, hears one ADV_IND, answers on the same channel -->
       <rect x="190" y="209" width="360" height="22" rx="4" fill="#65e4d0" fill-opacity="0.12" stroke="#65e4d0" stroke-dasharray="6 5" />
-      <text x="370" y="262" font-size="15" fill="#afc8cb" text-anchor="middle">scanning: listens on the advertising channels</text>
+      <text x="370" y="262" font-size="15" fill="#afc8cb" text-anchor="middle">扫描：监听广播信道</text>
       <line x1="538" y1="124" x2="538" y2="203" stroke="#ffb17a" stroke-width="2" marker-end="url(#ce-arrow-p)" />
       <rect x="566" y="207" width="70" height="26" rx="3" fill="#65e4d0" />
       <line x1="601" y1="206" x2="601" y2="128" stroke="#65e4d0" stroke-width="2.5" marker-end="url(#ce-arrow-c)" />
       <text x="601" y="262" font-size="16" font-weight="700" fill="#65e4d0" text-anchor="middle">CONNECT_IND</text>
-      <text x="601" y="282" font-size="14" fill="#afc8cb" text-anchor="middle">same channel, right after</text>
+      <text x="601" y="282" font-size="14" fill="#afc8cb" text-anchor="middle">同一信道，紧随其后</text>
       <!-- Result: one connection, two Link Layer roles -->
       <line x1="720" y1="50" x2="720" y2="280" stroke="#31535a" stroke-width="2" stroke-dasharray="6 6" />
       <rect x="760" y="88" width="370" height="44" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
       <text x="945" y="117" font-size="19" fill="#f5f5ed" text-anchor="middle">
-        <tspan font-weight="700" fill="#ffb17a">Peripheral</tspan>: it advertised
-      </text>
+        <tspan font-weight="700" fill="#ffb17a">外围设备</tspan>: 打广播了 </text>
       <rect x="760" y="198" width="370" height="44" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
       <text x="945" y="227" font-size="19" fill="#f5f5ed" text-anchor="middle">
-        <tspan font-weight="700" fill="#65e4d0">Central</tspan>: it sent CONNECT_IND
-      </text>
+        <tspan font-weight="700" fill="#65e4d0">中心设备</tspan>：它发送了 CONNECT_IND </text>
       <line x1="945" y1="132" x2="945" y2="198" stroke="#dcf58a" stroke-width="3" />
-      <text x="960" y="171" font-size="16" fill="#dcf58a">one LE ACL connection</text>
+      <text x="960" y="171" font-size="16" fill="#dcf58a">1 个 LE ACL 连接</text>
     </svg>
     <div class="groups">
       <div class="group">
-        <span class="n">FIXED BY CONNECT_IND</span>
+        <span class="n">由 CONNECT_IND 确定</span>
         <ul>
-          <li><b>Connection interval</b>, Peripheral latency, supervision timeout</li>
-          <li><b>Channel map</b> and hopping</li>
-          <li>Access address, packet-check seed, first transmit window</li>
+          <li><b>连接间隔</b>、外围设备延迟、连接监视超时</li>
+          <li><b>信道映射</b> 与跳频</li>
+          <li>接入地址、数据包-校验种子、第一发送窗口</li>
         </ul>
       </div>
       <div class="group after">
-        <span class="n">NEGOTIATED RIGHT AFTER, ON THE NEW LINK</span>
+        <span class="n">连接建立后立即协商</span>
         <ul>
-          <li><b>Physical layer (PHY)</b>: LL_PHY_REQ / RSP; starts on the connect request&rsquo;s PHY</li>
-          <li><b>Packet data length</b>: LL_LENGTH_REQ / RSP</li>
-          <li><b>Attribute Protocol maximum transmission unit (ATT MTU)</b>: ATT_EXCHANGE_MTU_REQ / RSP</li>
+          <li><b>物理层（PHY）</b>：LL_PHY_REQ/RSP；从连接请求的 PHY 开始</li>
+          <li><b>数据包数据长度</b>：LL_LENGTH_REQ / RSP</li>
+          <li><b>属性协议最大传输单元（ATT MTU）</b>：ATT_EXCHANGE_MTU_REQ / RSP</li>
         </ul>
       </div>
     </div>
@@ -91,28 +89,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core 6.0 · Vol 6, Part B (Link Layer)</a
+      >Core 6.0·第 6 卷，B 部分（链路层）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      A connection starts from advertising. The advertiser sends connectable ADV_IND packets on the
-      three primary advertising channels, 37, 38 and 39, once per advertising interval. The scanner
-      listens; when it hears an ADV_IND it wants to connect to, it answers on the same channel right
-      after the packet with CONNECT_IND. From that moment the scanner is the Central and the
-      advertiser the Peripheral of one LE ACL connection. With extended advertising the same happens
-      with AUX_ADV_IND, AUX_CONNECT_REQ and AUX_CONNECT_RSP on a secondary channel. Watch the words:
-      the Link Layer calls the scanning side the initiator while it tries to connect, which has
-      nothing to do with the CS initiator. CONNECT_IND fixes the link's timing and channels:
-      connection interval, Peripheral latency, supervision timeout, channel map and hopping, plus
-      the access address, CRC seed and a transmit window for the first packet. The timing can change
-      later with a connection parameter update. Three things are not in CONNECT_IND; they are
-      negotiated over the new link right after it forms. The PHY: the link starts on the PHY the
-      connect request used, 1M with legacy advertising or the secondary advertising PHY with
-      extended advertising, and a PHY update can move it to 2M or Coded. The Link Layer data length,
-      the largest payload per packet. And the ATT MTU, which is a GATT exchange, not a Link Layer
-      one. The next slide shows how the timing parameters shape the connection over time; the
-      negotiations come back when we size the ranging data. The figure is illustrative.
-    </p>
+    <p> 连接从广播开始。广播商在三个主要广播信道37、38和39上每个广播间隔发送一次可连接的ADV_IND数据包。扫描仪倾听；当它听到想要连接的 ADV_IND 时，它会在带有 CONNECT_IND 的数据包之后的同一信道上进行应答。从那时起，扫描仪就是一个 LE ACL 连接的中心设备，而广播商就是一个 LE ACL 连接的外围设备。对于扩展广播，辅助信道上的 AUX_ADV_IND、AUX_CONNECT_REQ 和 AUX_CONNECT_RSP 也会发生同样的情况。注意这句话：队列层在尝试连接时将扫描端称为发起端，与CS发起端无关。 CONNECT_IND 修复链路的时序和信道：连接间隔、外围设备延迟、监控超时、信道映射和跳频，以及接入地址、CRC 种子和第一个数据包的传输窗口。稍后可以通过连接参数更新来更改时间。 CONNECT_IND 中没有三件事；它们是在新链接形成后立即进行协商的。 PHY：链路在连接请求使用的 PHY 上开始，1M 具有传统广播或具有扩展广播的辅助广播 PHY，PHY 更新可以将其移动到 2M 或编码。托盘层数据长度，每个数据包的最大有效负载。还有 ATT MTU，它是 GATT 交换，而不是链路层交换。下一张幻灯片显示了时序参数如何随着时间的推移塑造连接；当我们调整测距数据时，谈判就会回来。该图是说明性的。 </p>
   </aside>
 </section>

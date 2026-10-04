@@ -1,18 +1,18 @@
 <section class="acl-steps" data-timing="90">
-  <h2>Multiple antennas in CS: up to four paths</h2>
+  <h2>多天线测量：最多四条天线路径</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 270"
       role="img"
-      aria-label="Left: a 1:4 configuration, one initiator antenna and four reflector antennas, giving antenna paths AP1 to AP4. Right: two-way phase against channel frequency for each path, four straight lines with slightly different slopes, one distance per path."
+      aria-label="左图：1:4 配置，一根发起端天线和四根反射端天线，天线路径为 AP1 到 AP4。右图：每条路径的双向相位与通道频率的关系，四条斜率略有不同的直线，每条路径一个距离。"
     >
       <!-- Left: which antennas make which path -->
-      <text x="200" y="24" font-size="16" fill="#afc8cb" text-anchor="middle">1:4 antenna configuration</text>
+      <text x="200" y="24" font-size="16" fill="#afc8cb" text-anchor="middle">1:4天线配置</text>
       <rect x="20" y="100" width="100" height="60" rx="10" fill="#16413f" stroke="#65e4d0" stroke-width="2.5" />
-      <text x="70" y="136" font-size="16" font-weight="700" fill="#65e4d0" text-anchor="middle">Initiator</text>
+      <text x="70" y="136" font-size="16" font-weight="700" fill="#65e4d0" text-anchor="middle">发起端</text>
       <rect x="310" y="40" width="80" height="200" rx="10" fill="#463a34" stroke="#ffb17a" stroke-width="2.5" />
-      <text x="350" y="146" font-size="16" font-weight="700" fill="#ffb17a" text-anchor="middle" transform="rotate(-90 350 140)">Reflector</text>
+      <text x="350" y="146" font-size="16" font-weight="700" fill="#ffb17a" text-anchor="middle" transform="rotate(-90 350 140)">反射端</text>
       <g stroke="#dcf58a" stroke-width="2">
         <line x1="130" y1="130" x2="298" y2="62" />
         <line x1="130" y1="130" x2="298" y2="108" />
@@ -32,16 +32,16 @@
         <text x="236" y="167">AP3</text>
         <text x="214" y="182">AP4</text>
       </g>
-      <text x="200" y="262" font-size="14" fill="#afc8cb" text-anchor="middle">a path = one initiator antenna with one reflector antenna</text>
+      <text x="200" y="262" font-size="14" fill="#afc8cb" text-anchor="middle">一条路径 = 一根发起端天线和一根反射端天线</text>
       <!-- Right: each path gets its own phase on every channel, so its own slope and range -->
       <line x1="420" y1="30" x2="420" y2="250" stroke="#31535a" stroke-width="2" stroke-dasharray="6 6" />
-      <text x="790" y="24" font-size="16" fill="#afc8cb" text-anchor="middle">each path: its own phase slope, its own distance</text>
+      <text x="790" y="24" font-size="16" fill="#afc8cb" text-anchor="middle">每条路径：自己的相位斜率、自己的距离</text>
       <g stroke="#afc8cb" stroke-width="1.5">
         <line x1="480" y1="224" x2="1070" y2="224" />
         <line x1="480" y1="224" x2="480" y2="50" />
       </g>
-      <text x="1070" y="246" font-size="14" fill="#afc8cb" text-anchor="end">channel frequency →</text>
-      <text transform="translate(466,137) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">two-way phase</text>
+      <text x="1070" y="246" font-size="14" fill="#afc8cb" text-anchor="end">信道频率 →</text>
+      <text transform="translate(466,137) rotate(-90)" font-size="14" fill="#afc8cb" text-anchor="middle">双向相位</text>
       <g stroke="#dcf58a" stroke-width="1.5" opacity="0.6">
         <line x1="490" y1="70" x2="1040" y2="214" />
         <line x1="490" y1="70" x2="1040" y2="188" />
@@ -56,16 +56,16 @@
       </g>
       <g font-size="14" fill="#dcf58a">
         <text x="1050" y="219">AP1 → d₁</text>
-        <text x="1050" y="193">AP2 → d₂</text>
+        <text x="1050" y="193">AP2 → d2</text>
         <text x="1050" y="167">AP3 → d₃</text>
         <text x="1050" y="141">AP4 → d₄</text>
       </g>
     </svg>
     <div class="params">
-      <div><b>Antenna path</b>One initiator antenna with one reflector antenna</div>
-      <div><b>Up to four</b>Antenna paths, chosen in the configuration: 1:1, many:1, 1:many or 2:2</div>
-      <div><b>One path at a time</b>Every tone step measures each path in turn, on the same channel</div>
-      <div><b>Tones only</b>Paths exist in steps with tones; a packet exchange uses one antenna</div>
+      <div><b>天线路径</b>一根发起端天线和一根反射端天线</div>
+      <div><b>最多四个</b>天线路径，在配置中选择：1:1、多:1、1:多或 2:2</div>
+      <div><b>一次一条路径</b>每个单音信号步骤在同一信道上依次测量每个路径</div>
+      <div><b>仅单音信号</b>天线路径用于含单音的步骤；数据包交换使用一根天线</div>
     </div>
   </div>
   <div class="source">
@@ -73,24 +73,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/physical-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part A, §5.3 (antenna switching)</a
+      >核心·第 6 卷，A 部分，§5.3（天线切换）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Multiple antennas are the CS answer to fading: each antenna pair sees the multipath sum of
-      the previous slide differently, so each path has its own H[k]. An antenna path is the pairing of one initiator antenna with one
-      reflector antenna, and there can be one to four of them. The configuration picks the
-      arrangement with the antenna configuration index: 1:1, one antenna on one side and up to four
-      on the other, or two on each side, the 2:2 case. The figure shows 1:4. The paths are measured
-      one after another, not at once: every step that contains tones switches antennas and repeats
-      its tone on each path, all on that step's channel. Each path therefore collects its own phase
-      on every channel the procedure visits, and so its own phase slope and its own distance, as
-      on the right. Paths exist only in steps with tones, so they belong to phase-based ranging;
-      a mode-1 packet exchange for round-trip time uses one antenna, and the controller reports
-      which one. Every extra path adds a tone slot and
-      an antenna switch to every tone step, so more paths mean more airtime; the mode 2 slides show
-      where those slots sit. The figure is illustrative, not to scale.
-    </p>
+    <p> 多个天线是针对衰落的 CS 答案：每个天线对对前一张幻灯片的多径总和的看法不同，因此每条路径都有自己的 H[k]。天线路径是一根发起端天线和一根反射端天线的配对，可以有 1 到 4 个。该配置选择天线配置索引为：1:1 的布置，一侧一根天线，另一侧最多四根天线，或者每侧两根，即 2:2 情况。图中显示1：4。这些路径是一个接一个地测量的，而不是立即测量：包含单音信号的每个步骤都会切换天线并在每个路径上重复其单音信号，所有这些都在该步骤的信道上。因此，每条路径都会在测距过程访问的每个信道上收集自己的相位，以及自己的相位斜率和距离，如右侧所示。路径仅存在于单音信号的步骤中，因此属于基于相位的测距；往返时间的模式 1 数据包交换使用一根天线，控制器报告是哪一根天线。每一条额外的路径为每个单音信号步骤增加一个单音时隙和一个天线开关，因此更多的路径意味着更多的空口占用时间；模式 2 幻灯片显示了这些时隙的位置。该图是说明性的，未按比例绘制。 </p>
   </aside>
 </section>

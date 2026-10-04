@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="105">
-  <h2>CS setup rides on ACL events, then anchors CS to them</h2>
+  <h2>通过 ACL 连接事件配置并定时 CS</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 12 1160 256"
       role="img"
-      aria-label="On the encrypted link, ordinary ACL connection events carry the CS setup PDUs: capabilities, configuration, CS security, LL_CS_REQ and LL_CS_RSP, then LL_CS_IND from the Central naming connection event m; the first CS procedure starts at an offset after the anchor of event m and repeats every procedure interval, in the free time between ACL events"
+      aria-label="在加密链路上，普通ACL连接事件携带CS设置PDU：功能、配置、CS安全、LL_CS_REQ和LL_CS_RSP，然后来自中心设备命名连接事件m的LL_CS_IND；第一个 CS 测距过程从事件 m 的基站之后的偏移开始，并在 ACL 事件之间的空闲时间内重复每个测距过程间隔"
     >
       <defs>
         <marker id="csn-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -18,16 +18,16 @@
         <line x1="180" y1="40" x2="180" y2="52" />
         <line x1="716" y1="40" x2="716" y2="52" />
       </g>
-      <text x="448" y="34" font-size="15" fill="#65e4d0" text-anchor="middle">CS setup: Link Layer control packets in encrypted ACL events</text>
+      <text x="448" y="34" font-size="15" fill="#65e4d0" text-anchor="middle">CS 设置：在加密 ACL 事件内发送链路层控制包</text>
       <g stroke="#dcf58a" stroke-width="1.5">
         <line x1="862" y1="46" x2="1102" y2="46" />
         <line x1="862" y1="40" x2="862" y2="52" />
         <line x1="1102" y1="40" x2="1102" y2="52" />
       </g>
-      <text x="982" y="34" font-size="15" fill="#dcf58a" text-anchor="middle">procedure interval</text>
+      <text x="982" y="34" font-size="15" fill="#dcf58a" text-anchor="middle">测距过程间隔</text>
       <!-- Lanes -->
-      <text x="20" y="96" font-size="21" font-weight="700" fill="#65e4d0">Central</text>
-      <text x="20" y="166" font-size="21" font-weight="700" fill="#ffb17a">Peripheral</text>
+      <text x="20" y="96" font-size="21" font-weight="700" fill="#65e4d0">中心设备</text>
+      <text x="20" y="166" font-size="21" font-weight="700" fill="#ffb17a">外围设备</text>
       <g stroke="#31535a" stroke-width="2">
         <line x1="150" y1="90" x2="1150" y2="90" />
         <line x1="150" y1="160" x2="1150" y2="160" />
@@ -63,7 +63,7 @@
         <text x="1127" y="131">CS</text>
       </g>
       <line x1="800" y1="194" x2="858" y2="194" stroke="#dcf58a" stroke-width="1.5" marker-end="url(#csn-arrow)" />
-      <text x="829" y="188" font-size="13" fill="#dcf58a" text-anchor="middle">offset</text>
+      <text x="829" y="188" font-size="13" fill="#dcf58a" text-anchor="middle">偏移</text>
       <!-- Time axis with a break between setup and procedures -->
       <g stroke="#afc8cb" stroke-width="2">
         <line x1="150" y1="210" x2="735" y2="210" />
@@ -82,29 +82,29 @@
         <line x1="1040" y1="202" x2="1040" y2="218" />
       </g>
       <g font-size="14" fill="#f5f5ed" text-anchor="middle">
-        <text x="208" y="238">capabilities</text>
-        <text x="328" y="238">configuration</text>
-        <text x="448" y="238">CS security</text>
+        <text x="208" y="238">能力</text>
+        <text x="328" y="238">配置</text>
+        <text x="448" y="238">CS 安全初始化</text>
         <text x="568" y="238">LL_CS_REQ / RSP</text>
         <text x="688" y="238">LL_CS_IND</text>
-        <text x="800" y="238" fill="#dcf58a">event m</text>
+        <text x="800" y="238" fill="#dcf58a">事件 m</text>
         <text x="920" y="238">m+1</text>
         <text x="1040" y="238">m+2</text>
       </g>
       <g font-size="13" fill="#afc8cb" text-anchor="middle">
-        <text x="208" y="258">features</text>
-        <text x="328" y="258">modes, roles</text>
-        <text x="448" y="258">CS random seeds</text>
-        <text x="568" y="258">timing proposal</text>
-        <text x="688" y="258">from the Central</text>
+        <text x="208" y="258">能力特性</text>
+        <text x="328" y="258">模式、角色</text>
+        <text x="448" y="258">CS随机种子</text>
+        <text x="568" y="258">时间建议</text>
+        <text x="688" y="258">从中心设备</text>
         <text x="800" y="258" fill="#dcf58a">connEventCount</text>
       </g>
     </svg>
     <div class="params">
-      <div><b>connEventCount</b>The ACL event the first CS procedure is offset from</div>
-      <div><b>Offset</b>After that event&rsquo;s anchor, within the connection interval</div>
-      <div><b>Procedure interval</b>Connection intervals between procedure starts</div>
-      <div><b>Procedure count</b>How many procedures; 0 runs until stopped</div>
+      <div><b>connEventCount</b>用于确定首次 CS 测距起点的 ACL 事件</div>
+      <div><b>偏移</b>从该连接事件的时间锚点起算，位于连接间隔内</div>
+      <div><b>测距过程间隔</b>测距过程开始之间的连接间隔</div>
+      <div><b>测距过程计数</b>有多少测距过程； 0 运行直至停止</div>
     </div>
   </div>
   <div class="source">
@@ -112,25 +112,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part B, §5.1.23–5.1.26 (CS LL procedures)</a
+      >核心·第 6 卷，B 部分，§5.1.23–5.1.26（CS LL 测距过程）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      CS setup needs no new link: it is a series of Link Layer control procedures, and their PDUs
-      travel in ordinary connection events of the encrypted ACL link from the previous slide. The
-      capabilities exchange tells each side what the other supports. The configuration procedure
-      fixes a CS configuration, identified by a Config_ID: the step modes, the channel map, and which
-      device is initiator and which is reflector. The CS Security Start procedure is sent by the
-      Central and exchanges the seeds for the CS random bit generator, which later chooses the
-      channel order and the random bits in every step; it may only run after Link Layer encryption.
-      Then the CS Start procedure sets the timing. Either side may send LL_CS_REQ with a proposal;
-      a Peripheral answers with LL_CS_RSP, and the Central always closes with LL_CS_IND. LL_CS_IND
-      names a connection event, connEventCount, and the first CS procedure starts at an offset after
-      that event's anchor, inside the connection interval. Procedures then repeat every procedure
-      interval, counted in connection intervals, for the procedure count or until stopped. The ACL
-      events keep running in between and carry the results. The figure is illustrative: the setup
-      can take more events than shown, and the break in the axis hides the time until event m.
-    </p>
+    <p> CS 设置不需要新的链接：它是一系列链路层控制测距过程，并且它们的 PDU 在上一张幻灯片中的加密 ACL 链接的普通连接事件中传输。能力交换告诉双方对方支持什么。配置测距过程固定了一个 CS 配置，由 Config_ID 标识：步骤模式、信道图以及哪个设备是发起端，哪个设备是反射端。 CS安全起始测距过程由中心设备发送，并与CS随机位发生器交换种子，随后CS随机位发生器选择信道顺序和每个步骤中的随机位；它只能在链路层加密后运行。然后 CS 开始测距过程设置时间。任何一方都可以发送 LL_CS_REQ 和提案；外围设备以 LL_CS_RSP 应答，中心设备始终以 LL_CS_IND 关闭。 LL_CS_IND 将连接事件命名为 connEventCount，第一个 CS 测距过程从该事件的时间锚点之后的偏移量开始，位于连接间隔内。然后，程序重复每个测距过程间隔，在连接间隔中计数，进行测距过程计数或直到停止。 ACL 事件在其间持续运行并携带结果。该图很说明性：设置可以采取比所示更多的事件，并且轴上的中断隐藏了事件 m 之前的时间。 </p>
   </aside>
 </section>

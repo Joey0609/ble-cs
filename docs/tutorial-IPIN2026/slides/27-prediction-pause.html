@@ -1,42 +1,19 @@
 <section data-timing="120">
-  <h2>Let’s think it through</h2>
+  <h2>思考与预测</h2>
   <div class="content">
     <div class="quiz">
-      <div class="question">
-        1. Doubling the tone steps gives more samples. What happens to range update rate?
-        <div class="answer fragment">
-          CS airtime and result traffic grow. The procedure may need more events, reducing complete ranges per second.
-        </div>
+      <div class="question"> 1. 将单音测量步骤加倍可获得更多样本。测距更新率会怎样变化？ <div class="answer fragment"> CS空口占用时间和结果流量增长。测距过程可能需要更多事件，从而减少每秒的完整距离观测。 </div>
       </div>
-      <div class="question">
-        2. PBR reads 1 m too far with little spread; RTT is noisier but near the reference. What do you check?
-        <div class="answer fragment">
-          Check accepted steps, quality flags, phase residuals and calibration. A repeatable result can still be biased.
-        </div>
+      <div class="question"> 2. PBR 比参考距离大 1 m，离散程度很小； RTT 噪声较大，但接近参考值。你检查什么？ <div class="answer fragment"> 检查接受的步骤、质量标志、相位残差和校准。可重复的结果仍然可能存在偏差。 </div>
       </div>
-      <div class="question">
-        3. Rotating the reflector changes the range at a fixed distance. How would you isolate the cause?
-        <div class="answer fragment">
-          Hold the configuration fixed; repeat each orientation and compare phase shape, antenna path, quality and RTT.
-        </div>
+      <div class="question"> 3. 设备间实际距离固定，旋转反射端却改变了测距结果。您将如何隔离原因？ <div class="answer fragment"> 保持配置固定；重复每个方向并比较相位形状、天线路径、质量和 RTT。 </div>
       </div>
     </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Allocate roughly forty seconds per question: brief individual prediction, discussion with a
-      neighbour, then reveal. For question one, ask where extra steps and result bytes fit in the
-      CS and ACL schedule; more samples do not guarantee a higher rate of complete procedures.
-      For question two, ask what each method contributes and why a narrow spread does not establish
-      accuracy. Use the measured reference, validity and quality flags, phase residuals and
-      calibration context before choosing a result. For question three, ask for a controlled
-      follow-up experiment: keep distance and configuration fixed, repeat orientations and inspect
-      both the observations and the range estimates. The exact cause is a hypothesis to test, not
-      something the first range change proves. These questions close the theory parts and prepare the
-      hands-on experiment.
-    </p>
+    <p> 每个问题分配大约四十秒：简短的个人预测，与邻居讨论，然后揭晓。对于问题一，询问额外的步骤和结果字节适合 CS 和 ACL 时间表；更多样本并不能保证更高的测距过程完成率。对于问题二，询问每种方法的贡献是什么，以及为什么狭窄的分布不能保证准确性。在选择结果之前，请使用测量的参考、有效性和质量标志、相位残差和校准上下文。对于问题三，要求进行受控的后续实验：保持距离和配置固定，重复方向并检查观察结果和距离估计。确切的原因是一个需要测试的假设，而不是第一个距离变化所证明的东西。这些问题结束了理论部分并准备动手实验。 </p>
   </aside>
 </section>

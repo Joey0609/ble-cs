@@ -1,18 +1,18 @@
 <section class="cs-detail" data-timing="120">
-  <h2>How Channel Sounding answers each attack</h2>
+  <h2>信道探测如何应对各类攻击？</h2>
   <div class="content">
-<table class="cs-table"><thead><tr><th scope="col">Attack</th><th scope="col">What CS does, and why it works</th></tr></thead><tbody>
-<tr><td>Amplified signal strength</td><td><b>Measure phase and time, not strength.</b> A stronger signal changes neither.</td></tr>
-<tr><td>Relayed connection</td><td><b>Time the round trip (RTT).</b> A relay can only add delay: the key looks farther, not nearer.</td></tr>
-<tr><td>Shifted tone phase</td><td><b>Send tone extensions at random; cross-check with RTT.</b> A tone where none was sent exposes the relay.</td></tr>
-<tr><td>Predicted packets</td><td><b>Randomize every step.</b> A generator shared only by the two peers picks channels and packet contents; attack detection flags altered packets.</td></tr>
-</tbody></table><div class="callout">Bluetooth defines four CS security levels, from basic ranging up to precise timing with attack detection, so each application can require the protection it needs.</div>
+<table class="cs-table"><thead><tr><th scope="col">攻击方式</th><th scope="col">CS 的作用及其原理</th></tr></thead><tbody>
+<tr><td>信号强度放大</td><td><b>测量相位与时间，而不是强度。</b> 信号变强不会直接改变相位或传播时间。</td></tr>
+<tr><td>中继连接</td><td><b>计算往返时间 (RTT)。</b> 中继器只能增加延迟：钥匙看起来更远，而不是更近。</td></tr>
+<tr><td>单音信号相位偏移</td><td><b>随机发送单音扩展；与 RTT 交叉检查。</b> 本未发送扩展时隙却检测到单音，便会暴露中继。</td></tr>
+<tr><td>预测数据包</td><td><b>随机化每个步骤。</b> 仅由通信双方共享的生成器选择信道和数据包内容；攻击检测标志已更改数据包。</td></tr>
+</tbody></table><div class="callout">蓝牙定义了四个 CS 安全级别，从基本测距到具有攻击检测的精确计时，因此每个应用程序都可以要求其所需的保护。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">Core 6.0 · Vol 6, Part H, §3.5; §4.4.1; §4.8</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/host/generic-access-profile.html" target="_blank" rel="noopener">Vol 3, Part C, §10.11.1</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html" target="_blank" rel="noopener">核心 6.0·第 6 卷，H 部分，§3.5； §4.4.1； §4.8</a><span class="sep">·</span><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/host/generic-access-profile.html" target="_blank" rel="noopener">第 3 卷，C 部分，§10.11.1</a></div>
   <aside class="notes">
-    <p>Take the four weak points from the previous slide in turn. Signal strength: CS does not estimate distance from how strong the signal is, so amplifying it gains nothing. Relay: round-trip time is bounded by the speed of light, so any relay, cable or processing only adds delay and makes the key look farther. Phase: because phase is periodic, a relay could shift each tone to hide its delay. CS makes that hard in two ways. After each tone comes an extension slot that carries the tone or stays silent, chosen at random, and the receiver reports whether it heard a tone where none was expected. And the RTT from the same procedure gives an independent distance that the phase result must agree with.</p>
-    <p>All of this rests on unpredictability. Both controllers run a deterministic random bit generator, the DRBG, seeded with fresh material exchanged over the encrypted link during CS setup. It picks the channel order, access addresses, sounding-sequence markers or random payloads, antenna order and tone extensions, so the peers agree on every step while an outsider cannot anticipate one. With sounding or random sequences, the controller also compares each received packet with the expected waveform and reports a normalized attack detector metric (NADM), from "attack extremely unlikely" to "extremely likely".</p>
-    <p>Security levels: level 1 uses tones or RTT; level 2 adds 150 ns RTT accuracy with tones; level 3 tightens RTT to 10 ns; level 4 adds sounding or random sequences and NADM. Our firmware's default RTT type is access-address only, so it does not reach level 4. Keep two cautions. The protection depends on the pairing, the configured level and how the application uses the indicators; NADM is an indicator, not a proof. And security is not measurement quality: a low-noise range is not proof of security, and a secured exchange is not proof of line of sight.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html">Core 6.0 · Vol 6, Part H, §3.5; §4.4.1; §4.8</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/host/generic-access-profile.html">Vol 3, Part C, §10.11.1</a>.</p>
+    <p>依次找出上一张幻灯片中的四个弱点。信号强度：CS 不会根据信号强度来估计距离，因此放大信号不会产生任何效果。中继：往返时间​​受光速限制，因此任何中继、电缆或处理只会增加延迟并使钥匙看起来更远。相位：因为相位是周期性的，所以中继器可以移动每个单音信号以隐藏其延迟。 CS 在两个方面使这变得困难。每个单音信号之后都会有一个扩展时隙，该扩展时隙携带单音信号或保持静默，随机选择，并且接收器报告是否听到了预期没有的单音信号。来自同一测距过程的RTT给出了相位结果必须一致的独立距离。</p>
+    <p>所有这一切都取决于不可预测性。两个控制器都运行确定性随机位生成器 DRBG，在 CS 设置期间通过加密链路交换的新鲜材料进行播种。它选择信道顺序、接入地址、探测序列标记或随机有效负载、天线顺序和单音信号扩展，因此对端设备在每个步骤上都达成一致，而外人无法预料。通过探测或随机序列，控制器还将每个接收到的数据包与预期波形进行比较，并报告标准化攻击检测器指标（NADM），从“攻击极不可能”到“极有可能”。</p>
+    <p>安全级别：1级使用单音信号或RTT； 2 级增加了 150 ns RTT 精度和单音信号； 3 级将 RTT 收紧至 10 ns；第 4 级添加了探测或随机序列和 NADM。我们的固件的默认 RTT 类型仅是接入地址，因此它达不到级别 4。请注意两点。保护取决于配对、配置级别以及应用程序如何使用指示器； NADM 是一个指标，而不是一个证明。安全性不是测量质量：低噪声距离不是安全性的证明，安全交换也不是视线的证明。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html">核心 6.0·第 6 卷，H 部分，§3.5； §4.4.1； §4.8</a>. <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/host/generic-access-profile.html">第 3 卷，C 部分，§10.11.1</a>.</p>
   </aside>
 </section>

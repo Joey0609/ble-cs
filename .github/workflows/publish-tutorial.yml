@@ -37,14 +37,14 @@ jobs:
           cp -R docs/tutorial-IPIN2026/. _site/ipin2026-tutorial/
           cat > _site/index.html <<'EOF'
           <!doctype html>
-          <html lang="en">
+          <html lang="zh-CN">
             <head>
               <meta charset="utf-8">
               <meta http-equiv="refresh" content="0; url=./ipin2026-tutorial/">
-              <title>IPIN 2026 Tutorial</title>
+              <title>IPIN 2026 中文教程</title>
             </head>
             <body>
-              <p><a href="./ipin2026-tutorial/">Open the IPIN 2026 tutorial presentation</a></p>
+              <p><a href="./ipin2026-tutorial/">打开 IPIN 2026 中文演示稿</a></p>
             </body>
           </html>
           EOF

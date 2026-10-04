@@ -1,14 +1,14 @@
 <section data-timing="60">
-  <h2>Mode 2: sample phase on each antenna path</h2>
+  <h2>模式 2：逐天线路径采样相位</h2>
   <div class="content">
-    <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="Teaching diagram">
+    <svg class="diagram" viewBox="0 0 1000 370" role="img" aria-label="教学图">
       <defs>
         <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
           <path d="M0,0 L8,4 L0,8" fill="#65e4d0" />
         </marker>
       </defs>
-      <text x="30" y="85" font-size="25" fill="#f5f5ed" text-anchor="start">Initiator</text>
-      <text x="30" y="225" font-size="25" fill="#f5f5ed" text-anchor="start">Reflector</text>
+      <text x="30" y="85" font-size="25" fill="#f5f5ed" text-anchor="start">发起端</text>
+      <text x="30" y="225" font-size="25" fill="#f5f5ed" text-anchor="start">反射端</text>
       <line
         x1="170"
         y1="105"
@@ -28,30 +28,19 @@
         stroke-dasharray=""
       />
       <rect x="195" y="65" width="235" height="64" rx="7" fill="#1c5c5c" />
-      <text x="312.5" y="104" font-size="20" fill="#f5f5ed" text-anchor="middle">Tone slots</text>
+      <text x="312.5" y="104" font-size="20" fill="#f5f5ed" text-anchor="middle">单音时隙</text>
       <rect x="620" y="205" width="235" height="64" rx="7" fill="#65523e" />
-      <text x="737.5" y="244" font-size="20" fill="#f5f5ed" text-anchor="middle">Tone slots</text>
+      <text x="737.5" y="244" font-size="20" fill="#f5f5ed" text-anchor="middle">单音时隙</text>
       <text x="485" y="174" font-size="24" fill="#f5f5ed" text-anchor="middle">T_IP2</text>
-      <text x="960" y="315" font-size="22" fill="#f5f5ed" text-anchor="end">time →</text>
-      <text x="195" y="345" font-size="18" fill="#f5f5ed" text-anchor="start">
-        Conceptual order · guard, switching and ramp times omitted here
-      </text>
+      <text x="960" y="315" font-size="22" fill="#f5f5ed" text-anchor="end">时间 →</text>
+      <text x="195" y="345" font-size="18" fill="#f5f5ed" text-anchor="start"> 概念顺序·此处省略保护、天线切换和功率爬升时间 </text>
     </svg>
-    <div class="callout">
-      T_IP2 is the interlude between directions. Tone, switching and extension slots also consume time.
-    </div>
+    <div class="callout"> T_IP2 是方向之间的收发间隔。单音信号、切换和扩展时隙也消耗时间。 </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      The initiator transmits tones and the reflector measures phase; the roles then reverse. The
-      selected antenna configuration defines the paths, and each path needs a well-defined
-      measurement slot. The planner includes switching periods and an extension slot, including
-      reserved duration when a transmission is absent. The app excludes that extension slot from
-      normal antenna-path measurements. Keep path identity when combining and comparing phase;
-      different paths can have different hardware bias and propagation.
-    </p>
+    <p> 发起端传输单音信号，反射端测量相位；然后角色互换。所选的天线配置定义了路径，每个路径都需要一个明确定义的测量槽。规划器包括切换周期和扩展时隙，包括当不存在传输时的保留持续时间。该应用程序将该扩展槽排除在正常天线路径测量之外。组合和比较阶段时保持路径同一性；不同的路径可以有不同的硬件偏差和传播。 </p>
   </aside>
 </section>

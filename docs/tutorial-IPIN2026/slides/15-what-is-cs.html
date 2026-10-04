@@ -1,32 +1,27 @@
 <section class="cs-intro cs-intro" data-timing="105">
-  <h2>What is Channel Sounding in Bluetooth&nbsp;6?</h2>
+  <h2>蓝牙 6 的信道探测功能</h2>
   <div class="body" style="zoom: 0.94">
-    <p class="lead muted">A Bluetooth Core 6.0 feature that lets two connected LE
-      devices measure the distance between them&nbsp;&mdash; precisely and securely.</p>
+    <p class="lead muted">蓝牙核心 6.0 功能可使两个连接的 LE 设备精确、安全地测量它们之间的距离。</p>
 
     <div class="columns">
       <div>
         <ul>
-          <li><strong>Two roles</strong> on an LE connection: the
-            <span class="ini">initiator</span> starts and measures, the
-            <span class="ref">reflector</span> measures and answers</li>
-          <li><strong>Frequency hopping</strong> over up to 72 channels,
-            1&nbsp;MHz apart, from 2402 to 2480&nbsp;MHz</li>
-          <li><strong>Two ranging methods</strong>
+          <li><strong>两个角色</strong> 在 LE 连接上： <span class="ini">发起端</span> 启动并测量， <span class="ref">反射端</span> 测量并回复</li>
+          <li><strong>跳频</strong> 多达 72 个信道，间隔 1 MHz，频率范围为 2402 至 2480 MHz</li>
+          <li><strong>两种测距方法</strong>
             <ul>
-              <li><strong>Phase-based ranging (PBR)</strong>: tone phase vs. frequency</li>
-              <li><strong>RTT</strong>: round-trip time of packets</li>
+              <li><strong>基于相位的测距（PBR）</strong>：单音信号相位与频率</li>
+              <li><strong>RTT</strong>：数据包往返时间</li>
             </ul>
           </li>
-          <li><strong>Security built in</strong>: random channel order and
-            bit sequences, with checks against relay and spoofing attacks</li>
-          <li><strong>Up to 4 antenna paths</strong> to handle multipath</li>
+          <li><strong>内置安全性</strong>：随机信道顺序和位序列，检查中继和欺骗攻击</li>
+          <li><strong>最多 4 个天线路径</strong> 处理多径</li>
         </ul>
       </div>
 
       <div>
         <svg viewBox="0 0 560 380" role="img"
-             aria-label="Initiator and reflector exchanging tones and packets over many channels, with phase-based and round-trip-time ranging">
+             aria-label="发起端和反射端通过多个通道交换单音信号和数据包，具有基于相位和往返时间的测距">
           <defs>
             <marker id="cs-ah-ini" viewBox="0 0 10 10" refX="9" refY="5"
                     markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -46,21 +41,21 @@
             <!-- Devices -->
             <rect x="4" y="10" width="140" height="64" rx="10"
                   fill="#16413f" stroke="#65e4d0" stroke-width="2"/>
-            <text x="74" y="40" text-anchor="middle" font-weight="700" fill="#65e4d0">Initiator</text>
-            <text x="74" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">starts, measures</text>
+            <text x="74" y="40" text-anchor="middle" font-weight="700" fill="#65e4d0">发起端</text>
+            <text x="74" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">启动、测量</text>
 
             <rect x="416" y="10" width="140" height="64" rx="10"
                   fill="#463a34" stroke="#ffb17a" stroke-width="2"/>
-            <text x="486" y="40" text-anchor="middle" font-weight="700" fill="#ffb17a">Reflector</text>
-            <text x="486" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">measures, answers</text>
+            <text x="486" y="40" text-anchor="middle" font-weight="700" fill="#ffb17a">反射端</text>
+            <text x="486" y="61" text-anchor="middle" font-size="14" fill="#afc8cb">测量、回复</text>
 
             <!-- Exchange -->
             <line x1="152" y1="30" x2="408" y2="30" stroke="#65e4d0" stroke-width="2.5"
                   marker-end="url(#cs-ah-ini)"/>
             <line x1="408" y1="56" x2="152" y2="56" stroke="#ffb17a" stroke-width="2.5"
                   marker-end="url(#cs-ah-ref)"/>
-            <text x="280" y="22" text-anchor="middle" font-size="14" fill="#65e4d0">tone / packet</text>
-            <text x="280" y="76" text-anchor="middle" font-size="14" fill="#ffb17a">tone / packet</text>
+            <text x="280" y="22" text-anchor="middle" font-size="14" fill="#65e4d0">单音信号/数据包</text>
+            <text x="280" y="76" text-anchor="middle" font-size="14" fill="#ffb17a">单音信号/数据包</text>
 
             <!-- Distance -->
             <line x1="74" y1="98" x2="486" y2="98" stroke="#afc8cb" stroke-width="1.5"
@@ -69,7 +64,7 @@
             <text x="280" y="104" text-anchor="middle" font-style="italic" fill="#f5f5ed">d</text>
 
             <!-- Channel hopping strip -->
-            <text x="4" y="138" font-size="14" fill="#afc8cb">repeated on many channels, in random order</text>
+            <text x="4" y="138" font-size="14" fill="#afc8cb">以随机顺序在多个信道上重复</text>
             <line x1="4" y1="176" x2="556" y2="176" stroke="#afc8cb" stroke-width="1"/>
             <g fill="#65e4d0" opacity="0.85">
               <rect x="20"  y="160" width="6" height="16"/>
@@ -86,9 +81,9 @@
               <rect x="482" y="156" width="6" height="20"/>
               <rect x="520" y="152" width="6" height="24"/>
             </g>
-            <text x="4"   y="194" font-size="13" fill="#afc8cb">2402 MHz</text>
-            <text x="556" y="194" font-size="13" fill="#afc8cb" text-anchor="end">2480 MHz</text>
-            <text x="290" y="194" font-size="13" fill="#afc8cb" text-anchor="middle">&#8230;</text>
+            <text x="4"   y="194" font-size="13" fill="#afc8cb">2402兆赫</text>
+            <text x="556" y="194" font-size="13" fill="#afc8cb" text-anchor="end">2480兆赫</text>
+            <text x="290" y="194" font-size="13" fill="#afc8cb" text-anchor="middle">…</text>
 
             <!-- PBR panel -->
             <text x="4" y="226" font-weight="700" fill="#f5f5ed">PBR</text>
@@ -96,20 +91,20 @@
                   marker-end="url(#cs-ah-mut)"/>
             <line x1="20" y1="350" x2="20" y2="238" stroke="#afc8cb" stroke-width="1.5"
                   marker-end="url(#cs-ah-mut)"/>
-            <text x="248" y="370" font-size="13" fill="#afc8cb" text-anchor="end">frequency f</text>
-            <text x="28" y="248" font-size="13" fill="#afc8cb">phase &#966;</text>
+            <text x="248" y="370" font-size="13" fill="#afc8cb" text-anchor="end">频率f</text>
+            <text x="28" y="248" font-size="13" fill="#afc8cb">相位 φ</text>
             <line x1="30" y1="258" x2="236" y2="340" stroke="#65e4d0" stroke-width="2.5"/>
             <g fill="#65e4d0">
               <circle cx="50" cy="266.0" r="3.5"/><circle cx="84" cy="279.5" r="3.5"/>
               <circle cx="118" cy="293.0" r="3.5"/><circle cx="152" cy="306.5" r="3.5"/>
               <circle cx="186" cy="320.0" r="3.5"/><circle cx="220" cy="333.5" r="3.5"/>
             </g>
-            <text x="130" y="276" font-size="14" fill="#65e4d0">slope &#8733; &#8722;d</text>
+            <text x="130" y="276" font-size="14" fill="#65e4d0">斜率 ∝ −d</text>
 
             <!-- RTT panel -->
             <text x="300" y="226" font-weight="700" fill="#f5f5ed">RTT</text>
-            <text x="300" y="262" font-size="13" fill="#65e4d0">initiator</text>
-            <text x="300" y="332" font-size="13" fill="#ffb17a">reflector</text>
+            <text x="300" y="262" font-size="13" fill="#65e4d0">发起端</text>
+            <text x="300" y="332" font-size="13" fill="#ffb17a">反射端</text>
             <line x1="366" y1="258" x2="552" y2="258" stroke="#65e4d0" stroke-width="1.5"/>
             <line x1="366" y1="328" x2="552" y2="328" stroke="#ffb17a" stroke-width="1.5"/>
             <line x1="378" y1="258" x2="414" y2="328" stroke="#65e4d0" stroke-width="2"
@@ -132,29 +127,5 @@
       </div>
     </div>
   </div>
-  <aside class="notes">
-    Channel Sounding (CS) arrived in Bluetooth Core 6.0 (2024); this project
-    follows Core v6.3. It runs over an existing LE ACL connection: the two
-    sides agree on a CS configuration, then run CS procedures made of
-    subevents and steps.
-
-    The initiator and reflector exchange tones and packets on up to 72
-    channels (CS channels 2&ndash;22 and 26&ndash;76, 1 MHz apart). Channel
-    order and packet contents come from a shared random generator, so an
-    attacker cannot predict them.
-
-    PBR: each side measures the phase of the other's tone. The combined
-    round-trip phase falls linearly with frequency, with slope
-    &minus;4&pi;d/c, so the slope across channels gives the distance. With 1 MHz
-    spacing the result repeats every 150 m.
-
-    RTT: the initiator times a packet's round trip and subtracts the
-    reflector's known turnaround time. This is coarser than PBR but not
-    ambiguous, and it helps detect relay attacks.
-
-    PBR can measure up to four antenna paths to average out multipath; an RTT packet uses one
-    antenna.
-    Initiator, reflector and the link they need are on the next slide; step modes 0&ndash;3 come
-    later.
-  </aside>
+  <aside class="notes"> 蓝牙核心 6.0 (2024) 中出现了信道探测 (CS)；该项目遵循 Core v6.3。它运行在现有的 LE ACL 连接上：双方同意 CS 配置，然后运行由子事件和步骤组成的 CS 测距过程。发起端和反射端在多达 72 个信道上交换单音信号和数据包（CS 信道 2-22 和 26-76，间隔 1 MHz）。信道顺序和数据包内容来自共享随机生成器，因此攻击者无法预测它们。 PBR：每一方测量对方单音信号的相位。组合的往返相位随频率线性下降，斜率为−4πd/c，因此信道间的斜率给出了距离。间隔为 1 MHz 时，结果每 150 m 重复一次。 RTT：发起端乘以数据包的往返时间并减去反射端已知的收发周转时间。这比 PBR 更粗糙，但不含糊，并且有助于检测中继攻击。 PBR 可以测量多达 4 个天线路径以平均多径；一个 RTT 数据包使用一根天线。 发起端、反射端以及它们需要的链接在下一张幻灯片上； 步骤模式 0-3 稍后出现。 </aside>
 </section>

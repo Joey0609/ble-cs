@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="105">
-  <h2>Scheduling: how events form a procedure</h2>
+  <h2>调度：将事件组成测距过程</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 266"
       role="img"
-      aria-label="ACL anchors m to m+4. CS procedure 1 holds three CS events at anchors m, m+1 and m+2, with one subevent each. Under each event a bar shows how much of the channel array has been used: a third, two thirds, then all of it, which completes the procedure. A dashed Max_Procedure_Len bracket marks where the procedure would be cut if it were still incomplete. Procedure 2 starts one procedure interval after procedure 1, at anchor m+4, with a new channel shuffle."
+      aria-label="ACL 基站 m 至 m+4。 CS测距过程1在m、m+1、m+2基站举行3个CS事件，各有1个子事件。在每个事件下，一个条形显示已使用了多少通道阵列：三分之一、三分之二，然后是全部，这完成了测距过程。虚线 Max_Procedure_Len 括号标记了测距过程如果仍不完整则将被剪切的位置。 测距过程2在测距过程1之后在基站m+4处开始一个测距过程间隔，并进行新的信道洗牌。"
     >
       <!-- Procedure interval, on top -->
       <g stroke="#dcf58a" stroke-width="1.5">
@@ -13,11 +13,11 @@
         <line x1="194" y1="18" x2="194" y2="30" />
         <line x1="1074" y1="18" x2="1074" y2="30" />
       </g>
-      <text x="634" y="14" font-size="15" fill="#dcf58a" text-anchor="middle">procedure interval: whole connection intervals, start to start</text>
+      <text x="634" y="14" font-size="15" fill="#dcf58a" text-anchor="middle">测距过程间隔：整个连接间隔，开始到开始</text>
       <!-- Lanes -->
       <text x="20" y="62" font-size="19" font-weight="700" fill="#afc8cb">ACL</text>
       <text x="20" y="140" font-size="19" font-weight="700" fill="#dcf58a">CS</text>
-      <text x="20" y="199" font-size="15" fill="#afc8cb">channels</text>
+      <text x="20" y="199" font-size="15" fill="#afc8cb">信道</text>
       <line x1="140" y1="56" x2="1150" y2="56" stroke="#31535a" stroke-width="2" />
       <!-- ACL events at every anchor: Central, then Peripheral -->
       <g font-size="13" fill="#afc8cb">
@@ -41,15 +41,15 @@
         <rect x="828" y="46" width="16" height="20" rx="3" />
         <rect x="1048" y="46" width="16" height="20" rx="3" />
       </g>
-      <text x="810" y="84" font-size="13" fill="#ffb17a">results over ACL</text>
+      <text x="810" y="84" font-size="13" fill="#ffb17a">ACL 结果</text>
       <!-- Procedures contain events, events contain subevents -->
       <g fill="#dcf58a" fill-opacity="0.05" stroke="#dcf58a" stroke-width="2" stroke-dasharray="7 5">
         <rect x="180" y="76" width="592" height="102" rx="10" />
         <rect x="1060" y="76" width="96" height="102" rx="10" />
       </g>
       <g font-size="14" font-weight="700" fill="#dcf58a">
-        <text x="190" y="92">CS procedure 1 · one ranging result</text>
-        <text x="1068" y="92">procedure 2</text>
+        <text x="190" y="92">CS 测距过程 1 · 一个测距结果</text>
+        <text x="1068" y="92">测距过程2</text>
       </g>
       <g fill="#65e4d0" fill-opacity="0.08" stroke="#65e4d0" stroke-width="2">
         <rect x="186" y="100" width="136" height="70" rx="8" />
@@ -58,10 +58,10 @@
         <rect x="1066" y="100" width="86" height="70" rx="8" />
       </g>
       <g font-size="12" fill="#65e4d0">
-        <text x="194" y="115">CS event</text>
-        <text x="414" y="115">CS event</text>
-        <text x="634" y="115">CS event</text>
-        <text x="1074" y="115">CS event</text>
+        <text x="194" y="115">CS 事件</text>
+        <text x="414" y="115">CS 事件</text>
+        <text x="634" y="115">CS 事件</text>
+        <text x="1074" y="115">CS 事件</text>
       </g>
       <g fill="#dcf58a" fill-opacity="0.12" stroke="#dcf58a" stroke-width="2">
         <rect x="194" y="120" width="120" height="44" rx="5" />
@@ -135,10 +135,10 @@
       </g>
       <rect x="626" y="188" width="136" height="12" rx="3" fill="#dcf58a" />
       <g font-size="13" text-anchor="middle">
-        <text x="254" y="218" fill="#afc8cb">a third of the array</text>
-        <text x="474" y="218" fill="#afc8cb">two thirds</text>
-        <text x="694" y="218" fill="#dcf58a">all used: complete</text>
-        <text x="1109" y="218" fill="#afc8cb">new shuffle</text>
+        <text x="254" y="218" fill="#afc8cb">数组的三分之一</text>
+        <text x="474" y="218" fill="#afc8cb">三分之二</text>
+        <text x="694" y="218" fill="#dcf58a">全部使用：完整</text>
+        <text x="1109" y="218" fill="#afc8cb">重新随机排列</text>
       </g>
       <!-- The length limit -->
       <g stroke="#dcf58a" stroke-width="1.5">
@@ -146,55 +146,33 @@
         <line x1="194" y1="232" x2="194" y2="244" />
         <line x1="900" y1="232" x2="900" y2="244" />
       </g>
-      <text x="547" y="258" font-size="13" fill="#dcf58a" text-anchor="middle">Max_Procedure_Len: the procedure stops here even if incomplete</text>
+      <text x="547" y="258" font-size="13" fill="#dcf58a" text-anchor="middle">Max_Procedure_Len：即使不完整，测距过程也会在此停止</text>
     </svg>
     <div class="params">
-      <div><b>Complete</b>The non-mode-0 channel array has run Channel_Map_Repetition times</div>
-      <div><b>Cut short</b>Max_Procedure_Len (× 625 µs) runs out first, or 256 steps are used</div>
-      <div><b>Repeat</b>Next start one procedure interval later; Procedure_Count times, 0 = until stopped</div>
-      <div><b>Fresh draw</b>New channel shuffle and main-mode counts; no repeated steps in the first subevent</div>
+      <div><b>完成条件</b>非模式 0 信道数组已运行 Channel_Map_Repetition 次</div>
+      <div><b>提前结束</b>Max_Procedure_Len (× 625 µs) 先用完，或使用 256 步骤</div>
+      <div><b>重复测距</b>接下来开始一个测距过程间隔； procedure_Count 次，0 = 直到停止</div>
+      <div><b>重新随机生成</b>新的信道随机排列和主模式计数；第一个子事件中没有重复的步骤</div>
     </div>
-    <div class="callout">
-      One procedure, one ranging result: channel coverage sets how long it takes, the procedure
-      interval how often it comes.
-    </div>
+    <div class="callout"> 一个测距过程，一个测距结果：信道覆盖范围决定了需要多长时间，过程间隔决定更新频率。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part H, §4 (channel selection)</a
+      >核心·第 6 卷，H 部分，§4（信道选择）</a
     ><span class="sep">·</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Vol 6, Part B, §4.5.18</a
+      >第 6 卷，B 部分，§4.5.18</a
     ><span class="sep">·</span
-    ><a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    ><a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      The top level: a CS procedure is one ranging measurement, and it ends by channel coverage,
-      not by a step count. Each procedure shuffles the enabled channels into an array for the
-      non-mode-0 steps and works through it Channel_Map_Repetition times; when the last pass is used
-      up, the procedure is complete, whether that took one subevent or several CS events. It is cut
-      short if Max_Procedure_Len, counted in 625 µs, runs out first, or when it reaches 256 steps;
-      the result then covers fewer channels. The next procedure starts one procedure interval after
-      the start of this one, counted in connection intervals, so this one has to end before that;
-      Procedure_Count sets how many run, 0 until stopped. Each procedure starts from a fresh draw of
-      the random generator: a new channel order and new main-mode counts, and its first subevent has no
-      steps to repeat.
-    </p>
-    <p>
-      This is where the parameters meet. The firmware's default request is 36 channels with one
-      map repetition, but a Max_Procedure_Len of 10 × 625 µs, room for a single 6 ms subevent; the
-      planner therefore predicts procedures that end by length after one subevent, having measured
-      only part of the 36 channels. The planner's schedule view names the condition that ended each
-      procedure. The rate follows from the procedure interval: one result every procedure interval
-      × connection interval, the arithmetic on the ACL timing slide. The figure is schematic, with
-      one subevent per event and illustrative channel fractions.
-    </p>
+    <p> 顶层：CS 测距过程是一次测距测量，它以信道覆盖范围结束，而不是以步骤计数结束。每个测距过程将启用的信道混入非模式 0 步骤的数组中，并通过 Channel_Map_Repetition 次进行工作；当最后一次用完时，测距过程就完成了，无论是一个子事件还是几个CS事件。如果 Max_Procedure_Len（以 625 µs 计）先用完，或者达到 256 步骤，则将其缩短；结果将覆盖更少的信道。下一个测距过程在本次测距过程开始后开始一个测距过程间隔，计入连接间隔，因此本次测距过程必须在此之前结束； procedure_Count 设置运行次数，0 直到停止。每个测距过程都从随机生成器的新抽取开始：新的信道顺序和新的主模式很重要，并且其第一个子事件没有可重复的步骤。 </p>
+    <p> 这就是参数相遇的地方。固件默认请求为 36 个信道，一次映射重复，但 Max_Procedure_Len 为 10 × 625 µs，可容纳单个 6 ms 子事件；因此，规划者仅测量了 36 个信道的一部分，预测了在一个子事件之后以长度结束的测距过程。计划者的计划视图命名结束每个测距过程的条件。该速率根据测距过程间隔得出：每个测距过程间隔 × 连接间隔一个结果，ACL 计时幻灯片上的算术。该图是示意性的，每个事件有一个子事件和说明性信道分数。 </p>
   </aside>
 </section>

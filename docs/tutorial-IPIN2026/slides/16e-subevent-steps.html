@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="90">
-  <h2>Inside a subevent: a sequence of steps</h2>
+  <h2>子事件内部：逐个执行测量步骤</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 280"
       role="img"
-      aria-label="One subevent zoomed into eight steps: two mode-0 steps, five main-mode steps of mode 2 and one sub-mode step of mode 1. In every step the initiator transmits to the reflector, then the reflector transmits back; each step uses its own channel."
+      aria-label="一个子事件放大为八个步骤：两个模式0步骤、五个模式2主模式步骤和一个模式1子模式步骤。每个步骤都使用自己的通道。"
     >
       <defs>
         <marker id="sst-ini" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
@@ -17,7 +17,7 @@
       </defs>
       <!-- The subevent from the previous slide, zoomed -->
       <rect x="20" y="118" width="58" height="62" rx="5" fill="#dcf58a" fill-opacity="0.18" stroke="#dcf58a" stroke-width="2" />
-      <text x="49" y="108" font-size="14" fill="#dcf58a" text-anchor="middle">subevent</text>
+      <text x="49" y="108" font-size="14" fill="#dcf58a" text-anchor="middle">子事件</text>
       <g stroke="#dcf58a" stroke-width="1" stroke-dasharray="4 4" opacity="0.7">
         <line x1="78" y1="118" x2="150" y2="70" />
         <line x1="78" y1="180" x2="150" y2="210" />
@@ -42,9 +42,9 @@
         </g>
       </g>
       <g font-size="15" text-anchor="middle">
-        <text x="280" y="36" fill="#afc8cb">mode-0 steps</text>
-        <text x="700" y="36" fill="#65e4d0">main mode steps</text>
-        <text x="1060" y="36" fill="#ffb17a">sub mode</text>
+        <text x="280" y="36" fill="#afc8cb">模式 0步骤</text>
+        <text x="700" y="36" fill="#65e4d0">主模式步骤</text>
+        <text x="1060" y="36" fill="#ffb17a">子模式</text>
       </g>
       <!-- Eight steps: 0 0 2 2 2 2 2 1 -->
       <g fill="#12363d" stroke-width="2">
@@ -58,14 +58,14 @@
         <rect x="1006" y="86" width="108" height="108" rx="7" stroke="#ffb17a" />
       </g>
       <g font-size="17" font-weight="700" text-anchor="middle">
-        <text x="220" y="112" fill="#afc8cb">mode 0</text>
-        <text x="340" y="112" fill="#afc8cb">mode 0</text>
-        <text x="460" y="112" fill="#65e4d0">mode 2</text>
-        <text x="580" y="112" fill="#65e4d0">mode 2</text>
-        <text x="700" y="112" fill="#65e4d0">mode 2</text>
-        <text x="820" y="112" fill="#65e4d0">mode 2</text>
-        <text x="940" y="112" fill="#65e4d0">mode 2</text>
-        <text x="1060" y="112" fill="#ffb17a">mode 1</text>
+        <text x="220" y="112" fill="#afc8cb">模式0</text>
+        <text x="340" y="112" fill="#afc8cb">模式0</text>
+        <text x="460" y="112" fill="#65e4d0">模式2</text>
+        <text x="580" y="112" fill="#65e4d0">模式2</text>
+        <text x="700" y="112" fill="#65e4d0">模式2</text>
+        <text x="820" y="112" fill="#65e4d0">模式2</text>
+        <text x="940" y="112" fill="#65e4d0">模式2</text>
+        <text x="1060" y="112" fill="#ffb17a">模式1</text>
       </g>
       <!-- In every step: initiator to reflector, then reflector to initiator -->
       <g stroke="#65e4d0" stroke-width="2.5" marker-end="url(#sst-ini)">
@@ -90,35 +90,33 @@
       </g>
       <!-- Each step on its own channel -->
       <g font-size="14" fill="#afc8cb" text-anchor="middle">
-        <text x="220" y="234">ch 23</text>
-        <text x="340" y="234">ch 61</text>
-        <text x="460" y="234">ch 8</text>
-        <text x="580" y="234">ch 44</text>
-        <text x="700" y="234">ch 70</text>
-        <text x="820" y="234">ch 15</text>
-        <text x="940" y="234">ch 37</text>
-        <text x="1060" y="234">ch 52</text>
+        <text x="220" y="234">信道 23</text>
+        <text x="340" y="234">信道 61</text>
+        <text x="460" y="234">信道 8</text>
+        <text x="580" y="234">信道 44</text>
+        <text x="700" y="234">信道 70</text>
+        <text x="820" y="234">信道 15</text>
+        <text x="940" y="234">信道 37</text>
+        <text x="1060" y="234">信道 52</text>
       </g>
-      <text x="640" y="266" font-size="15" fill="#f5f5ed" text-anchor="middle">
-        each step on its own channel; the radios retune between steps
-      </text>
+      <text x="640" y="266" font-size="15" fill="#f5f5ed" text-anchor="middle"> 每个步骤都有自己的信道；步骤之间的无线设备重新调整 </text>
     </svg>
     <div class="legend">
       <div>
         <span class="sw m0"></span>
-        <span><b>Mode 0</b> frequency and timing calibration; one to three open every subevent</span>
+        <span><b>模式0</b> 频率与时序校准；每个子事件以 1–3 步开始</span>
       </div>
       <div>
         <span class="sw main"></span>
-        <span><b>Main mode</b> the measurement steps, here mode 2: phase of tones</span>
+        <span><b>主模式</b> 测量步骤，此处为模式2：单音信号相位</span>
       </div>
       <div>
         <span class="sw subm"></span>
-        <span><b>Sub mode</b> inserted between main mode steps, here mode 1: round-trip time</span>
+        <span><b>子模式</b> 在主模式步骤之间插入，这里模式1：往返时间</span>
       </div>
       <div>
         <span class="sw dir"></span>
-        <span><b>Every step</b> initiator to reflector, then reflector to initiator</span>
+        <span><b>每一步</b> 发起端到反射端，然后反射端到发起端</span>
       </div>
     </div>
   </div>
@@ -127,25 +125,10 @@
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part H, §4 (CS steps and mode sequencing)</a
+      >核心·第 6 卷，H 部分，§4（CS 步骤和模式排序）</a
     >
   </div>
   <aside class="notes">
-    <p>
-      Zoom into one subevent: it is a sequence of CS steps, and a step is the smallest unit, one
-      exchange on one channel in which the initiator transmits to the reflector and the reflector
-      transmits back. Every subevent opens with one to three mode-0 steps, which calibrate frequency
-      and timing between the two radios. After them come the measurement steps of the main mode;
-      here mode 2, the tone exchange for phase-based ranging. At configured intervals a sub-mode
-      step is inserted, here mode 1, a packet exchange for round-trip time. A procedure uses at
-      most two non-mode-0 modes, and only some pairs are allowed; the mode sequence slide lists
-      them. The configuration can also repeat up to three main-mode steps from the end of the
-      previous subevent right after the mode-0 steps. Each step uses its own channel, chosen by the
-      channel selection that CS security seeded, so the radios retune between steps. The
-      specification allows 2 to 160 steps in a subevent and 256 in a procedure. This sequence is
-      the example the specification itself uses: two mode-0 steps, five mode-2 steps and one mode-1
-      step; the channel numbers are illustrative. What happens inside each mode is the subject of
-      the mode timing slides.
-    </p>
+    <p> 放大一个子事件：它是一系列的CS步骤，一个步骤是最小的单位，一个信道上的一次交换，发起端传给反射端，反射端传回来。每个子事件都会以一到三个模式 0步骤开始，用于校准两个无线设备之间的频率和时序。接下来是主模式的测量步骤；这里模式2，单音信号交换为基于相位的测距。在配置的时间间隔插入一个子模式步骤，这里是模式 1，用于交换往返时间的数据包。一个测距过程最多使用两个非模态 0 模态，并且只允许某些对；模式顺序幻灯片列出了它们。该配置还可以在模式 0 步骤之后重复上一个子事件末尾的最多三个主模式步骤。每个步骤都使用自己的信道，由 CS 安全播种的信道选择来选择，因此无线设备在步骤之间重新调整。该规范允许子事件中有 2 到 160 个步骤，测距过程中有 256 个步骤。该序列是规范本身使用的示例：两个模式 0步骤、五个模式-2步骤和一个模式-1步骤；信道编号是说明性的。每种模式内发生的事情是模式计时幻灯片的主题。 </p>
   </aside>
 </section>

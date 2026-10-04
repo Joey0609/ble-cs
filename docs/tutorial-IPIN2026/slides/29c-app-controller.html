@@ -1,39 +1,31 @@
 <section data-timing="105">
-  <h2>Read what the controller actually accepted</h2>
+  <h2>确认控制器实际接受的参数</h2>
   <div class="content">
     <div class="screenshot-layout">
       <div class="screenshot-frame">
-        <img src="images/app-controller.png" alt="Screenshot of the actual CS Host application" />
+        <img src="images/app-controller.png" alt="实际 CS Host 应用程序的屏幕截图" />
       </div>
       <div class="screen-notes">
-        <span class="badge">OUR APP · SIMULATED DATA</span>
+        <span class="badge">桌面应用 · 模拟数据</span>
         <div class="card">
           <span class="n">01</span>
-          <p>Compare requested and reported settings.</p>
+          <p>比较请求设置与控制器上报设置。</p>
         </div>
         <div class="card">
           <span class="n">02</span>
-          <p>Check local and remote capabilities.</p>
+          <p>检查双方控制器能力。</p>
         </div>
         <div class="card">
           <span class="n">03</span>
-          <p>Then compare RTT, PBR slope and IFFT peak in Estimates.</p>
+          <p>然后比较 “估计结果”视图中的 RTT、PBR 斜率和 IFFT 峰值。</p>
         </div>
       </div>
     </div>
   </div>
   <div class="source">
-    <a href="sources.html#application" target="_blank" rel="noopener">Our CS app · source notes</a>
+    <a href="sources.html#application" target="_blank" rel="noopener">我们的 CS 应用 · 来源说明</a>
   </div>
   <aside class="notes">
-    <p>
-      Before diagnosing a surprising graph, confirm the experiment that actually ran. The Controller
-      tab reports capabilities, connection parameters, completed configuration and enabled procedure
-      parameters alongside requests. Some settings are negotiated or controller-selected; the
-      accepted result can differ from the values one expected. The Estimates view then compares the
-      available RTT, PBR slope and PBR IFFT peak summaries. This screenshot is a simulator session. During the live lab,
-      ask participants to name one requested setting and find its reported counterpart. Missing peer
-      data or an incomplete procedure should be diagnosed before comparing distance algorithms.
-    </p>
+    <p> 在诊断令人惊讶的图表之前，请确认实际运行的实验。控制器选项卡报告功能、连接参数、完成的配置和启用的测距过程参数以及请求。一些设置是协商的或控制器选择的；接受的结果可能与预期的值不同。然后，“估计”视图会比较可用的 RTT、PBR 斜率和 PBR IFFT 峰值摘要。此屏幕截图是模拟器会话。在现场实验室中，要求参与者说出一项请求的设置并找到其报告的对应设置。在比较距离算法之前，应诊断缺失的对等数据或不完整的测距过程。 </p>
   </aside>
 </section>

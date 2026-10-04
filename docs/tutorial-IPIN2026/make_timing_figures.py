@@ -33,10 +33,10 @@ GAP_COLOR = "#6f9199"
 EXTENSION_COLOR = "#d9bd86"
 BACKGROUND = "#09242b"
 TEXT, MUTED, GRID = "#f5f5ed", "#afc8cb", "#24454d"
-FONT = "Arial, Helvetica, sans-serif"
+FONT = "Microsoft YaHei, Noto Sans CJK SC, Arial, sans-serif"
 
 WIDTH, LEFT, RIGHT = 1200, 130, 30
-LANES = (("Initiator", "Initiator TX", 30), ("Reflector", "Reflector TX", 135), ("Timing", "Timing", 240))
+LANES = (("Initiator", "发起端发送", 30), ("Reflector", "反射端发送", 135), ("Timing", "时序", 240))
 BLOCK_H, AXIS_Y = 50, 320
 TICK_US = 50
 # Narrow segments are labelled under their lane, most important first, on up to two rows.
@@ -44,11 +44,12 @@ BELOW_PRIORITY = ("CS_SYNC", "T_GD", "T_RD", "T_FM")
 
 
 def text_width(label, size):
-    return len(label) * size * 0.6
+    return sum(1 if ord(c) > 127 else 0.6 for c in label) * size
 
 
 def label_svg(label, x, y, size, color, weight="normal"):
     """Centered label; T_XX is drawn as T with a subscript."""
+    label = {"Extension": "扩展"}.get(label, label)
     m = re.fullmatch(r"T_(\w+)", label)
     body = (f'T<tspan dy="{size * 0.3:.1f}" font-size="{size * 0.72:.1f}">{escape(m.group(1))}</tspan>'
             if m else escape(label))
@@ -71,7 +72,7 @@ def figure(s, mode):
         out.append(f'<line x1="{x:.1f}" y1="{AXIS_Y}" x2="{x:.1f}" y2="{AXIS_Y + 6}" stroke="{MUTED}"/>')
         out.append(label_svg(str(t), x, AXIS_Y + 24, 16, MUTED))
     out.append(f'<line x1="{LEFT}" y1="{AXIS_Y}" x2="{WIDTH - RIGHT}" y2="{AXIS_Y}" stroke="{MUTED}"/>')
-    out.append(label_svg("Time since step start (µs)", LEFT + (WIDTH - LEFT - RIGHT) / 2, AXIS_Y + 50, 16, MUTED))
+    out.append(label_svg("步骤开始后的时间（µs）", LEFT + (WIDTH - LEFT - RIGHT) / 2, AXIS_Y + 50, 16, MUTED))
 
     for lane, title, y in LANES:
         out.append(f'<text x="{LEFT - 14}" y="{y + BLOCK_H / 2 + 6}" text-anchor="end" font-size="18" '
@@ -98,9 +99,9 @@ def figure(s, mode):
                 rows[row].append((cx - half, cx + half))
                 out.append(label_svg(p.label, cx, y + BLOCK_H + 18 + row * 18, 15, TEXT))
 
-    legend = [(COLORS[mode], "Transmission"), (GAP_COLOR, "Guard, ramp-down, switch or interlude")]
+    legend = [(COLORS[mode], "发送"), (GAP_COLOR, "保护、功率下降、天线切换或收发间隔")]
     if mode in (2, 3):
-        legend.append((EXTENSION_COLOR, "Tone extension slot"))
+        legend.append((EXTENSION_COLOR, "单音扩展时隙"))
     x = LEFT
     for color, name in legend:
         out.append(f'<rect x="{x}" y="{AXIS_Y + 72}" width="18" height="18" fill="{color}"/>')
@@ -113,8 +114,8 @@ def figure(s, mode):
     paths = ANTENNA_PATHS[aci]
     interlude = f"T_IP1 = {c.t_ip1_time_us} µs" if mode in (0, 1) else \
         f"T_IP2 = {c.t_ip2_time_us} µs, T_SW = {s.t_sw_us} µs, T_PM = {c.t_pm_time_us} µs; " \
-        f"{paths} antenna path{'s' if paths > 1 else ''} (ACI {aci})"
-    note = f"Mode {mode} step: {total} µs, drawn to scale. Planner defaults: {phy} CS_SYNC, {interlude}."
+        f"{paths} 条天线路径（ACI {aci}）"
+    note = f"模式 {mode}：{total} µs，按比例绘制。规划器默认值：{phy} CS_SYNC，{interlude}。"
     height = AXIS_Y + 122
     out.append(f'<text x="{LEFT}" y="{height - 8}" font-size="15" fill="{MUTED}">{escape(note)}</text>')
 
@@ -182,7 +183,7 @@ def interval_figure(rows):
         out.append(f'<text x="{left - 16}" y="{y + 36}" text-anchor="end" font-size="26" font-weight="bold" '
                    f'fill="{TEXT}">{ms(period)} ms</text>')
         out.append(f'<text x="{left - 16}" y="{y + 60}" text-anchor="end" font-size="16" fill="{MUTED}">'
-                   f'ACL interval</text>')
+                   f'ACL 连接间隔</text>')
         ras_anchors = range(ras_first, ras_first + schedule.ras.events)
         for k in range(total // period + 1):
             anchor = k * period
@@ -206,9 +207,9 @@ def interval_figure(rows):
                                f'height="{cs_h}" fill="{COLORS[step.mode]}" opacity="{opacity}"/>')
         a, b, by = s.event_offset_us, s.event_offset_us + spacing, cs_y + cs_h + 22
         rate = 1e6 / spacing
-        label = (f"procedure interval {p.procedure_interval} × {ms(period)} ms = {ms(spacing)} ms · "
-                 f"{rate:.0f} procedures/s · {schedule.event_count} CS event{'s' if schedule.event_count > 1 else ''}, "
-                 f"{schedule.ras.events} RAS event{'s' if schedule.ras.events > 1 else ''}")
+        label = (f"过程间隔 {p.procedure_interval} × {ms(period)} ms = {ms(spacing)} ms · "
+                 f"每秒 {rate:.0f} 次测距 · {schedule.event_count} 个 CS 事件、"
+                 f"{schedule.ras.events} 个 RAS 传输事件")
         out.append(f'<line x1="{x(a):.1f}" y1="{by}" x2="{x(b):.1f}" y2="{by}" stroke="{TEXT}" stroke-width="1.5"/>')
         for edge in (a, b):
             if edge <= total:
@@ -222,18 +223,18 @@ def interval_figure(rows):
         out.append(label_svg(ms(t), x(t), axis_y + 26, 18, MUTED))
     out.append(f'<text x="{left - 16}" y="{axis_y + 26}" text-anchor="end" font-size="18" fill="{MUTED}">ms</text>')
 
-    legend = [(COLORS[0], "Mode 0"), (COLORS[2], "Mode 2 (PBR)"), (ACL_COLOR, "ACL event"),
-              (RAS_COLOR, "ACL event carrying RAS data")]
+    legend = [(COLORS[0], "模式 0"), (COLORS[2], "模式 2（PBR）"), (ACL_COLOR, "ACL 事件"),
+              (RAS_COLOR, "承载 RAS 数据的 ACL 事件")]
     lx, ly = left, axis_y + 52
     for color, name in legend:
         out.append(f'<rect x="{lx}" y="{ly}" width="20" height="20" fill="{color}"/>')
         out.append(f'<text x="{lx + 28}" y="{ly + 17}" font-size="18" fill="{TEXT}">{escape(name)}</text>')
         lx += 28 + text_width(name, 18) * 0.85 + 30
     out.append(f'<rect x="{lx}" y="{ly}" width="20" height="20" fill="{COLORS[2]}" opacity="{NEXT_OPACITY}"/>')
-    out.append(f'<text x="{lx + 28}" y="{ly + 17}" font-size="18" fill="{TEXT}">next procedure</text>')
+    out.append(f'<text x="{lx + 28}" y="{ly + 17}" font-size="18" fill="{TEXT}">下一测距过程</text>')
 
-    note = ("To scale (planner): 72 channels, mode 2, our nRF54 step timings, RAS at MTU 498 on LE 1M; "
-            "offset and ACL events illustrative.")
+    note = ("按规划器比例绘制：72 个信道、模式 2、实验选用的 nRF54 步骤时序，"
+            "LE 1M 上以 MTU 498 传输 RAS；偏移与 ACL 事件仅作示意。")
     height = ly + 52
     out.append(f'<text x="{left}" y="{height - 8}" font-size="16" fill="{MUTED}">{escape(note)}</text>')
 

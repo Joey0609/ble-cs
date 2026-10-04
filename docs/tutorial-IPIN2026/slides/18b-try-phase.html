@@ -1,39 +1,25 @@
 <section data-timing="165">
-  <h2>Try it: move the target, watch the phase</h2>
+  <h2>交互演示：改变距离，观察相位</h2>
   <div class="content">
     <div class="interactive" id="pbr-demo">
       <div class="control-row">
         <label
-          >Distance
-          <input id="pbr-distance" type="range" min="1" max="15" step=".5" value="3" /></label
+          >距离 <input id="pbr-distance" type="range" min="1" max="15" step=".5" value="3" /></label
         ><span id="pbr-distance-label"></span
-        ><label><input type="checkbox" id="pbr-wrap" checked /> Wrapped phase</label
-        ><label><input type="checkbox" id="pbr-echo" /> Add one echo</label>
+        ><label><input type="checkbox" id="pbr-wrap" checked /> 折叠相位</label
+        ><label><input type="checkbox" id="pbr-echo" /> 添加一个回声</label>
       </div>
       <svg
         id="pbr-chart"
         viewBox="0 0 1050 290"
-        aria-label="Interactive phase-versus-frequency chart"
+        aria-label="交互式相位与频率图"
       ></svg>
       <div class="interactive-output" id="pbr-output"></div>
     </div>
-    <p class="small muted">
-      Illustrative model: direct path, optional weaker path 4 m longer. No measured RF data.
-      As on the previous slide and in the app, &Theta; falls with frequency: slope &minus;4&pi;d/c.
-    </p>
+    <p class="small muted"> 说明性模型：直达路径，可选更长 4 m 的较弱路径。没有测量到的 RF 数据。与上一张幻灯片和应用程序中一样，θ 随频率下降：斜率 −4πd/c。 </p>
   </div>
   <div class="source"></div>
   <aside class="notes">
-    <p>
-      Give the audience thirty seconds to predict the result of increasing distance. Move the slider
-      from three to six metres; the unwrapped line falls twice as steeply and wrapped phase cycles
-      faster. Toggle wrapped phase off to make the slope intuitive. The line falls, as on the
-      previous slide and in the app; the estimate is minus c over 4 pi times the fitted slope. At
-      five metres the wrapped view matches the previous slide. Add the echo, which is a weaker
-      path with four metres extra path length, and show curvature in the phase response and
-      deviation of the simple slope estimate. Explain the assumptions used in this model: reciprocal
-      static channel, no clock error, no measurement noise, and a complex two-way product. It
-      illustrates sensitivity rather than predicting performance of the hardware.
-    </p>
+    <p> 给观众三十秒的时间来预测增加距离的结果。将滑块从三米移动到六米；展开的线的下降速度是原来的两倍，并且折叠相位周期更快。关闭旋转相位以使斜率直观。该线下降，如上一张幻灯片和应用程序中所示；估计值是拟合斜率的 4 pi 倍减去 c。五米处的环绕视图与上一张幻灯片相符。添加回波，这是一条较弱的路径，具有四米额外的路径长度，并显示相位响应的曲率和简单斜率估计的偏差。解释该模型中使用的假设：互易静态信道、无时钟误差、无测量噪声以及复杂的双向乘积。它说明了灵敏度而不是预测硬件的性能。 </p>
   </aside>
 </section>

@@ -1778,3 +1778,35 @@ width keeps the zoomed block centred. */
 #ras-ipt .answers .nowrap {
   white-space: nowrap;
 }
+
+/* 中文版：显式使用中文字体，保留原稿的尺寸与颜色。 */
+:root { --r-main-font: "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif;
+  --r-heading-font: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+.reveal, .reveal .slides section h1, .reveal .slides section h2,
+.reveal .slides section h3 { font-family: "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif; }
+.reveal .slides section > h2 { font-size: 42px; line-height: 1.18; }
+.reveal abbr { text-decoration: underline dotted #65e4d066; text-underline-offset: 4px; cursor: help; border: 0; }
+#terminology-button { color: var(--teal); background: transparent; border: 1px solid var(--line);
+  border-radius: 4px; padding: 4px 10px; font: inherit; cursor: pointer; pointer-events: auto; }
+.terminology-dialog { width: min(1100px, 94vw); max-height: 85vh; padding: 28px;
+  background: #09242b; color: #f5f5ed; border: 1px solid #65e4d0; font: 16px/1.6 "Microsoft YaHei", sans-serif; }
+.terminology-dialog::backdrop { background: #000a; }
+.terminology-dialog h2 { font-size: 24px; }
+.terminology-dialog table { width: 100%; border-collapse: collapse; }
+.terminology-dialog th, .terminology-dialog td { border-bottom: 1px solid #31535a; padding: 8px; text-align: left; }
+.terminology-dialog th { color: #65e4d0; }
+.terminology-close { float: right; padding: 7px 15px; cursor: pointer; }
+@media print { #terminology-button, .terminology-dialog { display: none; } }
+.translated-screenshot { position: relative; width: 100%; container-type: inline-size; overflow: hidden; }
+.reveal .content .screenshot-frame .translated-screenshot { width: auto; height: 100%; max-width: 100%; flex: 0 0 auto; }
+.translated-screenshot > img { display: block; width: 100%; height: auto; }
+.screenshot-translation { position: absolute; display: flex; align-items: center; justify-content: flex-start;
+  background: #f7f8fa; color: #202b38; font: 0.77cqw/1 "Microsoft YaHei", sans-serif;
+  white-space: nowrap; overflow: hidden; letter-spacing: 0; pointer-events: none; padding: 0; }
+.screenshot-translation.screenshot-axis { writing-mode: vertical-rl; transform: rotate(180deg); justify-content: center; }
+.image-overlay > .translated-screenshot { width: min(92vw, 140vh); flex: 0 0 auto; }
+.image-overlay .translated-screenshot img { max-width: none; max-height: none; border: 0; }
+
+.feedback-chinese-panel { padding: 24px; font: 23px/1.5 "Microsoft YaHei", sans-serif; }
+.feedback-chinese-panel h3 { font-size: 28px; color: var(--teal); margin: 0 0 20px; }
+.feedback-chinese-panel p { margin: 14px 0; }

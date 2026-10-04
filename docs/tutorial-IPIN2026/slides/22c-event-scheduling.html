@@ -1,11 +1,11 @@
 <section class="acl-steps" data-timing="105">
-  <h2>Scheduling: how subevents form a CS event</h2>
+  <h2>调度：将子事件组成 CS 事件</h2>
   <div class="content">
     <svg
       class="diagram"
       viewBox="0 0 1160 284"
       role="img"
-      aria-label="Two ACL anchors one event interval apart. A CS event starts the offset after the first anchor and holds two subevents, a subevent interval apart from start to start. Each subevent opens with two mode-0 steps; the block of mode-2 main-mode steps left unfinished at the end of the first subevent continues in the second, before its mode-1 sub-mode step. The next CS event starts the same offset after the second anchor."
+      aria-label="两个ACL基站相隔一事件间隔。一个CS事件在第一个基站之后开始偏移，并持有两个子事件，从开始到开始相隔一个子事件。每个子事件都有两种模式开启-0步骤；在第一个子事件结束时未完成的模式 2 主模式步骤块在第二个子事件中继续，在其模式 1 子模式步骤之前。下一个 CS 事件在第二个基站之后开始相同的偏移。"
     >
       <defs>
         <marker id="evs-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto">
@@ -18,7 +18,7 @@
         <line x1="150" y1="18" x2="150" y2="30" />
         <line x1="1030" y1="18" x2="1030" y2="30" />
       </g>
-      <text x="590" y="14" font-size="15" fill="#65e4d0" text-anchor="middle">event interval: whole connection intervals, anchor to anchor</text>
+      <text x="590" y="14" font-size="15" fill="#65e4d0" text-anchor="middle">事件间隔：连接间隔的整数倍，按时间锚点起算</text>
       <!-- Lanes -->
       <text x="20" y="56" font-size="19" font-weight="700" fill="#afc8cb">ACL</text>
       <text x="20" y="158" font-size="19" font-weight="700" fill="#dcf58a">CS</text>
@@ -38,22 +38,22 @@
         <line x1="214" y1="72" x2="214" y2="84" />
         <line x1="586" y1="72" x2="586" y2="84" />
       </g>
-      <text x="400" y="68" font-size="13" fill="#dcf58a" text-anchor="middle">subevent interval: start to start</text>
-      <text x="1156" y="80" font-size="13" fill="#65e4d0" text-anchor="end">next CS event</text>
+      <text x="400" y="68" font-size="13" fill="#dcf58a" text-anchor="middle">子事件区间：起点到起点</text>
+      <text x="1156" y="80" font-size="13" fill="#65e4d0" text-anchor="end">下一个 CS 事件</text>
       <!-- CS events contain subevents -->
       <g fill="#65e4d0" fill-opacity="0.08" stroke="#65e4d0" stroke-width="2">
         <rect x="206" y="88" width="738" height="112" rx="8" />
         <rect x="1086" y="88" width="70" height="112" rx="8" />
       </g>
-      <text x="216" y="106" font-size="13" fill="#65e4d0">CS event</text>
+      <text x="216" y="106" font-size="13" fill="#65e4d0">CS 事件</text>
       <g fill="#dcf58a" fill-opacity="0.08" stroke="#dcf58a" stroke-width="2">
         <rect x="214" y="114" width="350" height="78" rx="5" />
         <rect x="586" y="114" width="350" height="78" rx="5" />
         <rect x="1094" y="114" width="58" height="78" rx="5" />
       </g>
       <g font-size="13" fill="#dcf58a">
-        <text x="222" y="131">subevent 1</text>
-        <text x="594" y="131">subevent 2 · mode 0 again, the block carries over</text>
+        <text x="222" y="131">子事件1</text>
+        <text x="594" y="131">子事件2·模式0再次，未完成步骤块继续执行</text>
       </g>
       <!-- Steps: 0 0 2 2 2 1 2 2 1 2 2 2 2 | 0 0 2 1 2 2 2 2 2 1 2 2 2 | 0 0 -->
       <g fill="#12363d" stroke-width="2">
@@ -139,9 +139,9 @@
         <line x1="564" y1="210" x2="564" y2="222" />
       </g>
       <g font-size="13" fill="#dcf58a" text-anchor="middle">
-        <text x="180" y="236">offset</text>
-        <text x="389" y="236">subevent length</text>
-        <text x="1060" y="236">offset</text>
+        <text x="180" y="236">偏移</text>
+        <text x="389" y="236">子事件长度</text>
+        <text x="1060" y="236">偏移</text>
       </g>
       <!-- Time axis with the two ACL anchors -->
       <line x1="140" y1="252" x2="1150" y2="252" stroke="#afc8cb" stroke-width="2" />
@@ -150,54 +150,34 @@
         <line x1="1030" y1="244" x2="1030" y2="260" />
       </g>
       <g font-size="14" fill="#f5f5ed" text-anchor="middle">
-        <text x="150" y="278">anchor m</text>
-        <text x="1030" y="278">anchor m + event interval</text>
+        <text x="150" y="278">时间锚点 m</text>
+        <text x="1030" y="278">时间锚点 m + 事件间隔</text>
       </g>
     </svg>
     <div class="params">
-      <div><b>Offset</b>Anchor to first subevent; the Central sets it in LL_CS_IND</div>
-      <div><b>Subevents per event</b>1 to 32, each filled by the subevent rules</div>
-      <div><b>Subevent interval</b>Start to start, in 625 µs units; longer than the subevent</div>
-      <div><b>Event interval</b>Connection intervals between two CS event anchors</div>
+      <div><b>偏移</b>时间锚点到首个子事件的偏移；中心设备设置为LL_CS_IND</div>
+      <div><b>每个事件的子事件</b>1到32，分别由子事件规则填充</div>
+      <div><b>子事件区间</b>起点到起点，以 625 µs 为单位；比子事件还长</div>
+      <div><b>事件间隔</b>相邻 CS 事件时间锚点之间相隔的连接间隔数</div>
     </div>
-    <div class="callout">
-      Each subevent re-calibrates with mode 0; an unfinished main-mode block and the channel arrays carry on.
-    </div>
+    <div class="callout"> 每个子事件以模式0重新校准；未完成的主模式块和信道数组继续进行。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/link-layer-specification.html"
       target="_blank"
       rel="noopener"
-      >Core · Vol 6, Part B, §4.5.18 (CS procedures and subevents)</a
+      >核心·第 6 卷，B 部分，§4.5.18（CS 测距过程和子事件）</a
     ><span class="sep">·</span
     ><a
       href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/Core-60/out/en/low-energy-controller/channel-sounding.html"
       target="_blank"
       rel="noopener"
-      >Vol 6, Part H, §4</a
+      >第 6 卷，H 部分，§4</a
     >
   </div>
   <aside class="notes">
-    <p>
-      One level up: a CS event groups the subevents that hang from one ACL anchor. Its first
-      subevent starts the offset after the anchor; the Central fixed that offset in LL_CS_IND,
-      inside the window proposed with LL_CS_REQ. The event holds Subevents_Per_Event subevents, 1 to
-      32, each starting one subevent interval after the start of the previous one, counted in
-      625 µs. Subevents do not overlap, so the interval is longer than the subevent length; with a
-      single subevent per event it is zero. The whole event spans (number of subevents − 1) ×
-      subevent interval + subevent length, and it has to end before the next CS event, which starts
-      the same offset after the anchor one event interval later, counted in connection intervals.
-    </p>
-    <p>
-      What a subevent boundary changes: each subevent is filled with the rules of the previous
-      slides, so it opens with fresh mode-0 steps; the frequency estimate is only trusted within one
-      subevent. What it does not change: the main/sub-mode sequence and the channel arrays belong to
-      the procedure, so an unfinished block continues and the next channels follow on. In the figure
-      the block of five main-mode steps has four in subevent 1; its fifth step, then its sub-mode
-      step, open subevent 2 after the mode-0 steps. The figure is schematic and not to scale; it repeats the 6 ms
-      subevent of the previous slides. The ACL events keep running at every anchor, as on the CS
-      timeline slide.
-    </p>
+    <p> 上一层：CS 事件将悬挂在一个 ACL 时间关联点上的子事件组合在一起。其首个子事件在时间锚点之后开始偏移；中心设备修复了LL_CS_IND中的偏移量，在LL_CS_REQ建议的窗口内。该事件保存 Subevents_Per_Event 子事件，1 到 32，每个子事件在前一个子事件开始后开始一个子事件间隔，以 625 µs 计。子事件不重叠，因此间隔比子事件长度长；对于每个事件只有一个子事件，它为零。整个事件跨度为(子事件数量−1)×子事件间隔+子事件长度，并且必须在下一个CS事件之前结束，下一个CS事件在基站一个事件间隔后开始相同的偏移量，计入连接间隔。 </p>
+    <p> 子事件边界发生了什么变化：每个子事件都充满了之前幻灯片的规则，因此以新鲜模式 0步骤打开；频率估计仅在一个子事件内可信。它没有改变的是：主/子模式序列和信道数组属于测距过程，因此未完成的块会继续，下一个信道也会继续。图中五个主模式步骤块子事件1中有四个；第五步，然后是子模式步骤，在模式0步骤后打开子事件2。该图是示意性的且未按比例绘制；它重复了之前幻灯片的 6 ms 子事件。 ACL 事件在每个基站持续运行，如 CS 时间轴幻灯片上所示。 </p>
   </aside>
 </section>

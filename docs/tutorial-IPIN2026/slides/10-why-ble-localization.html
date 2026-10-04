@@ -1,45 +1,32 @@
 <section data-timing="90">
-  <h2>Why localize with Bluetooth Low Energy (LE)?</h2>
+  <h2>为什么选择低功耗蓝牙定位？</h2>
   <div class="content">
     <div class="grid3">
       <div class="card">
-        <span class="n">01 · ALREADY CARRIED</span>
-        <h3>Phones + wearables</h3>
-        <p>The devices people already carry can take part, with no extra radio.</p>
+        <span class="n">01 · 设备普及</span>
+        <h3>手机+可穿戴设备</h3>
+        <p>人们已经携带的设备就可以参与其中，无需额外的无线设备。</p>
       </div>
       <div class="card">
-        <span class="n">02 · LOW POWER</span>
-        <h3>Small batteries</h3>
-        <p>Tags, badges and rings can range on the same radio that sends their data.</p>
+        <span class="n">02·低功耗</span>
+        <h3>小电池</h3>
+        <p>标签、胸牌和戒指可用传输数据的同一无线模块进行测距。</p>
       </div>
       <div class="card">
-        <span class="n">03 · STANDARD</span>
-        <h3>One specification</h3>
-        <p>Since Bluetooth 6.0, two devices from any vendor can measure distance and check it.</p>
+        <span class="n">03·标准</span>
+        <h3>统一规范</h3>
+        <p>蓝牙 6.0 起，支持信道探测的不同厂商设备可按同一规范测距并校验结果。</p>
       </div>
     </div>
-    <div class="callout">
-      Location becomes a feature of a link you already have, not a separate system.
-    </div>
+    <div class="callout"> 定位功能可复用已有通信链路。 </div>
   </div>
   <div class="source">
     <a
       href="https://www.bluetooth.com/channel-sounding-tech-overview/"
       target="_blank"
       rel="noopener"
-      >Bluetooth SIG · technical overview</a
+      >蓝牙技术联盟（SIG）·技术概述</a
     >
   </div>
-  <aside class="notes">
-    <p>
-      Once location is worth having, ask why Bluetooth LE, when UWB, Wi-Fi and cameras exist. The
-      answer is reach and cost: the radio is already in phones, wearables and tags, it is designed
-      for small batteries, and the ranging runs over the same connection that carries the data.
-      Channel Sounding, added in Bluetooth 6.0, makes distance part of the specification, so devices
-      from different vendors can measure it and check it against relay attacks. Avoid claiming that
-      every phone supports Channel Sounding today, or that Bluetooth LE always beats UWB; controller
-      and phone support are still arriving. The next slide shows how a position is solved from
-      ranges.
-    </p>
-  </aside>
+  <aside class="notes"><p>在说明位置的价值后，再问：已有超宽带、无线局域网和相机，为何仍选择低功耗蓝牙？主要原因是普及程度与成本：手机、可穿戴设备和标签通常已有蓝牙模块，适合小电池，测距又可复用传数据的连接。蓝牙 6.0 加入信道探测后，将测距及相关安全校验纳入规范，让支持该功能的不同厂商设备能够互通。不要由此声称所有手机当前都支持 CS，也不要声称低功耗蓝牙总优于超宽带；控制器和手机支持仍在逐步落地。下一页说明如何用距离求位置。</p></aside>
 </section>

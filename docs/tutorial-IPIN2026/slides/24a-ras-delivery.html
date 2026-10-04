@@ -1,16 +1,16 @@
 <section class="cs-detail" data-timing="105">
-  <h2>RAS: delivering the matching reflector result</h2>
+  <h2>RAS：传送并匹配反射端结果</h2>
   <div class="content">
 <ol class="cs-flow">
-<li><b>Discover and configure</b><span>Client reads RAS Features and subscribes to the selected data/control characteristics.</span></li>
-<li><b>Real-time or on-demand</b><span>Stream results as they complete, or fetch stored procedures through the Control Point.</span></li>
-<li><b>Segment and reassemble</b><span>Use ATT notifications/indications in ACL airtime left by CS; detect gaps and reassemble the procedure.</span></li>
-<li><b>Pair and estimate</b><span>Match procedure, step, channel and antenna path with the initiator’s local results, then combine: \( H[k] = \mathrm{PCT}_I[k]\,\mathrm{PCT}_R[k] \) (18c).</span></li>
-</ol><div class="callout">A typical route is reflector = RAS Server, initiator = RAS Client. Missing remote data means an incomplete paired measurement, even if CS ran successfully.</div>
+<li><b>发现并配置</b><span>客户端读取 RAS 特征并订阅所选的数据/控制特征。</span></li>
+<li><b>实时或按需</b><span>完成后传输结果，或通过控制点获取存储的测距过程。</span></li>
+<li><b>分割并重新组装</b><span>使用ACL中CS留下的空口占​​用时间中的ATT通知/指示；检测间隙并重新组装测距过程。</span></li>
+<li><b>配对和估计</b><span>将测距过程、步骤、信道和天线路径与发起端的本地结果匹配，然后组合：\( H[k] = \mathrm{PCT}_I[k]\,\mathrm{PCT}_R[k] \) (18c)。</span></li>
+</ol><div class="callout">典型的路由是反射端 = RAS Server，发起端 = RAS Client。即使 CS 成功运行，缺少远端数据也意味着配对测量不完整。</div>
   </div>
-  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">RAS 1.0 · §2.7; §3.1–3.5</a></div>
+  <div class="source"><a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html" target="_blank" rel="noopener">RAS 1.0·§2.7； §3.1–3.5</a></div>
   <aside class="notes">
-    <p>These service roles are independent of Central/Peripheral. RAS reports the measurements produced by the controller, including procedure/subevent context, step data and status. Real-time delivery starts after a complete subevent result or complete procedure result is available; it is still subject to ACL scheduling. The segments share the connection with the CS events that are offset from its anchors: if the procedure interval leaves too little ACL airtime, notifications back up and results arrive late or are lost. This project reports that case to the host as RAS_DATA_LOST. On-demand operation uses stored data and the RAS Control Point; buffer overwrite and optional lost-segment retrieval matter. Read feature support instead of assuming all recovery operations exist. Reassemble before interpreting records, match procedure identity and steps, and handle counter wrap and incomplete/aborted results. Baseline PBR pairs one tone at a time: the same procedure (ranging counter and configuration), the same step, the same channel and the same antenna path; only then are the two PCTs multiplied. This project pairs steps by their position in the procedure and counts a pair whose mode or channel differs as mismatched, leaving it out. Packet sizes and ATT MTU are covered in slide 26d. The ranging algorithm remains an implementation choice.</p>
-    <p>Sources: <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">RAS 1.0 · §2.7; §3.1–3.5</a>.</p>
+    <p>这些服务角色独立于中心设备/外围设备。 RAS 报告控制器产生的测量结果，包括测距过程/子事件上下文、步骤数据和状态。获得完整的子事件结果或完整的测距过程结果后开始实时交付；仍受ACL调度。这些段与偏离其基站的 CS 事件共享连接：如果测距过程间隔留下的 ACL 空口占用时间太少，则通知备份和结果会延迟到达或丢失。该项目将该案例报告给主机 RAS_DATA_LOST。按需操作使用存储的数据和 RAS 控制点；缓冲区覆盖和可选的丢失段检索很重要。阅读功能支持，而不是假设所有恢复操作都存在。在解释记录之前重新组装，匹配测距过程身份和步骤，并处理计数器换行和不完整/中止的结果。基线PBR一次配对一个单音信号：相同的测距过程（测距计数器和配置）、相同的步骤、相同的信道和相同的天线路径；然后两个 PCT 才会相乘。该项目根据步骤在测距过程中的位置对步骤进行配对，并将模式或信道不同的步骤视为不匹配，将其排除在外。幻灯片 26d 介绍了数据包大小和 ATT MTU。测距算法仍然是一种实现选择。</p>
+    <p>来源： <a href="https://www.bluetooth.com/wp-content/uploads/Files/Specification/HTML/RAS_v1.0/out/en/index-en.html">RAS 1.0·§2.7； §3.1–3.5</a>.</p>
   </aside>
 </section>
