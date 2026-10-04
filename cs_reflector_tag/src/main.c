@@ -10,6 +10,7 @@
 #include <cs_utils/cs_capabilities.h>
 #include <cs_utils/cs_config.h>
 #include <errno.h>
+#include <hal/nrf_gpio.h>
 #include <string.h>
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/conn.h>
@@ -68,31 +69,62 @@ static const char *const tone_antenna_names[] = {
 enum status_led {
 	STATUS_LED_CONNECTED,
 	STATUS_LED_CS,
+	STATUS_LED_RED,
 };
 
-/* Two channels of the RGB LED 1, with polarity supplied by devicetree; both
- * lit read as cyan. The red channel is left unconfigured (off).
+/* RGB LED 1: blue P2.09, green P2.10, red P2.08, all active-low.
+ * gpio_pin_set_dt() takes a logical value: true drives the pin low (on).
+ * Configure red inactive too so every channel has a defined off state.
+ * Blue and green lit together read as cyan.
  */
 static const struct gpio_dt_spec status_leds[] = {
 	[STATUS_LED_CONNECTED] = GPIO_DT_SPEC_GET(DT_NODELABEL(led1_blue), gpios),
 	[STATUS_LED_CS] = GPIO_DT_SPEC_GET(DT_NODELABEL(led1_green), gpios),
+	[STATUS_LED_RED] = GPIO_DT_SPEC_GET(DT_NODELABEL(led1_red), gpios),
 };
 static const char *const status_led_names[] = {
 	[STATUS_LED_CONNECTED] = "blue",
 	[STATUS_LED_CS] = "green",
+	[STATUS_LED_RED] = "red",
 };
 static bool status_led_ready[ARRAY_SIZE(status_leds)];
 static atomic_t link_connected;
 
+static void status_led_report(enum status_led led, bool on) {
+	const struct gpio_dt_spec *spec = &status_leds[led];
+	uint32_t pin = NRF_GPIO_PIN_MAP(DT_PROP(DT_NODELABEL(gpio2), port), spec->pin);
+	int level;
+
+	/* Allow the pad/input sampler to settle after configuration or a write. */
+	k_busy_wait(5);
+	level = gpio_pin_get_raw(spec->port, spec->pin);
+
+	/* OUT is the output latch; IN samples the pad with its input buffer
+	 * enabled. Neither measurement proves that current flows through the LED.
+	 */
+	APP_LOG_INF("LED 1 %s P2.%02u %s: OUT=%u IN=%d PIN_CNF=0x%08x",
+	            status_led_names[led], (unsigned int)spec->pin, on ? "on" : "off",
+	            (unsigned int)nrf_gpio_pin_out_read(pin), level,
+	            (unsigned int)NRF_P2->PIN_CNF[spec->pin]);
+	if (level < 0) {
+		APP_LOG_WRN("LED 1 %s readback failed: %d", status_led_names[led], level);
+	} else if (level != (on ? 0 : 1)) {
+		APP_LOG_WRN("LED 1 %s pad level differs from requested output", status_led_names[led]);
+	}
+}
+
 static void status_leds_init(void) {
 	for (size_t i = 0; i < ARRAY_SIZE(status_leds); i++) {
 		int err = gpio_is_ready_dt(&status_leds[i])
-		                  ? gpio_pin_configure_dt(&status_leds[i], GPIO_OUTPUT_INACTIVE)
+		                  ? gpio_pin_configure_dt(&status_leds[i],
+		                                          GPIO_OUTPUT_INACTIVE | GPIO_INPUT)
 		                  : -ENODEV;
 
 		status_led_ready[i] = err == 0;
 		if (err) {
 			APP_LOG_WRN("LED 1 %s init failed: %d", status_led_names[i], err);
+		} else {
+			status_led_report(i, false);
 		}
 	}
 }
@@ -103,7 +135,24 @@ static void status_led_set(enum status_led led, bool on) {
 
 		if (err) {
 			APP_LOG_WRN("LED 1 %s update failed: %d", status_led_names[led], err);
+		} else {
+			status_led_report(led, on);
 		}
+	}
+}
+
+static void status_leds_boot_check(void) {
+	/* Exercise all RGB channels before Bluetooth setup: an idle Tag would
+	 * otherwise give no visible indication that the LEDs work.
+	 */
+	APP_LOG_INF("LED 1 boot check: blue, green, red (500 ms each)");
+	for (size_t i = 0; i < ARRAY_SIZE(status_leds); i++) {
+		if (!status_led_ready[i]) {
+			continue;
+		}
+		status_led_set(i, true);
+		k_msleep(500);
+		status_led_set(i, false);
 	}
 }
 
@@ -330,6 +379,7 @@ int main(void) {
 
 	apply_log_config();
 	status_leds_init();
+	status_leds_boot_check();
 	APP_LOG_INF("nRF54L15 Tag CS reflector: %d antennas",
 	            CONFIG_BT_CTLR_SDC_CS_NUM_ANTENNAS);
 

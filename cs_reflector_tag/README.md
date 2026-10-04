@@ -18,10 +18,33 @@ cold-reboots rather than going silent, since it has no button to recover it.
 Logs use RTT through an external SWD probe; the Tag has no native USB. Ranging
 data is delivered to the initiator over RAS.
 
-The RGB LED 1 shows the state: blue is on while connected, and green is on
-while CS procedures are running (both lit read as cyan). Green turns off when
-the procedures stop or the role reports an error; both turn off when the link
-is lost or disconnected. The red channel and LED 2 are not used.
+At boot, RGB LED 1 briefly lights blue, green, then red (500 ms each), before
+Bluetooth setup, so the LEDs can be checked without an initiator. Afterwards,
+blue is on while connected, and green is on while CS procedures are running
+(both lit read as cyan). Green turns off when the procedures stop or the role
+reports an error; both turn off when the link
+is lost or disconnected. All three LED 1 channels are initialized off; red
+stays off after the boot check and LED 2 is not used.
+
+| LED 1 color | GPIO | Polarity |
+| --- | --- | --- |
+| Red | P2.08 | Active-low |
+| Green | P2.10 | Active-low |
+| Blue | P2.09 | Active-low |
+
+The NCS board devicetree supplies these pins and `GPIO_ACTIVE_LOW`.
+`gpio_pin_set_dt(..., true)` drives the output low to turn a color on;
+`GPIO_OUTPUT_INACTIVE` initializes it high (off). If the boot pulses are
+missing, check RTT for `LED 1 <color> init failed` or `update failed` messages.
+Each successful initialization and update also logs the output latch (`OUT`),
+the sampled pin level (`IN`), and the Nordic pin configuration (`PIN_CNF`).
+The input buffer is enabled alongside the output to permit this readback.
+Expect `OUT=0 IN=0` when on and `OUT=1 IN=1` when off. A matching readback
+confirms the GPIO level, not LED current or visible light. If all colors stay
+dark despite matching levels, inspect the LED supply, resistors, and board
+connections; if levels do not match, inspect the pin configuration and ownership.
+If the pulses work but the status colors stay off, check the `State` messages
+for a successful connection and `running`.
 
 ## Board and antenna switch
 
