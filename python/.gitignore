@@ -3,3 +3,4 @@
 **/*.pyc
 **/*.pyo
 **/*.pyd
+/reflector_ids.md
