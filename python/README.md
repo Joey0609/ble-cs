@@ -52,7 +52,9 @@ Everything outside `views/`, `app.py`, `qt_session.py` and the serial transport 
 logic is unit-tested without a display.
 
 `configs/` holds stored planner configurations for the CS view's **Open…**, named after their
-properties; see [configs/README.md](configs/README.md).
+properties; see [configs/README.md](configs/README.md). **Open…** starts in this directory
+in a source checkout. Both distributions bundle these examples in their package's
+`configs/` directory, which **Open…** uses after installation.
 
 ## Protocol classes
 

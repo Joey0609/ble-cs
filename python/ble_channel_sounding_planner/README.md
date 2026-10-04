@@ -34,6 +34,9 @@ ble-channel-sounding-planner [file]
 This project has its own `pyproject.toml`. The host app's PyPI workflow does not
 build or publish this planner distribution.
 
+**Open…** starts in `python/configs` in a source checkout, or the bundled
+`configs` directory inside the planner package after installation.
+
 ## Window
 
 Same layout and behaviour as the `ble-channel-sounding` planner:

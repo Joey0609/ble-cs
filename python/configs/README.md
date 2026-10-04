@@ -1,7 +1,8 @@
 # Stored planner configurations
 
-CS initiator configurations saved from the CS view of `ble-channel-sounding`
-with **Save…** (planner JSON, schema version 1). Each file holds the scenario
+Planner JSON configurations saved from the CS view of `ble-channel-sounding`
+with **Save…** (schema version 1), plus copies of the C examples in the
+repository-root `configs/` directory. Each JSON file holds the scenario
 (connection, CS configuration, procedure) and the Host settings, so it is a
 complete configuration. Load one with **Open…** in the CS view, or in the
 standalone planner from the `python` directory:
@@ -9,6 +10,31 @@ standalone planner from the `python` directory:
 ```sh
 python -m ble_channel_sounding_planner configs/cs-plan-initiator-mode3-a1b1-2m-sub25ms-ras.json
 ```
+
+**Open…** starts in this directory in a source checkout. Installed host and
+planner packages include the JSON and C examples with this README in their
+bundled `configs/` directory, which **Open…** uses after installation.
+
+## C examples copied from the repository root
+
+These files are unchanged copies of the firmware examples in `configs/` at
+the repository root. C files open through the embedded planner JSON; the
+applications do not interpret their C setter calls.
+
+| File | Role | Summary | Planner import |
+| --- | --- | --- | --- |
+| [initiator_mode3_a1b2_2m_sub16ms_ras_cstag.c](initiator_mode3_a1b2_2m_sub16ms_ras_cstag.c) | Initiator | Mode 3, A1:B2, 2M PHY, one 16 ms subevent, RAS real-time, `CSTag` peers | Does not open: its hand-written embedded plan is not valid planner input |
+| [reflector_a1b1_sub5ms.c](reflector_a1b1_sub5ms.c) | Reflector | A1:B1, 5 ms subevents | Opens in the standalone planner; the integrated host supports initiator configurations only |
+
+The files are not a matched pair: their antenna paths and subevent lengths
+differ. The initiator example is intended for a Tag reflector running A1:B2
+defaults. Its C record is the firmware configuration; the hand-written
+embedded plan is only an approximation and has explanatory text before its
+JSON that the importer cannot parse.
+
+For firmware settings and build commands in a source checkout, see
+[the root configurations README](../../configs/README.md). When a root C
+example changes, copy it here again so the installed examples stay in sync.
 
 ## File names
 

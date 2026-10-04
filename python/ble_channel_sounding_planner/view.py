@@ -14,6 +14,7 @@ import pyqtgraph as pg
 from .export_c import (HOST_DEFAULTS, TONE_ANTENNA_COUNTS, document, generate, load_document, standalone_host_settings,
                         validate_device_name)
 from .channels import ALLOWED_CHANNELS, channel_map_bytes, enabled_channels
+from .config_files import configs_directory
 from .model import (ANTENNA_PATHS, ENHANCEMENTS_1_IPT, FCS_TIMES, IP_TIMES, MODES, ROLES, Scenario,
                     build_schedule, dumps, ipt_enabled, ipt_margin_us, loads, minimum_subevent_len,
                     step_segments, validate)
@@ -1323,7 +1324,9 @@ class PlannerWidget(W.QWidget):
         return self.apply_scenario(scenario, host, source=f"Loaded from {Path(path).name}")
 
     def open_file(self):
-        path, _ = W.QFileDialog.getOpenFileName(self, "Open planner configuration", "", "Planner configuration (*.json *.c)")
+        path, _ = W.QFileDialog.getOpenFileName(
+            self, "Open planner configuration", str(configs_directory()),
+            "Planner configuration (*.json *.c)")
         if path:
             try:
                 self.open_path(path)

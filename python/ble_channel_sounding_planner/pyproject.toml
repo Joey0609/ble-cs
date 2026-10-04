@@ -22,8 +22,11 @@ Source = "https://github.com/Sens-Wear/ble-cs"
 Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding_planner/README.md"
 
 [tool.setuptools]
-packages = ["ble_channel_sounding_planner"]
+packages = ["ble_channel_sounding_planner", "ble_channel_sounding_planner.configs"]
 include-package-data = false
 
 [tool.setuptools.package-dir]
 ble_channel_sounding_planner = "."
+
+[tool.setuptools.package-data]
+"ble_channel_sounding_planner.configs" = ["*.json", "*.c", "README.md"]

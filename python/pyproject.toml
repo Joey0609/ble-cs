@@ -29,8 +29,19 @@ ble-channel-sounding = "ble_channel_sounding.app:main"
 Source = "https://github.com/Sens-Wear/ble-cs"
 Documentation = "https://github.com/Sens-Wear/ble-cs/blob/main/python/ble_channel_sounding/GETTING_STARTED.md"
 
-[tool.setuptools.packages.find]
-include = ["ble_channel_sounding", "ble_channel_sounding.*"]
+[tool.setuptools]
+packages = [
+    "ble_channel_sounding",
+    "ble_channel_sounding.planner",
+    "ble_channel_sounding.protocol",
+    "ble_channel_sounding.views",
+    "ble_channel_sounding.configs",
+]
+include-package-data = false
+
+[tool.setuptools.package-dir]
+"ble_channel_sounding.configs" = "configs"
 
 [tool.setuptools.package-data]
 ble_channel_sounding = ["GETTING_STARTED.md", "GETTING_STARTED.html", "assets/logo/senswear-logo.png", "assets/help/*.png"]
+"ble_channel_sounding.configs" = ["*.json", "*.c", "README.md"]

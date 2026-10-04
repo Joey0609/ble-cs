@@ -8,6 +8,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets as W
 import pyqtgraph as pg
 
 from ..protocol.packets import ConnectionParametersPacket, OperationMode
+from ..config_files import configs_directory
 
 from ..planner import bridge
 from ..planner.model import (ALLOWED_CHANNELS, ANTENNA_PATHS, ATT_DEFAULT_MTU, ATT_MAX_MTU, ENHANCEMENTS_1_IPT,
@@ -1509,7 +1510,9 @@ class PlannerWidget(W.QWidget):
         self.apply_config(Scenario())
 
     def open_file(self):
-        path, _ = W.QFileDialog.getOpenFileName(self, "Open planner configuration", "", "Planner configuration (*.json *.c)")
+        path, _ = W.QFileDialog.getOpenFileName(
+            self, "Open planner configuration", str(configs_directory()),
+            "Planner configuration (*.json *.c)")
         if path:
             try:
                 from ..planner.export_c import load_document

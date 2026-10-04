@@ -94,6 +94,9 @@ jobs:
           python -I - <<'PY'
           from importlib.metadata import distribution
           from importlib.resources import files
+          from pathlib import Path
+
+          from ble_channel_sounding.config_files import configs_directory
 
           dist = distribution('ble-channel-sounding')
           scripts = {ep.name: ep for ep in dist.entry_points if ep.group == 'console_scripts'}
@@ -107,6 +110,10 @@ jobs:
           for resource in ('GETTING_STARTED.md', 'GETTING_STARTED.html', 'assets/logo/senswear-logo.png'):
               if not files('ble_channel_sounding').joinpath(resource).is_file():
                   raise SystemExit(f'Missing package resource: {resource}')
+          configs = configs_directory()
+          for source in [*Path('configs').glob('*.json'), *Path('configs').glob('*.c')]:
+              if not (configs / source.name).is_file() or (configs / source.name).read_bytes() != source.read_bytes():
+                  raise SystemExit(f'Missing or outdated example configuration: {source.name}')
           PY
           ble-channel-sounding --help
 
