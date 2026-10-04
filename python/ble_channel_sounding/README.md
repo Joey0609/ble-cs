@@ -119,8 +119,13 @@ reported-compensation peaks. Missing channels are left empty on the 1 MHz
 frequency grid; the IFFT peak is shown in the PBR summary. Zero padding makes
 the peak easier to locate but does not improve the physical range resolution.
 The Estimates plot compares raw, Mode-0 corrected and frequency-compensation
-corrected slope and IFFT peak distances across procedures. Checkboxes above the
-plot control which estimate lines are visible. All PBR comparisons use the same selected
+corrected slope and IFFT peak distances across procedures. A **Plot lines**
+column of checkboxes to the left of the plots, stacked so that it takes no plot
+height, controls which lines are visible: the estimate lines in Estimates, and
+in PBR per channel the initiator and reflector PCT and the raw, Mode-0 and
+frequency-compensation product lines, in every plot that draws them
+(`√|product|` stays while any product line is shown). The tables and summaries
+are not filtered. All PBR comparisons use the same selected
 path, tone quality filter and correction sign.
 
 For hardware, the client must implement the handshake and commands in

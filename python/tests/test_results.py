@@ -391,6 +391,79 @@ class ResultsGuiTests(unittest.TestCase):
         self.assertIn("0/0 RTT step pairs", window.rtt_summary.text())
         window.close()
 
+    def test_pbr_plot_line_checkboxes_hide_lines_in_every_plot(self):
+        from PyQt6.QtCore import QPoint
+        from PyQt6.QtWidgets import QApplication, QVBoxLayout
+        from ble_channel_sounding.views.results_view import ResultsWidget
+        app = QApplication.instance() or QApplication([])
+        window = ResultsWidget()
+        window.show()
+        for packet in synthetic_packets():
+            window.add_packet(packet)
+        window.refresh()
+        app.processEvents()
+
+        def lines(plot):
+            # The IFFT peak markers are unnamed.
+            return [item.name() for item in plot.plotItem.listDataItems() if item.name()]
+
+        def legend(plot):
+            return [label.text for _, label in plot.plotItem.legend.items]
+
+        checks = window.pbr_line_checks
+        self.assertEqual([check.text() for check in checks.values()],
+                         ["Initiator PCT", "Reflector PCT", "Product raw", "Product Mode-0", "Product freq. comp."])
+        self.assertTrue(all(check.isChecked() for check in checks.values()))
+        self.assertEqual(lines(window.amplitude_plot), ["Initiator |PCT|", "Reflector |PCT|", "√|product|"])
+        self.assertEqual(len(lines(window.phase_plot)), 5)
+        self.assertEqual(lines(window.unwrapped_plot), ["Raw", "Mode-0 offset", "Mode-0 offset fit",
+                                                        "Frequency compensation", "Frequency compensation fit"])
+        summary = window.summary.text()
+
+        checks["initiator"].setChecked(False)
+        checks[CORRECTION_COMPENSATION].setChecked(False)
+        self.assertEqual(lines(window.amplitude_plot), ["Reflector |PCT|", "√|product|"])
+        self.assertEqual(legend(window.amplitude_plot), ["Reflector |PCT|", "√|product|"])
+        self.assertEqual(lines(window.phase_plot), ["Reflector ∠PCT", "Product raw",
+                                                    "Product corrected (Mode-0 offset)"])
+        self.assertEqual(lines(window.unwrapped_plot), ["Raw", "Mode-0 offset", "Mode-0 offset fit"])
+        self.assertEqual(lines(window.ifft_plot), ["Raw", "Mode-0 offset"])
+        self.assertEqual(len(window.ifft_plot.plotItem.listDataItems()), 4)
+        # Only the plots change: the table and the summary keep every correction.
+        self.assertEqual(window.channel_table.rowCount(), len(CHANNELS))
+        self.assertEqual(window.summary.text(), summary)
+
+        # √|product| leaves with the last product line, and a redraw keeps the choice.
+        checks[CORRECTION_NONE].setChecked(False)
+        self.assertIn("√|product|", lines(window.amplitude_plot))
+        checks[CORRECTION_MEASURED].setChecked(False)
+        window.refresh()
+        self.assertEqual(lines(window.amplitude_plot), ["Reflector |PCT|"])
+        self.assertEqual(lines(window.phase_plot), ["Reflector ∠PCT"])
+        self.assertEqual(window.unwrapped_plot.plotItem.listDataItems(), [])
+        self.assertEqual(window.ifft_plot.plotItem.listDataItems(), [])
+
+        checks[CORRECTION_NONE].setChecked(True)
+        self.assertEqual(lines(window.ifft_plot), ["Raw"])
+
+        # Both tabs stack the boxes in one column beside the plots, where they cost no height.
+        for boxes, plot in ((checks, window.amplitude_plot),
+                            (window.estimate_line_checks, window.estimates_plot)):
+            group = next(iter(boxes.values())).parentWidget()
+            self.assertEqual(group.title(), "Plot lines")
+            self.assertIsInstance(group.layout(), QVBoxLayout)
+            self.assertTrue(all(box.parentWidget() is group for box in boxes.values()))
+            page = group.parentWidget()
+            self.assertTrue(page.isAncestorOf(plot))
+            self.assertEqual(page.layout().indexOf(group), 0)
+        window.tabs.setCurrentWidget(window.pbr_page)
+        app.processEvents()
+        group = checks["initiator"].parentWidget()
+        self.assertEqual(len({box.x() for box in checks.values()}), 1)
+        self.assertLessEqual(group.geometry().right(), window.amplitude_plot.mapTo(group.parentWidget(),
+                                                                                  QPoint(0, 0)).x())
+        window.close()
+
     def test_sign_options_carry_their_own_help(self):
         from PyQt6.QtCore import Qt
         from PyQt6.QtWidgets import QApplication

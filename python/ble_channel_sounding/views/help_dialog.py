@@ -616,6 +616,10 @@ HELP_PAGES = (
           <li><b>High-quality tones only</b>: ignore tones that either device marked as low quality.</li>
           <li><b>AA successful only</b> and <b>Max errors</b>: for RTT, accept a step only if both devices found
           the access address, and only up to the given bit error count.</li>
+          <li><b>Plot lines</b>: the column of check boxes to the left of the <b>PBR per channel</b> and
+          <b>Estimates</b> plots shows or hides lines. For PBR per channel a box applies to every plot that
+          draws the line: the initiator and reflector PCT, and the raw, Mode-0 corrected and
+          frequency-compensation corrected product. The tables and the summary keep every value.</li>
         </ul>
         <p>These controls change only the analysis. Recorded data are never modified.</p>
         """,

@@ -51,6 +51,11 @@ HISTOGRAM_MAX_BINS = 60
 ESTIMATE_WINDOW_S = 30.0
 ESTIMATE_TABLE_ROWS = 20
 EMPTY_RESULTS_STATUS = "No data yet. Open a capture or connect a serial port."
+# Plot-line checkboxes of the PBR per channel tab; a product line is named after its correction.
+PBR_PRODUCT_LINES = (CORRECTION_NONE, CORRECTION_MEASURED, CORRECTION_COMPENSATION)
+PBR_LINES = (("initiator", "Initiator PCT"), ("reflector", "Reflector PCT"),
+             (CORRECTION_NONE, "Product raw"), (CORRECTION_MEASURED, "Product Mode-0"),
+             (CORRECTION_COMPENSATION, "Product freq. comp."))
 SIGN_HELP = (
     "<b>Direction of correction lines</b><br>"
     "<i>sign +</i> subtracts 2π·ppm·10⁻⁶·f·Δt from each product’s phase; <i>sign −</i> adds it. This "
@@ -106,6 +111,29 @@ def _metres(value, unit=" m") -> str:
 
 
 _table, _fill = make_table, fill_table
+
+
+def _plots_with_lines(plots, choices, tooltip=""):
+    """A page of plots beside a "Plot lines" column with one checked box per (name, label).
+
+    The boxes are stacked to the left of the plots, so they take width instead of the height
+    the plots need.  Returns the page and the boxes by name.
+    """
+    group = W.QGroupBox("Plot lines")
+    group.setToolTip(tooltip)
+    column = W.QVBoxLayout(group)
+    checks = {}
+    for name, label in choices:
+        checks[name] = check = W.QCheckBox(label)
+        check.setChecked(True)
+        column.addWidget(check)
+    column.addStretch(1)
+    page = W.QWidget()
+    row = W.QHBoxLayout(page)
+    row.setContentsMargins(0, 0, 0, 0)
+    row.addWidget(group)
+    row.addWidget(plots, 1)
+    return page, checks
 
 
 class ProcedureSelector(W.QComboBox):
@@ -631,7 +659,14 @@ class ResultsWidget(W.QWidget):
         plots_page.addWidget(top)
         plots_page.addWidget(bottom)
         plots_page.setSizes([240, 300])
-        views.addTab(plots_page, "Plots")
+        plots_tab, self.pbr_line_checks = _plots_with_lines(
+            plots_page, PBR_LINES,
+            "Show or hide a line in every PBR plot that draws it: a PCT line in the amplitude and wrapped "
+            "phase plots, a product line in the wrapped phase, unwrapped phase (with its fit) and IFFT plots. "
+            "√|product| is shown while any product line is.")
+        for check in self.pbr_line_checks.values():
+            check.toggled.connect(self.draw_pbr)
+        views.addTab(plots_tab, "Plots")
         views.addTab(self.channel_table, "Table")
         layout.addWidget(views, 1)
         self.tabs.addTab(page, "PBR per channel")
@@ -681,9 +716,6 @@ class ResultsWidget(W.QWidget):
             "One estimate per procedure with both roles reported. RTT uses the AA and bit error filters of the "
             "RTT tab; PBR uses the selected path and tone quality, without averaging procedures. Use the plot "
             "line checkboxes to show or hide RTT, PBR slope and PBR IFFT estimates.")
-        lines_group = W.QGroupBox("Plot lines")
-        lines_layout = W.QGridLayout(lines_group)
-        self.estimate_line_checks = {}
         line_choices = (("RTT mean", "RTT mean"), ("RTT median", "RTT median"),
                         ("PBR slope (raw)", "PBR slope raw"),
                         ("PBR slope (Mode-0 offset)", "PBR slope Mode-0"),
@@ -691,15 +723,10 @@ class ResultsWidget(W.QWidget):
                         ("PBR IFFT (raw)", "PBR IFFT raw"),
                         ("PBR IFFT (Mode-0 offset)", "PBR IFFT Mode-0"),
                         ("PBR IFFT (frequency compensation)", "PBR IFFT freq. comp."))
-        for index, (name, label) in enumerate(line_choices):
-            check = W.QCheckBox(label)
-            check.setChecked(True)
-            lines_layout.addWidget(check, index // 5, index % 5)
-            self.estimate_line_checks[name] = check
-        layout.addWidget(lines_group)
         views = W.QTabWidget()
         layout.addWidget(views, 1)
         plot = pg.PlotWidget(background="white")
+        plots_tab, self.estimate_line_checks = _plots_with_lines(plot, line_choices)
         plot.setLabel("left", "Distance", units="m")
         plot.setLabel("bottom", "Host time since first report", units="s")
         plot.showGrid(x=True, y=True, alpha=.15)
@@ -730,7 +757,7 @@ class ResultsWidget(W.QWidget):
         # series alternates between two values, as multi-path PBR can.
         self.estimate_marker = pg.InfiniteLine(pen=pg.mkPen("#d4dce6", style=QtCore.Qt.PenStyle.DashLine))
         plot.addItem(self.estimate_marker)
-        views.addTab(plot, "Plots")
+        views.addTab(plots_tab, "Plots")
         self.estimates_table = _table(("Time (s)", "Procedure", "Config", "ACL event", "RTT mean (m)",
                                        "RTT median (m)", "RTT σ (m)", "RTT pairs", "PBR raw (m)",
                                        "PBR Mode-0 (m)", "PBR freq. comp. (m)", "IFFT raw (m)",
@@ -1295,27 +1322,39 @@ class ResultsWidget(W.QWidget):
             plot.plot(channels, ys, name=name, pen=pg.mkPen(color, width=1.5, style=style),
                       symbol=symbol, symbolSize=5, symbolBrush=color, symbolPen=None, connect="finite")
 
-        series(self.amplitude_plot, [abs(p.initiator) for p in points], "Initiator |PCT|", SERIES["initiator"])
-        series(self.amplitude_plot, [abs(p.reflector) for p in points], "Reflector |PCT|", SERIES["reflector"])
-        series(self.amplitude_plot, [math.sqrt(abs(p.product)) for p in points], "√|product|", SERIES["corrected"], "t")
-        for name, values, color, symbol in (
-                ("Initiator ∠PCT", [cmath.phase(p.initiator) for p in points], SERIES["initiator"], "o"),
-                ("Reflector ∠PCT", [cmath.phase(p.reflector) for p in points], SERIES["reflector"], "o"),
-                ("Product raw", [cmath.phase(p.product) for p in points], SERIES["raw"], "s"),
-                ("Product corrected (Mode-0 offset)",
+        # A hidden line is not drawn at all, so it also leaves its plot's legend.
+        shown = {line for line, check in self.pbr_line_checks.items() if check.isChecked()}
+        if "initiator" in shown:
+            series(self.amplitude_plot, [abs(p.initiator) for p in points], "Initiator |PCT|", SERIES["initiator"])
+        if "reflector" in shown:
+            series(self.amplitude_plot, [abs(p.reflector) for p in points], "Reflector |PCT|", SERIES["reflector"])
+        # The amplitude plot has one product line, kept while any product line is shown.
+        if shown.intersection(PBR_PRODUCT_LINES):
+            series(self.amplitude_plot, [math.sqrt(abs(p.product)) for p in points], "√|product|",
+                   SERIES["corrected"], "t")
+        for line, name, values, color, symbol in (
+                ("initiator", "Initiator ∠PCT", [cmath.phase(p.initiator) for p in points],
+                 SERIES["initiator"], "o"),
+                ("reflector", "Reflector ∠PCT", [cmath.phase(p.reflector) for p in points],
+                 SERIES["reflector"], "o"),
+                (CORRECTION_NONE, "Product raw", [cmath.phase(p.product) for p in points], SERIES["raw"], "s"),
+                (CORRECTION_MEASURED, "Product corrected (Mode-0 offset)",
                  [cmath.phase(p.corrected) for p in measured_result.points],
                  SERIES["initiator"], "d"),
-                ("Product corrected (frequency compensation)",
+                (CORRECTION_COMPENSATION, "Product corrected (frequency compensation)",
                  [cmath.phase(p.corrected) for p in compensation_result.points],
                  SERIES["reflector"], "+")):
+            if line not in shown:
+                continue
             self.phase_plot.plot(channels, values, name=name, pen=None, symbol=symbol, symbolSize=6,
                                  symbolBrush=color, symbolPen=None)
-        series(self.unwrapped_plot, list(raw_result.unwrapped_raw), "Raw", SERIES["raw"], "s")
-        for label, color, result_to_plot in (
-                ("Mode-0 offset", SERIES["initiator"],
-                 measured_result),
-                ("Frequency compensation", SERIES["reflector"],
-                 compensation_result)):
+        if CORRECTION_NONE in shown:
+            series(self.unwrapped_plot, list(raw_result.unwrapped_raw), "Raw", SERIES["raw"], "s")
+        for line, label, color in ((CORRECTION_MEASURED, "Mode-0 offset", SERIES["initiator"]),
+                                   (CORRECTION_COMPENSATION, "Frequency compensation", SERIES["reflector"])):
+            if line not in shown:
+                continue
+            result_to_plot = results[line]
             series(self.unwrapped_plot, list(result_to_plot.unwrapped_corrected), label, color, "t")
             if result_to_plot.fit_corrected and channels:
                 slope, intercept = result_to_plot.fit_corrected
@@ -1327,7 +1366,7 @@ class ResultsWidget(W.QWidget):
                                      (CORRECTION_MEASURED, "Mode-0 offset", SERIES["initiator"]),
                                      (CORRECTION_COMPENSATION, "Frequency compensation", SERIES["reflector"])):
             profile = ifft_results[source]
-            if profile is not None:
+            if profile is not None and source in shown:
                 self.ifft_plot.plot(profile.distances_m, profile.magnitude, name=label,
                                     pen=pg.mkPen(color, width=1.5))
                 self.ifft_plot.plot([profile.peak_distance_m], [profile.peak_magnitude],
