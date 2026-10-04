@@ -51,6 +51,9 @@ ble_channel_sounding/
 Everything outside `views/`, `app.py`, `qt_session.py` and the serial transport is Qt-free, so the
 logic is unit-tested without a display.
 
+`configs/` holds stored planner configurations for the CS view's **Open…**, named after their
+properties; see [configs/README.md](configs/README.md).
+
 ## Protocol classes
 
 `ble_channel_sounding.protocol.frame` contains the generic frame codec and incremental stream

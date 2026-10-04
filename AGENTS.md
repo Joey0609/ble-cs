@@ -46,7 +46,10 @@ Important areas:
   analysis, and Qt views.
 - `python/ble_channel_sounding_planner/`: standalone planner frontend and C-export support.
 - `python/tests/`: Python unit and optional offscreen GUI tests.
-- `configs/`: generated/configuration-related C sources.
+- `python/configs/`: stored planner configurations (JSON), named after their
+  properties; see `python/configs/README.md`.
+- `configs/`: stored CS configuration C sources for the hostless and Tag
+  firmware, named after their properties; see `configs/README.md`.
 - `docs/`: Bluetooth Channel Sounding references and project technical notes.
 - `implementation_plan.md`: current implementation status and design record.
 

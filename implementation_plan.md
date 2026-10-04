@@ -2560,8 +2560,11 @@ rule and needs the same treatment.
 
 Found while building the deepest configuration this pair will run, for the stack high-water-mark
 measurement (§3 "Roles and timing"). The configuration lives in
-`configs/cs_generated_config_initiator.c`, hand-written rather than exported; it carries the
-findings below in its header comment so the next person editing it does not retry them.
+`configs/initiator_mode3_a1b2_2m_sub16ms_ras_cstag.c`, hand-written rather than exported; it
+carries the findings below in its header comment so the next person editing it does not retry
+them. Until 2026-10-04 the file was `configs/cs_generated_config_initiator.c`, the name the
+earlier dated entries use for it and for the planner exports it replaced; the names in
+`configs/` now state the configuration (`configs/README.md`).
 
 ### 15.1 The SDC rejects a CS sub-mode
 
