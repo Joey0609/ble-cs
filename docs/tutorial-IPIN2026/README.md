@@ -40,7 +40,7 @@ skip opening the browser. Without Node.js, `python3 -m http.server 8000 -d docs`
 from the repository root serves the same local path.
 
 The counter at the bottom right shows the current slide's number, e.g.
-`14 / 32`.
+`14 / 33`. The contact slide closes the deck after the reference slides.
 
 Keys: `S` opens the speaker view with notes and a pacing timer, `O` or `Esc`
 the overview, `F` full screen. On a slide with hidden answers, `↓` reveals the

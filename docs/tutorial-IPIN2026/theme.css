@@ -471,6 +471,80 @@ used by the technical diagrams
   font-size: 67px !important;
   max-width: 690px;
 }
+/* Opening and closing slides share the supplied, unaltered partner logos. */
+.reveal .content .partner-logos {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 22px;
+  height: 132px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+.reveal .content .partner-logos img {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+  height: 100px;
+}
+.reveal .content .partner-logos .logo-aalto {
+  width: 145px;
+}
+.reveal .content .partner-logos .logo-senswear {
+  width: 88px;
+  height: 88px;
+}
+.reveal .content .partner-logos .logo-nordic {
+  width: 116px;
+}
+#title .ring-hero {
+  height: 380px;
+}
+#title .partner-logos {
+  margin-top: 18px;
+}
+.reveal .contact-slide .content {
+  justify-content: space-between;
+}
+.reveal .contact-list {
+  display: grid;
+  gap: 32px;
+  margin: 30px 0 0;
+}
+.reveal .contact-list > div {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  align-items: baseline;
+  gap: 24px;
+}
+.reveal .contact-list dt {
+  color: var(--muted);
+  font-size: 27px;
+  font-weight: 400;
+}
+.reveal .contact-list dd {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.35;
+}
+.reveal .contact-slide .partner-logos {
+  height: 156px;
+  padding: 18px 80px;
+}
+.reveal .contact-slide .partner-logos .logo-aalto {
+  width: 173px;
+  height: 120px;
+}
+.reveal .contact-slide .partner-logos .logo-senswear {
+  width: 106px;
+  height: 106px;
+}
+.reveal .contact-slide .partner-logos .logo-nordic {
+  width: 140px;
+  height: 120px;
+}
 .reveal .content .subtitle {
   font: 29px Outfit;
   margin: 22px 0 !important;
